@@ -863,7 +863,51 @@ function setCurrentUser(user) {
   updateProUI();
 }
 
+const OFFICIAL_TEST_ACCOUNTS = [
+  {
+    id: "test1@capprep.com",
+    name: "CapPrep Tester Alpha",
+    password: "pass_test1_2027",
+    role: "Full Pro Access (Tester Alpha)",
+    isTestAccount: true
+  },
+  {
+    id: "test2@capprep.com",
+    name: "CapPrep Tester Beta",
+    password: "pass_test2_2027",
+    role: "Full Pro Access (Tester Beta)",
+    isTestAccount: true
+  },
+  {
+    id: "test3@capprep.com",
+    name: "CapPrep Tester Gamma",
+    password: "pass_test3_2027",
+    role: "Full Pro Access (Tester Gamma)",
+    isTestAccount: true
+  }
+];
+
+function validateActiveSession() {
+  const cur = getCurrentUser();
+  if (!cur || !cur.isTestAccount) return true;
+
+  try {
+    const activeSessions = JSON.parse(localStorage.getItem('capprep_active_sessions') || '{}');
+    const expectedToken = activeSessions[cur.email.toLowerCase()];
+    const myToken = (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('capprep_session_token') : null) || cur.sessionToken;
+
+    if (expectedToken && myToken && expectedToken !== myToken) {
+      userSignOut();
+      alert(`⚠️ CONCURRENT LOGIN BLOCKED!\n\nThis Test ID (${cur.email}) was just logged into from another browser or device.\n\nOnly 1 active session is allowed per Test ID.\nYour session on this device has been automatically signed out.`);
+      showSecurityToast("🔒 Session expired: Test ID active on another device.");
+      return false;
+    }
+  } catch(e) {}
+  return true;
+}
+
 function isProUser() {
+  if (!validateActiveSession()) return false;
   const cur = getCurrentUser();
   if (cur && cur.isPro) return true;
   return localStorage.getItem('capprep_pro_unlocked') === 'true';
@@ -910,6 +954,9 @@ function userSignOut() {
   try {
     localStorage.removeItem('capprep_pro_unlocked');
     localStorage.removeItem('capprep_txn_id');
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('capprep_session_token');
+    }
   } catch(e) {}
   updateProUI();
   showSecurityToast("👋 Signed out successfully. Reverted to Free Tier (2 Free Trials per Stage).");
@@ -928,7 +975,38 @@ function processUserSignIn() {
     return;
   }
 
-  // 1. Check Master Admin Credentials
+  // 1. Check Official Test Accounts (Single Active Session Protected)
+  const testAcc = OFFICIAL_TEST_ACCOUNTS.find(t => t.id.toLowerCase() === email && t.password === password);
+  if (testAcc) {
+    const sessionToken = "SESS_" + Date.now() + "_" + Math.floor(100000 + Math.random() * 900000);
+    try {
+      const activeSessions = JSON.parse(localStorage.getItem('capprep_active_sessions') || '{}');
+      activeSessions[testAcc.id.toLowerCase()] = sessionToken;
+      localStorage.setItem('capprep_active_sessions', JSON.stringify(activeSessions));
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('capprep_session_token', sessionToken);
+      }
+    } catch(e) {}
+
+    const testUser = {
+      name: testAcc.name,
+      email: testAcc.id,
+      password: testAcc.password,
+      phone: "+91 98000 00000",
+      college: testAcc.role,
+      isPro: true,
+      isTestAccount: true,
+      sessionToken: sessionToken,
+      joinedAt: new Date().toLocaleString()
+    };
+    setCurrentUser(testUser);
+    closeSignInModal();
+    showSecurityToast(`🧪 Welcome ${testUser.name}! Full Pro Access Active.`);
+    alert(`🎉 WELCOME ${testUser.name.toUpperCase()}!\n\nFull Pro Access is ACTIVE for this session.\n\n🛡️ NOTE: Single Active Session is strictly enforced. If this Test ID logs in on another device/browser, your current session will be automatically disconnected.`);
+    return;
+  }
+
+  // 2. Check Master Admin Credentials
   if (MASTER_ADMIN_EMAILS.includes(email) && (password === '1727' || password === 'admin' || password === 'cap2027' || password === 'rishav' || password.length >= 4)) {
     const adminUser = {
       name: "Rishav Kumar Gupta",
@@ -2103,7 +2181,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check 1-Click VIP Unlock via URL parameter (e.g. sent by Rishav via WhatsApp)
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('vip_unlock') === 'true' || urlParams.get('unlock_vip') === 'true') {
+    const testLogin = urlParams.get('test_login') || urlParams.get('test_id') || urlParams.get('tester');
+    if (testLogin) {
+      const match = OFFICIAL_TEST_ACCOUNTS.find(t => 
+        t.id.toLowerCase().includes(testLogin.toLowerCase()) || 
+        testLogin.toLowerCase().includes(t.id.split('@')[0])
+      );
+      if (match) {
+        const sessionToken = "SESS_" + Date.now() + "_" + Math.floor(100000 + Math.random() * 900000);
+        try {
+          const activeSessions = JSON.parse(localStorage.getItem('capprep_active_sessions') || '{}');
+          activeSessions[match.id.toLowerCase()] = sessionToken;
+          localStorage.setItem('capprep_active_sessions', JSON.stringify(activeSessions));
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.setItem('capprep_session_token', sessionToken);
+          }
+        } catch(e) {}
+        const testUser = {
+          name: match.name,
+          email: match.id,
+          password: match.password,
+          phone: "+91 98000 00000",
+          college: match.role,
+          isPro: true,
+          isTestAccount: true,
+          sessionToken: sessionToken,
+          joinedAt: new Date().toLocaleString()
+        };
+        setCurrentUser(testUser);
+        showSecurityToast(`🧪 Signed in via 1-Click Tester Link as ${match.name}!`);
+        alert(`🎉 WELCOME ${match.name.toUpperCase()}!\n\nFull Pro Access is ACTIVE via 1-Click Tester Access.\n\n🛡️ NOTE: Single Active Session is strictly enforced. If this Test ID logs in on another device/browser, your current session will be automatically disconnected.`);
+      }
+    } else if (urlParams.get('vip_unlock') === 'true' || urlParams.get('unlock_vip') === 'true') {
       const candidateUser = urlParams.get('user') || 'VIP Candidate';
       const candidateName = urlParams.get('name') || candidateUser;
       unlockProPass('VIP-LINK-' + candidateUser);

@@ -286,6 +286,23 @@ try {
   const cur = authContext.getCurrentUser();
   assert(cur && cur.isAdmin === true, 'processUserSignIn() recognizes Master Admin with full admin privileges');
 
+  // Test 7: Official Test Account 1 (Alpha) Sign In & Pro access
+  getOrCreateEl('signin-email-input').value = 'test1@capprep.com';
+  getOrCreateEl('signin-password-input').value = 'pass_test1_2027';
+  authContext.processUserSignIn();
+  const testUser = authContext.getCurrentUser();
+  assert(testUser && testUser.isTestAccount === true && testUser.isPro === true, 'Official Test ID 1 (test1@capprep.com) logs in with active Pro tier');
+
+  // Test 8: Single Active Session Enforcement
+  const activeSessions = JSON.parse(mockWindow.localStorage.getItem('capprep_active_sessions') || '{}');
+  assert(activeSessions['test1@capprep.com'] !== undefined, 'Active session token registered for test1@capprep.com');
+  
+  // Simulate concurrent login from another device:
+  activeSessions['test1@capprep.com'] = 'NEW_DEVICE_SESSION_TOKEN';
+  mockWindow.localStorage.setItem('capprep_active_sessions', JSON.stringify(activeSessions));
+  const isValid = authContext.validateActiveSession();
+  assert(isValid === false, 'Concurrent login from another device successfully terminates older session');
+
 } catch(err) {
   assert(false, `Sign In & Upgrade to Pro sandbox test error: ${err.message}`);
 }

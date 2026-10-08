@@ -2238,6 +2238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProUI();
   startSocialProofLoop();
   initVipCheckListeners();
+  initScrollSpy();
 
   // Ensure all sections are visible immediately
   document.querySelectorAll('.fade-in').forEach(el => {
@@ -2246,6 +2247,40 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.transform = 'none';
   });
 });
+
+// Dynamic Active Navigation Indicator (ScrollSpy)
+function initScrollSpy() {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  if (!navLinks || navLinks.length === 0) return;
+
+  function updateActiveNav() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    let currentId = '';
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 140;
+      const height = sec.offsetHeight;
+      if (scrollY >= top && scrollY < top + height) {
+        currentId = sec.getAttribute('id');
+      }
+    });
+
+    if (currentId) {
+      navLinks.forEach(link => {
+        const href = (link.getAttribute('href') || '').replace('#', '');
+        if (href === currentId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+}
 
 
 // Global Keydown Listeners (Esc to close modals, Ctrl+Shift+A for Admin)

@@ -362,6 +362,7 @@
         <div class="panel-actions">
           <input type="text" id="order-search-input" class="search-input" placeholder="Search by name, email, or UTR..." oninput="filterOrdersTable()" />
           <button class="btn-action" onclick="exportOrdersCSV()">📥 Export to CSV (Excel)</button>
+          <button class="btn-action" onclick="exportFullBackupJSON()" title="Download permanent backup of all student orders, VIPs & tickets">📦 Full Data Backup (JSON)</button>
           <button class="btn-action" onclick="refreshOrders()">🔄 Refresh</button>
         </div>
       </div>
@@ -1183,6 +1184,7 @@ function submitManualGrant() {
     return;
   }
 
+  // 1. Add to Orders
   const orders = getStoredOrders();
   const newOrder = {
     orderId: "VIP-" + Math.floor(10000 + Math.random() * 90000),
@@ -1196,12 +1198,49 @@ function submitManualGrant() {
     status: "VERIFIED",
     date: new Date().toLocaleString()
   };
-
   orders.unshift(newOrder);
   saveStoredOrders(orders);
+
+  // 2. Add to VIP Whitelist
+  const whitelist = getStoredVipWhitelist();
+  if (!whitelist.some(item => item.id.toLowerCase() === email.toLowerCase())) {
+    whitelist.unshift({
+      ref: newOrder.orderId,
+      name: name,
+      id: email,
+      phone: phone || "+91 98000 00000",
+      reason: note || "VIP Pass",
+      date: new Date().toLocaleString(),
+      status: "ACTIVE_VIP"
+    });
+    saveStoredVipWhitelist(whitelist);
+  }
+
+  // 3. Register directly in capprep_users database
+  try {
+    const users = JSON.parse(localStorage.getItem('capprep_users') || '[]');
+    const existingIdx = users.findIndex(u => u.email && u.email.toLowerCase() === email.toLowerCase());
+    const vipUserObj = {
+      name: name,
+      email: email,
+      password: "cap2027",
+      phone: phone || "+91 98000 00000",
+      college: note || "VIP Candidate",
+      isPro: true,
+      isVip: true,
+      joinedAt: new Date().toLocaleString()
+    };
+    if (existingIdx >= 0) {
+      users[existingIdx] = { ...users[existingIdx], ...vipUserObj };
+    } else {
+      users.unshift(vipUserObj);
+    }
+    localStorage.setItem('capprep_users', JSON.stringify(users));
+  } catch(e) {}
+
   closeGrantModal();
   loadDashboardData();
-  alert(`✨ VIP Pro Pass granted to ${name} (${email})!`);
+  alert(`✨ VIP Pro Pass granted to ${name} (${email})!\n\nTheir ID has been whitelisted and recorded in the permanent Orders & User database.`);
 }
 
 function revokeAccess(orderId) {
@@ -1230,15 +1269,44 @@ function exportOrdersCSV() {
 
   let csv = "Order ID,Student Name,Email,Phone,College,Amount Paid,Method,UTR Reference,Status,Date\n";
   orders.forEach(o => {
-    csv += `"${o.orderId}","${o.name}","${o.email}","${o.phone}","${o.college}","${o.amount}","${o.method}","${o.utr}","${o.status}","${o.date}"\n`;
+    const esc = (str) => `"${String(str || '').replace(/"/g, '""')}"`;
+    csv += `${esc(o.orderId)},${esc(o.name)},${esc(o.email)},${esc(o.phone)},${esc(o.college)},${esc(o.amount)},${esc(o.method)},${esc(o.utr)},${esc(o.status)},${esc(o.date)}\n`;
   });
 
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.setAttribute('href', url);
   a.setAttribute('download', `CapPrep_Orders_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
+}
+
+function exportFullBackupJSON() {
+  const backupData = {
+    appName: "CapPrep Pro",
+    version: "2027.1.0",
+    exportDate: new Date().toISOString(),
+    exportTimestamp: Date.now(),
+    exportedBy: "Rishav (rishavofficials1727@gmail.com)",
+    ordersCount: getStoredOrders().length,
+    orders: getStoredOrders(),
+    vipWhitelist: getStoredVipWhitelist(),
+    supportTickets: getStoredSupportTickets(),
+    notifications: getStoredNotifications(),
+    users: JSON.parse(localStorage.getItem('capprep_users') || '[]')
+  };
+
+  const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('download', `CapPrep_Complete_Database_Backup_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  alert("📦 Master Database Backup (.json) downloaded successfully!\nAll orders, candidate profiles, and support inquiries have been saved to your local drive.");
 }
 
 function savePricingSettings() {
@@ -1393,7 +1461,29 @@ function executeVipGrant() {
   });
   saveStoredOrders(orders);
 
-  // 3. Clear inputs & refresh UI
+  // 3. Register directly into capprep_users database
+  try {
+    const users = JSON.parse(localStorage.getItem('capprep_users') || '[]');
+    const existingIdx = users.findIndex(u => u.email && u.email.toLowerCase() === idOrEmail.toLowerCase());
+    const vipUserObj = {
+      name: name,
+      email: idOrEmail,
+      password: "cap2027",
+      phone: phone,
+      college: reason,
+      isPro: true,
+      isVip: true,
+      joinedAt: new Date().toLocaleString()
+    };
+    if (existingIdx >= 0) {
+      users[existingIdx] = { ...users[existingIdx], ...vipUserObj };
+    } else {
+      users.unshift(vipUserObj);
+    }
+    localStorage.setItem('capprep_users', JSON.stringify(users));
+  } catch(e) {}
+
+  // 4. Clear inputs & refresh UI
   document.getElementById('vip-grant-name').value = '';
   document.getElementById('vip-grant-id').value = '';
   document.getElementById('vip-grant-phone').value = '';

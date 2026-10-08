@@ -1007,7 +1007,7 @@ function processUserSignIn() {
   }
 
   // 2. Check Master Admin Credentials
-  if (MASTER_ADMIN_EMAILS.includes(email) && (password === '1727' || password === 'admin' || password === 'cap2027' || password === 'rishav' || password.length >= 4)) {
+  if (MASTER_ADMIN_EMAILS.includes(email) && (password === '1727' || password === 'cap2027' || password === 'rishav')) {
     const adminUser = {
       name: "Rishav Kumar Gupta",
       email: email,
@@ -1025,32 +1025,10 @@ function processUserSignIn() {
     return;
   }
 
-  // 2. Check Demo Credentials
-  if ((email === 'demo@capprep.com' || email === 'rahul@gmail.com' || email === 'student@capprep.com') && (password === 'cap2027' || password === 'demo123' || password === '123456' || password === 'admin')) {
-    const demoUser = {
-      name: "Rahul Sharma",
-      email: email,
-      password: password,
-      phone: "+91 98765 43210",
-      college: "VIT 2027 Batch",
-      isPro: true,
-      joinedAt: new Date().toLocaleString()
-    };
-    const users = getStoredUsers();
-    if (!users.some(u => u.email && u.email.toLowerCase() === email)) {
-      users.unshift(demoUser);
-      saveStoredUsers(users);
-    }
-    setCurrentUser(demoUser);
-    closeSignInModal();
-    showSecurityToast("⭐ Welcome Rahul Sharma! Pro Access Unlocked.");
-    alert("🎉 WELCOME RAHUL SHARMA!\n\nCapPrep Pro Lifetime Pass is ACTIVE.\nAll 76+ Mock Tests, Simulators, and Protected Notes are UNLOCKED!");
-    return;
-  }
 
   // 3. Check Stored User Database
   const users = getStoredUsers();
-  const user = users.find(u => u.email && u.email.toLowerCase() === email && (u.password === password || password === 'cap2027'));
+  const user = users.find(u => u.email && u.email.toLowerCase() === email && u.password === password);
 
   if (user) {
     setCurrentUser(user);
@@ -1068,7 +1046,7 @@ function processUserSignIn() {
   try {
     const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
     const orderMatch = orders.find(o => o.email && o.email.toLowerCase() === email);
-    if (orderMatch && (password === orderMatch.password || password === 'cap2027' || password.length >= 4)) {
+    if (orderMatch && orderMatch.password && password === orderMatch.password) {
       const ordUser = {
         name: orderMatch.name || "Enrolled Student",
         email: email,
@@ -1092,7 +1070,7 @@ function processUserSignIn() {
   try {
     const vipList = JSON.parse(localStorage.getItem('capprep_vip_whitelist') || '[]');
     const vipMatch = vipList.find(v => v.id && v.id.toLowerCase() === email);
-    if (vipMatch && (password === 'cap2027' || password === '1727' || password.length >= 4)) {
+    if (vipMatch && password && password.length >= 4 && (password === vipMatch.password || password === 'cap2027')) {
       const vipUser = {
         name: vipMatch.name || "VIP Candidate",
         email: email,

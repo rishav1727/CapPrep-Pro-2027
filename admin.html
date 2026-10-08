@@ -367,6 +367,41 @@
         </div>
       </div>
 
+      <!-- ===== MANUAL FREE PRO GRANT FORM ===== -->
+      <div style="background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(0,212,255,0.06)); border:1.5px solid rgba(124,58,237,0.45); border-radius:14px; padding:1.25rem 1.5rem; margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.9rem;">
+          <span style="font-size:1.3rem;">👑</span>
+          <div>
+            <div style="font-weight:800; color:#c084fc; font-size:0.98rem;">Manual Free Pro Access Grant</div>
+            <div style="font-size:0.76rem; color:#94a3b8; margin-top:0.1rem;">Enter email &amp; phone → instantly grant 100% free lifetime Pro access to any candidate</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem; margin-bottom:0.9rem;">
+          <div>
+            <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Full Name</label>
+            <input type="text" id="manual-grant-name" class="form-control" placeholder="e.g. Sneha Sharma" style="width:100%; font-size:0.85rem;" />
+          </div>
+          <div>
+            <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Email / Student ID <span style="color:#f87171;">*</span></label>
+            <input type="text" id="manual-grant-email" class="form-control" placeholder="e.g. sneha@gmail.com" style="width:100%; font-size:0.85rem;" />
+          </div>
+          <div>
+            <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Phone / WhatsApp</label>
+            <input type="tel" id="manual-grant-phone" class="form-control" placeholder="+91 98765 43210" style="width:100%; font-size:0.85rem;" />
+          </div>
+        </div>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+          <button class="btn-action btn-primary-action" style="background:linear-gradient(135deg,#7c3aed,#6d28d9); border-color:#7c3aed; font-weight:700; padding:0.5rem 1.1rem;" onclick="manualGrantFreePro()">
+            ⚡ Grant Free Pro Access
+          </button>
+          <button class="btn-action" style="padding:0.5rem 1rem;" onclick="document.getElementById('manual-grant-name').value='';document.getElementById('manual-grant-email').value='';document.getElementById('manual-grant-phone').value='';document.getElementById('manual-grant-msg').textContent='';">
+            🗑️ Clear
+          </button>
+          <span id="manual-grant-msg" style="font-size:0.82rem; color:#06d6a0; font-weight:600;"></span>
+        </div>
+      </div>
+      <!-- ===== END MANUAL GRANT FORM ===== -->
+
       <div class="data-table-container">
         <table class="data-table">
           <thead>
@@ -386,6 +421,8 @@
             <!-- Dynamic order rows rendered via JS -->
           </tbody>
         </table>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: CANDIDATE SUPPORT DESK -->
@@ -1298,6 +1335,76 @@ function grantFreeFromOrder(email, name, phone) {
   alert('✅ FREE VIP lifetime access granted!\n\nName: ' + name + '\nEmail: ' + email + '\n\nSee the "Free VIP Pass Controller" tab to copy their 1-click link.');
 }
 
+
+function manualGrantFreePro() {
+  const nameEl  = document.getElementById('manual-grant-name');
+  const emailEl = document.getElementById('manual-grant-email');
+  const phoneEl = document.getElementById('manual-grant-phone');
+  const msgEl   = document.getElementById('manual-grant-msg');
+
+  const name  = (nameEl  ? nameEl.value.trim()  : '') || 'VIP Candidate';
+  const email = (emailEl ? emailEl.value.trim()  : '');
+  const phone = (phoneEl ? phoneEl.value.trim()  : '') || '+91 98000 00000';
+
+  if (!email) {
+    if (msgEl) { msgEl.style.color = '#f87171'; msgEl.textContent = '⚠️ Email / Student ID is required.'; }
+    if (emailEl) emailEl.focus();
+    return;
+  }
+
+  // 1. Add to VIP whitelist
+  const whitelist = getStoredVipWhitelist();
+  const refCode   = 'VIP-' + Math.floor(10000 + Math.random() * 90000);
+  const existIdx  = whitelist.findIndex(item => item.id.toLowerCase() === email.toLowerCase());
+  const entry = {
+    ref:    refCode,
+    name:   name,
+    id:     email,
+    phone:  phone,
+    reason: 'Manual Admin Grant',
+    date:   new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+    status: 'ACTIVE_VIP'
+  };
+  if (existIdx >= 0) { whitelist[existIdx] = entry; } else { whitelist.unshift(entry); }
+  saveStoredVipWhitelist(whitelist);
+
+  // 2. Register in orders ledger
+  const orders = getStoredOrders();
+  orders.unshift({
+    orderId: refCode,
+    name:    name,
+    email:   email,
+    phone:   phone,
+    college: 'Manual Admin Grant',
+    amount:  0,
+    method:  'ADMIN_FREE_GRANT',
+    utr:     'GRANTED_BY_RISHAV',
+    status:  'VERIFIED',
+    date:    new Date().toLocaleString()
+  });
+  saveStoredOrders(orders);
+
+  // 3. Patch capprep_users
+  try {
+    const users = JSON.parse(localStorage.getItem('capprep_users') || '[]');
+    const ui = users.findIndex(u => u.email && u.email.toLowerCase() === email.toLowerCase());
+    const vipObj = { name, email, phone, isPro: true, isVip: true, joinedAt: new Date().toLocaleString() };
+    if (ui >= 0) { users[ui] = Object.assign({}, users[ui], vipObj); } else { users.unshift(vipObj); }
+    localStorage.setItem('capprep_users', JSON.stringify(users));
+  } catch(e) {}
+
+  // 4. Refresh dashboard
+  loadDashboardData();
+
+  // 5. Show inline success + clear fields
+  if (msgEl) { msgEl.style.color = '#06d6a0'; msgEl.textContent = '✅ Free Pro granted to ' + email + '!'; }
+  if (nameEl)  nameEl.value  = '';
+  if (emailEl) emailEl.value = '';
+  if (phoneEl) phoneEl.value = '';
+
+  // Auto-clear message after 5s
+  setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 5000);
+}
 
 function exportOrdersCSV() {
   const orders = getStoredOrders();

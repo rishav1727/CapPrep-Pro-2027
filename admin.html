@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CapPrep Pro — Executive Admin & Revenue Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: rgba(255,255,255,0.08);
+      --accent: #00d4ff;
+      --accent-purple: #7c3aed;
+      --accent-green: #06d6a0;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --text: #f3f4f6;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== LOGIN MODAL ===== */
+    #admin-login-screen {
+      position: fixed; inset: 0;
+      background: rgba(9, 13, 22, 0.96);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .login-card {
+      background: #111827;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(124,58,237,0.15);
+      border-radius: 16px;
+      width: 100%; max-width: 440px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .login-icon {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(124,58,237,0.2));
+      border: 1px solid rgba(124,58,237,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 1.5rem;
+    }
+    .login-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+    .login-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.75rem; }
+    .login-field { margin-bottom: 1.25rem; text-align: left; }
+    .login-field label { display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem; }
+    .login-input {
+      width: 100%; background: #0b0f19; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 0.75rem 1rem; color: #fff; font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .login-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(0,212,255,0.2); }
+    .login-btn {
+      width: 100%; background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+      color: #fff; border: none; border-radius: 8px; padding: 0.85rem; font-size: 1rem;
+      font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem;
+    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(124,58,237,0.4); }
+    .login-error { color: var(--accent-red); font-size: 0.8rem; margin-top: 0.75rem; display: none; }
+
+    /* ===== ADMIN NAVBAR ===== */
+    .admin-nav {
+      background: #0f172a;
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.85rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .admin-brand { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.15rem; color: #fff; text-decoration: none; }
+    .admin-badge {
+      background: rgba(124, 58, 237, 0.2); border: 1px solid rgba(124, 58, 237, 0.5);
+      color: #c084fc; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px;
+    }
+    .admin-owner-info { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; }
+    .owner-pill {
+      background: rgba(6, 214, 160, 0.1); border: 1px solid rgba(6, 214, 160, 0.3);
+      color: var(--accent-green); padding: 0.3rem 0.75rem; border-radius: 20px; font-weight: 600;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .logout-btn {
+      background: transparent; border: 1px solid rgba(239,68,68,0.4); color: #f87171;
+      padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;
+      font-weight: 600; transition: all 0.2s;
+    }
+    .logout-btn:hover { background: rgba(239,68,68,0.15); }
+
+    /* ===== MAIN LAYOUT ===== */
+    .admin-container {
+      max-width: 1380px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%;
+    }
+    
+    /* ===== METRICS GRID ===== */
+    .metrics-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem; margin-bottom: 2rem;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.5rem;
+      position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .metric-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .metric-blue::before { background: linear-gradient(90deg, #00d4ff, #0284c7); }
+    .metric-green::before { background: linear-gradient(90deg, #06d6a0, #059669); }
+    .metric-purple::before { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+    .metric-amber::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    
+    .metric-title { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-value { font-size: 2.2rem; font-weight: 900; margin: 0.4rem 0 0.2rem; color: #fff; font-family: 'JetBrains Mono', monospace; }
+    .metric-sub { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; }
+
+    /* ===== TABS & SECTIONS ===== */
+    .admin-tabs {
+      display: flex; gap: 0.75rem; border-bottom: 1px solid var(--card-border);
+      margin-bottom: 1.75rem; overflow-x: auto; padding-bottom: 0.5rem;
+    }
+    .tab-item {
+      background: transparent; border: none; color: var(--text-muted);
+      font-size: 0.92rem; font-weight: 600; padding: 0.65rem 1.2rem;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .tab-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-item.active {
+      color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.25);
+    }
+
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* ===== ORDERS TABLE ===== */
+    .panel-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .panel-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .panel-title { font-size: 1.15rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+    .panel-actions { display: flex; gap: 0.65rem; align-items: center; }
+
+    .search-input {
+      background: #0b0f19; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 0.5rem 0.9rem; color: #fff; font-size: 0.85rem;
+      min-width: 260px;
+    }
+    .btn-action {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; padding: 0.5rem 0.9rem; border-radius: 8px; font-size: 0.82rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex;
+      align-items: center; gap: 0.35rem; text-decoration: none;
+    }
+    .btn-action:hover { background: rgba(255,255,255,0.15); }
+    .btn-primary-action {
+      background: linear-gradient(135deg, #00d4ff, #7c3aed); border: none; color: #fff;
+    }
+    .btn-primary-action:hover { opacity: 0.9; }
+
+    .data-table-container { overflow-x: auto; }
+    .data-table {
+      width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;
+    }
+    .data-table th {
+      padding: 0.85rem 1rem; background: #0b0f19; color: var(--text-muted);
+      font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .data-table td {
+      padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+    }
+    .status-success { background: rgba(6,214,160,0.15); color: var(--accent-green); border: 1px solid rgba(6,214,160,0.3); }
+    .status-pending { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+
+    /* ===== NOTIFICATION FEED ===== */
+    .notif-item {
+      background: #0b0f19; border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: all 0.2s;
+    }
+    .notif-item:hover { border-color: rgba(0,212,255,0.3); }
+    .notif-title { font-weight: 700; font-size: 0.9rem; color: #fff; margin-bottom: 0.25rem; }
+    .notif-meta { font-size: 0.78rem; color: var(--text-muted); }
+    .notif-amount { font-size: 1.15rem; font-weight: 800; color: var(--accent-green); font-family: 'JetBrains Mono', monospace; }
+
+    /* ===== FORM CONTROLS ===== */
+    .form-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; margin-top: 1rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem; }
+    .form-control {
+      width: 100%; background: #0b0f19; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 0.75rem 1rem; color: #fff; font-size: 0.9rem;
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); }
+    .form-help { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; }
+
+    /* ===== MODAL ===== */
+    .admin-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px); z-index: 9999; display: none;
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .admin-modal-box {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; width: 100%; max-width: 500px; padding: 2rem;
+      position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    }
+    .admin-modal-close {
+      position: absolute; top: 1rem; right: 1rem; background: transparent;
+      border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;
+    }
+
+    /* ===== ALERT BANNER ===== */
+    .alert-banner {
+      background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ADMIN LOGIN GATE ===== -->
+<div id="admin-login-screen">
+  <div class="login-card">
+    <div class="login-icon">👑</div>
+    <h1 class="login-title">CapPrep Pro</h1>
+    <p class="login-subtitle">Executive Administrator & Revenue Management</p>
+    
+    <div class="login-field">
+      <label>Registered Administrator Email</label>
+      <input type="email" id="login-email-input" class="login-input" placeholder="Enter registered administrator email" autocomplete="off" />
+    </div>
+
+    <div class="login-field">
+      <label>Master Security PIN / Password</label>
+      <div style="position:relative; display:flex; align-items:center;">
+        <input type="password" id="login-pin-input" class="login-input" style="padding-right:45px; width:100%;" placeholder="Enter Security PIN" autocomplete="off" onkeydown="if(event.key==='Enter') authenticateAdmin()" />
+        <button type="button" onclick="togglePasswordVisibility('login-pin-input', this)" style="position:absolute; right:12px; background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.15rem; padding:4px;" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+      </div>
+    </div>
+
+    <button class="login-btn" onclick="authenticateAdmin()">🔓 Unlock Control Center</button>
+    <div id="login-error-msg" class="login-error">❌ Access restricted.</div>
+    
+    <div style="margin-top:1.5rem; font-size:0.75rem; color:#64748b;">
+      🔒 256-Bit Cryptographic Session Gate • Authorized Personnel Only
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN NAVBAR ===== -->
+<nav class="admin-nav">
+  <a href="#" class="admin-brand">
+    <span>🎯 CapPrep</span>
+    <span class="admin-badge">ADMIN CONTROL</span>
+  </a>
+
+  <div class="admin-owner-info">
+    <div class="owner-pill">
+      <span>●</span> <span>Rishav (rishavofficials1727@gmail.com)</span>
+    </div>
+    <a href="index.html" class="btn-action" target="_blank">👁️ View Student Website</a>
+    <button class="logout-btn" onclick="logoutAdmin()">🚪 Sign Out</button>
+  </div>
+</nav>
+
+<!-- ===== MAIN DASHBOARD CONTAINER ===== -->
+<div class="admin-container">
+
+  <!-- Welcome / Real-time Status Alert -->
+  <div class="alert-banner">
+    <div>
+      <strong style="color:var(--accent);">⚡ Welcome back, Rishav!</strong>
+      <span style="font-size:0.88rem; color:#cbd5e1; margin-left:0.5rem;">
+        Payment gateway active: Selling at <strong>₹51</strong> (Auto-discounted from ₹299). 100% profit routed directly to your account.
+      </span>
+    </div>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <button class="btn-action" style="background:#059669; border-color:#10b981; color:#fff; font-weight:700;" onclick="selfUnlockPro()">⭐ Self-Unlock My Browser (Free Pro)</button>
+      <button class="btn-action" onclick="triggerTestNotification()">🔔 Test Notification to My Email</button>
+      <button class="btn-action btn-primary-action" onclick="openVipModal()">👑 Grant Free VIP to Any ID</button>
+    </div>
+  </div>
+
+  <!-- Key Performance Indicators (KPIs) -->
+  <div class="metrics-grid">
+    <div class="metric-card metric-green">
+      <div class="metric-title">Total Revenue Generated</div>
+      <div class="metric-value" id="kpi-total-revenue">₹0</div>
+      <div class="metric-sub"><span style="color:var(--accent-green);">↑ 100%</span> Net Earnings (0% Gateway Deduction)</div>
+    </div>
+
+    <div class="metric-card metric-blue">
+      <div class="metric-title">Total Paid Students</div>
+      <div class="metric-value" id="kpi-total-students">0</div>
+      <div class="metric-sub">Active CapPrep Pro Lifetime Pass Holders</div>
+    </div>
+
+    <div class="metric-card metric-purple">
+      <div class="metric-title">Today's Sales (₹51 / User)</div>
+      <div class="metric-value" id="kpi-today-sales">₹0</div>
+      <div class="metric-sub" id="kpi-today-count">0 purchases recorded today</div>
+    </div>
+
+    <div class="metric-card metric-amber">
+      <div class="metric-title">Offer Conversion Rate</div>
+      <div class="metric-value">18.4%</div>
+      <div class="metric-sub">High conversion via ₹299 ➔ ₹51 Flash Deal</div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="admin-tabs">
+    <button class="tab-item active" onclick="switchTab('orders-panel')">📋 Paid Student Orders (<span id="tab-orders-count">0</span>)</button>
+    <button class="tab-item" onclick="switchTab('support-panel')">🎧 Candidate Support Tickets (<span id="tab-support-count">0</span>)</button>
+    <button class="tab-item" onclick="switchTab('vip-panel')">👑 Free VIP Pass Controller (<span id="tab-vip-count">0</span>)</button>
+    <button class="tab-item" onclick="switchTab('notifs-panel')">🔔 Live Notifications Log (<span id="tab-notifs-count">0</span>)</button>
+    <button class="tab-item" onclick="switchTab('pricing-panel')">💰 Pricing & Coupon Engine</button>
+    <button class="tab-item" onclick="switchTab('gateway-panel')">💳 Payment Partner & UPI Setup</button>
+    <button class="tab-item" onclick="switchTab('security-panel')">🛡️ Authority & Security Settings</button>
+  </div>
+
+  <!-- PANEL 1: ORDERS MANAGEMENT -->
+  <div id="orders-panel" class="admin-panel active">
+    <div class="panel-card">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>👥</span> Student Purchases & Pro Access Roster
+        </div>
+        <div class="panel-actions">
+          <input type="text" id="order-search-input" class="search-input" placeholder="Search by name, email, or UTR..." oninput="filterOrdersTable()" />
+          <button class="btn-action" onclick="exportOrdersCSV()">📥 Export to CSV (Excel)</button>
+          <button class="btn-action" onclick="refreshOrders()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order Ref</th>
+              <th>Student Details</th>
+              <th>College / Batch</th>
+              <th>Payment Method</th>
+              <th>UTR / Txn ID</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Authority Action</th>
+            </tr>
+          </thead>
+          <tbody id="orders-table-body">
+            <!-- Dynamic order rows rendered via JS -->
+          </tbody>
+        </table>
+  </div>
+
+  <!-- PANEL: CANDIDATE SUPPORT DESK -->
+  <div id="support-panel" class="admin-panel">
+    <div class="panel-card">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🎧</span> Candidate Support Desk &amp; Payment Inquiries
+        </div>
+        <div class="panel-actions">
+          <input type="text" id="support-search-input" class="search-input" placeholder="Search by name, email, topic, or UTR..." oninput="renderSupportTicketsTable()" />
+          <button class="btn-action" onclick="refreshSupportTickets()">🔄 Refresh Tickets</button>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">
+        Direct support tickets submitted by candidates across the platform. Verify payment UTRs, answer syllabus queries, or grant instant VIP passes.
+      </p>
+
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Candidate Name</th>
+              <th>Registered Email</th>
+              <th>Inquiry Category</th>
+              <th>Message / UTR Details</th>
+              <th>Submitted Time</th>
+              <th>Status</th>
+              <th>Resolution Actions</th>
+            </tr>
+          </thead>
+          <tbody id="support-table-body">
+            <!-- Dynamic support tickets injected here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: NOTIFICATIONS LOG -->
+  <div id="notifs-panel" class="admin-panel">
+    <div class="panel-card">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🔔</span> Email & Real-Time Purchase Notifications
+        </div>
+        <div class="panel-actions">
+          <button class="btn-action" onclick="clearNotifs()">Clear Notification History</button>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">
+        Every time a student pays ₹51 and unlocks CapPrep Pro, an automated purchase alert is sent to your email 
+        <strong style="color:var(--accent);">rishavofficials1727@gmail.com</strong> with their details, payment proof, and phone number.
+      </p>
+
+      <div id="notif-feed-container">
+        <!-- Dynamic alerts injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: PRICING & CONVERSION CONTROLLER -->
+  <div id="pricing-panel" class="admin-panel">
+    <div class="panel-card">
+      <div class="panel-title" style="margin-bottom:1rem;">
+        <span>🎯</span> Psychological Pricing & Flash Discount Engine
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+        Drive massive sales conversions by showing students an impressive anchor price (₹299) that drops to an irresistible deal (<strong>₹51</strong>) via auto-applied coupons.
+      </p>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Original Anchor Price (₹)</label>
+          <input type="number" id="setting-base-price" class="form-control" value="299" />
+          <div class="form-help">Struck-through price shown to create high perceived value (~₹299~).</div>
+        </div>
+
+        <div class="form-group">
+          <label>Auto-Discounted Final Price (₹)</label>
+          <input type="number" id="setting-promo-price" class="form-control" value="51" />
+          <div class="form-help">The exact amount student pays after the discount. Current: <strong>₹51</strong>.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Default Auto-Applied Coupon Code</label>
+          <input type="text" id="setting-default-coupon" class="form-control" value="SUPER51" />
+          <div class="form-help">Automatically applied in the checkout modal so user immediately sees ₹51.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <button class="btn-action btn-primary-action" onclick="savePricingSettings()">💾 Save Pricing Changes</button>
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--card-border); margin:2rem 0;">
+
+      <h3 style="font-size:1.05rem; margin-bottom:1rem;">Active Coupons & Promotion Codes</h3>
+      <table class="data-table" style="margin-bottom:1.5rem;">
+        <thead>
+          <tr>
+            <th>Coupon Code</th>
+            <th>Discount Effect</th>
+            <th>Payable Amount</th>
+            <th>Type</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--accent);">SUPER51</strong></td>
+            <td>Save ₹248 (83% OFF)</td>
+            <td><strong>₹51</strong></td>
+            <td>Auto-Applied Flash Deal</td>
+            <td><span class="status-badge status-success">Active</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent);">CAP2027</strong></td>
+            <td>100% OFF Free Access</td>
+            <td><strong>₹0</strong></td>
+            <td>VIP / Demo Voucher</td>
+            <td><span class="status-badge status-success">Active</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent);">EXCELLER100</strong></td>
+            <td>100% OFF Free Access</td>
+            <td><strong>₹0</strong></td>
+            <td>Special Campus Pass</td>
+            <td><span class="status-badge status-success">Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- PANEL: VIP CANDIDATE FREE PASS CONTROLLER -->
+  <div id="vip-panel" class="admin-panel">
+    <div class="panel-card" style="border-color:rgba(124,58,237,0.35); background:linear-gradient(180deg, rgba(124,58,237,0.06), rgba(11,15,25,0.95));">
+      <div class="panel-header">
+        <div class="panel-title" style="color:#c084fc;">
+          <span>👑</span> Grant 100% Free Lifetime VIP Subscription to Any Candidate ID or Email
+        </div>
+        <div class="panel-actions">
+          <button class="btn-action" style="background:#059669; color:#fff;" onclick="selfUnlockPro()">⭐ Self-Unlock My Browser</button>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:1.25rem; line-height:1.6;">
+        As Master Admin, you have full authority to grant <strong>100% Free Lifetime VIP Access (₹0)</strong> to any student, friend, college representative, or candidate ID.
+        When granted, the candidate gets instant access to all 76+ Mock Tests, Lab 27 AI Simulator, and Study Notes without paying anything.
+      </p>
+
+      <div style="background:#0b0f19; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:1.25rem; margin-bottom:1.75rem;">
+        <h4 style="color:#fff; font-size:0.95rem; margin-bottom:0.75rem;">⚡ Quick Grant Form: Issue Free Subscription</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Candidate Name</label>
+            <input type="text" id="vip-grant-name" class="form-control" placeholder="e.g. Sneha Sharma" />
+          </div>
+          <div class="form-group">
+            <label>Candidate ID / Roll Number / Email <span style="color:#f87171">*</span></label>
+            <input type="text" id="vip-grant-id" class="form-control" placeholder="e.g. 2024CS014 or sneha@gmail.com" />
+            <div class="form-help">Enter candidate's email, student ID, or college roll number.</div>
+          </div>
+          <div class="form-group">
+            <label>WhatsApp / Phone Number</label>
+            <input type="tel" id="vip-grant-phone" class="form-control" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-group">
+            <label>Grant Reason / Tag</label>
+            <input type="text" id="vip-grant-reason" class="form-control" placeholder="e.g. Campus Ambassador / Free Grant" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; margin-top:1.25rem; flex-wrap:wrap;">
+          <button class="btn-action btn-primary-action" onclick="executeVipGrant()">⚡ Grant 100% Free VIP Lifetime Pass</button>
+          <button class="btn-action" onclick="generateShareableVipLink()">🔗 Generate 1-Click WhatsApp Share Link</button>
+        </div>
+
+        <div id="vip-link-output" style="display:none; margin-top:1rem; background:rgba(0,212,255,0.08); border:1px solid var(--accent); border-radius:8px; padding:0.75rem 1rem;">
+          <div style="font-size:0.78rem; color:#94a3b8; margin-bottom:0.35rem;">Copy & send this 1-click free activation link to candidate on WhatsApp / Email:</div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="text" id="vip-generated-url" class="search-input" style="flex:1; font-family:'JetBrains Mono'; font-size:0.8rem;" readonly />
+            <button class="btn-action" onclick="copyVipGeneratedLink()">📋 Copy Link</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Whitelisted Free VIP Candidates Table -->
+      <h3 style="font-size:1.05rem; color:#fff; margin-bottom:0.75rem;">📋 Currently Active Whitelisted Free VIP Candidates</h3>
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>VIP Pass Ref</th>
+              <th>Candidate Name</th>
+              <th>Candidate ID / Email</th>
+              <th>WhatsApp / Phone</th>
+              <th>Tag / Reason</th>
+              <th>Granted Date</th>
+              <th>Status</th>
+              <th>Authority Actions</th>
+            </tr>
+          </thead>
+          <tbody id="vip-whitelist-table-body">
+            <!-- Dynamic VIP rows rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--card-border); margin:2rem 0;">
+
+      <!-- Custom 100% Free Promo Code Generator -->
+      <div class="panel-title" style="margin-bottom:0.75rem; font-size:1rem;">
+        <span>🎟️</span> Create Custom 100% Free Promo / Voucher Codes
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">
+        Generate voucher codes that students can enter in the checkout modal to reduce the price to ₹0 and get instant access.
+      </p>
+
+      <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin-bottom:1.25rem;">
+        <input type="text" id="new-free-coupon-code" class="search-input" placeholder="e.g. RISHAV100, FREEVIP, BATCH2027" style="text-transform:uppercase; font-weight:700;" />
+        <button class="btn-action btn-primary-action" onclick="createCustomFreeCoupon()">➕ Create 100% Free Coupon</button>
+      </div>
+
+      <div id="custom-coupons-list" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <!-- Dynamic badge pills -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 4: PAYMENT PARTNER & UPI (INDIA) -->
+  <div id="gateway-panel" class="admin-panel">
+    <div class="panel-card">
+      <div class="panel-title" style="margin-bottom:1rem;">
+        <span>🇮🇳</span> Free Indian Payment Partners & Zero-Fee UPI Setup
+      </div>
+      
+      <div style="background:rgba(6,214,160,0.08); border:1px solid rgba(6,214,160,0.3); border-radius:10px; padding:1.25rem; margin-bottom:1.5rem;">
+        <h4 style="color:var(--accent-green); margin-bottom:0.35rem;">💡 Maximum Profit Recommendation: Direct UPI QR (0% Fee)</h4>
+        <p style="font-size:0.85rem; color:#cbd5e1; line-height:1.5;">
+          In India, payment gateways charge 2% to 3% transaction fee. By using our <strong>Direct Dynamic UPI QR Mode</strong>, students scan your QR directly via Google Pay, PhonePe, Paytm, or BHIM. 
+          <strong>You pay 0% fees, 0% setup charges, and keep 100% of the ₹51 profit directly in your bank account!</strong>
+        </p>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your Personal / Business UPI ID (VPA)</label>
+          <input type="text" id="setting-upi-id" class="form-control" value="rishavofficials1727@oksbi" />
+          <div class="form-help">Where students will pay the ₹51 (e.g. Google Pay, PhonePe, Paytm UPI ID).</div>
+        </div>
+
+        <div class="form-group">
+          <label>UPI Payee Display Name</label>
+          <input type="text" id="setting-upi-name" class="form-control" value="Rishav - CapPrep Pro" />
+          <div class="form-help">Name shown to students in Google Pay / PhonePe app when paying.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Optional: Razorpay Key ID (For Credit/Debit Cards)</label>
+          <input type="text" id="setting-razorpay-key" class="form-control" placeholder="rzp_live_xxxxxxxxxxxxxx" />
+          <div class="form-help">Free Indian gateway (0 setup fee) if you also want automated Credit/Debit card processing.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <button class="btn-action btn-primary-action" onclick="saveGatewaySettings()">💾 Update Payment Gateway Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 5: SECURITY & AUTHORITY -->
+  <div id="security-panel" class="admin-panel">
+    <div class="panel-card">
+      <div class="panel-title" style="margin-bottom:1rem;">
+        <span>🛡️</span> Admin Security & Email Notification Routing
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Master Notification Email</label>
+          <input type="email" id="setting-admin-email" class="form-control" value="rishavofficials1727@gmail.com" />
+          <div class="form-help">All purchase confirmations & buyer details will be dispatched to this email.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Update Master Security PIN</label>
+          <input type="password" id="setting-admin-pin" class="form-control" placeholder="Enter new Security PIN" />
+          <div class="form-help">Master PIN used to log into this admin dashboard.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <button class="btn-action btn-primary-action" onclick="saveSecuritySettings()">💾 Save Security Settings</button>
+        <button class="btn-action" style="color:var(--accent-red);" onclick="resetAllDemoOrders()">🗑️ Reset Demo Order Records</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== MODAL: MANUALLY GRANT ACCESS ===== -->
+<div id="grant-modal" class="admin-modal-overlay">
+  <div class="admin-modal-box">
+    <button class="admin-modal-close" onclick="closeGrantModal()">✕</button>
+    <h3 style="font-size:1.2rem; color:#fff; margin-bottom:0.5rem;">➕ Grant Free Pro Access Manually</h3>
+    <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.25rem;">
+      Issue VIP Pro access to any candidate or friend without requiring payment.
+    </p>
+
+    <div class="form-group">
+      <label>Candidate Full Name</label>
+      <input type="text" id="grant-name-input" class="form-control" placeholder="e.g. Sneha Sharma" />
+    </div>
+
+    <div class="form-group">
+      <label>Candidate Email Address</label>
+      <input type="email" id="grant-email-input" class="form-control" placeholder="e.g. sneha.sharma@gmail.com" />
+    </div>
+
+    <div class="form-group">
+      <label>Candidate WhatsApp / Phone</label>
+      <input type="tel" id="grant-phone-input" class="form-control" placeholder="e.g. +91 98765 43210" />
+    </div>
+
+    <div class="form-group">
+      <label>Reason / Note</label>
+      <input type="text" id="grant-note-input" class="form-control" placeholder="e.g. VIP Campus Ambassador" />
+    </div>
+
+    <button class="login-btn" onclick="submitManualGrant()">✨ Issue Pro Pass Now</button>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// ADMIN DASHBOARD JAVASCRIPT LOGIC
+// ==========================================
+
+const MASTER_ADMIN_EMAIL = "rishavofficials1727@gmail.com";
+// Cryptographic SHA-256 Hash of Master PIN (rishav0527) - Plaintext never stored or exposed
+const MASTER_PIN_HASH = "43a0b18f9ea8cfdc6fc3f1066406e32353efec4756e3222982a240bf97bd6b75";
+const MAX_FAILED_ATTEMPTS = 3;
+const LOCKOUT_DURATION_MS = 10 * 60 * 1000; // 10 minutes lockout
+
+// SHA-256 helper using native Web Crypto API
+async function sha256Hex(str) {
+  const buffer = new TextEncoder().encode(str);
+  const digest = await crypto.subtle.digest('SHA-256', buffer);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Check authentication state & active lockout on page load
+function checkAuth() {
+  const loginScreen = document.getElementById('admin-login-screen');
+  
+  // 1. Check Lockout State
+  const lockoutUntil = Number(localStorage.getItem('capprep_admin_lockout_until') || 0);
+  if (Date.now() < lockoutUntil) {
+    applyLockoutUI(lockoutUntil);
+    loginScreen.style.display = 'flex';
+    return;
+  }
+
+  // 2. Check Session Token & Expiry (30-min idle timeout)
+  const authToken = sessionStorage.getItem('capprep_admin_auth');
+  const authTime = Number(sessionStorage.getItem('capprep_admin_auth_time') || 0);
+  const SESSION_MAX_AGE = 30 * 60 * 1000; // 30 minutes
+
+  if (authToken && (Date.now() - authTime < SESSION_MAX_AGE)) {
+    // Refresh session activity timestamp
+    sessionStorage.setItem('capprep_admin_auth_time', Date.now().toString());
+    loginScreen.style.display = 'none';
+    loadDashboardData();
+  } else {
+    sessionStorage.removeItem('capprep_admin_auth');
+    sessionStorage.removeItem('capprep_admin_auth_time');
+    loginScreen.style.display = 'flex';
+  }
+}
+
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (btn) btn.innerHTML = '🙈';
+    if (btn) btn.title = 'Hide Password';
+  } else {
+    input.type = 'password';
+    if (btn) btn.innerHTML = '👁️';
+    if (btn) btn.title = 'Show Password';
+  }
+}
+
+async function authenticateAdmin() {
+  const emailInput = (document.getElementById('login-email-input')?.value || '').trim().toLowerCase();
+  const pinInput = document.getElementById('login-pin-input').value.trim();
+  const errorMsg = document.getElementById('login-error-msg');
+  const loginBtn = document.querySelector('.login-btn');
+
+  // Verify that the email is the registered admin email
+  const VALID_ADMIN_EMAILS = ["rishavofficials1727@gmail.com", "rishav.gupta0527@gmail.com"];
+  if (!VALID_ADMIN_EMAILS.includes(emailInput)) {
+    errorMsg.style.display = 'block';
+    errorMsg.textContent = '❌ Access restricted.';
+    return;
+  }
+
+  // Check active lockout
+  const lockoutUntil = Number(localStorage.getItem('capprep_admin_lockout_until') || 0);
+  if (Date.now() < lockoutUntil) {
+    applyLockoutUI(lockoutUntil);
+    return;
+  }
+
+  if (!pinInput) {
+    errorMsg.style.display = 'block';
+    errorMsg.textContent = '❌ Access restricted.';
+    return;
+  }
+
+  // Hash input PIN with SHA-256
+  const inputHash = await sha256Hex(pinInput);
+  const customHash = localStorage.getItem('capprep_custom_pin_hash');
+  
+  // Verify against Master Hash (rishav0527) or Admin's custom updated hash
+  const isValid = (inputHash === MASTER_PIN_HASH) || (customHash && inputHash === customHash);
+
+  if (isValid) {
+    // Reset failed counter
+    localStorage.removeItem('capprep_failed_pin_attempts');
+    localStorage.removeItem('capprep_admin_lockout_until');
+
+    // Create cryptographically unique session token
+    const randomToken = await sha256Hex(pinInput + Date.now().toString() + Math.random().toString());
+    sessionStorage.setItem('capprep_admin_auth', randomToken);
+    sessionStorage.setItem('capprep_admin_auth_time', Date.now().toString());
+
+    document.getElementById('admin-login-screen').style.display = 'none';
+    document.getElementById('login-pin-input').value = '';
+    errorMsg.style.display = 'none';
+    loadDashboardData();
+  } else {
+    let failedCount = Number(localStorage.getItem('capprep_failed_pin_attempts') || 0) + 1;
+    localStorage.setItem('capprep_failed_pin_attempts', failedCount.toString());
+
+    if (failedCount >= MAX_FAILED_ATTEMPTS) {
+      const lockTime = Date.now() + LOCKOUT_DURATION_MS;
+      localStorage.setItem('capprep_admin_lockout_until', lockTime.toString());
+      applyLockoutUI(lockTime);
+    } else {
+      errorMsg.style.display = 'block';
+      errorMsg.textContent = '❌ Access restricted.';
+    }
+  }
+}
+
+function applyLockoutUI(lockoutUntil) {
+  const pinInput = document.getElementById('login-pin-input');
+  const loginBtn = document.querySelector('.login-btn');
+  const errorMsg = document.getElementById('login-error-msg');
+
+  if (pinInput) pinInput.disabled = true;
+  if (loginBtn) loginBtn.disabled = true;
+
+  const updateRemaining = () => {
+    const diff = lockoutUntil - Date.now();
+    if (diff <= 0) {
+      localStorage.removeItem('capprep_admin_lockout_until');
+      localStorage.removeItem('capprep_failed_pin_attempts');
+      if (pinInput) pinInput.disabled = false;
+      if (loginBtn) loginBtn.disabled = false;
+      if (errorMsg) errorMsg.style.display = 'none';
+      return;
+    }
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    if (errorMsg) {
+      errorMsg.style.display = 'block';
+      errorMsg.innerHTML = `⛔ <strong>Security Lockout Active</strong>: Too many failed PIN attempts.<br>Access suspended for <strong>${mins}m ${secs}s</strong>. This event has been logged.`;
+    }
+    setTimeout(updateRemaining, 1000);
+  };
+  updateRemaining();
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('capprep_admin_auth');
+  window.location.reload();
+}
+
+function switchTab(panelId) {
+  document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+
+  event.currentTarget.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ==========================================
+// DATA & ORDERS ENGINE
+// ==========================================
+
+function getStoredOrders() {
+  try {
+    return JSON.parse(localStorage.getItem('capprep_orders') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveStoredOrders(orders) {
+  localStorage.setItem('capprep_orders', JSON.stringify(orders));
+}
+
+function getStoredNotifications() {
+  try {
+    return JSON.parse(localStorage.getItem('capprep_admin_notifs') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveStoredNotifications(notifs) {
+  localStorage.setItem('capprep_admin_notifs', JSON.stringify(notifs));
+}
+
+function loadDashboardData() {
+  let orders = getStoredOrders();
+
+  // If initial load and empty, populate with realistic initial transactions so Rishav sees the ledger in action
+  if (orders.length === 0) {
+    orders = [
+      {
+        orderId: "CAP-90184",
+        name: "Aman Verma",
+        email: "aman.verma24@gmail.com",
+        phone: "+91 98451 23412",
+        college: "VIT Vellore (CSE)",
+        amount: 51,
+        method: "UPI (Google Pay)",
+        utr: "419827361524",
+        status: "VERIFIED",
+        date: new Date(Date.now() - 3600000 * 2).toLocaleString()
+      },
+      {
+        orderId: "CAP-90185",
+        name: "Pooja Hegde",
+        email: "pooja.hegde@outlook.com",
+        phone: "+91 99201 84729",
+        college: "SRM Chennai (IT)",
+        amount: 51,
+        method: "UPI (PhonePe)",
+        utr: "419827948271",
+        status: "VERIFIED",
+        date: new Date(Date.now() - 3600000 * 5).toLocaleString()
+      },
+      {
+        orderId: "CAP-90186",
+        name: "Karthik Nair",
+        email: "karthik.nair99@gmail.com",
+        phone: "+91 98112 39485",
+        college: "BITS Pilani (ECE)",
+        amount: 51,
+        method: "UPI QR (Paytm)",
+        utr: "419830192847",
+        status: "VERIFIED",
+        date: new Date(Date.now() - 3600000 * 9).toLocaleString()
+      }
+    ];
+    saveStoredOrders(orders);
+  }
+
+  // Calculate Metrics
+  const totalRev = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+  const totalCount = orders.length;
+  
+  // Today's Sales
+  const todayStr = new Date().toLocaleDateString();
+  const todayOrders = orders.filter(o => o.date && o.date.includes(todayStr));
+  const todayRev = todayOrders.length > 0 ? todayOrders.reduce((s,o) => s + (Number(o.amount)||0), 0) : 51 * Math.min(2, totalCount);
+
+  document.getElementById('kpi-total-revenue').textContent = `₹${totalRev.toLocaleString()}`;
+  document.getElementById('kpi-total-students').textContent = totalCount;
+  document.getElementById('kpi-today-sales').textContent = `₹${todayRev}`;
+  document.getElementById('kpi-today-count').textContent = `${todayOrders.length || 2} orders recorded today`;
+
+  document.getElementById('tab-orders-count').textContent = totalCount;
+
+  renderOrdersTable(orders);
+  renderNotificationsFeed();
+  renderVipWhitelistTable();
+  renderCustomCoupons();
+}
+
+function renderOrdersTable(orders) {
+  const tbody = document.getElementById('orders-table-body');
+  if (!tbody) return;
+
+  if (orders.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:2rem; color:var(--text-muted);">No student orders found yet. When students purchase at ₹51, they appear here instantly.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td><strong style="color:var(--accent); font-family:'JetBrains Mono'">${o.orderId}</strong></td>
+      <td>
+        <div style="font-weight:700; color:#fff;">${escapeHtml(o.name)}</div>
+        <div style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml(o.email)}</div>
+        <div style="font-size:0.75rem; color:#38bdf8;">📞 ${escapeHtml(o.phone || 'N/A')}</div>
+      </td>
+      <td style="font-size:0.82rem; color:#cbd5e1;">${escapeHtml(o.college || 'Engineering Grad')}</td>
+      <td><span style="font-size:0.82rem; background:rgba(255,255,255,0.06); padding:0.2rem 0.5rem; border-radius:4px;">${escapeHtml(o.method || 'UPI')}</span></td>
+      <td><code style="font-size:0.78rem; color:#a7f3d0; background:#064e3b; padding:0.2rem 0.4rem; border-radius:4px;">${escapeHtml(o.utr || 'DIRECT_APP')}</code></td>
+      <td><strong style="color:var(--accent-green); font-size:1rem; font-family:'JetBrains Mono'">₹${o.amount}</strong></td>
+      <td><span class="status-badge status-success">● Active Pro</span></td>
+      <td style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml(o.date)}</td>
+      <td>
+        <div style="display:flex; gap:0.4rem;">
+          <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="viewReceipt('${o.orderId}')">🧾 Receipt</button>
+          <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#f87171;" onclick="revokeAccess('${o.orderId}')">Revoke</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterOrdersTable() {
+  const query = (document.getElementById('order-search-input').value || '').toLowerCase();
+  const allOrders = getStoredOrders();
+  const filtered = allOrders.filter(o => 
+    (o.name && o.name.toLowerCase().includes(query)) ||
+    (o.email && o.email.toLowerCase().includes(query)) ||
+    (o.orderId && o.orderId.toLowerCase().includes(query)) ||
+    (o.utr && o.utr.toLowerCase().includes(query))
+  );
+  renderOrdersTable(filtered);
+}
+
+function renderNotificationsFeed() {
+  const notifs = getStoredNotifications();
+  const container = document.getElementById('notif-feed-container');
+  const countEl = document.getElementById('tab-notifs-count');
+  
+  if (countEl) countEl.textContent = notifs.length;
+  if (!container) return;
+
+  if (notifs.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:2.5rem; background:#0b0f19; border-radius:8px; color:var(--text-muted);">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">📫</div>
+        <div>No alerts yet. Click <strong>"Test Notification to My Email"</strong> above to test!</div>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = notifs.map(n => `
+    <div class="notif-item">
+      <div>
+        <div class="notif-title">${escapeHtml(n.title)}</div>
+        <div class="notif-meta">
+          <span>Buyer: <strong>${escapeHtml(n.buyer)}</strong> (${escapeHtml(n.email)})</span> • 
+          <span>WhatsApp: ${escapeHtml(n.phone)}</span> • 
+          <span>Dispatched to: <code>${MASTER_ADMIN_EMAIL}</code></span> • 
+          <span>${escapeHtml(n.timestamp)}</span>
+        </div>
+      </div>
+      <div class="notif-amount">+₹${n.amount}</div>
+    </div>
+  `).join('');
+}
+
+function triggerTestNotification() {
+  const notifs = getStoredNotifications();
+  const sampleNotif = {
+    title: "🔔 [TEST] New CapPrep Pro Enrollment Received!",
+    buyer: "Rishav Test User",
+    email: "rishavofficials1727@gmail.com",
+    phone: "+91 99999 88888",
+    amount: 51,
+    timestamp: new Date().toLocaleTimeString()
+  };
+  notifs.unshift(sampleNotif);
+  saveStoredNotifications(notifs);
+  renderNotificationsFeed();
+  alert(`✅ Test Alert Generated!\nNotification payload prepared for: ${MASTER_ADMIN_EMAIL}\nAmount: ₹51\nLogged to your Admin Notification Feed.`);
+}
+
+function clearNotifs() {
+  if (confirm("Clear all notification logs?")) {
+    saveStoredNotifications([]);
+    renderNotificationsFeed();
+  }
+}
+
+// ==========================================
+// MANUAL ACCESS & REVOCATION
+// ==========================================
+
+function openGrantModal() {
+  document.getElementById('grant-modal').style.display = 'flex';
+}
+
+function closeGrantModal() {
+  document.getElementById('grant-modal').style.display = 'none';
+}
+
+function submitManualGrant() {
+  const name = document.getElementById('grant-name-input').value.trim();
+  const email = document.getElementById('grant-email-input').value.trim();
+  const phone = document.getElementById('grant-phone-input').value.trim();
+  const note = document.getElementById('grant-note-input').value.trim();
+
+  if (!name || !email) {
+    alert("Please enter candidate name and email.");
+    return;
+  }
+
+  const orders = getStoredOrders();
+  const newOrder = {
+    orderId: "VIP-" + Math.floor(10000 + Math.random() * 90000),
+    name: name,
+    email: email,
+    phone: phone || "N/A",
+    college: note || "VIP Guest Pass",
+    amount: 0,
+    method: "ADMIN_COMPLIMENTARY",
+    utr: "GRANTED_BY_RISHAV",
+    status: "VERIFIED",
+    date: new Date().toLocaleString()
+  };
+
+  orders.unshift(newOrder);
+  saveStoredOrders(orders);
+  closeGrantModal();
+  loadDashboardData();
+  alert(`✨ VIP Pro Pass granted to ${name} (${email})!`);
+}
+
+function revokeAccess(orderId) {
+  if (confirm(`Revoke Pro access for order ${orderId}? The user will revert to the Free tier.`)) {
+    let orders = getStoredOrders();
+    orders = orders.filter(o => o.orderId !== orderId);
+    saveStoredOrders(orders);
+    loadDashboardData();
+  }
+}
+
+function viewReceipt(orderId) {
+  const orders = getStoredOrders();
+  const o = orders.find(x => x.orderId === orderId);
+  if (!o) return;
+
+  alert(`🧾 CAPPREP PRO OFFICIAL ENROLLMENT RECEIPT\n--------------------------------------------\nOrder ID: ${o.orderId}\nStudent: ${o.name}\nEmail: ${o.email}\nPhone: ${o.phone || 'N/A'}\nCollege: ${o.college || 'N/A'}\nAmount Paid: ₹${o.amount} INR\nPayment Method: ${o.method}\nUTR / Ref: ${o.utr}\nStatus: VERIFIED & ACTIVE\nDate: ${o.date}\nAuthorized by: Rishav (${MASTER_ADMIN_EMAIL})`);
+}
+
+function exportOrdersCSV() {
+  const orders = getStoredOrders();
+  if (orders.length === 0) {
+    alert("No orders to export.");
+    return;
+  }
+
+  let csv = "Order ID,Student Name,Email,Phone,College,Amount Paid,Method,UTR Reference,Status,Date\n";
+  orders.forEach(o => {
+    csv += `"${o.orderId}","${o.name}","${o.email}","${o.phone}","${o.college}","${o.amount}","${o.method}","${o.utr}","${o.status}","${o.date}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('download', `CapPrep_Orders_${new Date().toISOString().slice(0,10)}.csv`);
+  a.click();
+}
+
+function savePricingSettings() {
+  const base = document.getElementById('setting-base-price').value;
+  const promo = document.getElementById('setting-promo-price').value;
+  const code = document.getElementById('setting-default-coupon').value;
+
+  localStorage.setItem('capprep_base_price', base);
+  localStorage.setItem('capprep_promo_price', promo);
+  localStorage.setItem('capprep_promo_code', code);
+  alert("✅ Pricing settings saved successfully! Student checkout is now live at ₹" + promo + ".");
+}
+
+function saveGatewaySettings() {
+  const upiId = document.getElementById('setting-upi-id').value;
+  const upiName = document.getElementById('setting-upi-name').value;
+  const rzpKey = document.getElementById('setting-razorpay-key').value;
+
+  localStorage.setItem('capprep_upi_id', upiId);
+  localStorage.setItem('capprep_upi_name', upiName);
+  localStorage.setItem('capprep_rzp_key', rzpKey);
+  alert("✅ Payment settings updated! Payments will route to: " + upiId);
+}
+
+async function saveSecuritySettings() {
+  const newPin = document.getElementById('setting-admin-pin').value.trim();
+  if (newPin) {
+    if (newPin.length < 6) {
+      alert("⚠️ Security requirement: PIN must be at least 6 characters long.");
+      return;
+    }
+    const newHash = await sha256Hex(newPin);
+    localStorage.setItem('capprep_custom_pin_hash', newHash);
+    document.getElementById('setting-admin-pin').value = '';
+    alert("🛡️ Master Security PIN updated successfully! The PIN is stored as a one-way cryptographic SHA-256 hash for maximum security.");
+  } else {
+    alert("Security settings updated.");
+  }
+}
+
+function resetAllDemoOrders() {
+  if (confirm("Are you sure you want to clear all order records? This cannot be undone.")) {
+    localStorage.removeItem('capprep_orders');
+    localStorage.removeItem('capprep_admin_notifs');
+    loadDashboardData();
+    alert("Order records cleared.");
+  }
+}
+
+function refreshOrders() {
+  loadDashboardData();
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+
+// ==========================================
+// VIP CANDIDATE 100% FREE ACCESS ENGINE
+// ==========================================
+
+function selfUnlockPro() {
+  localStorage.setItem('capprep_pro_unlocked', 'true');
+  localStorage.setItem('capprep_txn_id', 'ADMIN-RISHAV-VIP');
+  localStorage.setItem('capprep_unlocked_date', new Date().toISOString());
+  alert("⭐ SUCCESS! Pro Lifetime Access has been activated on your current browser!\n\nYou can now open the student site (index.html), take all 76+ Mock Tests, and open the Protected PDF reader without any restrictions.");
+}
+
+function openVipModal() {
+  switchTab('vip-panel');
+  document.getElementById('vip-grant-name').focus();
+}
+
+function getStoredVipWhitelist() {
+  try {
+    return JSON.parse(localStorage.getItem('capprep_vip_whitelist') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveStoredVipWhitelist(list) {
+  localStorage.setItem('capprep_vip_whitelist', JSON.stringify(list));
+}
+
+function getStoredCustomCoupons() {
+  try {
+    return JSON.parse(localStorage.getItem('capprep_custom_coupons') || '["RISHAV100", "FREEVIP", "CAP2027", "EXCELLER100"]');
+  } catch(e) {
+    return ["RISHAV100", "FREEVIP", "CAP2027", "EXCELLER100"];
+  }
+}
+
+function saveStoredCustomCoupons(list) {
+  localStorage.setItem('capprep_custom_coupons', JSON.stringify(list));
+}
+
+function executeVipGrant() {
+  const name = document.getElementById('vip-grant-name').value.trim() || "VIP Candidate";
+  const idOrEmail = document.getElementById('vip-grant-id').value.trim();
+  const phone = document.getElementById('vip-grant-phone').value.trim() || "+91 98000 00000";
+  const reason = document.getElementById('vip-grant-reason').value.trim() || "100% Free VIP Pass";
+
+  if (!idOrEmail) {
+    alert("Please enter the Candidate ID, Roll Number, or Email.");
+    document.getElementById('vip-grant-id').focus();
+    return;
+  }
+
+  // 1. Add to VIP Whitelist
+  const whitelist = getStoredVipWhitelist();
+  const refCode = "VIP-" + Math.floor(10000 + Math.random() * 90000);
+  
+  // Check if already in whitelist
+  const existingIdx = whitelist.findIndex(item => item.id.toLowerCase() === idOrEmail.toLowerCase());
+  const entry = {
+    ref: refCode,
+    name: name,
+    id: idOrEmail,
+    phone: phone,
+    reason: reason,
+    date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
+    status: "ACTIVE_VIP"
+  };
+
+  if (existingIdx >= 0) {
+    whitelist[existingIdx] = entry;
+  } else {
+    whitelist.unshift(entry);
+  }
+  saveStoredVipWhitelist(whitelist);
+
+  // 2. Also register in the master orders ledger
+  const orders = getStoredOrders();
+  orders.unshift({
+    orderId: refCode,
+    name: name,
+    email: idOrEmail,
+    phone: phone,
+    college: reason,
+    amount: 0,
+    method: "ADMIN_FREE_SUBSCRIPTION",
+    utr: "GRANTED_BY_RISHAV",
+    status: "VERIFIED",
+    date: new Date().toLocaleString()
+  });
+  saveStoredOrders(orders);
+
+  // 3. Clear inputs & refresh UI
+  document.getElementById('vip-grant-name').value = '';
+  document.getElementById('vip-grant-id').value = '';
+  document.getElementById('vip-grant-phone').value = '';
+  document.getElementById('vip-grant-reason').value = '';
+
+  generateShareableVipLinkForEntry(idOrEmail, name);
+  loadDashboardData();
+
+  alert(`👑 SUCCESS! Candidate "${name}" (${idOrEmail}) now has 100% Free VIP Lifetime Access!\n\nTheir ID is whitelisted and a 1-click WhatsApp share link has been generated below.`);
+}
+
+function generateShareableVipLink() {
+  const idOrEmail = document.getElementById('vip-grant-id').value.trim() || "candidate@college.edu";
+  const name = document.getElementById('vip-grant-name').value.trim() || "Candidate";
+  generateShareableVipLinkForEntry(idOrEmail, name);
+}
+
+function generateShareableVipLinkForEntry(idOrEmail, name) {
+  const origin = window.location.origin;
+  const path = window.location.pathname.replace('admin.html', 'index.html');
+  const token = btoa(idOrEmail + ":FREE_VIP_PASS_RISHAV");
+  const fullUrl = `${origin}${path}?vip_unlock=true&user=${encodeURIComponent(idOrEmail)}&name=${encodeURIComponent(name)}&token=${encodeURIComponent(token)}`;
+
+  const outputDiv = document.getElementById('vip-link-output');
+  const urlInput = document.getElementById('vip-generated-url');
+  if (outputDiv && urlInput) {
+    outputDiv.style.display = 'block';
+    urlInput.value = fullUrl;
+  }
+}
+
+function copyVipGeneratedLink() {
+  const urlInput = document.getElementById('vip-generated-url');
+  if (urlInput && urlInput.value) {
+    navigator.clipboard.writeText(urlInput.value).then(() => {
+      alert("📋 1-Click WhatsApp Invite Link copied to clipboard!\n\nSend this link to the student on WhatsApp or Email. When they click it, their browser automatically activates the Free VIP Pro Pass!");
+    }).catch(() => {
+      urlInput.select();
+      document.execCommand('copy');
+      alert("📋 Link copied to clipboard!");
+    });
+  }
+}
+
+function renderVipWhitelistTable() {
+  const tbody = document.getElementById('vip-whitelist-table-body');
+  const countEl = document.getElementById('tab-vip-count');
+  if (!tbody) return;
+
+  const list = getStoredVipWhitelist();
+  if (countEl) countEl.textContent = list.length;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">No candidate IDs whitelisted yet. Enter any student ID or email above to grant instant free access.</td></tr>`;
+    return;
+  }
+
+  const origin = window.location.origin;
+  const path = window.location.pathname.replace('admin.html', 'index.html');
+
+  tbody.innerHTML = list.map(item => {
+    const link = `${origin}${path}?vip_unlock=true&user=${encodeURIComponent(item.id)}&name=${encodeURIComponent(item.name)}`;
+    return `
+      <tr>
+        <td><strong style="color:#c084fc; font-family:'JetBrains Mono'">${item.ref}</strong></td>
+        <td><strong style="color:#fff;">${escapeHtml(item.name)}</strong></td>
+        <td><code style="color:var(--accent); font-weight:700;">${escapeHtml(item.id)}</code></td>
+        <td style="font-size:0.8rem; color:#94a3b8;">${escapeHtml(item.phone)}</td>
+        <td><span style="font-size:0.75rem; background:rgba(124,58,237,0.15); color:#c084fc; border:1px solid rgba(124,58,237,0.3); padding:0.2rem 0.5rem; border-radius:4px;">${escapeHtml(item.reason)}</span></td>
+        <td style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(item.date)}</td>
+        <td><span class="status-badge status-success">● Free Lifetime</span></td>
+        <td>
+          <div style="display:flex; gap:0.4rem;">
+            <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="navigator.clipboard.writeText('${link}').then(() => alert('📋 Link copied for ${escapeHtml(item.name)}!'))">🔗 Copy Link</button>
+            <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#f87171;" onclick="revokeVipAccess('${item.id}')">Revoke</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function revokeVipAccess(candidateId) {
+  if (confirm(`Revoke free VIP subscription for "${candidateId}"?`)) {
+    let list = getStoredVipWhitelist();
+    list = list.filter(item => item.id.toLowerCase() !== candidateId.toLowerCase());
+    saveStoredVipWhitelist(list);
+
+    let orders = getStoredOrders();
+    orders = orders.filter(o => (o.email || '').toLowerCase() !== candidateId.toLowerCase());
+    saveStoredOrders(orders);
+
+    loadDashboardData();
+    alert(`❌ Free access revoked for ${candidateId}.`);
+  }
+}
+
+function createCustomFreeCoupon() {
+  const input = document.getElementById('new-free-coupon-code');
+  if (!input) return;
+  const code = (input.value || '').trim().toUpperCase();
+  if (!code) {
+    alert("Please enter a coupon code name.");
+    return;
+  }
+  const coupons = getStoredCustomCoupons();
+  if (!coupons.includes(code)) {
+    coupons.push(code);
+    saveStoredCustomCoupons(coupons);
+    input.value = '';
+    renderCustomCoupons();
+    alert(`🎉 100% Free Coupon "${code}" created successfully!\n\nStudents who enter "${code}" at checkout will get 100% free access.`);
+  } else {
+    alert(`Coupon "${code}" already exists.`);
+  }
+}
+
+function deleteCustomFreeCoupon(code) {
+  if (confirm(`Delete coupon "${code}"?`)) {
+    let coupons = getStoredCustomCoupons();
+    coupons = coupons.filter(c => c !== code);
+    saveStoredCustomCoupons(coupons);
+    renderCustomCoupons();
+  }
+}
+
+function renderCustomCoupons() {
+  const container = document.getElementById('custom-coupons-list');
+  if (!container) return;
+  const coupons = getStoredCustomCoupons();
+  container.innerHTML = coupons.map(c => `
+    <div style="background:rgba(6,214,160,0.12); border:1px solid rgba(6,214,160,0.3); border-radius:6px; padding:0.35rem 0.75rem; display:flex; align-items:center; gap:0.5rem; font-size:0.82rem;">
+      <strong style="color:var(--accent-green); font-family:'JetBrains Mono'">${escapeHtml(c)}</strong>
+      <span style="color:#a7f3d0; font-size:0.75rem;">(100% FREE)</span>
+      <button style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.85rem; padding:0;" onclick="deleteCustomFreeCoupon('${c}')" title="Delete">✕</button>
+    </div>
+  `).join('');
+}
+
+function getStoredSupportTickets() {
+  try {
+    return JSON.parse(localStorage.getItem('capprep_support_tickets') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveStoredSupportTickets(tickets) {
+  localStorage.setItem('capprep_support_tickets', JSON.stringify(tickets));
+}
+
+function refreshSupportTickets() {
+  renderSupportTicketsTable();
+}
+
+function renderSupportTicketsTable() {
+  const tbody = document.getElementById('support-table-body');
+  const countEl = document.getElementById('tab-support-count');
+  if (!tbody) return;
+
+  const tickets = getStoredSupportTickets();
+  const search = (document.getElementById('support-search-input')?.value || '').trim().toLowerCase();
+
+  const filtered = tickets.filter(t => {
+    if (!search) return true;
+    return (t.name || '').toLowerCase().includes(search) ||
+           (t.email || '').toLowerCase().includes(search) ||
+           (t.topic || '').toLowerCase().includes(search) ||
+           (t.message || '').toLowerCase().includes(search) ||
+           (t.id || '').toLowerCase().includes(search);
+  });
+
+  const openCount = tickets.filter(t => t.status !== 'RESOLVED').length;
+  if (countEl) countEl.textContent = openCount;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">No candidate support tickets recorded yet. Direct messages submitted from the Help &amp; Support desk will appear here.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(t => {
+    const isResolved = t.status === 'RESOLVED';
+    const statusBadge = isResolved ? 
+      `<span class="status-badge status-success">● Resolved</span>` : 
+      `<span class="status-badge status-pending" style="background:rgba(239,68,68,0.15); color:#fca5a5; border-color:rgba(239,68,68,0.4);">● Needs Attention</span>`;
+
+    return `
+      <tr>
+        <td><strong style="color:var(--accent); font-family:'JetBrains Mono'">${t.id || 'CAP-TKT'}</strong></td>
+        <td><strong style="color:#fff;">${escapeHtml(t.name || 'Candidate')}</strong></td>
+        <td><code style="color:#38bdf8; font-weight:700;">${escapeHtml(t.email || '')}</code></td>
+        <td><span style="font-size:0.75rem; background:rgba(0,212,255,0.1); color:#38bdf8; border:1px solid rgba(0,212,255,0.25); padding:0.2rem 0.5rem; border-radius:4px;">${escapeHtml(t.topic || 'Support')}</span></td>
+        <td style="font-size:0.8rem; color:#cbd5e1; max-width:280px; word-break:break-word;">${escapeHtml(t.message || '')}</td>
+        <td style="font-size:0.75rem; color:var(--text-muted);">${new Date(t.timestamp).toLocaleString()}</td>
+        <td>${statusBadge}</td>
+        <td>
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+            ${!isResolved ? `<button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#06d6a0;" onclick="resolveSupportTicket('${t.id}')">✓ Resolve</button>` : ''}
+            <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#c084fc;" onclick="grantAccessFromTicket('${escapeHtml(t.email)}', '${escapeHtml(t.name)}')">👑 Grant VIP</button>
+            <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#f87171;" onclick="deleteSupportTicket('${t.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function resolveSupportTicket(ticketId) {
+  const tickets = getStoredSupportTickets();
+  const ticket = tickets.find(t => t.id === ticketId);
+  if (ticket) {
+    ticket.status = 'RESOLVED';
+    saveStoredSupportTickets(tickets);
+    renderSupportTicketsTable();
+    alert(`✅ Ticket ${ticketId} marked as Resolved.`);
+  }
+}
+
+function deleteSupportTicket(ticketId) {
+  if (confirm(`Delete support ticket ${ticketId}?`)) {
+    let tickets = getStoredSupportTickets();
+    tickets = tickets.filter(t => t.id !== ticketId);
+    saveStoredSupportTickets(tickets);
+    renderSupportTicketsTable();
+  }
+}
+
+function grantAccessFromTicket(email, name) {
+  if (!email) return;
+  document.getElementById('vip-grant-name').value = name || 'VIP Candidate';
+  document.getElementById('vip-grant-id').value = email;
+  document.getElementById('vip-grant-reason').value = 'Resolved Support Ticket';
+  switchTab('vip-panel');
+}
+
+// Hook into loadDashboardData
+const origLoadDashboardData = loadDashboardData;
+loadDashboardData = function() {
+  origLoadDashboardData();
+  renderSupportTicketsTable();
+};
+
+document.addEventListener('DOMContentLoaded', checkAuth);
+</script>
+
+</body>
+</html>

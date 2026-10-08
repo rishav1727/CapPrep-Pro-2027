@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CapPrep Pro — Capgemini Exceller 2027 Preparation Platform</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:;"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
+  <style>
+    .test-grid-10 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.65rem;
+      margin-top: 0.75rem;
+    }
+    .test-pill-btn {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .test-pill-btn:hover {
+      background: rgba(0,212,255,0.1);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .test-pill-btn .tp-tag {
+      font-size: 0.68rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <a href="#" class="nav-brand">
+    <div class="logo-icon">🎯</div>
+    CapPrep <span style="color:#7c3aed">Pro</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#overview">Pattern</a></li>
+    <li><a href="#stage1">Stage 1</a></li>
+    <li><a href="#stage2a">Stage 2A</a></li>
+    <li><a href="#stage2b">Stage 2B</a></li>
+    <li><a href="#stage3">Stage 3</a></li>
+    <li><a href="#stage4">Stage 4</a></li>
+    <li><a href="#stage56">Stages 5-6</a></li>
+    <li><a href="modules/study_reader.html" style="color:var(--accent); font-weight:700;">📖 PDF Study Reader</a></li>
+    <li><a href="#grand-mocks" class="nav-cta">Grand Mocks →</a></li>
+    <li><a href="javascript:void(0)" onclick="openSupportModal()" style="color:#38bdf8; font-size:0.8rem; font-weight:600; text-decoration:none; padding:0.35rem 0.65rem; border-radius:6px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); white-space:nowrap; display:inline-flex; align-items:center; gap:0.25rem; flex-shrink:0;">🎧 Help & Support</a></li>
+    <li><button id="nav-signin-btn" class="nav-signin-btn" onclick="openSignInModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:0.4rem 0.85rem; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer;">🔑 Sign In</button></li>
+    <li id="nav-user-item" style="display:none;"><span id="nav-user-pill" style="font-size:0.8rem; color:#a5b4fc; font-weight:700; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); padding:0.35rem 0.75rem; border-radius:6px; display:inline-flex; align-items:center; gap:0.4rem;"><span id="nav-user-name">👤 User</span></span></li>
+    <li id="nav-logout-item" style="display:none;"><button id="nav-logout-btn" onclick="userSignOut()" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.4); border-radius:6px; padding:0.35rem 0.75rem; font-weight:700; cursor:pointer; font-size:0.8rem;">🚪 Logout</button></li>
+    <li><button id="nav-pro-btn" class="nav-pro-badge" onclick="openPaymentModal()">⚡ Upgrade to Pro (₹51)</button></li>
+    <!-- Dynamic Admin Control link (Only visible when registered administrator signs in) -->
+    <li id="nav-admin-link-item" style="display:none;"><a href="admin.html" style="color:#fbbf24; font-size:0.8rem; font-weight:800; text-decoration:none; padding:0.35rem 0.65rem; border:1px solid rgba(245,158,11,0.4); border-radius:6px; background:rgba(245,158,11,0.15);">👑 Admin Panel</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span>🆕</span> Capgemini Exceller 2027 — Complete Stage-Wise Prep
+      </div>
+      <h1 class="hero-title">
+        Master <span class="cap">Capgemini</span><br>
+        <span class="gemini">Exceller 2027</span><br>
+        10+ Tests Per Stage
+      </h1>
+      <p class="hero-desc">
+        Visual diagrams, RAG pipelines, BST traversals, prompt engineering masterclasses, 2 live assessment simulators, <strong>protected in-browser PDF master compendium</strong>, and <strong>75+ interactive mock tests</strong> organized directly by stage.
+      </p>
+      <div class="hero-actions">
+        <a href="modules/study_reader.html" class="btn btn-primary">📖 Open Master PDF Reader (In-Browser)</a>
+        <a href="#stage2a" class="btn btn-outline">📚 Stage 2A Prep</a>
+        <a href="#grand-mocks" class="btn btn-outline">🏆 10 Grand Mocks</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">75+</div>
+          <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Tests Per Stage</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Live Simulators</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">₹51</div>
+          <div class="stat-label">Lifetime Pro Pass</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6-STAGE OFFICIAL PATTERN ===== -->
+<section class="section section-alt" id="overview">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Official 2027 Pattern</div>
+      <h2 class="section-title">The Official 6-Stage Hiring Architecture</h2>
+      <p class="section-desc">Stages 1 to 4 are online elimination rounds. Stages 2 to 4 are conducted in one sitting.</p>
+    </div>
+
+    <!-- 6-STAGE QUICK NAV -->
+    <div class="grid-3 fade-in" style="gap:1rem;">
+      <div class="stage-section-card" style="border-top:4px solid var(--accent); padding:1.25rem;">
+        <div style="font-size:0.75rem; color:var(--accent); font-weight:800;">STAGE 1 • ELIMINATORY</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">🗣️ English Communication</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">AI-proctored Speaking, Listening, Reading & Writing.</p>
+        <a href="#stage1" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">10 Stage 1 Tests ↓</a>
+      </div>
+
+      <div class="stage-section-card" style="border-top:4px solid #a855f7; padding:1.25rem;">
+        <div style="font-size:0.75rem; color:#a855f7; font-weight:800;">STAGE 2A • ELIMINATORY</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">🤖 Technical Assessment</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">AI Literacy, Pseudocode, DSA, DBMS, OOPs, OS, CN.</p>
+        <a href="#stage2a" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">16 Stage 2A Tests ↓</a>
+      </div>
+
+      <div class="stage-section-card" style="border-top:4px solid #f87171; padding:1.25rem;">
+        <div style="font-size:0.75rem; color:#f87171; font-weight:800;">STAGE 2B • TECHNICAL</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">🐛 Debugging Assessment</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">1 Q in C/C++/Java · Trees, Graphs, 2D DP.</p>
+        <a href="#stage2b" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">10 Debug Tests + Sim ↓</a>
+      </div>
+
+      <div class="stage-section-card" style="border-top:4px solid var(--accent3); padding:1.25rem;">
+        <div style="font-size:0.75rem; color:var(--accent3); font-weight:800;">STAGE 3 • ELIMINATORY</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">💡 AI-Assisted Coding</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">Prompt Quality, Problem Framing & Review.</p>
+        <a href="#stage3" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">10 Prompt Tests + Sim ↓</a>
+      </div>
+
+      <div class="stage-section-card" style="border-top:4px solid #fbbf24; padding:1.25rem;">
+        <div style="font-size:0.75rem; color:#fbbf24; font-weight:800;">STAGE 4 • ELIMINATORY</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">🎮 Cognitive Assessment</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">Motion & Grid Challenge + ADEPT-15 Behavioral.</p>
+        <a href="#stage4" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">10 Cognitive Tests ↓</a>
+      </div>
+
+      <div class="stage-section-card" style="border-top:4px solid #f472b6; padding:1.25rem;">
+        <div style="font-size:0.75rem; color:#f472b6; font-weight:800;">STAGES 5 & 6 • INTERVIEWS</div>
+        <h3 style="font-size:1.05rem; margin:0.3rem 0; color:#fff;">💬 Tech & HR Interviews</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">Architecture Defense & Capgemini 7 Core Values.</p>
+        <a href="#stage56" class="btn btn-outline" style="padding:0.35rem 0.75rem; font-size:0.75rem; width:100%; justify-content:center;">10 Interview Tests ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGE 1: ENGLISH COMMUNICATION (10 TESTS) -->
+<!-- ========================================== -->
+<section class="section" id="stage1">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Stage 1 Preparation</div>
+      <h2 class="section-title">🗣️ Stage 1: English Communication Assessment</h2>
+      <p class="section-desc">AI-evaluated spoken & written English: Listening, Speaking, Reading, Grammar & Error Spotting.</p>
+    </div>
+
+    <div class="stage-section-card fade-in">
+      <!-- Diagram: AI Speech Scoring Pipeline -->
+      <div class="diagram-box">
+        <div class="diagram-title">🎙️ Visual Architecture: How AI Evaluates Spoken English</div>
+        <div class="flow-row">
+          <div class="flow-node">Candidate Audio Input</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node purple">Phoneme Segmentation & Acoustic Align</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node green">Fluency & Pause Duration Metric</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node orange">Grammar & Semantic Scoring</div>
+        </div>
+      </div>
+
+      <!-- Core English Cheatsheet -->
+      <div class="grid-2" style="margin-top:1rem; gap:1rem;">
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:1rem; border-radius:8px;">
+          <h4 style="color:var(--accent); font-size:0.9rem; margin-bottom:0.4rem;">Key Grammar Rules</h4>
+          <ul style="font-size:0.8rem; color:var(--text-muted); line-height:1.6; padding-left:1.1rem;">
+            <li><strong>Subject-Verb Agreement:</strong> Singular subjects take verbs with -s (<em>"The team plans"</em>).</li>
+            <li><strong>Active vs Passive:</strong> <em>"The developer fixed the bug"</em> vs <em>"The bug was fixed by the developer"</em>.</li>
+            <li><strong>Gerunds after Prepositions:</strong> <em>"Look forward to meeting you"</em>.</li>
+          </ul>
+        </div>
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:1rem; border-radius:8px;">
+          <h4 style="color:#06d6a0; font-size:0.9rem; margin-bottom:0.4rem;">Correction Traps</h4>
+          <ul style="font-size:0.8rem; color:var(--text-muted); line-height:1.6; padding-left:1.1rem;">
+            <li><strong>Double Negatives:</strong> <em>"I didn't see nobody"</em> ❌ → <em>"I saw nobody"</em> ✅.</li>
+            <li><strong>Parallel Structure:</strong> <em>"She likes coding, reading, and swimming"</em>.</li>
+            <li><strong>Pronoun Agreement:</strong> <em>"Neither of the candidates has submitted"</em>.</li>
+          </ul>
+        </div>
+      <!-- Stage 1 Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:0.85rem 1.25rem; margin-top:1.25rem;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stage 1 Official Master PDF Compendium</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">AI Speech Scoring Architecture • 12 Grammar Rules • 50 Business Idioms • Pronunciation Traps</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage1" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap;">📖 Open Stage 1 PDF Manual →</a>
+      </div>
+
+      <!-- 10 STAGE 1 TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">📝 Stage 1 Dedicated Practice Tests (10 Tests):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('vb_1')"><span>📝 Test 1: Grammar</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_2')"><span>📖 Test 2: Comprehension</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_3')"><span>✏️ Test 3: Para Jumbles</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_4')"><span>🗣️ Test 4: Voice Active/Pass</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_5')"><span>📚 Test 5: Vocabulary</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_6')"><span>🔍 Test 6: Improvement</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_7')"><span>💡 Test 7: Idioms</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_8')"><span>🎯 Test 8: Subj-Verb</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_9')"><span>🎙️ Test 9: Spoken AI</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('vb_10')"><span>🏆 Test 10: Grand Verbal</span><span class="tp-tag tag-green">15Q</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGE 2A: TECHNICAL ASSESSMENT (16 TESTS) -->
+<!-- ========================================== -->
+<section class="section section-alt" id="stage2a">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Stage 2A Preparation</div>
+      <h2 class="section-title">🤖 Stage 2A: Technical Assessment (AI Literacy + Core CS)</h2>
+      <p class="section-desc">Generative AI, RAG Vector Search, Bitwise Tracing, BSTs, Normalization, CPU Scheduling & Networks.</p>
+    </div>
+
+    <!-- AI LITERACY & CORE CS NOTES -->
+    <div class="stage-section-card fade-in">
+      <!-- Diagram: RAG Pipeline -->
+      <div class="diagram-box">
+        <div class="diagram-title">🔍 RAG (Retrieval-Augmented Generation) Architecture Diagram</div>
+        <div class="flow-row">
+          <div class="flow-node">User Query</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node purple">Embedding Model (Vector Conversion)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node green">Vector Database (Cosine Similarity Search)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node orange">Context + Prompt Injection</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">LLM Generator (Grounded Output)</div>
+        </div>
+      </div>
+
+      <!-- BST & Bitwise Diagram -->
+      <div class="grid-2" style="gap:1rem; margin-top:1rem;">
+        <div class="diagram-box" style="margin:0;">
+          <div class="diagram-title">🌳 Binary Search Tree (BST) Properties</div>
+          <div style="font-family:monospace; font-size:0.8rem; color:#6ee7b7; line-height:1.5;">
+            &nbsp;&nbsp;&nbsp;&nbsp;[8] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left subtree &lt; Root &lt; Right subtree<br/>
+            &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;\\<br/>
+            &nbsp;[3] &nbsp;&nbsp;[10] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inorder Traversal (L → Root → R):<br/>
+            &nbsp;/ \\ &nbsp;&nbsp;&nbsp;&nbsp;\\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1, 3, 6, 8, 10, 14] (Ascending Sorted Order)<br/>
+            [1] [6] &nbsp;&nbsp;[14]
+          </div>
+        </div>
+        <div class="diagram-box" style="margin:0;">
+          <div class="diagram-title">⚙️ Bitwise Binary Mechanics</div>
+          <div style="font-family:monospace; font-size:0.8rem; color:#38bdf8; line-height:1.6;">
+            Left Shift (x &lt;&lt; k): Multiplies x by 2^k → 6 &lt;&lt; 1 = 12<br/>
+            Right Shift (x &gt;&gt; k): Divides x by 2^k → 12 &gt;&gt; 2 = 3<br/>
+            Bitwise XOR (a ^ b): 1 if bits differ → 5 ^ 3 = 6<br/>
+            Bitwise NOT (~x): Two's complement → ~5 = -(5+1) = -6
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2A Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(124,58,237,0.08); border:1px solid rgba(124,58,237,0.3); border-radius:10px; padding:0.85rem 1.25rem; margin-top:1.25rem;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stage 2A Technical & Core CS Master Compendium</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">GenAI & RAG Architecture • Bitwise Tracing • DSA Complexities • DBMS Normalization • OS & Networks</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage2a" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap;">📖 Open Stage 2A PDF Manual →</a>
+      </div>
+
+      <!-- 16 STAGE 2A TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">🤖 Stage 2A Dedicated Practice Tests (16 Tests):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('ai_1')"><span>🤖 AI 1: GenAI & RAG</span><span class="tp-tag tag-purple">12Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ai_2')"><span>🧠 AI 2: LLMs & Prompt</span><span class="tp-tag tag-purple">12Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ai_3')"><span>🛡️ AI 3: Responsible AI</span><span class="tp-tag tag-purple">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ps_1')"><span>⚙️ Pseudo 1: Bitwise</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ps_2')"><span>🔄 Pseudo 2: Recursion</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ps_3')"><span>🧮 Pseudo 3: Loops</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_1')"><span>📊 DSA 1: Linear</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_2')"><span>🌳 DSA 2: Trees</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_3')"><span>⚡ DSA 3: Algorithms</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('db_1')"><span>🗄️ DBMS 1: SQL & Normal</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('db_2')"><span>🔗 DBMS 2: Joins & ACID</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('oop_1')"><span>🧩 OOPs 1: Pillars</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('os_1')"><span>💻 OS 1: Sched & Deadlock</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('cn_1')"><span>🌐 Networks 1: OSI Stack</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dv_1')"><span>☁️ DevOps 1: Cloud & Git</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('apt_1')"><span>📐 Aptitude 1: Quant</span><span class="tp-tag tag-blue">10Q</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGE 2B: DEBUGGING ASSESSMENT (10 TESTS) -->
+<!-- ========================================== -->
+<section class="section" id="stage2b">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge" style="background:rgba(239,68,68,0.15); color:#f87171; border-color:rgba(239,68,68,0.3)">Stage 2B Preparation</div>
+      <h2 class="section-title">🐛 Stage 2B: Debugging Assessment (10 Hands-On Code Challenges — No MCQs)</h2>
+      <p class="section-desc">1 Question in C, C++ or Java covering Tree recursion, Graph DFS cycles, and 2D Dynamic Programming.</p>
+    </div>
+
+    <div class="stage-section-card fade-in">
+      <!-- 4-Step Pipeline -->
+      <div class="diagram-box">
+        <div class="diagram-title" style="color:#f87171;">🔧 Capgemini's Official 4-Step Debugging Workflow</div>
+        <div class="flow-row">
+          <div class="flow-node orange">① Review Code</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#fca5a5;">② Identify Root Bug</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node green">③ Apply Minimal Fix</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node purple">④ Validate Edge Cases</div>
+        </div>
+      </div>
+
+      <div style="margin:1rem 0;">
+        <a href="modules/debug_sim.html" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; background:#ea580c; border:none; box-sizing:border-box;">
+          🐛 Launch Live Interactive Debugging Simulator (Trees, Graphs, 2D DP) →
+        </a>
+      </div>
+
+      <!-- Stage 2B Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:0.85rem 1.25rem; margin:1rem 0;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stage 2B Algorithmic Debugging Master Handbook</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">4-Step Diagnostic Algorithm • Tree & Graph Traversal Traps • 2D DP Array Sizing • C/C++ Pointers</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage2b" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap; background:#ea580c; border-color:#ea580c;">📖 Open Stage 2B PDF Manual →</a>
+      </div>
+
+      <!-- 10 STAGE 2B TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">🐛 Stage 2B Dedicated Hands-On Debug Tests (10 Challenges — Direct Code Fixing):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('dbg_1')"><span>🐛 Test 1: Knapsack-C (Aon)</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_2')"><span>🌳 Test 2: Tree Max Path</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_3')"><span>🕸️ Test 3: Graph Cycles</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_4')"><span>🧮 Test 4: 2D Grid DP</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_5')"><span>🔗 Test 5: List Cycle & Traps</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_6')"><span>🔍 Test 6: Binary Search Bounds</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_7')"><span>🔤 Test 7: String Palindrome</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_8')"><span>🧩 Test 8: Pointer Swaps</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_9')"><span>💾 Test 9: Double Free Fix</span><span class="tp-tag tag-orange">Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('dbg_10')"><span>🎖️ Test 10: LIS DP Marathon</span><span class="tp-tag tag-green">Code</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGE 3: AI-ASSISTED CODING (10 TESTS) -->
+<!-- ========================================== -->
+<section class="section section-alt" id="stage3">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge" style="background:rgba(6,214,160,0.15); color:var(--accent3); border-color:rgba(6,214,160,0.3)">Stage 3 Masterclass</div>
+      <h2 class="section-title">💡 Stage 3: AI-Assisted Coding (10 Interactive Challenges — No MCQs)</h2>
+      <p class="section-desc">Learn how to write structured, constraint-driven prompts that unlock passing scores in the AI Coding Assessment.</p>
+    </div>
+
+    <div class="stage-section-card fade-in">
+      <!-- 5-Part Formula -->
+      <div class="diagram-box">
+        <div class="diagram-title" style="color:var(--accent3);">📐 5-Part Master Prompt Anatomy</div>
+        <div class="flow-row">
+          <div class="flow-node green">1. Role & Context</div>
+          <div class="flow-arrow">+</div>
+          <div class="flow-node purple">2. Problem Restatement</div>
+          <div class="flow-arrow">+</div>
+          <div class="flow-node orange">3. Time/Space Constraints</div>
+          <div class="flow-arrow">+</div>
+          <div class="flow-node">4. Edge Case Directives</div>
+          <div class="flow-arrow">+</div>
+          <div class="flow-node green">5. Output Signature</div>
+        </div>
+      </div>
+
+      <!-- Side-by-side prompt compare -->
+      <div class="prompt-grid">
+        <div class="prompt-bad">
+          <div style="font-weight:800; font-size:0.85rem; color:#f87171; margin-bottom:0.5rem;">❌ BAD PROMPT (Score: 0/10 — Rejected by AI)</div>
+          <div style="font-family:monospace; font-size:0.78rem; color:#fca5a5; background:rgba(0,0,0,0.3); padding:0.75rem; border-radius:6px; line-height:1.5;">
+            "write me code to reverse a linked list in cpp"
+          </div>
+        </div>
+        <div class="prompt-good">
+          <div style="font-weight:800; font-size:0.85rem; color:#06d6a0; margin-bottom:0.5rem;">✅ MASTER PROMPT (Score: 10/10 — Unlocks Progression)</div>
+          <div style="font-family:monospace; font-size:0.78rem; color:#a7f3d0; background:rgba(0,0,0,0.3); padding:0.75rem; border-radius:6px; line-height:1.5;">
+            "Input: ListNode* head. Task: In-place reversal using 3 pointers in C++. Constraints: O(1) memory, O(N) time. Edge cases: If head is NULL or single node, return head. Output: New head pointer."
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:1rem 0;">
+        <a href="modules/ai_coding_sim.html" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; background:linear-gradient(135deg,#06d6a0,#0ea5e9); border:none; box-sizing:border-box;">
+          🚀 Launch Stage 3 AI Coding Simulator (Lab 27 Replica) →
+        </a>
+      <!-- Stage 3 Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(6,214,160,0.08); border:1px solid rgba(6,214,160,0.3); border-radius:10px; padding:0.85rem 1.25rem; margin:1rem 0;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stage 3 Lab 27 AI Prompt Engineering Manual</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">5-Part Master Prompt Formula • Side-by-Side Prompt Rubrics • Review & Adapt Workflows • Iterative Guidance</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage3" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap; background:#059669; border-color:#059669;">📖 Open Stage 3 PDF Manual →</a>
+      </div>
+
+      <!-- 10 STAGE 3 TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">💡 Stage 3 Dedicated AI-Assisted Coding Tests (10 Scaffolding Vibe Coding Challenges):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('aic_1')"><span>💡 Test 1: LCM of 2 Trees (Aon)</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_2')"><span>🔄 Test 2: Reverse Linked List</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_3')"><span>🛡️ Test 3: Longest Substring</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_4')"><span>⚡ Test 4: LCA in Binary Tree</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_5')"><span>🌳 Test 5: Course Schedule DAG</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_6')"><span>🎯 Test 6: Merge K Sorted Lists</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_7')"><span>🧠 Test 7: Subarray Sum = K</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_8')"><span>📐 Test 8: Coin Change DP</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_9')"><span>📋 Test 9: Valid Parentheses *</span><span class="tp-tag tag-green">Vibe Code</span></button>
+          <button class="test-pill-btn" onclick="startTest('aic_10')"><span>🌟 Test 10: Word Search 2D</span><span class="tp-tag tag-purple">Vibe Code</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGE 4: COGNITIVE & ADEPT-15 (10 TESTS) -->
+<!-- ========================================== -->
+<section class="section" id="stage4">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Stage 4 Preparation</div>
+      <h2 class="section-title">🎮 Stage 4: Cognitive & ADEPT-15 Behavioral (10 Tests)</h2>
+      <p class="section-desc">Motion Challenge pathfinding, Grid working memory, Inductive matrix reasoning, and ADEPT-15 behavioral consistency.</p>
+    </div>
+
+    <div class="stage-section-card fade-in">
+      <div class="grid-3" style="gap:1rem;">
+        <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); padding:1rem; border-radius:8px;">
+          <h4 style="color:#fbbf24; font-size:0.88rem; margin-bottom:0.3rem;">1. Motion Challenge</h4>
+          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            Move a ball to the target in minimum steps. Mental pre-planning of 3-4 moves is essential to avoid penalty steps.
+          </p>
+        </div>
+        <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); padding:1rem; border-radius:8px;">
+          <h4 style="color:#fbbf24; font-size:0.88rem; margin-bottom:0.3rem;">2. Grid Challenge</h4>
+          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            Memorize dot locations while answering rapid symmetry questions. Use verbal chunking to retain spatial coordinates.
+          </p>
+        </div>
+        <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); padding:1rem; border-radius:8px;">
+          <h4 style="color:#fbbf24; font-size:0.88rem; margin-bottom:0.3rem;">3. ADEPT-15 Profile</h4>
+          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            Assesses 15 workplace traits. Maintain response consistency across re-phrased situational questions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stage 4 Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:10px; padding:0.85rem 1.25rem; margin:1rem 0;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stage 4 Cognitive Games & ADEPT-15 Behavioral Dossier</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Motion Challenge Minimization • Grid Memory Rehearsal • 15 Trait Consistency Scoring • Workplace Scenarios</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage4" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap; background:#d97706; border-color:#d97706;">📖 Open Stage 4 PDF Manual →</a>
+      </div>
+
+      <!-- 10 STAGE 4 TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">🎮 Stage 4 Dedicated Cognitive & Situational Tests (10 Tests):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('sit_1')"><span>🎮 Test 1: Motion Logic</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_2')"><span>🧩 Test 2: Grid Memory</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_3')"><span>🔍 Test 3: Inductive Rules</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_4')"><span>🚀 Test 4: Ambition Trait</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_5')"><span>🤝 Test 5: Team Conflict</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_6')"><span>💼 Test 6: Client Delivery</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_7')"><span>🌱 Test 7: Adaptability</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_8')"><span>⚖️ Test 8: Ethical Choices</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_9')"><span>⏱️ Test 9: High Pressure</span><span class="tp-tag tag-orange">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('sit_10')"><span>🎭 Test 10: Stage 4 Mock</span><span class="tp-tag tag-green">10Q</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- STAGES 5 & 6: INTERVIEW & CORE VALUES (10 TESTS) -->
+<!-- ========================================== -->
+<section class="section section-alt" id="stage56">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Stages 5 & 6 Preparation</div>
+      <h2 class="section-title">💬 Stages 5 & 6: Technical & HR Interview Defense (10 Tests)</h2>
+      <p class="section-desc">Resume architecture defense, database trade-offs, and Capgemini's 7 Core Values with the STAR framework.</p>
+    </div>
+
+    <div class="stage-section-card fade-in">
+      <div class="grid-2" style="gap:1rem;">
+        <div style="background:rgba(99,102,241,0.06); border:1px solid rgba(99,102,241,0.2); padding:1rem; border-radius:8px;">
+          <h4 style="color:#818cf8; font-size:0.88rem; margin-bottom:0.3rem;">Stage 5: Technical Defense</h4>
+          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            Be ready to defend tech stack decisions: PostgreSQL vs MongoDB, JWT in HttpOnly cookies, and microservices caching.
+          </p>
+        </div>
+        <div style="background:rgba(236,72,153,0.06); border:1px solid rgba(236,72,153,0.2); padding:1rem; border-radius:8px;">
+          <h4 style="color:#f472b6; font-size:0.88rem; margin-bottom:0.3rem;">Stage 6: Capgemini 7 Core Values</h4>
+          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            Honesty, Boldness, Trust, Freedom, Fun, Modesty, Team Spirit. Frame all behavioral stories using <strong>STAR</strong> (Situation, Task, Action, Result).
+          </p>
+        </div>
+      </div>
+
+      <div style="margin:1rem 0;">
+        <a href="modules/interview_hub.html" target="_blank" class="btn btn-outline" style="width:100%; justify-content:center; border-color:rgba(0,212,255,0.4); color:var(--accent); box-sizing:border-box;">
+          🎓 Open Full Stages 4, 5 & 6 Master Hub & Interactive STAR Builder →
+        </a>
+      </div>
+
+      <!-- Stages 5-6 Protected PDF Manual Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; background:rgba(124,58,237,0.08); border:1px solid rgba(124,58,237,0.3); border-radius:10px; padding:0.85rem 1.25rem; margin:1rem 0;">
+        <div>
+          <div style="font-weight:800; color:#fff; font-size:0.92rem;">📖 Stages 5 & 6 Interview Defense & 7 Core Values Playbook</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Serge Kampf 7 Core Values History • STAR Framework Templates • Top 25 Architecture Q&A • Salary Traps</div>
+        </div>
+        <a href="modules/study_reader.html?stage=stage56" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap; background:#7c3aed; border-color:#7c3aed;">📖 Open Stages 5-6 PDF Manual →</a>
+      </div>
+
+      <!-- 10 STAGES 5 & 6 TESTS -->
+      <div class="stage-tests-panel">
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">💬 Stages 5 & 6 Dedicated Interview Defense Tests (10 Tests):</div>
+        <div class="test-grid-10">
+          <button class="test-pill-btn" onclick="startTest('int_1')"><span>🏛️ Test 1: 7 Core Values</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_2')"><span>⭐ Test 2: STAR Framework</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_3')"><span>🛡️ Test 3: DB Architecture</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_4')"><span>🔐 Test 4: Auth & Security</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_5')"><span>💬 Test 5: Project Story</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_6')"><span>🤝 Test 6: Cultural Fit</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_7')"><span>⚡ Test 7: DSA Defense</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_8')"><span>🧩 Test 8: OOPs Systems</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_9')"><span>🎭 Test 9: Conflict Handling</span><span class="tp-tag tag-purple">5Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('int_10')"><span>🎓 Test 10: Grand Defense</span><span class="tp-tag tag-green">5Q</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- GRAND MOCK MARATHON SUITE (10 FULL TESTS) -->
+<!-- ========================================== -->
+<section class="section" id="grand-mocks">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-badge">Full Assessment Suite</div>
+      <h2 class="section-title">🏆 Grand Mock Marathons & Stage-Wise Simulations</h2>
+      <p class="section-desc">Full-length replicas simulating the complete Stage 2 and mixed assessment patterns in continuous proctored sittings.</p>
+    </div>
+
+    <!-- Candidate Choice Banner: Stage 2 Live Focus vs Complete All Stages -->
+    <div class="gm-choice-banner fade-in">
+      <div class="gm-choice-header">
+        <div>
+          <span class="gm-live-badge">🔴 STAGE 2 ASSESSMENT DRIVE IS LIVE</span>
+          <h3 style="color:#fff; font-size:1.1rem; margin-top:0.4rem;">Choose Your Grand Mock Testing Pattern:</h3>
+        </div>
+      </div>
+      <div class="gm-toggle-container">
+        <button class="gm-toggle-btn active" id="btn-mode-stage2" onclick="setGrandMockMode('stage2_only')">
+          ⚡ Skip Stage 1 (Focus on Live Stage 2A to 6 Drive)
+        </button>
+        <button class="gm-toggle-btn" id="btn-mode-allstages" onclick="setGrandMockMode('all_stages')">
+          🌐 Include Stage 1 (Full 6 Stages with English Communication)
+        </button>
+      </div>
+      <div id="gm-mode-desc" style="font-size:0.85rem; color:#cbd5e1; line-height:1.5;">
+        ⚡ <strong>Currently Active Pattern:</strong> Stage 2A + 2B + 3 + 4 + 5/6 (Stage 1 English Communication skipped as Stage 2 is currently live).
+      </div>
+    </div>
+
+    <!-- STAGE-WISE GRAND MOCKS SUB-SECTION -->
+    <div style="margin-bottom:2rem;" class="fade-in">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.6rem;">
+        <h3 style="font-size:1.15rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">
+          <span>🎯</span> Dedicated Stage-Wise Grand Mocks
+        </h3>
+        <span style="font-size:0.75rem; color:var(--text-muted);">One Grand Comprehensive Exam Per Recruitment Stage</span>
+      </div>
+      <div class="grid-3" style="gap:1.25rem;">
+        <div class="gm-card-modern" onclick="startTest('gm_s1')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">🎙️</div>
+              <span class="test-difficulty diff-medium">Medium</span>
+            </div>
+            <div class="test-title">Stage 1 Grand Mock — Verbal &amp; English</div>
+            <div class="test-meta">Grammar + Reading Comprehension + Voice + Sentence Jumbles</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">25</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">25</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stage 1 Mock →</div>
+        </div>
+
+        <div class="gm-card-modern" onclick="startTest('gm_s2a')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">💻</div>
+              <span class="test-difficulty diff-hard">Hard</span>
+            </div>
+            <div class="test-title">Stage 2A Grand Mock — Technical &amp; Coding</div>
+            <div class="test-meta">AI Literacy + Pseudocode Logic + DSA + Core CS Systems</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">30</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">35</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stage 2A Mock →</div>
+        </div>
+
+        <div class="gm-card-modern" onclick="startTest('gm_s2b')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">🐛</div>
+              <span class="test-difficulty diff-hard">Hard</span>
+            </div>
+            <div class="test-title">Stage 2B Grand Mock — Debugging Marathon</div>
+            <div class="test-meta">Algorithmic bugs in Trees, Graphs, DP, Pointers, and Arrays</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">15</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">25</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stage 2B Mock →</div>
+        </div>
+
+        <div class="gm-card-modern" onclick="startTest('gm_s3')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">🤖</div>
+              <span class="test-difficulty diff-hard">Hard</span>
+            </div>
+            <div class="test-title">Stage 3 Grand Mock — AI-Assisted Coding</div>
+            <div class="test-meta">Prompt Engineering + Edge Case Formulation + Lab 27 Scaffolding</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">15</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">20</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stage 3 Mock →</div>
+        </div>
+
+        <div class="gm-card-modern" onclick="startTest('gm_s4')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">🧠</div>
+              <span class="test-difficulty diff-medium">Medium</span>
+            </div>
+            <div class="test-title">Stage 4 Grand Mock — Cognitive &amp; ADEPT-15</div>
+            <div class="test-meta">Motion Challenge + Grid Memory + Situational Behavioral Judgment</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">20</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">25</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stage 4 Mock →</div>
+        </div>
+
+        <div class="gm-card-modern" onclick="startTest('gm_s56')">
+          <div>
+            <div class="test-header">
+              <div class="test-icon">🏆</div>
+              <span class="test-difficulty diff-hard">Hard</span>
+            </div>
+            <div class="test-title">Stages 5 &amp; 6 Grand Mock — Tech &amp; HR Defense</div>
+            <div class="test-meta">Architecture Defense + Security + STAR Stories + 7 Core Values</div>
+            <div class="test-stats">
+              <div class="ts-item"><div class="ts-val">15</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">20</div>Minutes</div>
+            </div>
+          </div>
+          <div class="card-launch-btn">Launch Stages 5 &amp; 6 Mock →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL-STAGES COMBINED MEGA MOCKS SUB-SECTION -->
+    <div style="margin-bottom:1.25rem;" class="fade-in">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.6rem;">
+        <h3 style="font-size:1.15rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">
+          <span>⚡</span> Full Multi-Stage Combined Mega Mocks
+        </h3>
+        <span style="font-size:0.75rem; color:#06d6a0; font-weight:700; background:rgba(6,214,160,0.1); border:1px solid rgba(6,214,160,0.25); padding:0.2rem 0.6rem; border-radius:12px;">Tests 1 &amp; 2 Available for Free Trial</span>
+      </div>
+    </div>
+
+    <div class="grid-3 fade-in" style="gap:1.35rem;">
+      <div class="gm-card-modern gm-card-featured" onclick="startTest('full_1')">
+        <div>
+          <span class="gm-featured-ribbon">⭐ MOST ACCURATE • LIVE STAGE 2 DRIVE</span>
+          <div class="test-header">
+            <div class="test-icon">🎯</div>
+            <span class="test-difficulty diff-medium">Medium</span>
+          </div>
+          <div class="test-title">Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)</div>
+          <div class="test-meta">Stage 2 Live Pattern (Stage 1 Skipped) • Exact Capgemini Exceller 2027 Replica</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">42</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">45</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">🚀 Launch Assessment Drive 1 →</div>
+      </div>
+
+      <div class="gm-card-modern gm-card-featured" onclick="startTest('full_2')">
+        <div>
+          <span class="gm-featured-ribbon" style="background:linear-gradient(135deg,#06d6a0,#059669);">🏆 FULL 6-STAGE MARATHON</span>
+          <div class="test-header">
+            <div class="test-icon">🚀</div>
+            <span class="test-difficulty diff-hard">Hard</span>
+          </div>
+          <div class="test-title">Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)</div>
+          <div class="test-meta">Complete 6 Stages with English Communication • Comprehensive Evaluation</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">50</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">55</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">🚀 Launch Assessment Drive 2 →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('full_3')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">📋</div>
+            <span class="test-difficulty diff-medium">Medium</span>
+          </div>
+          <div class="test-title">Full Mock Test 3 — Tech + Verbal Combo</div>
+          <div class="test-meta">Technical Systems + English Communication Integrated Assessment</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">35</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">45</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Test 3 →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('full_4')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🔬</div>
+            <span class="test-difficulty diff-hard">Hard</span>
+          </div>
+          <div class="test-title">Full Mock Test 4 — Debugging + AI Coding</div>
+          <div class="test-meta">Stages 2B &amp; 3 Focused Hands-on Synthesis Mock</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">30</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">40</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Test 4 →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('full_5')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🎭</div>
+            <span class="test-difficulty diff-medium">Medium</span>
+          </div>
+          <div class="test-title">Full Mock Test 5 — Situational + Technical</div>
+          <div class="test-meta">Technical Competence + ADEPT-15 Behavioral Leadership</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">30</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">35</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Test 5 →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('full_6')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🏋️</div>
+            <span class="test-difficulty diff-hard">Hard</span>
+          </div>
+          <div class="test-title">Full Mock Test 6 — 40Q Stage 2 Endurance</div>
+          <div class="test-meta">Comprehensive 40-Question Technical Marathon</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">40</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">50</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Test 6 →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('combo_1')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">⏱️</div>
+            <span class="test-difficulty diff-hard">Hard</span>
+          </div>
+          <div class="test-title">⚡ Speed Challenge — 20Q in 20 Mins</div>
+          <div class="test-meta">1 Minute Per Question High-Intensity Sprint</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">20</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">20</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Speed Challenge →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('combo_2')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🏃</div>
+            <span class="test-difficulty diff-hard">Hard</span>
+          </div>
+          <div class="test-title">Core CS Marathon — 30 Questions</div>
+          <div class="test-meta">OS Internals + Computer Networks + DBMS + OOPs</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">30</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">35</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Core CS Marathon →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('combo_3')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🌟</div>
+            <span class="test-difficulty diff-medium">Medium</span>
+          </div>
+          <div class="test-title">AI + DevOps Future-Ready Test</div>
+          <div class="test-meta">Generative AI + Cloud Infrastructures + Microservices</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">20</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">25</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch AI &amp; Cloud Test →</div>
+      </div>
+
+      <div class="gm-card-modern" onclick="startTest('combo_4')">
+        <div>
+          <div class="test-header">
+            <div class="test-icon">🌱</div>
+            <span class="test-difficulty diff-easy">Easy</span>
+          </div>
+          <div class="test-title">Beginner Warm-Up Test</div>
+          <div class="test-meta">Fundamental DSA + Logic + Core Aptitude Concepts</div>
+          <div class="test-stats">
+            <div class="ts-item"><div class="ts-val">15</div>Questions</div>
+            <div class="ts-item"><div class="ts-val">20</div>Minutes</div>
+          </div>
+        </div>
+        <div class="card-launch-btn">Launch Warm-Up Test →</div>
+      </div>
+    </div>
+  </div>
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--section-bg); border-top:1px solid var(--card-border); padding:3.5rem 2rem 2.5rem; margin-top:4rem; text-align:center;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:0.5rem; font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:0.75rem;">
+      <span>🎯</span> CapPrep <span style="color:#7c3aed">Pro</span>
+    </div>
+    <p style="color:var(--text-muted); font-size:0.88rem; max-width:620px; margin:0 auto 1.75rem; line-height:1.6;">
+      The definitive, complete prep suite for Capgemini Exceller 2027. 6-stage visual compendiums, protected in-browser PDF guides, 2 live assessment sandboxes, and 76+ comprehensive mock tests.
+    </p>
+    <div style="display:flex; justify-content:center; gap:1.25rem; flex-wrap:wrap; margin-bottom:2rem; font-size:0.85rem;">
+      <a href="#stage1" style="color:var(--text-muted); text-decoration:none;">Stage 1 Verbal</a>
+      <a href="#stage2a" style="color:var(--text-muted); text-decoration:none;">Stage 2A Technical</a>
+      <a href="#stage2b" style="color:var(--text-muted); text-decoration:none;">Stage 2B Debugging</a>
+      <a href="#stage3" style="color:var(--text-muted); text-decoration:none;">Stage 3 AI Coding</a>
+      <a href="#stage4" style="color:var(--text-muted); text-decoration:none;">Stage 4 Cognitive</a>
+      <a href="modules/study_reader.html" style="color:var(--accent); text-decoration:none; font-weight:700;">📖 Master PDF Reader</a>
+      <a href="javascript:void(0)" onclick="openSupportModal()" style="color:#38bdf8; text-decoration:none; font-weight:600;">🎧 Help & Support</a>
+    </div>
+    <div style="font-size:0.78rem; color:#64748b; border-top:1px solid rgba(255,255,255,0.05); padding-top:1.5rem;">
+      © 2026-2027 CapPrep Pro • Official Capgemini Exceller Recruitment Prep Suite • Student Support: <a href="javascript:void(0)" onclick="openSupportModal()" style="color:#38bdf8; text-decoration:none; font-weight:700;">Direct Help &amp; Support Ticket →</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== SOCIAL PROOF LIVE BUYER TOAST ===== -->
+<div id="social-proof-toast" class="social-proof-toast">
+  <div class="sp-icon">⚡</div>
+  <div class="sp-content">
+    <div><span class="sp-name" id="sp-buyer-name">Rohit S.</span> <span class="sp-action">unlocked CapPrep Pro (₹51)</span></div>
+    <div class="sp-time" id="sp-buyer-time">2 minutes ago • Bangalore</div>
+  </div>
+</div>
+
+<!-- ===== HIGH-CONVERTING 2-STEP PSYCHOLOGICAL CHECKOUT MODAL ===== -->
+<div id="payment-modal" class="pay-modal-overlay" style="display:none;" onclick="if(event.target === this) closePaymentModal()">
+  <div class="pay-modal" style="max-width:540px;">
+    <button class="pay-close-btn" onclick="closePaymentModal()">✕</button>
+
+    <!-- STEP 1: DETAILS & T&C -->
+    <div id="pay-screen-1">
+      <div class="flash-deal-banner">
+        <div class="flash-deal-text">
+          <span>🔥</span> <strong>FLASH DEAL: 83% OFF SPECIAL BATCH OFFER</strong>
+        </div>
+        <div class="flash-countdown">
+          <span>⏱ <span id="flash-countdown-clock">14:45</span></span>
+        </div>
+      </div>
+
+      <div style="display:inline-block; background:rgba(0,212,255,0.15); border:1px solid var(--accent); color:var(--accent); font-size:0.75rem; font-weight:800; padding:0.2rem 0.6rem; border-radius:20px; margin-bottom:0.4rem;">
+        ⭐ CAPPREP PRO LIFETIME PASS (2027 BATCH)
+      </div>
+      
+      <h2 style="font-size:1.3rem; color:#fff; margin-bottom:0.2rem;">
+        Unlock All 76+ Tests &amp; Proctored Simulators
+      </h2>
+
+      <!-- Price Summary -->
+      <div class="price-anchor-box" style="margin:0.6rem 0; padding:0.75rem 1rem;">
+        <div>
+          <div class="price-details">
+            <span class="price-strike-large">₹299</span>
+            <span class="price-deal-large" id="modal-display-price">₹51</span>
+            <span class="discount-chip">83% OFF</span>
+          </div>
+          <div class="price-save-badge">
+            🎉 Auto-Coupon <strong>SUPER51</strong> Applied: You save ₹248!
+          </div>
+        </div>
+        <div style="text-align:right; font-size:0.72rem; color:#94a3b8;">
+          <div>One-Time Payment</div>
+          <div style="color:#06d6a0; font-weight:700;">Lifetime Access</div>
+        </div>
+      </div>
+
+      <!-- Compact Value Highlights -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; font-size:0.76rem; color:#cbd5e1; margin-bottom:0.75rem; background:rgba(255,255,255,0.03); padding:0.6rem; border-radius:8px;">
+        <div>✓ All 76+ Stage Tests &amp; 10 Grand Mocks</div>
+        <div>✓ Stage 2B Debugging Simulator</div>
+        <div>✓ Stage 3 Lab 27 AI Prompt Sandbox</div>
+        <div>✓ Protected Master PDF Guides</div>
+      </div>
+
+      <!-- Student Enrollment Form -->
+      <div style="margin-bottom:0.5rem;">
+        <div style="font-size:0.78rem; font-weight:700; color:#cbd5e1; margin-bottom:0.35rem;">1. Enter Your Details:</div>
+        <div class="customer-input-grid">
+          <input type="text" id="cust-name-input" class="customer-input" placeholder="Full Name (e.g. Rahul Sharma)" required />
+          <input type="email" id="cust-email-input" class="customer-input" placeholder="Email (where pass is sent)" required />
+        </div>
+        <div class="customer-input-grid">
+          <input type="tel" id="cust-phone-input" class="customer-input" placeholder="WhatsApp Number (+91)" required />
+          <input type="text" id="cust-college-input" class="customer-input" placeholder="College / Batch (e.g. VIT 2027)" />
+        </div>
+        <div style="margin-bottom:0.4rem;">
+          <div style="position:relative; display:flex; align-items:center;">
+            <input type="password" id="cust-password-input" class="customer-input" style="padding-right:45px; width:100%;" placeholder="Create Password (for future sign-in)" required />
+            <button type="button" onclick="togglePasswordVisibility('cust-password-input', this)" style="position:absolute; right:10px; background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.1rem; padding:4px;" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions Agreement -->
+      <div class="tc-agreement-box" style="margin:0.5rem 0 0.75rem; padding:0.65rem 0.85rem;">
+        <label style="display:flex; align-items:flex-start; gap:0.5rem; font-size:0.76rem; color:#cbd5e1; cursor:pointer; font-weight:600; line-height:1.4;">
+          <input type="checkbox" id="tc-agree-checkbox" style="width:16px; height:16px; margin-top:1px; accent-color:#00d4ff; cursor:pointer;" />
+          <span>I agree to the <a href="javascript:void(0)" onclick="openSupportModal()" style="color:#38bdf8; text-decoration:underline;">Digital Course Terms of Service</a> &amp; Non-Refundable Policy. <span style="color:#f87171;">*</span></span>
+        </label>
+      </div>
+
+      <button class="pay-btn-checkout" onclick="goToPaymentScreen()">
+        👉 Proceed to Secure Payment (₹51) →
+      </button>
+
+      <!-- Promo Code redemption -->
+      <div style="display:flex; gap:0.4rem; margin-top:0.6rem;">
+        <input type="text" id="coupon-code-input" class="coupon-input" value="SUPER51" style="padding:0.4rem 0.6rem; font-size:0.78rem;" placeholder="Promo code (e.g. SUPER51)" />
+        <button class="coupon-btn" style="padding:0.4rem 0.8rem; font-size:0.78rem;" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div id="coupon-feedback" style="font-size:0.75rem; min-height:0.8rem;"></div>
+    </div>
+
+
+    <!-- STEP 2: PAYMENT GATEWAY (DIRECT QR & ONE-TAP AUTO-PAYMENT) -->
+    <div id="pay-screen-2" style="display:none;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.5rem;">
+        <button onclick="backToDetailsScreen()" style="background:none; border:none; color:#38bdf8; font-size:0.8rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:0.3rem;">
+          ← Edit Details
+        </button>
+        <div style="font-size:0.82rem; color:#fff; font-weight:800;">
+          Total Payable: <span style="color:#06d6a0; font-size:1.15rem;" id="pay-screen2-price">₹51</span>
+        </div>
+      </div>
+
+      <!-- Candidate confirmation pill -->
+      <div style="background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.25); border-radius:8px; padding:0.45rem 0.75rem; font-size:0.78rem; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+        <div><span>👤 Enrolling: </span><strong style="color:#fff;" id="pill-cust-name">Rahul Sharma</strong></div>
+        <div style="color:#94a3b8;" id="pill-cust-email">rahul@gmail.com</div>
+      </div>
+
+      <!-- Tab Switch: UPI vs Card -->
+      <div class="pay-tab-switch" style="margin:0 0 0.75rem;">
+        <button class="pay-tab-btn active" id="tab-btn-upi" onclick="switchPayTab('upi')">
+          ⚡ Instant UPI QR &amp; 1-Tap Apps (0% Fee)
+        </button>
+        <button class="pay-tab-btn" id="tab-btn-card" onclick="switchPayTab('card')">
+          💳 Debit / Credit Cards / NetBanking
+        </button>
+      </div>
+
+      <!-- UPI TAB -->
+      <div id="pay-mode-upi" class="upi-payment-container">
+        <div style="font-size:0.78rem; color:#cbd5e1; margin-bottom:0.35rem;">
+          Scan with <strong>Google Pay, PhonePe, Paytm, CRED, BHIM</strong>:
+        </div>
+
+        <!-- Official Uploaded Fixed-Amount QR Card -->
+        <div class="upi-qr-card">
+          <img id="dynamic-upi-qr" class="upi-qr-image" 
+               src="assets/upi_qr.png" 
+               alt="Official UPI QR Code for Rishav Kumar Gupta" />
+        </div>
+
+        <div style="font-size:0.78rem; color:#e2e8f0; margin-bottom:0.25rem;">
+          <div>Payee: <strong style="color:#fff;">Rishav Kumar Gupta</strong></div>
+          <div style="margin-top:0.15rem;">Exact Fixed Amount: <strong style="color:#06d6a0; font-size:1.15rem;" id="upi-fixed-amt-display">₹51</strong></div>
+        </div>
+
+        <div>
+          <button type="button" class="btn-copy-upi" onclick="copyUpiId()">
+            <span>📋</span> <span id="copy-upi-btn-text">Copy UPI ID: rishavofficials1727@oksbi</span>
+          </button>
+        </div>
+
+        <!-- 1-Tap Mobile Intent Launchers -->
+        <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.5rem;">Or Tap Below to Auto-Pay via Mobile App:</div>
+        <div class="upi-app-buttons">
+          <a id="upi-intent-gpay" href="upi://pay?pa=rishavofficials1727@oksbi&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
+            <span style="font-size:1.1rem;">🟢</span> <span>GPay</span>
+          </a>
+          <a id="upi-intent-phonepe" href="upi://pay?pa=rishavofficials1727@oksbi&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
+            <span style="font-size:1.1rem;">🟣</span> <span>PhonePe</span>
+          </a>
+          <a id="upi-intent-paytm" href="upi://pay?pa=rishavofficials1727@oksbi&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
+            <span style="font-size:1.1rem;">🔵</span> <span>Paytm</span>
+          </a>
+          <a id="upi-intent-cred" href="upi://pay?pa=rishavofficials1727@oksbi&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
+            <span style="font-size:1.1rem;">⚡</span> <span>Any UPI</span>
+          </a>
+        </div>
+
+        <!-- Step 2: UTR Input -->
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:0.65rem; margin-top:0.65rem; text-align:left;">
+          <label style="font-size:0.75rem; color:#cbd5e1; display:block; margin-bottom:0.3rem; font-weight:600;">
+            Enter 12-Digit UPI Transaction / UTR ID from payment receipt:
+          </label>
+          <div style="display:flex; gap:0.5rem;">
+            <input type="text" id="upi-utr-input" class="customer-input" placeholder="e.g. 419827361524 (12 digits)" maxlength="16" />
+            <button id="btn-verify-upi" class="btn btn-primary" style="padding:0.6rem 1rem; font-size:0.82rem; white-space:nowrap;" onclick="processUpiPayment()">
+              ⚡ Verify &amp; Unlock Pro
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD TAB -->
+      <div id="pay-mode-card" style="display:none; background:#0b0f19; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.25rem; margin-bottom:1rem;">
+        <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:0.75rem;">
+          Pay ₹51 securely via Debit/Credit Card or NetBanking:
+        </div>
+        <div class="customer-input-grid">
+          <input type="text" class="customer-input" placeholder="Card Number (•••• •••• •••• ••••)" />
+          <input type="text" class="customer-input" placeholder="MM/YY &amp; CVV" />
+        </div>
+        <button id="pay-submit-btn" class="pay-btn-checkout" onclick="processCardPayment()">
+          🔒 Pay ₹51 &amp; Unlock Pro Instantly
+        </button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.74rem; color:var(--text-muted); margin-top:0.5rem;">
+        <span>🔒 256-Bit SSL Encrypted</span>
+        <span>🎧 <a href="javascript:void(0)" onclick="closePaymentModal(); openSupportModal();" style="color:#38bdf8; text-decoration:none; font-weight:700;">Need Help? Contact Support →</a></span>
+      </div>
+    </div>
+
+
+    <!-- STEP 3: INSTANT VERIFICATION & CONFIRMATION SCREEN -->
+    <div id="pay-screen-3" style="display:none; text-align:center; padding:1rem 0.5rem;">
+      <div style="font-size:3.5rem; margin-bottom:0.5rem;">🎉</div>
+      <div style="display:inline-block; background:rgba(6,214,160,0.15); border:1px solid #06d6a0; color:#06d6a0; font-size:0.75rem; font-weight:800; padding:0.25rem 0.75rem; border-radius:20px; margin-bottom:0.5rem;">
+        PAYMENT VERIFIED &amp; PRO PASS ACTIVATED
+      </div>
+      <h2 style="font-size:1.4rem; color:#fff; margin-bottom:0.35rem;">
+        Welcome to CapPrep Pro, <span id="conf-cust-name" style="color:#00d4ff;">Student</span>!
+      </h2>
+      <p style="font-size:0.84rem; color:#cbd5e1; max-width:420px; margin:0 auto 1rem; line-height:1.5;">
+        Your lifetime subscription has been confirmed under <strong id="conf-cust-email" style="color:#fff;">email</strong>. All 76+ assessments, simulators, and notes are now completely unlocked!
+      </p>
+
+      <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:0.85rem; max-width:440px; margin:0 auto 1.25rem; text-align:left; font-size:0.78rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+          <span style="color:#94a3b8;">Order Reference:</span>
+          <strong style="color:#fff; font-family:monospace;" id="conf-order-id">#CAP-92817</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+          <span style="color:#94a3b8;">Amount Paid:</span>
+          <strong style="color:#06d6a0;">₹51.00 (Lifetime Pass)</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:#94a3b8;">Status:</span>
+          <strong style="color:#06d6a0;">● ACTIVE &amp; VERIFIED</strong>
+        </div>
+      </div>
+
+      <button class="pay-btn-checkout" style="max-width:440px; margin:0 auto;" onclick="closePaymentModal(); startTest('vb_1');">
+        🚀 Enter Pro Dashboard &amp; Start Free Test 1 →
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== FULL-SCREEN PROCTORED MOCK TEST ASSESSMENT RUNNER ===== -->
+<div id="quiz-container" style="display:none;">
+  <div class="quiz-header">
+    <div>
+      <div id="quiz-title" class="quiz-title">Diagnostic Verbal Assessment</div>
+      <div style="font-size:0.75rem; color:var(--text-muted);">Proctored Mode • Capgemini Exceller Standard</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <div id="quiz-timer" class="quiz-timer">⏱ 15:00</div>
+      <button class="tool-btn" onclick="closeQuiz()" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#fca5a5; cursor:pointer;">✕ Exit Test</button>
+    </div>
+  </div>
+
+  <div class="quiz-progress-bar">
+    <div id="quiz-progress-fill" class="quiz-progress-fill" style="width:0%;"></div>
+  </div>
+
+  <!-- Question Card -->
+  <div id="question-card" class="question-card">
+    <div id="q-num" class="question-num">Question 1 of 10</div>
+    <div id="q-text" class="question-text">Loading question...</div>
+    <div id="q-lang-bar" class="lang-selector-bar" style="display:none;"></div>
+    <div id="q-code"></div>
+
+    <div id="options-grid" class="options-grid"></div>
+
+    <div id="explanation-box" class="explanation-box" style="display:none;"></div>
+
+    <div class="quiz-actions">
+      <button class="btn btn-outline" onclick="closeQuiz()">✕ Quit Test</button>
+      <button id="btn-next" class="btn btn-primary" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Result Card -->
+  <div id="quiz-result" class="quiz-result" style="display:none;"></div>
+</div>
+
+<!-- ===== LOCKED TEST POP-UP MODAL ===== -->
+<div id="locked-test-modal" class="pay-modal-overlay" style="display:none;" onclick="if(event.target === this) closeLockedTestModal()">
+  <div class="pay-modal" style="max-width:520px; text-align:center;">
+    <button class="pay-close-btn" onclick="closeLockedTestModal()">✕</button>
+    <div style="font-size:2.8rem; margin-bottom:0.5rem;">🔒</div>
+    <div style="display:inline-block; background:rgba(245,158,11,0.15); border:1px solid #f59e0b; color:#fbbf24; font-size:0.75rem; font-weight:800; padding:0.25rem 0.65rem; border-radius:20px; margin-bottom:0.75rem;">
+      CAPPREP PRO ASSESSMENT
+    </div>
+    <h2 style="font-size:1.35rem; color:#fff; margin-bottom:0.35rem;" id="locked-modal-test-title">
+      This Assessment is Locked
+    </h2>
+    <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:0.75rem;" id="locked-modal-test-meta">
+      Only Test 1 (Diagnostic Verbal Assessment) is available for free demo.
+    </p>
+
+    <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:1rem; margin:1rem 0; text-align:left;">
+      <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Unlock Complete Exceller 2027 Suite for ₹51:</div>
+      <ul style="font-size:0.78rem; color:#cbd5e1; line-height:1.6; padding-left:1.2rem; margin:0;">
+        <li>All 75+ Stage-wise Tests & 10 Grand Marathon Mocks</li>
+        <li>Stage 2B Debugging Simulator & Stage 3 Lab 27 AI Simulator</li>
+        <li>In-Browser Protected PDF Study Manuals across all 6 Stages</li>
+      </ul>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:0.65rem; margin-top:1.25rem;">
+      <button class="pay-btn-checkout" onclick="closeLockedTestModal(); openPaymentModal();">
+        ⚡ Unlock Pro Pass for ₹51 (Flash 83% OFF)
+      </button>
+      <div style="display:flex; gap:0.5rem;">
+        <button class="btn btn-outline" style="flex:1; justify-content:center; font-size:0.82rem;" onclick="closeLockedTestModal(); openSignInModal();">
+          🔑 Already Purchased? Sign In
+        </button>
+        <button class="btn btn-outline" style="flex:1; justify-content:center; font-size:0.82rem; color:#06d6a0; border-color:rgba(6,214,160,0.3);" onclick="closeLockedTestModal(); startTest('vb_1');">
+          🎯 Try Free Test 1
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== USER SIGN IN MODAL ===== -->
+<div id="signin-modal" class="pay-modal-overlay" style="display:none;" onclick="if(event.target === this) closeSignInModal()">
+  <div class="pay-modal" style="max-width:440px;">
+    <button class="pay-close-btn" onclick="closeSignInModal()">✕</button>
+    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+      <div style="font-size:1.6rem;">🔑</div>
+      <div>
+        <h2 style="font-size:1.25rem; color:#fff; margin:0;">Student Sign In</h2>
+        <div style="font-size:0.75rem; color:var(--text-muted);">Access your unlocked CapPrep Pro account</div>
+      </div>
+    </div>
+
+    <div style="margin:1rem 0;">
+      <div style="margin-bottom:0.75rem;">
+        <label style="font-size:0.78rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.3rem;">Email Address</label>
+        <input type="email" id="signin-email-input" class="customer-input" placeholder="e.g. rahul@gmail.com" onkeydown="if(event.key==='Enter') processUserSignIn()" />
+      </div>
+
+      <div style="margin-bottom:0.75rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+          <label style="font-size:0.78rem; font-weight:600; color:#cbd5e1;">Password</label>
+          <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="font-size:0.75rem; color:#38bdf8; text-decoration:none; font-weight:600;">Forgot Password?</a>
+        </div>
+        <div style="position:relative; display:flex; align-items:center;">
+          <input type="password" id="signin-password-input" class="customer-input" style="padding-right:45px; width:100%;" placeholder="Enter your account password" onkeydown="if(event.key==='Enter') processUserSignIn()" />
+          <button type="button" onclick="togglePasswordVisibility('signin-password-input', this)" style="position:absolute; right:10px; background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.1rem; padding:4px;" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <div id="signin-error-msg" style="display:none; color:#f87171; font-size:0.78rem; margin-bottom:0.75rem; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); padding:0.6rem; border-radius:6px; line-height:1.45;"></div>
+
+      <button class="pay-btn-checkout" onclick="processUserSignIn()">
+        🔓 Sign In &amp; Unlock My Tests
+      </button>
+
+      <!-- Demo / Testing Quick Login Pill -->
+      <div style="margin-top:0.75rem; background:rgba(0,212,255,0.06); border:1px dashed rgba(0,212,255,0.3); border-radius:8px; padding:0.5rem 0.75rem; font-size:0.75rem; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center;">
+        <div><span>💡 Testing Login: </span><code style="color:#00d4ff;">demo@capprep.com</code> / <code style="color:#06d6a0;">cap2027</code></div>
+        <button type="button" onclick="document.getElementById('signin-email-input').value='demo@capprep.com'; document.getElementById('signin-password-input').value='cap2027'; processUserSignIn();" style="background:rgba(0,212,255,0.15); border:1px solid rgba(0,212,255,0.4); color:#38bdf8; font-size:0.72rem; font-weight:700; padding:0.2rem 0.5rem; border-radius:4px; cursor:pointer;">
+          1-Click Demo
+        </button>
+      </div>
+
+      <div style="text-align:center; margin-top:0.85rem; font-size:0.8rem; color:var(--text-muted);">
+        Don't have a Pro account yet? 
+        <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:var(--accent); font-weight:700; text-decoration:none;">
+          Enroll now for ₹51 →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== FORGOT PASSWORD RECOVERY MODAL ===== -->
+<div id="forgot-password-modal" class="pay-modal-overlay" style="display:none;" onclick="if(event.target === this) closeForgotPasswordModal()">
+  <div class="pay-modal" style="max-width:460px;">
+    <button class="pay-close-btn" onclick="closeForgotPasswordModal()">✕</button>
+    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+      <div style="font-size:1.6rem;">🔐</div>
+      <div>
+        <h2 style="font-size:1.25rem; color:#fff; margin:0;">Account Password Recovery</h2>
+        <div style="font-size:0.75rem; color:var(--text-muted);">Retrieve your registered CapPrep Pro credentials</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.5; margin-bottom:1rem;">
+      Enter your registered email address below. We will verify whether you have purchased the Pro Pass and instantly recover your password.
+    </p>
+
+    <div id="forgot-form-container">
+      <div style="margin-bottom:0.75rem;">
+        <label style="font-size:0.78rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.3rem;">Your Registered Email Address</label>
+        <input type="email" id="forgot-email-input" class="customer-input" placeholder="e.g. rahul.sharma@gmail.com" onkeydown="if(event.key==='Enter') recoverUserPassword()" />
+      </div>
+
+      <div id="forgot-feedback-msg" style="display:none; font-size:0.78rem; margin-bottom:0.75rem; padding:0.65rem; border-radius:6px; line-height:1.5;"></div>
+
+      <button class="pay-btn-checkout" onclick="recoverUserPassword()">
+        🔍 Verify &amp; Recover Password
+      </button>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; font-size:0.78rem;">
+        <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal();" style="color:#94a3b8; text-decoration:none;">
+          ← Back to Sign In
+        </a>
+        <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openPaymentModal();" style="color:var(--accent); font-weight:700; text-decoration:none;">
+          Need Pro Pass? (₹51) →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== HELP & SUPPORT MODAL (DIRECT CANDIDATE DESK) ===== -->
+<div id="support-modal" class="pay-modal-overlay" style="display:none;" onclick="if(event.target === this) closeSupportModal()">
+  <div class="pay-modal" style="max-width:500px; text-align:left;">
+    <button class="pay-close-btn" onclick="closeSupportModal()">✕</button>
+    <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
+      <div style="font-size:1.8rem; background:rgba(0,212,255,0.12); width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,212,255,0.3);">🎧</div>
+      <div>
+        <h2 style="font-size:1.25rem; color:#fff; margin:0;">Candidate Support Desk</h2>
+        <div style="font-size:0.76rem; color:#94a3b8;">Direct Assistance &amp; Fast Ticket Resolution</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.5; margin-bottom:0.85rem; background:rgba(255,255,255,0.03); padding:0.55rem 0.75rem; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+      Have a query regarding your <strong>₹51 Pro Pass</strong>, payment verification, test access, or simulator questions? Send a direct message below:
+    </p>
+
+    <div id="support-form-container">
+      <div style="margin-bottom:0.6rem;">
+        <label style="font-size:0.76rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.25rem;">Your Full Name</label>
+        <input type="text" id="supp-name" class="customer-input" placeholder="e.g. Rahul Sharma" />
+      </div>
+
+      <div style="margin-bottom:0.6rem;">
+        <label style="font-size:0.76rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.25rem;">Your Registered Email <span style="color:#f87171;">*</span></label>
+        <input type="email" id="supp-email" class="customer-input" placeholder="e.g. rahul.sharma@gmail.com" required />
+      </div>
+
+      <div style="margin-bottom:0.6rem;">
+        <label style="font-size:0.76rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.25rem;">Inquiry Topic</label>
+        <select id="supp-topic" class="customer-input" style="background:#0e1726; color:#fff; cursor:pointer;">
+          <option value="Payment / UTR Verification">⚡ Payment &amp; UTR Verification (₹51 Pro)</option>
+          <option value="Assessment Access Issue">🔒 Locked Assessment / Access Issue</option>
+          <option value="Technical / Simulator Bug">🐛 Simulator Bug (Debugger / AI Simulator)</option>
+          <option value="Account & Login Help">🔑 Account Login / Recovery</option>
+          <option value="General Question">💬 General Syllabus &amp; Pattern Query</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:0.75rem;">
+        <label style="font-size:0.76rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.25rem;">Message / 12-Digit UTR ID <span style="color:#f87171;">*</span></label>
+        <textarea id="supp-msg" class="customer-input" rows="3" placeholder="Describe your question or paste your 12-digit UPI UTR transaction ID for instant activation..."></textarea>
+      </div>
+
+      <div id="supp-feedback" style="display:none; font-size:0.78rem; margin-bottom:0.75rem; padding:0.6rem; border-radius:6px;"></div>
+
+      <button class="pay-btn-checkout" onclick="submitSupportTicket()">
+        📨 Send Direct Message to Support
+      </button>
+    </div>
+
+    <div id="supp-success-box" style="display:none; text-align:center; padding:1.5rem 1rem; background:rgba(6,214,160,0.08); border:1px solid rgba(6,214,160,0.3); border-radius:10px; margin-top:0.75rem;">
+      <div style="font-size:2.5rem; margin-bottom:0.5rem;">✅</div>
+      <h3 style="color:#06d6a0; font-size:1.15rem; margin-bottom:0.35rem;">Ticket Submitted Successfully!</h3>
+      <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:0.75rem;" id="supp-ticket-ref">
+        Your Ticket has been logged. The administration team will process your request promptly.
+      </p>
+      <button class="btn btn-outline" style="font-size:0.82rem;" onclick="closeSupportModal()">Close</button>
+    </div>
+
+    <div style="font-size:0.72rem; color:#94a3b8; line-height:1.5; margin-top:0.85rem; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.65rem; display:flex; justify-content:space-between;">
+      <span>⏱️ Response: &lt; 30 Mins for UTR</span>
+      <span>🔒 100% Confidential Support</span>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

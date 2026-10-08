@@ -1,0 +1,4194 @@
+{
+  "ai_literacy": [
+    {
+      "id": "ai_1",
+      "q": "What is the key difference between Discriminative and Generative models?",
+      "options": [
+        "Discriminative models learn P(y|x); Generative models learn P(x,y)",
+        "Discriminative models generate data; Generative models classify",
+        "Discriminative are unsupervised; Generative are supervised",
+        "Discriminative use CNNs only"
+      ],
+      "ans": 0,
+      "exp": "Discriminative models learn conditional probability P(y|x). Generative models learn the joint distribution P(x,y) and can generate new samples."
+    },
+    {
+      "id": "ai_2",
+      "q": "Tokenization in Large Language Models (LLMs) refers to:",
+      "options": [
+        "Converting text into numerical embeddings",
+        "Breaking input text into smaller units (words/subwords/chars)",
+        "The process of fine-tuning a model",
+        "Splitting datasets into train/test sets"
+      ],
+      "ans": 1,
+      "exp": "Tokenization breaks text into tokens (subwords, words, characters) before feeding to the LLM."
+    },
+    {
+      "id": "ai_3",
+      "q": "Zero-shot prompting means:",
+      "options": [
+        "Providing many examples in the prompt",
+        "Asking the model to perform a task without any examples",
+        "Running the model with no GPU",
+        "Using only image inputs"
+      ],
+      "ans": 1,
+      "exp": "Zero-shot asks the LLM to perform tasks without prior examples, relying on pre-trained knowledge."
+    },
+    {
+      "id": "ai_4",
+      "q": "In RAG (Retrieval-Augmented Generation), the retriever's role is to:",
+      "options": [
+        "Fine-tune the LLM",
+        "Fetch relevant documents from external knowledge bases",
+        "Generate the final answer",
+        "Tokenize user queries"
+      ],
+      "ans": 1,
+      "exp": "The retriever fetches semantically relevant documents from external databases, providing the LLM with up-to-date context."
+    },
+    {
+      "id": "ai_5",
+      "q": "LLM 'hallucination' refers to:",
+      "options": [
+        "The model running out of memory",
+        "Generating confidently stated but factually incorrect output",
+        "The model refusing to answer",
+        "Using too many tokens"
+      ],
+      "ans": 1,
+      "exp": "Hallucination is when LLMs produce plausible-sounding but fabricated or incorrect information."
+    },
+    {
+      "id": "ai_6",
+      "q": "Embedding spaces in NLP represent:",
+      "options": [
+        "Physical server locations",
+        "High-dimensional vector space where similar tokens are close",
+        "The tokenization dictionary",
+        "Output probability distributions"
+      ],
+      "ans": 1,
+      "exp": "Embedding spaces map words to vectors where semantic similarity corresponds to geometric proximity."
+    },
+    {
+      "id": "ai_7",
+      "q": "Chain-of-thought (CoT) prompting encourages LLMs to:",
+      "options": [
+        "Generate shorter responses",
+        "Reason step-by-step through problems",
+        "Refuse ambiguous questions",
+        "Use fewer parameters"
+      ],
+      "ans": 1,
+      "exp": "CoT prompting includes intermediate reasoning steps, guiding the model to think through complex problems systematically."
+    },
+    {
+      "id": "ai_8",
+      "q": "Few-shot prompting involves:",
+      "options": [
+        "Minimal compute usage",
+        "Providing a small number of examples in the prompt",
+        "Training on few examples",
+        "Deploying on few servers"
+      ],
+      "ans": 1,
+      "exp": "Few-shot prompting provides worked examples in the prompt to guide the model's output format and behavior."
+    },
+    {
+      "id": "ai_9",
+      "q": "Bias mitigation in Responsible AI aims to:",
+      "options": [
+        "Speed up inference",
+        "Reduce unfair discrimination based on protected attributes",
+        "Compress model size",
+        "Prevent overfitting"
+      ],
+      "ans": 1,
+      "exp": "Bias mitigation detects and reduces discriminatory patterns in AI related to race, gender, religion, etc."
+    },
+    {
+      "id": "ai_10",
+      "q": "Multi-modal LLMs differ from text-only models because they:",
+      "options": [
+        "Use more layers",
+        "Can process text, images, audio and other modalities",
+        "Are always larger",
+        "Only work in English"
+      ],
+      "ans": 1,
+      "exp": "Multi-modal LLMs process and generate multiple data types (text, image, audio) unlike single-modality models."
+    },
+    {
+      "id": "ai_11",
+      "q": "Neural network scaling laws state performance improves with:",
+      "options": [
+        "Reducing training data",
+        "Increasing parameters, data, and compute together",
+        "Smaller batch sizes",
+        "Fewer layers"
+      ],
+      "ans": 1,
+      "exp": "Kaplan et al.'s scaling laws show LLM performance improves predictably as parameters, data, and compute scale together."
+    },
+    {
+      "id": "ai_12",
+      "q": "RLHF (Reinforcement Learning from Human Feedback) is used to:",
+      "options": [
+        "Increase model size",
+        "Align model outputs with human preferences and reduce toxicity",
+        "Reduce training time",
+        "Implement RAG"
+      ],
+      "ans": 1,
+      "exp": "RLHF uses human ratings to train a reward model, then fine-tunes the LLM to produce more helpful and harmless outputs."
+    },
+    {
+      "id": "ai_13",
+      "q": "What is a 'knowledge graph' in the context of RAG?",
+      "options": [
+        "A training graph neural network",
+        "A structured representation of entities and their relationships",
+        "A visualization of model attention",
+        "A database schema diagram"
+      ],
+      "ans": 1,
+      "exp": "A knowledge graph represents real-world entities (nodes) connected by typed relationships (edges), enabling rich semantic querying."
+    },
+    {
+      "id": "ai_14",
+      "q": "Data privacy in AI is a concern because:",
+      "options": [
+        "Models are too slow",
+        "Training data may contain memorized personal information (PII)",
+        "Models use too much power",
+        "AI can't handle structured data"
+      ],
+      "ans": 1,
+      "exp": "LLMs trained on web-scale data may memorize and regurgitate personal information from training datasets."
+    },
+    {
+      "id": "ai_15",
+      "q": "The 'temperature' parameter in LLM generation controls:",
+      "options": [
+        "Actual hardware temperature",
+        "Randomness/creativity of outputs — higher = more random",
+        "Model size",
+        "Number of tokens generated"
+      ],
+      "ans": 1,
+      "exp": "Temperature controls sampling randomness: low temperature = deterministic/conservative; high temperature = creative/diverse outputs."
+    },
+    {
+      "id": "ai_16",
+      "q": "What is the Self-Attention mechanism in Transformer models?",
+      "options": [
+        "A mechanism where the model focuses on its own weights only",
+        "Computes attention weights between all pairs of tokens in an input sequence simultaneously",
+        "A method to reduce token count",
+        "A hardware accelerator"
+      ],
+      "ans": 1,
+      "exp": "Self-attention allows each token in a sequence to dynamically attend to and weigh the context of all other tokens, capturing long-range dependencies."
+    },
+    {
+      "id": "ai_17",
+      "q": "In Vector Databases, what does HNSW stand for?",
+      "options": [
+        "High Network System Web",
+        "Hierarchical Navigable Small World — an approximate nearest neighbor graph index",
+        "Host Node Structured Wire",
+        "Hash Numeric Sequential Weights"
+      ],
+      "ans": 1,
+      "exp": "HNSW (Hierarchical Navigable Small World) is a graph-based indexing algorithm providing logarithmic search time for vector nearest neighbors."
+    },
+    {
+      "id": "ai_18",
+      "q": "What is a 'Prompt Injection' attack in LLM applications?",
+      "options": [
+        "Crashing the GPU with malformed tokens",
+        "Manipulating user inputs to override system prompt instructions and bypass guardrails",
+        "Injecting SQL queries into a relational database",
+        "Stealing weights through gradient inversion"
+      ],
+      "ans": 1,
+      "exp": "Prompt injection occurs when untrusted user input tricks the LLM into disregarding original developer instructions, adopting new malicious personas or leaking system secrets."
+    },
+    {
+      "id": "ai_19",
+      "q": "Fine-Tuning vs RAG — which is best for accessing dynamically changing real-time data?",
+      "options": [
+        "Fine-Tuning only",
+        "RAG (Retrieval-Augmented Generation)",
+        "Pre-training from scratch",
+        "Using lower temperature"
+      ],
+      "ans": 1,
+      "exp": "RAG is superior for rapidly changing or real-time data because it retrieves current documents without requiring expensive model retraining or fine-tuning."
+    },
+    {
+      "id": "ai_20",
+      "q": "What is the primary role of LoRA (Low-Rank Adaptation) in LLM fine-tuning?",
+      "options": [
+        "Doubling model parameters",
+        "Freezing base model weights and training small low-rank decomposition matrices, reducing memory usage",
+        "Converting text to vectors",
+        "Removing safety filters"
+      ],
+      "ans": 1,
+      "exp": "LoRA freezes the pre-trained model weights and injects trainable rank decomposition matrices into each transformer layer, drastically cutting GPU VRAM requirements."
+    },
+    {
+      "id": "ai_21",
+      "q": "Cosine Similarity between two identical normalized vectors equals:",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "Infinity"
+      ],
+      "ans": 1,
+      "exp": "Cosine similarity measures cos(θ). For identical vectors, θ=0°, so cos(0°)=1. Orthogonal vectors have similarity 0."
+    },
+    {
+      "id": "ai_22",
+      "q": "What is the 'Needle in a Haystack' test used for in LLM benchmarking?",
+      "options": [
+        "Measuring token generation speed",
+        "Testing an LLM's ability to recall specific facts placed at arbitrary positions in large context windows",
+        "Testing model compression",
+        "Evaluating vision encoders"
+      ],
+      "ans": 1,
+      "exp": "The Needle in a Haystack test evaluates retrieval accuracy across various depth percentages of an LLM's full context window."
+    },
+    {
+      "id": "ai_23",
+      "q": "Top-P (Nucleus Sampling) set to 0.1 means:",
+      "options": [
+        "The model only considers tokens comprising top 10% of cumulative probability mass",
+        "Model generates 10 tokens max",
+        "Temperature is multiplied by 0.1",
+        "10% of prompts fail"
+      ],
+      "ans": 0,
+      "exp": "Top-P=0.1 restricts token sampling strictly to the tight pool of most likely tokens whose cumulative probability is 10%, producing highly focused outputs."
+    },
+    {
+      "id": "ai_24",
+      "q": "What is 'model quantization' (e.g. INT8, 4-bit AWQ)?",
+      "options": [
+        "Increasing parameter precision to 64-bit",
+        "Reducing weight precision from 16-bit float to lower bit integers (INT8/4-bit) to reduce memory and latency",
+        "Training with quantum computers",
+        "Translating code to English"
+      ],
+      "ans": 1,
+      "exp": "Quantization compresses model weights into lower-precision formats (like INT8 or 4-bit), significantly reducing VRAM footprint and accelerating inference with minimal accuracy drop."
+    },
+    {
+      "id": "ai_25",
+      "q": "What is the difference between BERT and GPT architectural styles?",
+      "options": [
+        "BERT is Decoder-only; GPT is Encoder-only",
+        "BERT is Encoder-only (bidirectional context); GPT is Decoder-only (autoregressive next-token prediction)",
+        "They are identical",
+        "BERT cannot process English"
+      ],
+      "ans": 1,
+      "exp": "BERT uses Transformer encoders to look at both left and right context (ideal for classification). GPT uses Transformer decoders for causal, autoregressive generation."
+    },
+    {
+      "id": "ai_26",
+      "q": "In Responsible AI, what does 'Demographic Parity' evaluate?",
+      "options": [
+        "Model speed across countries",
+        "Equal acceptance/positive prediction rates across different protected demographic groups",
+        "Number of tokens used per dialect",
+        "GPU power allocation"
+      ],
+      "ans": 1,
+      "exp": "Demographic Parity is a fairness metric requiring that the proportion of positive decisions is equal across protected subgroups (e.g., gender, ethnicity)."
+    },
+    {
+      "id": "ai_27",
+      "q": "What is 'Chain-of-Verification' (CoVe) in LLM generation?",
+      "options": [
+        "Checking hardware status",
+        "Having the model draft responses, generate verification questions, check them independently, and revise the final answer",
+        "Encrypting prompts with RSA",
+        "Signing tokens cryptographically"
+      ],
+      "ans": 1,
+      "exp": "Chain-of-Verification (CoVe) mitigates hallucinations by having the LLM generate verification questions to fact-check its own draft before producing the verified response."
+    },
+    {
+      "id": "ai_28",
+      "q": "What is a Vector Embedding dimension?",
+      "options": [
+        "The file size of the database",
+        "The length of the floating-point coordinate array representing semantic meaning (e.g. 1536 floats)",
+        "The number of documents indexed",
+        "The context window size"
+      ],
+      "ans": 1,
+      "exp": "The embedding dimension represents the size of the numerical coordinate vector (e.g., 768 or 1536) used to encode the semantic features of a text chunk."
+    },
+    {
+      "id": "ai_29",
+      "q": "What is 'RLAIF' (Reinforcement Learning from AI Feedback)?",
+      "options": [
+        "Using human annotators only",
+        "Using a larger, stronger AI model to evaluate and provide reward labels instead of human annotators",
+        "Hardware reinforcement",
+        "A type of GAN"
+      ],
+      "ans": 1,
+      "exp": "RLAIF (Constitutional AI) uses an AI evaluator to provide feedback and preference labels, replacing costly human annotator loops in RLHF."
+    },
+    {
+      "id": "ai_30",
+      "q": "What causes 'Catastrophic Forgetting' in neural networks?",
+      "options": [
+        "Clearing the browser cache",
+        "Fine-tuning heavily on a new domain causes the network to lose performance on previously learned general knowledge",
+        "Running out of disk space",
+        "Power surges in GPU clusters"
+      ],
+      "ans": 1,
+      "exp": "Catastrophic forgetting occurs when a neural network overwrites previously acquired knowledge while training on new, narrow datasets."
+    }
+  ],
+  "pseudocode": [
+    {
+      "id": "pse1",
+      "q": "What is the output of the following pseudocode?\n```\nx = 5\nif x > 3:\n    if x < 10:\n        print('A')\n    else:\n        print('B')\nelse:\n    print('C')\n```",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "No output"
+      ],
+      "ans": 0,
+      "exp": "x=5 satisfies both x>3 and x<10, so 'A' is printed."
+    },
+    {
+      "id": "pse2",
+      "q": "What is the output of: x = 6; print(x << 1)",
+      "options": [
+        "12",
+        "3",
+        "7",
+        "6"
+      ],
+      "ans": 0,
+      "exp": "Left shift by 1 multiplies by 2. 6 << 1 = 12."
+    },
+    {
+      "id": "pse3",
+      "q": "What is the result of: 5 & 3?",
+      "options": [
+        "7",
+        "1",
+        "0",
+        "15"
+      ],
+      "ans": 1,
+      "exp": "5 = 101₂, 3 = 011₂. AND: 101 & 011 = 001 = 1."
+    },
+    {
+      "id": "pse4",
+      "q": "What is the result of: 5 | 3?",
+      "options": [
+        "7",
+        "1",
+        "0",
+        "15"
+      ],
+      "ans": 0,
+      "exp": "5 = 101₂, 3 = 011₂. OR: 101 | 011 = 111 = 7."
+    },
+    {
+      "id": "pse5",
+      "q": "What is the result of: 5 ^ 3?",
+      "options": [
+        "7",
+        "6",
+        "1",
+        "2"
+      ],
+      "ans": 1,
+      "exp": "5 = 101₂, 3 = 011₂. XOR: 101 ^ 011 = 110 = 6."
+    },
+    {
+      "id": "pse6",
+      "q": "What does this recursive function return for n=4?\n```\ndef fact(n):\n    if n == 1: return 1\n    return n * fact(n-1)\n```",
+      "options": [
+        "12",
+        "24",
+        "4",
+        "1"
+      ],
+      "ans": 1,
+      "exp": "fact(4) = 4 × 3 × 2 × 1 = 24."
+    },
+    {
+      "id": "pse7",
+      "q": "In a do-while loop, the body executes:",
+      "options": [
+        "Never if condition is false initially",
+        "At least once before checking condition",
+        "Only when condition is true",
+        "Zero or more times"
+      ],
+      "ans": 1,
+      "exp": "do-while executes the body first, then checks the condition — guaranteeing at least one execution."
+    },
+    {
+      "id": "pse8",
+      "q": "What does a 'static' local variable do?",
+      "options": [
+        "Makes it global",
+        "Preserves its value across function calls",
+        "Deletes after function",
+        "Makes it constant"
+      ],
+      "ans": 1,
+      "exp": "Static local variables are initialized once and retain their value between successive function calls."
+    },
+    {
+      "id": "pse9",
+      "q": "What is the output of: print(12 >> 2)?",
+      "options": [
+        "48",
+        "6",
+        "3",
+        "24"
+      ],
+      "ans": 2,
+      "exp": "Right shift by 2 divides by 4. 12 >> 2 = 3."
+    },
+    {
+      "id": "pse10",
+      "q": "What is ~5 (bitwise NOT of 5) in Python?",
+      "options": [
+        "-5",
+        "-6",
+        "250",
+        "5"
+      ],
+      "ans": 1,
+      "exp": "Bitwise NOT flips all bits. ~5 = -(5+1) = -6 in Python's two's complement representation."
+    },
+    {
+      "id": "pse11",
+      "q": "What does `(n & (n - 1)) == 0` check for a positive integer n?",
+      "options": [
+        "Whether n is odd",
+        "Whether n is a power of 2",
+        "Whether n is a prime number",
+        "Whether n is divisible by 4"
+      ],
+      "ans": 1,
+      "exp": "If n is a power of 2, it has exactly one set bit (e.g. 8 = 1000). n-1 has all lower bits set (7 = 0111). 1000 & 0111 = 0."
+    },
+    {
+      "id": "pse12",
+      "q": "What is the output?\n```\na = 10, b = 20\na = a ^ b\nb = a ^ b\na = a ^ b\nprint(a, b)\n```",
+      "options": [
+        "10 20",
+        "20 10",
+        "30 10",
+        "0 0"
+      ],
+      "ans": 1,
+      "exp": "This is the classic three-XOR swap algorithm without temporary storage. a becomes 20, b becomes 10."
+    },
+    {
+      "id": "pse13",
+      "q": "What is the output of the following pseudocode?\n```\ncount = 0\nfor i = 1 to 4:\n    for j = 1 to i:\n        count = count + 1\nprint(count)\n```",
+      "options": [
+        "16",
+        "10",
+        "8",
+        "4"
+      ],
+      "ans": 1,
+      "exp": "When i=1: 1 step. i=2: 2 steps. i=3: 3 steps. i=4: 4 steps. Sum = 1+2+3+4 = 10."
+    },
+    {
+      "id": "pse14",
+      "q": "What is the output?\n```\nx = 1\nwhile (x < 10):\n    x = x * 2\nprint(x)\n```",
+      "options": [
+        "8",
+        "10",
+        "16",
+        "32"
+      ],
+      "ans": 2,
+      "exp": "x starts at 1 → 2 → 4 → 8 (still < 10) → 16 (16 is NOT < 10, loop ends). Final x = 16."
+    },
+    {
+      "id": "pse15",
+      "q": "What does Brian Kernighan's algorithm `n = n & (n - 1)` do inside a loop?",
+      "options": [
+        "Divides n by 2",
+        "Clears the lowest set bit of n, counting set bits",
+        "Inverts all bits",
+        "Multiplies n by 2"
+      ],
+      "ans": 1,
+      "exp": "Each iteration of n = n & (n - 1) turns off the rightmost set bit, counting the number of set bits in O(number of set bits) time."
+    },
+    {
+      "id": "pse16",
+      "q": "What is the value of `7 % -3` in C/C++?",
+      "options": [
+        "1",
+        "-1",
+        "2",
+        "-2"
+      ],
+      "ans": 0,
+      "exp": "In C99 and later, the sign of the remainder matches the dividend: 7 = (-3)*(-2) + 1. So 7 % -3 = 1."
+    },
+    {
+      "id": "pse17",
+      "q": "What is printed?\n```\nint a = 5;\nint b = ++a + a++;\nprint(b);\n```",
+      "options": [
+        "11",
+        "12",
+        "13",
+        "10"
+      ],
+      "ans": 1,
+      "exp": "++a pre-increments a from 5 to 6. Then 6 is added to 6 (with a++ post-incrementing after addition). 6 + 6 = 12."
+    },
+    {
+      "id": "pse18",
+      "q": "What is the output of the recursion?\n```\nfunction fun(n):\n    if n <= 1: return 1\n    return fun(n-1) + fun(n-1)\nprint(fun(4))\n```",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "16"
+      ],
+      "ans": 2,
+      "exp": "fun(n) = 2^(n-1). For n=4, fun(4) = 2^3 = 8."
+    },
+    {
+      "id": "pse19",
+      "q": "In boolean short-circuit evaluation: `False and func()`",
+      "options": [
+        "func() is executed",
+        "func() is never called",
+        "An error occurs",
+        "Returns True"
+      ],
+      "ans": 1,
+      "exp": "In `False and func()`, since the first operand is False, the entire expression must be False. `func()` is skipped (short-circuit)."
+    },
+    {
+      "id": "pse20",
+      "q": "What is the output of:\n```\nx = 15\nprint(x >> 1, x << 1)\n```",
+      "options": [
+        "7, 30",
+        "7.5, 30",
+        "8, 30",
+        "7, 15"
+      ],
+      "ans": 0,
+      "exp": "15 >> 1 = floor(15/2) = 7. 15 << 1 = 15*2 = 30."
+    },
+    {
+      "id": "pse21",
+      "q": "What is the output?\n```\ns = \"Capgemini\"\nprint(s[3:6])\n```",
+      "options": [
+        "gem",
+        "gemi",
+        "pgem",
+        "Cap"
+      ],
+      "ans": 0,
+      "exp": "Slice from index 3 up to (not including) 6. Indices: C(0), a(1), p(2), g(3), e(4), m(5). Output is 'gem'."
+    },
+    {
+      "id": "pse22",
+      "q": "What is the value of `2 ^ 3` in bitwise logic?",
+      "options": [
+        "8",
+        "1",
+        "5",
+        "6"
+      ],
+      "ans": 1,
+      "exp": "2 is 010₂ and 3 is 011₂. XOR: 010 ^ 011 = 001₂ = 1. (Note: ^ is bitwise XOR, not exponentiation!)."
+    },
+    {
+      "id": "pse23",
+      "q": "What is the output?\n```\na = [10, 20, 30]\nb = a\nb.append(40)\nprint(len(a))\n```",
+      "options": [
+        "3",
+        "4",
+        "1",
+        "Error"
+      ],
+      "ans": 1,
+      "exp": "In Python and many languages, `b = a` creates a reference alias to the same list. Mutating b also mutates a. len(a) = 4."
+    },
+    {
+      "id": "pse24",
+      "q": "What is the output of the loop?\n```\nsum = 0\nfor i = 1 to 5:\n    if i == 3: continue\n    sum += i\nprint(sum)\n```",
+      "options": [
+        "15",
+        "12",
+        "10",
+        "9"
+      ],
+      "ans": 1,
+      "exp": "Values added: 1 + 2 + 4 + 5 = 12 (3 is skipped by continue)."
+    },
+    {
+      "id": "pse25",
+      "q": "What does `~(-1)` evaluate to in two's complement integer arithmetic?",
+      "options": [
+        "-2",
+        "-1",
+        "0",
+        "1"
+      ],
+      "ans": 2,
+      "exp": "~x = -(x + 1). Therefore, ~(-1) = -((-1) + 1) = -(0) = 0."
+    }
+  ],
+  "dsa": [
+    {
+      "id": "dsa1",
+      "q": "Time complexity of Binary Search:",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(n²)",
+        "O(1)"
+      ],
+      "ans": 1,
+      "exp": "Binary search halves search space each iteration → O(log n)."
+    },
+    {
+      "id": "dsa2",
+      "q": "Which data structure follows LIFO?",
+      "options": [
+        "Queue",
+        "Stack",
+        "Linked List",
+        "Tree"
+      ],
+      "ans": 1,
+      "exp": "Stack is Last-In-First-Out."
+    },
+    {
+      "id": "dsa3",
+      "q": "In a BST, where is the maximum element?",
+      "options": [
+        "Root",
+        "Leftmost node",
+        "Rightmost node",
+        "Any leaf"
+      ],
+      "ans": 2,
+      "exp": "BST property: right children > parent, so rightmost node is the maximum."
+    },
+    {
+      "id": "dsa4",
+      "q": "Which sorting algorithm has best-case O(n)?",
+      "options": [
+        "Quick Sort",
+        "Merge Sort",
+        "Insertion Sort",
+        "Selection Sort"
+      ],
+      "ans": 2,
+      "exp": "Insertion Sort is O(n) best-case on already sorted arrays."
+    },
+    {
+      "id": "dsa5",
+      "q": "Time complexity of Merge Sort:",
+      "options": [
+        "O(n)",
+        "O(n log n)",
+        "O(n²)",
+        "O(log n)"
+      ],
+      "ans": 1,
+      "exp": "Merge Sort always divides in half (log n levels) and merges in O(n) per level = O(n log n)."
+    },
+    {
+      "id": "dsa6",
+      "q": "In a circular linked list, the last node points to:",
+      "options": [
+        "NULL",
+        "Itself",
+        "The first node",
+        "The middle node"
+      ],
+      "ans": 2,
+      "exp": "In circular linked list, last node's next pointer points back to the head (first node)."
+    },
+    {
+      "id": "dsa7",
+      "q": "Queue follows which order?",
+      "options": [
+        "LIFO",
+        "FIFO",
+        "Random",
+        "Priority-based"
+      ],
+      "ans": 1,
+      "exp": "Queue is First-In-First-Out (FIFO)."
+    },
+    {
+      "id": "dsa8",
+      "q": "Inorder traversal of a BST produces:",
+      "options": [
+        "Random order",
+        "Descending order",
+        "Ascending sorted order",
+        "Level-order"
+      ],
+      "ans": 2,
+      "exp": "BST inorder traversal (Left→Root→Right) visits nodes in ascending sorted order."
+    },
+    {
+      "id": "dsa9",
+      "q": "Average-case complexity of Quick Sort:",
+      "options": [
+        "O(n)",
+        "O(n²)",
+        "O(n log n)",
+        "O(log n)"
+      ],
+      "ans": 2,
+      "exp": "Quick Sort averages O(n log n) when pivots create balanced partitions."
+    },
+    {
+      "id": "dsa10",
+      "q": "A singly linked list node contains:",
+      "options": [
+        "Only data",
+        "Data and two pointers",
+        "Data and one next pointer",
+        "Only a pointer"
+      ],
+      "ans": 2,
+      "exp": "Singly linked list node has data and one 'next' pointer to the next node."
+    },
+    {
+      "id": "dsa11",
+      "q": "How do you detect a cycle in a singly linked list in O(1) space?",
+      "options": [
+        "Use a hash table of visited nodes",
+        "Floyd's Tortoise and Hare algorithm (slow and fast pointers)",
+        "Recursion stack",
+        "Count nodes"
+      ],
+      "ans": 1,
+      "exp": "Floyd's cycle-finding algorithm moves slow pointer by 1 step and fast pointer by 2 steps. If there is a cycle, they meet in O(N) time and O(1) memory."
+    },
+    {
+      "id": "dsa12",
+      "q": "What is the minimum number of queues needed to implement a Stack?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "ans": 1,
+      "exp": "Two queues can implement a stack by transferring elements to maintain LIFO ordering on push/pop operations."
+    },
+    {
+      "id": "dsa13",
+      "q": "Height of a balanced AVL tree with N nodes is:",
+      "options": [
+        "O(N)",
+        "O(log N)",
+        "O(N log N)",
+        "O(1)"
+      ],
+      "ans": 1,
+      "exp": "AVL trees maintain a balance factor of -1, 0, or +1 at every node, ensuring strictly logarithmic height O(log N)."
+    },
+    {
+      "id": "dsa14",
+      "q": "Which graph traversal uses a Queue data structure?",
+      "options": [
+        "Depth-First Search (DFS)",
+        "Breadth-First Search (BFS)",
+        "Inorder Traversal",
+        "Topological Sort via DFS"
+      ],
+      "ans": 1,
+      "exp": "Breadth-First Search (BFS) explores vertices level-by-level using a FIFO Queue."
+    },
+    {
+      "id": "dsa15",
+      "q": "Topological Sort can be performed on which type of graph?",
+      "options": [
+        "Any undirected graph",
+        "Directed Acyclic Graph (DAG) only",
+        "Graphs with negative cycles",
+        "Complete graphs only"
+      ],
+      "ans": 1,
+      "exp": "Topological Sort orders vertices such that for every directed edge u→v, u comes before v. This is only possible on Directed Acyclic Graphs (DAGs)."
+    },
+    {
+      "id": "dsa16",
+      "q": "Time complexity of Dijkstra's algorithm using a Min-Priority Queue (Binary Heap):",
+      "options": [
+        "O(V²)",
+        "O((V + E) log V)",
+        "O(V * E)",
+        "O(E²)"
+      ],
+      "ans": 1,
+      "exp": "With a binary heap, extracting min takes O(log V) for V vertices, and decrease-key takes O(log V) for E edges → O((V + E) log V)."
+    },
+    {
+      "id": "dsa17",
+      "q": "What is the time complexity of building a heap (Heapify) of N elements from an arbitrary array?",
+      "options": [
+        "O(N log N)",
+        "O(N)",
+        "O(N²)",
+        "O(log N)"
+      ],
+      "ans": 1,
+      "exp": "Building a heap using bottom-up heapify takes linear O(N) time because lower levels with more nodes have smaller heights."
+    },
+    {
+      "id": "dsa18",
+      "q": "What is the recurrence relation for the 0/1 Knapsack problem with capacity W and item i?",
+      "options": [
+        "dp[i][w] = dp[i-1][w]",
+        "dp[i][w] = max(dp[i-1][w], val[i] + dp[i-1][w - wt[i]])",
+        "dp[i][w] = dp[i][w-1] + val[i]",
+        "dp[i][w] = min(dp[i-1][w], dp[i-1][w-wt[i]])"
+      ],
+      "ans": 1,
+      "exp": "For 0/1 Knapsack, either exclude item i: dp[i-1][w], or include item i: val[i] + dp[i-1][w - wt[i]], taking the maximum of both choices."
+    },
+    {
+      "id": "dsa19",
+      "q": "In a Hash Table with open addressing, what is 'quadratic probing'?",
+      "options": [
+        "Using a linked list at each bucket",
+        "Resolving collisions using h(k, i) = (h'(k) + c1*i + c2*i²) mod m",
+        "Hashing keys twice",
+        "Doubling array size on collision"
+      ],
+      "ans": 1,
+      "exp": "Quadratic probing avoids primary clustering by using a quadratic polynomial of the collision step i to compute the next probe index."
+    },
+    {
+      "id": "dsa20",
+      "q": "What is the worst-case time complexity of Quick Sort?",
+      "options": [
+        "O(N log N)",
+        "O(N²)",
+        "O(N)",
+        "O(log N)"
+      ],
+      "ans": 1,
+      "exp": "When the pivot chosen is always the smallest or largest element (e.g., already sorted array with naive first/last element pivot), Quick Sort degrades to O(N²)."
+    },
+    {
+      "id": "dsa21",
+      "q": "To find the middle element of a linked list in a single pass, you should use:",
+      "options": [
+        "Two pointers: one advancing 1 step, one advancing 2 steps",
+        "Counter loop then second loop",
+        "Stack to store all elements",
+        "Recursion with depth counter"
+      ],
+      "ans": 0,
+      "exp": "Fast and slow pointer technique: when fast pointer reaches the end (moves 2x), slow pointer is exactly at the midpoint."
+    },
+    {
+      "id": "dsa22",
+      "q": "The Two-Pointer approach to find two numbers summing to a target requires the array to be:",
+      "options": [
+        "Unsorted",
+        "Sorted in ascending or descending order",
+        "Of odd length",
+        "Containing only positive integers"
+      ],
+      "ans": 1,
+      "exp": "The two-pointer technique (left at 0, right at n-1) relies on monotonicity of a sorted array to decide whether to increment left or decrement right."
+    },
+    {
+      "id": "dsa23",
+      "q": "What is the diameter of a Binary Tree?",
+      "options": [
+        "Total number of nodes",
+        "The length of the longest path between any two nodes in a tree",
+        "The depth of the root node",
+        "Number of leaf nodes"
+      ],
+      "ans": 1,
+      "exp": "The diameter (or width) of a binary tree is the number of nodes (or edges) on the longest path between any two arbitrary nodes in the tree."
+    },
+    {
+      "id": "dsa24",
+      "q": "Postorder traversal of a binary tree visits nodes in which sequence?",
+      "options": [
+        "Root → Left → Right",
+        "Left → Right → Root",
+        "Left → Root → Right",
+        "Right → Root → Left"
+      ],
+      "ans": 1,
+      "exp": "Postorder traversal processes the left subtree, then the right subtree, and finally the root node (Left → Right → Root)."
+    },
+    {
+      "id": "dsa25",
+      "q": "A complete binary tree with N nodes has height:",
+      "options": [
+        "N",
+        "floor(log2(N))",
+        "N / 2",
+        "2^N"
+      ],
+      "ans": 1,
+      "exp": "In a complete binary tree, all levels except possibly the last are completely filled, resulting in height floor(log2(N))."
+    }
+  ],
+  "dbms": [
+    {
+      "id": "dbm1",
+      "q": "Which normal form eliminates partial dependencies?",
+      "options": [
+        "1NF",
+        "2NF",
+        "3NF",
+        "BCNF"
+      ],
+      "ans": 1,
+      "exp": "2NF removes partial dependencies — non-key attributes depending on part of a composite PK."
+    },
+    {
+      "id": "dbm2",
+      "q": "INNER JOIN returns:",
+      "options": [
+        "All rows from left table",
+        "All rows from right table",
+        "Only matching rows from both tables",
+        "All rows from both tables"
+      ],
+      "ans": 2,
+      "exp": "INNER JOIN returns only rows with matching values in both tables."
+    },
+    {
+      "id": "dbm3",
+      "q": "A foreign key ensures:",
+      "options": [
+        "Uniqueness",
+        "Referential integrity",
+        "No NULLs",
+        "Max 255 chars"
+      ],
+      "ans": 1,
+      "exp": "Foreign key enforces referential integrity — child table values must exist in parent table's primary key."
+    },
+    {
+      "id": "dbm4",
+      "q": "HAVING clause is used to:",
+      "options": [
+        "Filter individual rows",
+        "Filter grouped results",
+        "Sort results",
+        "Join tables"
+      ],
+      "ans": 1,
+      "exp": "HAVING filters groups after GROUP BY, unlike WHERE which filters rows before grouping."
+    },
+    {
+      "id": "dbm5",
+      "q": "1NF requires:",
+      "options": [
+        "No repeating groups; all atomic values",
+        "No partial dependencies",
+        "No transitive dependencies",
+        "All attributes on whole key"
+      ],
+      "ans": 0,
+      "exp": "1NF: each cell contains a single atomic value; no repeating groups."
+    },
+    {
+      "id": "dbm6",
+      "q": "Which SQL command grants access privileges?",
+      "options": [
+        "SELECT",
+        "CREATE",
+        "GRANT",
+        "UPDATE"
+      ],
+      "ans": 2,
+      "exp": "GRANT is a DCL command for giving users database access privileges."
+    },
+    {
+      "id": "dbm7",
+      "q": "LEFT JOIN returns:",
+      "options": [
+        "Only matches",
+        "All right + matching left",
+        "All left + matching right",
+        "All rows from both"
+      ],
+      "ans": 2,
+      "exp": "LEFT JOIN returns all rows from the left table plus matched rows from right (NULLs for no match)."
+    },
+    {
+      "id": "dbm8",
+      "q": "ACID stands for:",
+      "options": [
+        "Array, Commit, Index, Delete",
+        "Atomicity, Consistency, Isolation, Durability",
+        "Automatic, Complete, Integrity, Data",
+        "Access, Control, Input, Delete"
+      ],
+      "ans": 1,
+      "exp": "ACID: Atomicity, Consistency, Isolation, Durability — properties ensuring reliable transactions."
+    },
+    {
+      "id": "dbm9",
+      "q": "Which SQL function counts rows including NULLs?",
+      "options": [
+        "COUNT(column)",
+        "COUNT(*)",
+        "SUM(*)",
+        "AVG(column)"
+      ],
+      "ans": 1,
+      "exp": "COUNT(*) counts all rows including those with NULL values, unlike COUNT(column) which skips NULLs."
+    },
+    {
+      "id": "dbm10",
+      "q": "3NF eliminates:",
+      "options": [
+        "Partial dependencies",
+        "Repeating groups",
+        "Transitive dependencies",
+        "Multi-valued dependencies"
+      ],
+      "ans": 2,
+      "exp": "3NF eliminates transitive dependencies — non-key attributes depending on other non-key attributes."
+    },
+    {
+      "id": "dbm11",
+      "q": "A table is in Boyce-Codd Normal Form (BCNF) if and only if:",
+      "options": [
+        "It is in 1NF and 2NF only",
+        "For every functional dependency X → Y, X is a superkey",
+        "It has no composite primary keys",
+        "It uses foreign keys only"
+      ],
+      "ans": 1,
+      "exp": "BCNF is a stricter version of 3NF: for every non-trivial functional dependency X → Y, the determinant X must be a superkey."
+    },
+    {
+      "id": "dbm12",
+      "q": "What is a 'Dirty Read' in database transactions?",
+      "options": [
+        "Reading data corrupted by disk failure",
+        "A transaction reads uncommitted changes made by another concurrent transaction",
+        "Reading duplicate rows",
+        "Reading from an unindexed table"
+      ],
+      "ans": 1,
+      "exp": "A dirty read occurs when Transaction A modifies a row without committing, and Transaction B reads that uncommitted modified data (which might later be rolled back)."
+    },
+    {
+      "id": "dbm13",
+      "q": "Which transaction isolation level prevents Dirty Reads, Non-Repeatable Reads, and Phantom Reads?",
+      "options": [
+        "Read Uncommitted",
+        "Read Committed",
+        "Repeatable Read",
+        "Serializable"
+      ],
+      "ans": 3,
+      "exp": "Serializable is the highest isolation level; it completely executes concurrent transactions as if they were executed sequentially, preventing all read anomalies."
+    },
+    {
+      "id": "dbm14",
+      "q": "Difference between `UNION` and `UNION ALL` in SQL:",
+      "options": [
+        "UNION ALL removes duplicates; UNION keeps all",
+        "UNION removes duplicate rows; UNION ALL retains all rows including duplicates",
+        "UNION works only on numbers",
+        "No difference"
+      ],
+      "ans": 1,
+      "exp": "UNION performs an implicit distinct sort operation to eliminate duplicates across result sets. UNION ALL simply concatenates sets without deduplication, making it faster."
+    },
+    {
+      "id": "dbm15",
+      "q": "What is a Clustered Index in relational databases?",
+      "options": [
+        "An index created on secondary foreign keys",
+        "An index that dictates the physical storage order of rows in the table (only 1 per table)",
+        "An index stored on disk partition",
+        "A temporary index created in memory"
+      ],
+      "ans": 1,
+      "exp": "A clustered index determines the physical order of data pages on disk. Since data can only be physically stored in one order, a table can have only one clustered index."
+    },
+    {
+      "id": "dbm16",
+      "q": "In SQL, what does `ON DELETE CASCADE` on a Foreign Key do?",
+      "options": [
+        "Prevents deletion of parent rows",
+        "Automatically deletes matching child table rows when the referenced parent row is deleted",
+        "Throws an integrity violation error",
+        "Sets child values to NULL"
+      ],
+      "ans": 1,
+      "exp": "ON DELETE CASCADE ensures referential integrity by automatically propagating row deletions from the primary key table to all referencing foreign key rows."
+    },
+    {
+      "id": "dbm17",
+      "q": "What is the purpose of Write-Ahead Logging (WAL)?",
+      "options": [
+        "To write log files for analytics",
+        "To ensure transaction changes are written to append-only log on disk before being applied to data pages, ensuring Durability",
+        "To speed up SELECT queries",
+        "To audit user logins"
+      ],
+      "ans": 1,
+      "exp": "WAL guarantees the 'D' (Durability) in ACID: transaction logs are flushed to persistent disk before memory changes are written to database tables, enabling crash recovery."
+    },
+    {
+      "id": "dbm18",
+      "q": "Which SQL window function assigns a unique sequential integer to each row without gaps?",
+      "options": [
+        "RANK()",
+        "DENSE_RANK()",
+        "ROW_NUMBER()",
+        "COUNT()"
+      ],
+      "ans": 2,
+      "exp": "ROW_NUMBER() assigns a continuous unique sequential integer (1, 2, 3...) to rows within a partition regardless of ties. RANK leaves gaps for ties; DENSE_RANK ties without gaps."
+    },
+    {
+      "id": "dbm19",
+      "q": "What does the CAP theorem state regarding distributed databases?",
+      "options": [
+        "Consistency, Availability, and Partition tolerance cannot all be guaranteed simultaneously in a network partition",
+        "Databases must use C++, Assembly, and Python",
+        "All distributed databases are ACID compliant",
+        "Queries must execute in constant time"
+      ],
+      "ans": 0,
+      "exp": "CAP theorem (Brewer's theorem): in the presence of a network partition, a distributed system can guarantee either Consistency (CP) or Availability (AP), but not both."
+    },
+    {
+      "id": "dbm20",
+      "q": "What type of JOIN is needed to find an employee's manager in a single Employees table?",
+      "options": [
+        "CROSS JOIN",
+        "Self JOIN (joining table with itself on ManagerID = EmployeeID)",
+        "NATURAL JOIN",
+        "FULL OUTER JOIN"
+      ],
+      "ans": 1,
+      "exp": "A Self JOIN joins a table to itself using aliases (e.g. `FROM Employees e JOIN Employees m ON e.ManagerId = m.EmpId`) to model hierarchical relationships."
+    },
+    {
+      "id": "dbm21",
+      "q": "What is a Materialized View compared to a standard View?",
+      "options": [
+        "A view with passwords",
+        "A view whose query result is physically computed and stored on disk, refreshing periodically",
+        "A view that cannot be dropped",
+        "A view with triggers"
+      ],
+      "ans": 1,
+      "exp": "A standard view is a saved virtual query recomputed on access. A Materialized View physically caches the query results on disk, drastically accelerating complex aggregation queries."
+    },
+    {
+      "id": "dbm22",
+      "q": "In 2-Phase Locking (2PL), what are the two phases?",
+      "options": [
+        "Read phase and Write phase",
+        "Growing Phase (locks acquired, none released) and Shrinking Phase (locks released, none acquired)",
+        "Commit phase and Abort phase",
+        "Compile phase and Execute phase"
+      ],
+      "ans": 1,
+      "exp": "2PL ensures serializability: During the Growing phase, transactions only acquire locks. Once a lock is released, the Shrinking phase begins and no new locks may be acquired."
+    },
+    {
+      "id": "dbm23",
+      "q": "Which SQL clause specifies the grouping condition that aggregates must satisfy?",
+      "options": [
+        "WHERE",
+        "ORDER BY",
+        "HAVING",
+        "LIMIT"
+      ],
+      "ans": 2,
+      "exp": "HAVING filters aggregated groups (e.g. `HAVING COUNT(*) > 5`). WHERE filters individual rows before grouping occurs."
+    },
+    {
+      "id": "dbm24",
+      "q": "What is an index seek vs an index scan?",
+      "options": [
+        "They are identical",
+        "Index Seek navigates the B-Tree directly to locate specific keys; Index Scan reads through the entire index page leaf chain",
+        "Index Seek is slower",
+        "Index Scan only works on primary keys"
+      ],
+      "ans": 1,
+      "exp": "Index Seek uses the B-Tree hierarchy to jump directly to specific matching rows (O(log N)). Index Scan traverses all index leaf pages sequentially (O(N))."
+    },
+    {
+      "id": "dbm25",
+      "q": "What does `NULL = NULL` evaluate to in SQL standard three-valued logic?",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "UNKNOWN (NULL)",
+        "Syntax Error"
+      ],
+      "ans": 2,
+      "exp": "In SQL's three-valued logic, NULL represents an unknown value. Comparing two unknown values (`NULL = NULL`) evaluates to UNKNOWN (not TRUE). Use `IS NULL` instead."
+    }
+  ],
+  "oops": [
+    {
+      "id": "oop1",
+      "q": "Multiple Inheritance allows:",
+      "options": [
+        "Single class inheriting from one parent",
+        "A class inheriting from multiple parents",
+        "Methods having multiple signatures",
+        "A class having multiple instances"
+      ],
+      "ans": 1,
+      "exp": "Multiple inheritance allows a class to inherit from more than one base class."
+    },
+    {
+      "id": "oop2",
+      "q": "Method overloading is:",
+      "options": [
+        "Runtime polymorphism",
+        "Compile-time polymorphism",
+        "A type of inheritance",
+        "Encapsulation"
+      ],
+      "ans": 1,
+      "exp": "Method overloading (same name, different parameters) is resolved at compile time."
+    },
+    {
+      "id": "oop3",
+      "q": "The 'super' keyword accesses:",
+      "options": [
+        "Current object",
+        "Parent class members",
+        "Child class members",
+        "Static members"
+      ],
+      "ans": 1,
+      "exp": "'super' refers to the immediate parent class for accessing constructors, methods, and attributes."
+    },
+    {
+      "id": "oop4",
+      "q": "Encapsulation bundles:",
+      "options": [
+        "Only data",
+        "Only methods",
+        "Data and methods together, with restricted access",
+        "Multiple classes"
+      ],
+      "ans": 2,
+      "exp": "Encapsulation combines data and methods in a class while restricting direct access to internals."
+    },
+    {
+      "id": "oop5",
+      "q": "Method overriding is:",
+      "options": [
+        "Compile-time polymorphism",
+        "Runtime polymorphism",
+        "Encapsulation",
+        "Abstraction"
+      ],
+      "ans": 1,
+      "exp": "Method overriding (redefining parent method in child class) is resolved at runtime based on actual object type."
+    },
+    {
+      "id": "oop6",
+      "q": "An abstract class can:",
+      "options": [
+        "Not have any methods",
+        "Be instantiated directly",
+        "Have both abstract and concrete methods",
+        "Only have private members"
+      ],
+      "ans": 2,
+      "exp": "Abstract classes can contain both abstract methods (no body) and fully implemented concrete methods."
+    },
+    {
+      "id": "oop7",
+      "q": "'this' keyword refers to:",
+      "options": [
+        "Parent class",
+        "Current class instance",
+        "Static class",
+        "Child class"
+      ],
+      "ans": 1,
+      "exp": "'this' refers to the current object instance within a class method or constructor."
+    },
+    {
+      "id": "oop8",
+      "q": "Hierarchical inheritance means:",
+      "options": [
+        "One child, many parents",
+        "Many children inherit from one parent",
+        "Single inheritance chain",
+        "No inheritance"
+      ],
+      "ans": 1,
+      "exp": "Hierarchical inheritance: multiple child classes inherit from a single parent class."
+    },
+    {
+      "id": "oop9",
+      "q": "What principle says 'program to an interface, not an implementation'?",
+      "options": [
+        "Encapsulation",
+        "SOLID - Dependency Inversion Principle",
+        "Multiple Inheritance",
+        "Polymorphism"
+      ],
+      "ans": 1,
+      "exp": "The Dependency Inversion Principle (D in SOLID) states high-level modules should depend on abstractions, not concrete implementations."
+    },
+    {
+      "id": "oop10",
+      "q": "Runtime polymorphism is achieved through:",
+      "options": [
+        "Method overloading",
+        "Constructor overloading",
+        "Method overriding with inheritance",
+        "Static methods"
+      ],
+      "ans": 2,
+      "exp": "Runtime polymorphism requires method overriding combined with inheritance, resolved via dynamic dispatch at runtime."
+    },
+    {
+      "id": "oop11",
+      "q": "How does C++ resolve the 'Diamond Problem' in multiple inheritance?",
+      "options": [
+        "Using templates",
+        "Using virtual base classes (e.g. `class B : virtual public A`)",
+        "Deleting the parent class",
+        "Private inheritance only"
+      ],
+      "ans": 1,
+      "exp": "Virtual base classes ensure that only one copy of the common grandparent class subobject is inherited by the grandchild, resolving ambiguity in multiple inheritance."
+    },
+    {
+      "id": "oop12",
+      "q": "Why should base class destructors be declared 'virtual' in C++?",
+      "options": [
+        "To prevent memory allocation",
+        "To ensure the derived class destructor is called when deleting an object through a base class pointer",
+        "To make the class abstract",
+        "To prevent subclassing"
+      ],
+      "ans": 1,
+      "exp": "If a base class destructor is non-virtual, deleting a derived class object through a base pointer results in undefined behavior (only the base destructor runs, leaking derived resources)."
+    },
+    {
+      "id": "oop13",
+      "q": "What is the difference between a Shallow Copy and a Deep Copy?",
+      "options": [
+        "Shallow copy copies dynamically allocated heap memory; Deep copy copies pointers",
+        "Shallow copy duplicates pointer addresses (sharing memory); Deep copy allocates fresh memory and copies actual data",
+        "They are identical in C++",
+        "Deep copy uses less RAM"
+      ],
+      "ans": 1,
+      "exp": "Shallow copy copies member values directly (meaning both objects point to the same heap buffer, causing double-free crashes). Deep copy allocates independent memory and duplicates values."
+    },
+    {
+      "id": "oop14",
+      "q": "What does the 'O' in SOLID design principles stand for?",
+      "options": [
+        "Object Principle",
+        "Open/Closed Principle — software entities should be open for extension, but closed for modification",
+        "Operational Integrity",
+        "Optimization Rule"
+      ],
+      "ans": 1,
+      "exp": "Open/Closed Principle states that classes should be designable so new behavior can be added (extension via inheritance/interfaces) without editing tested existing source code."
+    },
+    {
+      "id": "oop15",
+      "q": "What does the Liskov Substitution Principle (L in SOLID) state?",
+      "options": [
+        "Subtypes must be substitutable for their base types without altering program correctness",
+        "All classes must inherit from Object",
+        "Interfaces must have only one method",
+        "Objects should be immutable"
+      ],
+      "ans": 0,
+      "exp": "LSP: objects of a superclass should be replaceable with objects of a subclass without breaking application behavior or violating pre/post-conditions."
+    },
+    {
+      "id": "oop16",
+      "q": "What does Interface Segregation Principle (I in SOLID) advocate?",
+      "options": [
+        "Combining all interfaces into one master interface",
+        "Clients should not be forced to depend on methods they do not use (prefer small, role-specific interfaces)",
+        "Deleting unused methods",
+        "Making all interfaces public"
+      ],
+      "ans": 1,
+      "exp": "ISP states that large 'fat' interfaces should be broken down into smaller, highly cohesive role interfaces so implementers only write what they need."
+    },
+    {
+      "id": "oop17",
+      "q": "In the Singleton Design Pattern, the constructor must be:",
+      "options": [
+        "Public",
+        "Private",
+        "Protected",
+        "Static"
+      ],
+      "ans": 1,
+      "exp": "The constructor of a Singleton class must be private to prevent external instantiation with `new`, ensuring only one instance is created via `getInstance()`."
+    },
+    {
+      "id": "oop18",
+      "q": "What is the Factory Method Pattern?",
+      "options": [
+        "A pattern where objects are manufactured in hardware",
+        "A creational pattern that provides an interface for creating objects in a superclass, letting subclasses alter the type of objects created",
+        "A database trigger",
+        "A type of multithreading"
+      ],
+      "ans": 1,
+      "exp": "Factory Method delegates the instantiation logic to specialized factory methods or subclasses, decoupling caller code from concrete product classes."
+    },
+    {
+      "id": "oop19",
+      "q": "Why is 'Composition over Inheritance' generally preferred in enterprise design?",
+      "options": [
+        "Inheritance is deprecated",
+        "Composition provides greater runtime flexibility, avoids fragile base-class problems, and reduces tight coupling",
+        "Inheritance is slower to compile",
+        "Composition uses less memory"
+      ],
+      "ans": 1,
+      "exp": "HAS-A (composition) is looser coupled and lets you change component behaviors dynamically at runtime, avoiding the rigid compile-time coupling of IS-A (inheritance)."
+    },
+    {
+      "id": "oop20",
+      "q": "In Java, what does the `final` keyword signify when applied to a class?",
+      "options": [
+        "The class cannot be instantiated",
+        "The class cannot be subclassed/extended (no inheritance allowed)",
+        "All methods are abstract",
+        "The class is deleted on JVM exit"
+      ],
+      "ans": 1,
+      "exp": "A `final` class cannot be extended by any other class (e.g. `java.lang.String` is final for security and immutability guarantees)."
+    },
+    {
+      "id": "oop21",
+      "q": "What is a Pure Virtual Function in C++?",
+      "options": [
+        "A function with no return type",
+        "A virtual function with `= 0` in its declaration, making the class an abstract class",
+        "A function with inline assembly",
+        "A private constructor"
+      ],
+      "ans": 1,
+      "exp": "A pure virtual function (`virtual void draw() = 0;`) has no implementation in the base class and mandates that derived classes must provide an implementation."
+    },
+    {
+      "id": "oop22",
+      "q": "Can a constructor be declared `virtual` in C++?",
+      "options": [
+        "Yes, always",
+        "No, constructors cannot be virtual because the vtable pointer is initialized inside the constructor itself",
+        "Only in abstract classes",
+        "Only with private inheritance"
+      ],
+      "ans": 1,
+      "exp": "Constructors cannot be virtual because at the moment of construction, the object's type and its vpointer have not yet been fully set up."
+    },
+    {
+      "id": "oop23",
+      "q": "What is a Friend Function in C++?",
+      "options": [
+        "A public member method",
+        "A non-member function granted private and protected access to a class via the `friend` keyword",
+        "A helper function in STL",
+        "A deprecated feature"
+      ],
+      "ans": 1,
+      "exp": "Declaring a function as `friend` inside a class definition grants that external non-member function access to all private and protected members of the class."
+    },
+    {
+      "id": "oop24",
+      "q": "What is 'method hiding' in object-oriented programming?",
+      "options": [
+        "Declaring a method private",
+        "A subclass defines a static method with the same signature as a static method in the superclass, hiding it without overriding",
+        "Deleting method body",
+        "Hiding code behind a password"
+      ],
+      "ans": 1,
+      "exp": "Static methods cannot be overridden dynamically; when a derived class redefines a static method with identical signature, it hides the base method (resolved at compile time)."
+    },
+    {
+      "id": "oop25",
+      "q": "What are 'Covariant Return Types' in method overriding?",
+      "options": [
+        "Methods returning void",
+        "An overriding method in a child class can return a more specific derived subtype of the return type declared in the parent method",
+        "Returning two values at once",
+        "Converting int to float"
+      ],
+      "ans": 1,
+      "exp": "Covariant return typing allows an overriding method to return a subtype of the superclass method's return type (e.g. parent returns `Animal`, child returns `Dog`)."
+    }
+  ],
+  "os": [
+    {
+      "id": "os1",
+      "q": "Round Robin scheduling assigns:",
+      "options": [
+        "Priority-based CPU time",
+        "Fixed time quantum in cyclic order",
+        "CPU until completion",
+        "Based on arrival time"
+      ],
+      "ans": 1,
+      "exp": "Round Robin gives each process a fixed time quantum cyclically, ensuring fair CPU sharing."
+    },
+    {
+      "id": "os2",
+      "q": "Banker's Algorithm is used for:",
+      "options": [
+        "Memory allocation",
+        "Deadlock avoidance",
+        "File system management",
+        "Process creation"
+      ],
+      "ans": 1,
+      "exp": "Banker's Algorithm avoids deadlock by checking if resource allocation leaves the system in a safe state."
+    },
+    {
+      "id": "os3",
+      "q": "A page fault occurs when:",
+      "options": [
+        "RAM is full",
+        "Requested page is not in physical memory",
+        "CPU overheats",
+        "Process terminates"
+      ],
+      "ans": 1,
+      "exp": "Page fault: accessed virtual page is not currently loaded in physical RAM, requiring OS to load it from disk."
+    },
+    {
+      "id": "os4",
+      "q": "FCFS scheduling suffers from:",
+      "options": [
+        "High throughput",
+        "Convoy effect",
+        "Starvation of long processes",
+        "Priority inversion"
+      ],
+      "ans": 1,
+      "exp": "FCFS causes the convoy effect — short processes waiting behind long ones, reducing efficiency."
+    },
+    {
+      "id": "os5",
+      "q": "Thrashing occurs when:",
+      "options": [
+        "CPU utilization is very high",
+        "Processes spend more time swapping pages than executing",
+        "RAM capacity doubles",
+        "Disk I/O is zero"
+      ],
+      "ans": 1,
+      "exp": "Thrashing: too many processes compete for limited frames, causing excessive page faults that degrade CPU utilization."
+    },
+    {
+      "id": "os6",
+      "q": "Which condition is NOT required for deadlock?",
+      "options": [
+        "Mutual Exclusion",
+        "Hold and Wait",
+        "No Preemption",
+        "CPU Scheduling"
+      ],
+      "ans": 3,
+      "exp": "Deadlock requires: Mutual Exclusion, Hold & Wait, No Preemption, and Circular Wait. CPU Scheduling is not one of them."
+    },
+    {
+      "id": "os7",
+      "q": "A semaphore is used for:",
+      "options": [
+        "Memory allocation",
+        "Process synchronization and mutual exclusion",
+        "Disk scheduling",
+        "Context switching"
+      ],
+      "ans": 1,
+      "exp": "Semaphores are integer-based synchronization primitives used to control access to shared resources and prevent race conditions."
+    },
+    {
+      "id": "os8",
+      "q": "Virtual memory allows:",
+      "options": [
+        "Running programs larger than physical RAM by using disk as extension",
+        "Unlimited RAM",
+        "Faster CPU execution",
+        "Smaller OS kernels"
+      ],
+      "ans": 0,
+      "exp": "Virtual memory uses disk (swap space) to extend the apparent RAM, allowing programs larger than physical RAM to run."
+    },
+    {
+      "id": "os9",
+      "q": "The PCB (Process Control Block) stores:",
+      "options": [
+        "Hard disk data",
+        "All process state — registers, PC, memory maps, PID",
+        "Network packets",
+        "User passwords"
+      ],
+      "ans": 1,
+      "exp": "PCB holds the entire process state: PID, program counter, CPU registers, memory limits, I/O status, and scheduling info."
+    },
+    {
+      "id": "os10",
+      "q": "SJF (Shortest Job First) minimizes:",
+      "options": [
+        "CPU utilization",
+        "Average waiting time",
+        "Context switches",
+        "Memory usage"
+      ],
+      "ans": 1,
+      "exp": "SJF schedules the process with shortest burst time next, minimizing average waiting time — optimal for batch processing."
+    },
+    {
+      "id": "os11",
+      "q": "In context switching, the OS saves and restores:",
+      "options": [
+        "Only the program counter",
+        "PCB including all registers and memory state",
+        "Only memory pages",
+        "Only file handles"
+      ],
+      "ans": 1,
+      "exp": "Context switch saves the full PCB of current process and loads PCB of next process, enabling multitasking."
+    },
+    {
+      "id": "os12",
+      "q": "LRU (Least Recently Used) is a:",
+      "options": [
+        "CPU scheduling algorithm",
+        "Page replacement algorithm",
+        "File allocation method",
+        "Disk scheduling policy"
+      ],
+      "ans": 1,
+      "exp": "LRU is a page replacement policy: when a page frame is needed, evict the page that was least recently accessed."
+    },
+    {
+      "id": "os13",
+      "q": "What is a zombie process?",
+      "options": [
+        "A malware process",
+        "A process that has finished but whose exit status hasn't been collected by parent",
+        "A process using 100% CPU",
+        "A background service"
+      ],
+      "ans": 1,
+      "exp": "Zombie: process has finished execution but remains in process table until its parent reads its exit status via wait()."
+    },
+    {
+      "id": "os14",
+      "q": "Segmentation fault (SIGSEGV) occurs when:",
+      "options": [
+        "CPU overheats",
+        "A process accesses memory outside its allocated segment",
+        "Hard disk fails",
+        "Network packet is lost"
+      ],
+      "ans": 1,
+      "exp": "SIGSEGV: process tried to access invalid memory — null pointer dereference, stack overflow, or out-of-bounds array access."
+    },
+    {
+      "id": "os15",
+      "q": "The OS kernel runs in which CPU mode?",
+      "options": [
+        "User mode",
+        "Kernel/Supervisor mode with full hardware access",
+        "Guest mode",
+        "Debug mode"
+      ],
+      "ans": 1,
+      "exp": "Kernel mode has unrestricted hardware access. User programs run in user mode with restricted access to prevent system corruption."
+    },
+    {
+      "id": "os16",
+      "q": "What is Belady's Anomaly in operating systems?",
+      "options": [
+        "LRU causes more page faults with more frames",
+        "FIFO page replacement can produce MORE page faults when physical page frames are increased",
+        "Optimal replacement is slower than FIFO",
+        "Disk access is faster than RAM"
+      ],
+      "ans": 1,
+      "exp": "Belady's Anomaly: In FIFO page replacement, allocating more memory page frames can counter-intuitively result in an increased number of page faults."
+    },
+    {
+      "id": "os17",
+      "q": "How many child processes are created if `fork()` is called 3 times consecutively?",
+      "options": [
+        "3",
+        "6",
+        "7",
+        "8"
+      ],
+      "ans": 2,
+      "exp": "Formula for number of child processes created is 2^n - 1. For n=3 fork() calls, 2^3 - 1 = 7 child processes are created (8 processes in total including parent)."
+    },
+    {
+      "id": "os18",
+      "q": "What is the key difference between a Mutex and a Binary Semaphore?",
+      "options": [
+        "Mutex has no initial value",
+        "Mutex has ownership semantics (only the thread that locked it can unlock it); semaphore can be signaled by any thread",
+        "Binary semaphore is faster",
+        "Mutex cannot be used in multithreading"
+      ],
+      "ans": 1,
+      "exp": "A Mutex enforces thread ownership — only the acquiring thread can release it. A binary semaphore is a signaling mechanism where any thread can signal/post."
+    },
+    {
+      "id": "os19",
+      "q": "Which three criteria MUST be satisfied to solve the Critical Section problem?",
+      "options": [
+        "Mutual Exclusion, Progress, Bounded Waiting",
+        "Deadlock, Starvation, Aging",
+        "Preemption, Swapping, Thrashing",
+        "Atomicity, Durability, Isolation"
+      ],
+      "ans": 0,
+      "exp": "Any valid solution to the critical section problem must satisfy: 1) Mutual Exclusion, 2) Progress, and 3) Bounded Waiting."
+    },
+    {
+      "id": "os20",
+      "q": "What is an 'Orphan Process' in Unix/Linux?",
+      "options": [
+        "A process killed by SIGKILL",
+        "A child process whose parent terminated before calling wait(), adopted by init/systemd (PID 1)",
+        "A process with no PID",
+        "A background daemon process"
+      ],
+      "ans": 1,
+      "exp": "When a parent process terminates before its child, the child becomes an orphan and is immediately adopted by the init process (PID 1), which reaps its exit code."
+    },
+    {
+      "id": "os21",
+      "q": "Starvation differs from Deadlock because in Starvation:",
+      "options": [
+        "No process can ever execute",
+        "A process is indefinitely delayed waiting for a resource while other processes continue making progress",
+        "All resources are locked cyclically",
+        "Memory is exhausted"
+      ],
+      "ans": 1,
+      "exp": "In deadlock, two or more processes are mutually blocked forever with zero progress. In starvation, the system continues running, but an unlucky low-priority process is perpetually postponed."
+    },
+    {
+      "id": "os22",
+      "q": "What is the primary role of the Translation Lookaside Buffer (TLB)?",
+      "options": [
+        "Store CPU registers",
+        "High-speed hardware cache for virtual-to-physical address translations to accelerate paging",
+        "Store disk sectors",
+        "Cache network packets"
+      ],
+      "ans": 1,
+      "exp": "The TLB is an associative hardware cache in the MMU that stores recent virtual-to-physical page table mappings, avoiding double memory access penalties."
+    },
+    {
+      "id": "os23",
+      "q": "Which disk scheduling algorithm behaves like an elevator, servicing requests in one direction then reversing?",
+      "options": [
+        "FCFS",
+        "SSTF",
+        "SCAN (Elevator)",
+        "FIFO"
+      ],
+      "ans": 2,
+      "exp": "SCAN (Elevator algorithm) sweeps the disk arm from one end to the other, servicing all requests along the path, then reverses direction at the boundary."
+    },
+    {
+      "id": "os24",
+      "q": "What is Internal Fragmentation in memory management?",
+      "options": [
+        "Unused space between allocated partitions",
+        "Wasted memory space inside an allocated fixed-size block/page",
+        "Memory corruption on disk",
+        "Fragmented page tables"
+      ],
+      "ans": 1,
+      "exp": "Internal fragmentation occurs when memory is allocated in fixed-size blocks (like pages) and the requested process size is smaller than the block size."
+    },
+    {
+      "id": "os25",
+      "q": "Paging eliminates which type of memory fragmentation completely?",
+      "options": [
+        "Internal Fragmentation",
+        "External Fragmentation",
+        "Virtual Fragmentation",
+        "Cache Misses"
+      ],
+      "ans": 1,
+      "exp": "Because physical memory is divided into uniform fixed-size frames, any free frame can be allocated to any process, eliminating External Fragmentation."
+    }
+  ],
+  "networks": [
+    {
+      "id": "net1",
+      "q": "Which OSI layer handles end-to-end communication?",
+      "options": [
+        "Network Layer",
+        "Data Link Layer",
+        "Transport Layer",
+        "Session Layer"
+      ],
+      "ans": 2,
+      "exp": "Transport Layer (Layer 4) provides end-to-end communication, error recovery, and flow control (TCP/UDP)."
+    },
+    {
+      "id": "net2",
+      "q": "IPv4 addresses are:",
+      "options": [
+        "16 bits",
+        "32 bits",
+        "64 bits",
+        "128 bits"
+      ],
+      "ans": 1,
+      "exp": "IPv4 = 32 bits (4 octets). IPv6 = 128 bits."
+    },
+    {
+      "id": "net3",
+      "q": "TCP vs UDP — TCP is:",
+      "options": [
+        "Faster and unreliable",
+        "Connection-oriented with reliable delivery",
+        "Connectionless",
+        "Used only for DNS"
+      ],
+      "ans": 1,
+      "exp": "TCP uses three-way handshake, provides ordered reliable delivery with acknowledgements and retransmission."
+    },
+    {
+      "id": "net4",
+      "q": "IP addressing and routing are handled by which OSI layer?",
+      "options": [
+        "Physical",
+        "Data Link",
+        "Network",
+        "Transport"
+      ],
+      "ans": 2,
+      "exp": "Network Layer (Layer 3) handles logical IP addressing and packet routing across networks."
+    },
+    {
+      "id": "net5",
+      "q": "DNS operates at which OSI layer?",
+      "options": [
+        "Transport",
+        "Application",
+        "Network",
+        "Data Link"
+      ],
+      "ans": 1,
+      "exp": "DNS is an Application Layer (Layer 7) protocol resolving domain names to IP addresses."
+    },
+    {
+      "id": "net6",
+      "q": "TCP three-way handshake sequence is:",
+      "options": [
+        "SYN → SYN-ACK → ACK",
+        "ACK → SYN → FIN",
+        "SYN → ACK → SYN",
+        "FIN → SYN → ACK"
+      ],
+      "ans": 0,
+      "exp": "TCP connection starts: Client sends SYN → Server responds SYN-ACK → Client sends ACK. Connection established."
+    },
+    {
+      "id": "net7",
+      "q": "HTTP status code 404 means:",
+      "options": [
+        "Server Error",
+        "Request Timeout",
+        "Resource Not Found",
+        "Unauthorized"
+      ],
+      "ans": 2,
+      "exp": "404 Not Found: the server cannot locate the requested resource at the given URL."
+    },
+    {
+      "id": "net8",
+      "q": "HTTPS uses which protocol to encrypt traffic?",
+      "options": [
+        "SSH",
+        "TLS/SSL",
+        "FTP",
+        "SMTP"
+      ],
+      "ans": 1,
+      "exp": "HTTPS = HTTP over TLS (Transport Layer Security), formerly SSL. TLS encrypts data in transit."
+    },
+    {
+      "id": "net9",
+      "q": "ARP (Address Resolution Protocol) resolves:",
+      "options": [
+        "Domain names to IPs",
+        "IP addresses to MAC addresses",
+        "Ports to services",
+        "MAC to hostname"
+      ],
+      "ans": 1,
+      "exp": "ARP maps known IP addresses to physical MAC addresses on a local network segment."
+    },
+    {
+      "id": "net10",
+      "q": "Which port does HTTPS use by default?",
+      "options": [
+        "80",
+        "21",
+        "443",
+        "22"
+      ],
+      "ans": 2,
+      "exp": "HTTPS uses port 443. HTTP uses port 80. SSH uses port 22. FTP uses port 21."
+    },
+    {
+      "id": "net11",
+      "q": "A subnet mask /24 means:",
+      "options": [
+        "24 hosts max",
+        "First 24 bits are network, last 8 are hosts",
+        "24 subnets",
+        "IPv6 notation"
+      ],
+      "ans": 1,
+      "exp": "/24 = 255.255.255.0. First 24 bits = network address, last 8 bits = host addresses (254 usable hosts)."
+    },
+    {
+      "id": "net12",
+      "q": "Firewall operates at which OSI layer primarily?",
+      "options": [
+        "Physical",
+        "Network & Transport layers (inspects IP/ports)",
+        "Application only",
+        "Data Link"
+      ],
+      "ans": 1,
+      "exp": "Firewalls inspect Network (IP) and Transport (TCP/UDP port) layer headers. Next-gen firewalls also inspect Application layer."
+    },
+    {
+      "id": "net13",
+      "q": "Which protocol sends email FROM client to server?",
+      "options": [
+        "POP3",
+        "IMAP",
+        "SMTP",
+        "FTP"
+      ],
+      "ans": 2,
+      "exp": "SMTP (Simple Mail Transfer Protocol) sends outgoing email. POP3/IMAP are used to retrieve email from a server."
+    },
+    {
+      "id": "net14",
+      "q": "Load balancer distributes requests to:",
+      "options": [
+        "A single backup server",
+        "Multiple backend servers to prevent overload",
+        "Only local servers",
+        "DNS resolvers"
+      ],
+      "ans": 1,
+      "exp": "Load balancers distribute incoming traffic across multiple backend server instances for high availability and horizontal scaling."
+    },
+    {
+      "id": "net15",
+      "q": "The difference between LAN and WAN:",
+      "options": [
+        "LAN is wireless; WAN is wired",
+        "LAN covers small area (building); WAN covers large area (country/globe)",
+        "LAN uses IP; WAN uses MAC",
+        "No difference"
+      ],
+      "ans": 1,
+      "exp": "LAN (Local Area Network) covers small areas like offices. WAN (Wide Area Network) spans cities/countries — the Internet is a WAN."
+    },
+    {
+      "id": "net16",
+      "q": "How many usable host IP addresses are available in a `/27` IPv4 subnet?",
+      "options": [
+        "32",
+        "30",
+        "28",
+        "16"
+      ],
+      "ans": 1,
+      "exp": "Host bits = 32 - 27 = 5 bits. Total IPs = 2^5 = 32. Subtracting network ID and broadcast address gives 32 - 2 = 30 usable host addresses."
+    },
+    {
+      "id": "net17",
+      "q": "In TCP connection termination, how many packets are exchanged in a normal graceful close?",
+      "options": [
+        "2 (FIN, ACK)",
+        "3 (FIN, ACK, FIN)",
+        "4 (FIN, ACK, FIN, ACK)",
+        "1 (RST)"
+      ],
+      "ans": 2,
+      "exp": "Graceful TCP closing is a 4-way handshake: Client sends FIN → Server sends ACK; Server sends FIN → Client sends ACK."
+    },
+    {
+      "id": "net18",
+      "q": "Which phase of TCP Congestion Control doubles the Congestion Window (cwnd) every RTT?",
+      "options": [
+        "Congestion Avoidance",
+        "Slow Start",
+        "Fast Recovery",
+        "AIMD Linear Phase"
+      ],
+      "ans": 1,
+      "exp": "During Slow Start, cwnd starts at 1 MSS and increments exponentially (doubles every Round Trip Time) until reaching ssthresh."
+    },
+    {
+      "id": "net19",
+      "q": "Which IPv4 address block is designated as a Private Address Range (RFC 1918)?",
+      "options": [
+        "11.0.0.0/8",
+        "192.168.0.0/16",
+        "200.100.0.0/16",
+        "8.8.8.0/24"
+      ],
+      "ans": 1,
+      "exp": "RFC 1918 private ranges are: 10.0.0.0/8 (Class A), 172.16.0.0/12 (Class B), and 192.168.0.0/16 (Class C)."
+    },
+    {
+      "id": "net20",
+      "q": "How does TLS/HTTPS leverage asymmetric and symmetric cryptography together?",
+      "options": [
+        "Only symmetric is used throughout",
+        "Asymmetric cryptography (RSA/ECC) establishes identity and securely exchanges a symmetric session key; symmetric (AES) encrypts bulk data",
+        "Asymmetric encrypts all data packets",
+        "Only hashing is used"
+      ],
+      "ans": 1,
+      "exp": "Asymmetric encryption is computationally expensive, so TLS uses it only for handshake authentication and key exchange, then switches to fast symmetric encryption (e.g. AES-GCM) for data transfer."
+    },
+    {
+      "id": "net21",
+      "q": "What HTTP method is sent as a Preflight Request in Cross-Origin Resource Sharing (CORS)?",
+      "options": [
+        "HEAD",
+        "GET",
+        "OPTIONS",
+        "TRACE"
+      ],
+      "ans": 2,
+      "exp": "Browsers automatically dispatch a preflight HTTP `OPTIONS` request to check CORS permissions before sending non-simple cross-origin requests."
+    },
+    {
+      "id": "net22",
+      "q": "What is the four-step handshake sequence used by DHCP to allocate an IP address?",
+      "options": [
+        "SYN, ACK, PUSH, FIN",
+        "DORA (Discover, Offer, Request, Acknowledge)",
+        "ARP, RARP, DNS, NAT",
+        "PING, PONG, ECHO, REPLY"
+      ],
+      "ans": 1,
+      "exp": "DHCP uses the DORA sequence: Client broadcasts Discover → Server sends Offer → Client broadcasts Request → Server returns Acknowledge."
+    },
+    {
+      "id": "net23",
+      "q": "What is the standard Ethernet Maximum Transmission Unit (MTU) size?",
+      "options": [
+        "512 bytes",
+        "1024 bytes",
+        "1500 bytes",
+        "9000 bytes"
+      ],
+      "ans": 2,
+      "exp": "The standard MTU for standard Ethernet frames is 1500 bytes (payload size excluding 14-byte Ethernet header and 4-byte CRC)."
+    },
+    {
+      "id": "net24",
+      "q": "Which protocol does the `ping` utility use to test network reachability?",
+      "options": [
+        "TCP SYN",
+        "UDP Port 53",
+        "ICMP (Internet Control Message Protocol)",
+        "SNMP"
+      ],
+      "ans": 2,
+      "exp": "`ping` operates at Layer 3 using ICMP Echo Request (Type 8) and listens for ICMP Echo Reply (Type 0)."
+    },
+    {
+      "id": "net25",
+      "q": "What is the difference between CSMA/CD and CSMA/CA?",
+      "options": [
+        "CSMA/CD detects collisions (used in wired Ethernet); CSMA/CA avoids collisions with RTS/CTS (used in Wi-Fi 802.11)",
+        "CSMA/CD is for satellite only",
+        "CSMA/CA is faster than CSMA/CD",
+        "They are identical"
+      ],
+      "ans": 0,
+      "exp": "Wired Ethernet can detect packet collisions simultaneously on the wire (CSMA/CD). Wireless radio cannot transmit and listen at the same frequency at once, so it avoids collisions using CSMA/CA."
+    }
+  ],
+  "devops": [
+    {
+      "id": "dev1",
+      "q": "REST stands for:",
+      "options": [
+        "Remote Execution Standard Transfer",
+        "Representational State Transfer",
+        "Real-time Extensible Service",
+        "Reliable Endpoint Template"
+      ],
+      "ans": 1,
+      "exp": "REST = Representational State Transfer, an architectural style for stateless HTTP-based networked apps."
+    },
+    {
+      "id": "dev2",
+      "q": "git rebase vs git merge — rebase:",
+      "options": [
+        "Creates merge commit",
+        "Rewrites history by replaying commits linearly",
+        "Is the same as merge",
+        "Deletes branches"
+      ],
+      "ans": 1,
+      "exp": "Rebase replays commits onto another branch creating a linear history; merge creates a merge commit preserving branch history."
+    },
+    {
+      "id": "dev3",
+      "q": "IaaS provides:",
+      "options": [
+        "Complete SaaS apps",
+        "Development platform",
+        "Virtualized compute infrastructure (VMs, storage, networking)",
+        "Only database services"
+      ],
+      "ans": 2,
+      "exp": "IaaS delivers virtualized infrastructure — VMs, storage, networking. Users manage OS and above. Examples: AWS EC2, Azure VMs."
+    },
+    {
+      "id": "dev4",
+      "q": "Containers vs VMs — containers:",
+      "options": [
+        "Include full OS kernel",
+        "Share host OS kernel, making them lighter",
+        "Are slower than VMs",
+        "Cannot run multiple processes"
+      ],
+      "ans": 1,
+      "exp": "Containers share the host OS kernel — much lighter and faster to start than VMs which include a full guest OS."
+    },
+    {
+      "id": "dev5",
+      "q": "CI/CD stands for:",
+      "options": [
+        "Code Integration/Deployment",
+        "Continuous Integration/Continuous Delivery",
+        "Container Infrastructure/Cloud Delivery",
+        "Central Integration/Controlled Deployment"
+      ],
+      "ans": 1,
+      "exp": "CI = Continuous Integration (auto build & test), CD = Continuous Delivery/Deployment (auto release to production)."
+    },
+    {
+      "id": "dev6",
+      "q": "Docker Compose is used to:",
+      "options": [
+        "Build Docker images from scratch",
+        "Define and run multi-container Docker applications via YAML",
+        "Monitor container performance",
+        "Push images to Docker Hub"
+      ],
+      "ans": 1,
+      "exp": "Docker Compose uses docker-compose.yml to define multi-container apps (e.g., app + database + cache) and start them with one command."
+    },
+    {
+      "id": "dev7",
+      "q": "Kubernetes (K8s) primary function is:",
+      "options": [
+        "Code version control",
+        "Container orchestration — managing, scaling, self-healing containerized apps",
+        "Network firewall management",
+        "Static website hosting"
+      ],
+      "ans": 1,
+      "exp": "Kubernetes automates deployment, scaling, rolling updates, and self-healing of containerized workloads across clusters."
+    },
+    {
+      "id": "dev8",
+      "q": "PaaS (Platform as a Service) provides:",
+      "options": [
+        "Raw VMs only",
+        "Complete managed platform: runtime, middleware, OS — user only manages apps & data",
+        "Full SaaS applications",
+        "Only CDN services"
+      ],
+      "ans": 1,
+      "exp": "PaaS (e.g., Heroku, Google App Engine, Azure App Service) provides the platform; devs only manage code and data."
+    },
+    {
+      "id": "dev9",
+      "q": "git stash is used to:",
+      "options": [
+        "Delete uncommitted changes",
+        "Temporarily save uncommitted changes without committing",
+        "Merge branches",
+        "Push code to remote"
+      ],
+      "ans": 1,
+      "exp": "git stash saves your working directory changes in a stack so you can switch branches without committing or losing work."
+    },
+    {
+      "id": "dev10",
+      "q": "Microservices architecture differs from monolith by:",
+      "options": [
+        "Running everything in one process",
+        "Splitting application into small independent services each with its own deployment and scaling",
+        "Using a single database for all services",
+        "Eliminating APIs"
+      ],
+      "ans": 1,
+      "exp": "Microservices: each bounded context is an independent deployable service. Monolith: all components bundled in one deployable unit."
+    },
+    {
+      "id": "dev11",
+      "q": "In Agile Scrum, a Sprint is:",
+      "options": [
+        "A final release",
+        "A time-boxed iteration (1-4 weeks) to deliver a potentially shippable increment",
+        "A retrospective meeting",
+        "A deployment pipeline"
+      ],
+      "ans": 1,
+      "exp": "Sprint = fixed-length iteration where the team commits to a Sprint Backlog and delivers a working increment at the end."
+    },
+    {
+      "id": "dev12",
+      "q": "Infrastructure as Code (IaC) means:",
+      "options": [
+        "Writing code manually on servers",
+        "Provisioning infrastructure (VMs, networks) via code files — e.g., Terraform, CloudFormation",
+        "Writing infrastructure documentation",
+        "Hiring DevOps engineers"
+      ],
+      "ans": 1,
+      "exp": "IaC tools like Terraform declare infrastructure resources in config files — enabling version control, reproducibility, and automated provisioning."
+    },
+    {
+      "id": "dev13",
+      "q": "Which HTTP method is idempotent AND safe?",
+      "options": [
+        "POST",
+        "PUT",
+        "DELETE",
+        "GET"
+      ],
+      "ans": 3,
+      "exp": "GET is both safe (no state change) and idempotent (same result on repeat). POST creates resources (not idempotent). PUT is idempotent but not safe."
+    },
+    {
+      "id": "dev14",
+      "q": "Blue-Green deployment strategy means:",
+      "options": [
+        "Deploying on blue or green servers only",
+        "Maintaining two identical environments; switching traffic from old (blue) to new (green) for zero-downtime releases",
+        "A color scheme for dashboards",
+        "A network topology"
+      ],
+      "ans": 1,
+      "exp": "Blue-Green: Blue = current production, Green = new version. After validation, route traffic to Green. Instant rollback by switching back to Blue."
+    },
+    {
+      "id": "dev15",
+      "q": "Git 'origin' refers to:",
+      "options": [
+        "The first commit",
+        "The main branch",
+        "The default remote repository URL (e.g., GitHub)",
+        "A git alias"
+      ],
+      "ans": 2,
+      "exp": "'origin' is git's default alias for the remote repository URL you cloned from or added with git remote add."
+    },
+    {
+      "id": "dev16",
+      "q": "In a Dockerfile, what is the fundamental difference between `CMD` and `ENTRYPOINT`?",
+      "options": [
+        "CMD cannot take arguments",
+        "ENTRYPOINT defines the fixed executable, while CMD provides default arguments that can be overridden at runtime",
+        "CMD runs during build, ENTRYPOINT at runtime",
+        "They are identical aliases"
+      ],
+      "ans": 1,
+      "exp": "`ENTRYPOINT` sets the immutable command binary (e.g. `['python', 'app.py']`), while `CMD` supplies default parameters that CLI users can easily override via `docker run`."
+    },
+    {
+      "id": "dev17",
+      "q": "What is the primary benefit of Multi-Stage Builds in Docker?",
+      "options": [
+        "Allows multiple OS kernels",
+        "Drastically reduces final production image size by leaving compilers and build tools in interim stages",
+        "Compiles multiple languages simultaneously",
+        "Creates multi-region deployments"
+      ],
+      "ans": 1,
+      "exp": "Multi-stage builds allow developers to compile source code with heavy SDKs in stage 1, then copy only the stripped binary/artifacts into a lean production runtime image (e.g. Alpine)."
+    },
+    {
+      "id": "dev18",
+      "q": "In Kubernetes, what is the smallest deployable compute unit?",
+      "options": [
+        "Container",
+        "Pod (group of one or more containers sharing network/storage)",
+        "Deployment",
+        "Node"
+      ],
+      "ans": 1,
+      "exp": "A Pod is the smallest execution unit in Kubernetes; it encapsulates one or more co-located containers that share an IP address and volume storage."
+    },
+    {
+      "id": "dev19",
+      "q": "What does `git cherry-pick <commit-hash>` do?",
+      "options": [
+        "Deletes the commit from branch",
+        "Applies the changes from an individual commit onto the current working HEAD branch",
+        "Reverts the last 5 commits",
+        "Merges an entire branch"
+      ],
+      "ans": 1,
+      "exp": "`git cherry-pick` selects a single commit from another branch and replays its diff as a new commit onto the currently checked-out branch."
+    },
+    {
+      "id": "dev20",
+      "q": "What does a 'Detached HEAD' state indicate in Git?",
+      "options": [
+        "Corrupted repository files",
+        "HEAD points directly to a specific commit hash rather than a named branch ref",
+        "The remote server is unreachable",
+        "The main branch is deleted"
+      ],
+      "ans": 1,
+      "exp": "A detached HEAD means HEAD points directly to a commit SHA (e.g. after checking out a tag or specific commit); new commits made in this state won't belong to any branch unless one is created."
+    },
+    {
+      "id": "dev21",
+      "q": "What is a Canary Deployment release strategy?",
+      "options": [
+        "Shutting down all servers simultaneously",
+        "Gradually rolling out the new release to a tiny subset of users (e.g. 5%) to verify stability before full rollout",
+        "Deploying on weekends only",
+        "Deploying identical code to two clusters"
+      ],
+      "ans": 1,
+      "exp": "Canary deployment routes a small percentage of production traffic to the new version to detect errors with minimal blast radius before rolling out to 100% of users."
+    },
+    {
+      "id": "dev22",
+      "q": "What is the architectural role of Prometheus in cloud-native monitoring?",
+      "options": [
+        "Dashboard visualization tool",
+        "Time-series metrics database that scrapes telemetry endpoints via a pull model",
+        "Log file aggregator",
+        "Load balancer"
+      ],
+      "ans": 1,
+      "exp": "Prometheus is a time-series monitoring system that pulls/scrapes metrics over HTTP from instrumented targets and stores them with key-value labels."
+    },
+    {
+      "id": "dev23",
+      "q": "What is the difference between a Docker Volume and a Bind Mount?",
+      "options": [
+        "Volumes are slower than bind mounts",
+        "Volumes are fully managed by Docker in a dedicated storage area (`/var/lib/docker/volumes`), whereas bind mounts map to any host file path",
+        "Bind mounts cannot be modified",
+        "Volumes cannot be backed up"
+      ],
+      "ans": 1,
+      "exp": "Volumes are Docker-managed storage isolated from host OS specifics, making them portable and secure. Bind mounts depend on host directory hierarchies."
+    },
+    {
+      "id": "dev24",
+      "q": "According to Semantic Versioning (SemVer `MAJOR.MINOR.PATCH`), when must the MAJOR version increment?",
+      "options": [
+        "When adding backwards-compatible features",
+        "When making backwards-incompatible (breaking) API changes",
+        "When fixing bugs",
+        "Every calendar year"
+      ],
+      "ans": 1,
+      "exp": "SemVer rules: Increment MAJOR for breaking API changes, MINOR for backwards-compatible new features, and PATCH for backwards-compatible bug fixes."
+    },
+    {
+      "id": "dev25",
+      "q": "What is the primary role of a Reverse Proxy (like NGINX) in frontend architecture?",
+      "options": [
+        "Encrypting developer hard drives",
+        "Fronting backend servers to handle SSL termination, load balancing, compression, and hiding internal topology",
+        "Acting as a client browser",
+        "Compiling JavaScript code"
+      ],
+      "ans": 1,
+      "exp": "A reverse proxy sits in front of web servers and intercepts client requests, performing TLS termination, caching, load balancing, and preventing direct public access to internal microservices."
+    }
+  ],
+  "aptitude": [
+    {
+      "id": "apt1",
+      "q": "A train 150m long passes a pole in 15 seconds. Speed of the train?",
+      "options": [
+        "10 m/s (36 km/h)",
+        "15 m/s",
+        "20 m/s",
+        "25 km/h"
+      ],
+      "ans": 0,
+      "exp": "Speed = 150/15 = 10 m/s = 36 km/h."
+    },
+    {
+      "id": "apt2",
+      "q": "20% of a number is 80. What is 35% of that number?",
+      "options": [
+        "120",
+        "140",
+        "160",
+        "180"
+      ],
+      "ans": 1,
+      "exp": "Number = 80/0.20 = 400. 35% of 400 = 140."
+    },
+    {
+      "id": "apt3",
+      "q": "Two pipes fill a tank in 12 and 15 hours. Together they take:",
+      "options": [
+        "6.67 hours",
+        "5.45 hours",
+        "6 hours",
+        "7 hours"
+      ],
+      "ans": 0,
+      "exp": "Rate = 1/12 + 1/15 = 9/60. Time = 60/9 ≈ 6.67 hours."
+    },
+    {
+      "id": "apt4",
+      "q": "Boys:Girls = 3:2. Total 30 students. How many girls?",
+      "options": [
+        "12",
+        "18",
+        "15",
+        "10"
+      ],
+      "ans": 0,
+      "exp": "Girls = (2/5) × 30 = 12."
+    },
+    {
+      "id": "apt5",
+      "q": "Bought at ₹200, sold at ₹250. Profit percentage?",
+      "options": [
+        "20%",
+        "25%",
+        "15%",
+        "30%"
+      ],
+      "ans": 1,
+      "exp": "Profit% = (50/200) × 100 = 25%."
+    },
+    {
+      "id": "apt6",
+      "q": "Simple Interest on ₹5000 at 8% p.a. for 3 years?",
+      "options": [
+        "₹1200",
+        "₹1000",
+        "₹1500",
+        "₹800"
+      ],
+      "ans": 0,
+      "exp": "SI = (P × R × T)/100 = (5000 × 8 × 3)/100 = ₹1200."
+    },
+    {
+      "id": "apt7",
+      "q": "Average of 5 numbers is 20. If one number is removed, average becomes 18. Removed number?",
+      "options": [
+        "26",
+        "28",
+        "30",
+        "24"
+      ],
+      "ans": 1,
+      "exp": "Total = 5×20 = 100. Remaining 4 numbers total = 4×18 = 72. Removed = 100−72 = 28."
+    },
+    {
+      "id": "apt8",
+      "q": "A person covers 60 km in 2 hours by car, then 40 km in 2 hours by foot. Average speed?",
+      "options": [
+        "20 km/h",
+        "22 km/h",
+        "25 km/h",
+        "18 km/h"
+      ],
+      "ans": 2,
+      "exp": "Total distance = 60 + 40 = 100 km. Total time = 2 + 2 = 4 hours. Average speed = 100 / 4 = 25 km/h."
+    },
+    {
+      "id": "apt9",
+      "q": "In how many ways can 5 books be arranged on a shelf?",
+      "options": [
+        "25",
+        "60",
+        "120",
+        "100"
+      ],
+      "ans": 2,
+      "exp": "Permutation: 5! = 5×4×3×2×1 = 120 arrangements."
+    },
+    {
+      "id": "apt10",
+      "q": "Compound Interest on ₹10,000 at 10% p.a. compounded annually for 2 years?",
+      "options": [
+        "₹2000",
+        "₹2100",
+        "₹2200",
+        "₹1900"
+      ],
+      "ans": 1,
+      "exp": "A = P(1+r/100)^t = 10000(1.1)^2 = 12100. CI = 12100−10000 = ₹2100."
+    },
+    {
+      "id": "apt11",
+      "q": "Probability of getting a head in a fair coin toss?",
+      "options": [
+        "1",
+        "0",
+        "1/2",
+        "1/4"
+      ],
+      "ans": 2,
+      "exp": "Fair coin has 2 equally likely outcomes (H, T). P(H) = 1/2."
+    },
+    {
+      "id": "apt12",
+      "q": "If A can do a job in 10 days and B in 15 days, together they finish in:",
+      "options": [
+        "6 days",
+        "8 days",
+        "5 days",
+        "12 days"
+      ],
+      "ans": 0,
+      "exp": "Combined rate = 1/10 + 1/15 = 5/30 = 1/6. Together: 6 days."
+    },
+    {
+      "id": "apt13",
+      "q": "The ratio 3:4 is equivalent to:",
+      "options": [
+        "6:10",
+        "9:12",
+        "12:15",
+        "15:16"
+      ],
+      "ans": 1,
+      "exp": "3:4 × 3 = 9:12. Both 9 and 12 share factor 3. 9/12 = 3/4 ✓"
+    },
+    {
+      "id": "apt14",
+      "q": "A car travels 300 km at 60 km/h and returns at 90 km/h. Average speed for round trip?",
+      "options": [
+        "72 km/h",
+        "75 km/h",
+        "70 km/h",
+        "80 km/h"
+      ],
+      "ans": 0,
+      "exp": "Harmonic mean: 2 × (60×90)/(60+90) = 10800/150 = 72 km/h."
+    },
+    {
+      "id": "apt15",
+      "q": "₹800 increased by 25% then decreased by 25%. Final amount?",
+      "options": [
+        "₹800",
+        "₹750",
+        "₹780",
+        "₹700"
+      ],
+      "ans": 1,
+      "exp": "After +25%: 800×1.25 = 1000. After −25%: 1000×0.75 = 750. Net loss due to different bases."
+    },
+    {
+      "id": "apt16",
+      "q": "A boat travels downstream at 14 km/h and upstream at 8 km/h. What is the speed of the boat in still water?",
+      "options": [
+        "11 km/h",
+        "10 km/h",
+        "12 km/h",
+        "3 km/h"
+      ],
+      "ans": 0,
+      "exp": "Speed in still water = (Downstream + Upstream) / 2 = (14 + 8) / 2 = 11 km/h. (Stream speed = (14 - 8)/2 = 3 km/h)."
+    },
+    {
+      "id": "apt17",
+      "q": "A pipe can fill a tank in 6 hours, but due to a leak at the bottom it takes 8 hours. How long will the leak alone take to empty a full tank?",
+      "options": [
+        "14 hours",
+        "20 hours",
+        "24 hours",
+        "18 hours"
+      ],
+      "ans": 2,
+      "exp": "Leak rate = 1/6 - 1/8 = (4 - 3)/24 = 1/24 tank/hr. Thus, the leak alone empties the tank in 24 hours."
+    },
+    {
+      "id": "apt18",
+      "q": "What is the angle between the hour hand and the minute hand of a clock at 3:30?",
+      "options": [
+        "75°",
+        "70°",
+        "80°",
+        "90°"
+      ],
+      "ans": 0,
+      "exp": "Angle formula: |30×H - 5.5×M| = |30(3) - 5.5(30)| = |90 - 165| = 75°."
+    },
+    {
+      "id": "apt19",
+      "q": "What is the difference between Compound Interest and Simple Interest on ₹25,000 for 2 years at 8% per annum?",
+      "options": [
+        "₹140",
+        "₹160",
+        "₹180",
+        "₹200"
+      ],
+      "ans": 1,
+      "exp": "For 2 years: Difference = P × (R / 100)^2 = 25000 × (8/100)^2 = 25000 × 0.0064 = ₹160."
+    },
+    {
+      "id": "apt20",
+      "q": "Two trains of lengths 120m and 180m are traveling in opposite directions at 42 km/h and 48 km/h. How many seconds will they take to cross each other completely?",
+      "options": [
+        "12 seconds",
+        "15 seconds",
+        "10 seconds",
+        "18 seconds"
+      ],
+      "ans": 0,
+      "exp": "Total distance = 120 + 180 = 300m. Relative speed = 42 + 48 = 90 km/h = 90 × (5/18) = 25 m/s. Time = 300 / 25 = 12 seconds."
+    },
+    {
+      "id": "apt21",
+      "q": "A dealer marks an article 30% above the cost price and allows a discount of 10% on the marked price. Find his profit percentage.",
+      "options": [
+        "15%",
+        "17%",
+        "20%",
+        "18%"
+      ],
+      "ans": 1,
+      "exp": "Let CP = 100. MP = 130. SP after 10% discount = 130 - 13 = 117. Profit% = ((117 - 100)/100) × 100 = 17%."
+    },
+    {
+      "id": "apt22",
+      "q": "What is the probability of drawing either a King or a Heart from a standard deck of 52 playing cards?",
+      "options": [
+        "4/13",
+        "17/52",
+        "16/52 (4/13)",
+        "1/4"
+      ],
+      "ans": 2,
+      "exp": "P(King or Heart) = P(King) + P(Heart) - P(King of Hearts) = 4/52 + 13/52 - 1/52 = 16/52 = 4/13."
+    },
+    {
+      "id": "apt23",
+      "q": "In what ratio must tea at ₹62 per kg be mixed with tea at ₹72 per kg so that the mixture is worth ₹65 per kg?",
+      "options": [
+        "7:3",
+        "3:7",
+        "5:3",
+        "4:3"
+      ],
+      "ans": 0,
+      "exp": "By Rule of Alligation: (Cheaper : Dearer) = (72 - 65) : (65 - 62) = 7 : 3."
+    },
+    {
+      "id": "apt24",
+      "q": "A and B can do a work in 12 days and 18 days. If they work on alternate days starting with A, in how many days will the work finish?",
+      "options": [
+        "14.33 days",
+        "14 days 2/3",
+        "14.5 days",
+        "15 days"
+      ],
+      "ans": 0,
+      "exp": "LCM of (12, 18) = 36 units. A does 3 units/day, B does 2 units/day. In 2 days = 5 units. In 14 days (7 cycles) = 35 units done. Remaining 1 unit done by A in 1/3 day. Total = 14 + 1/3 ≈ 14.33 days."
+    },
+    {
+      "id": "apt25",
+      "q": "If 1st January 2024 was a Monday, what day of the week was 1st January 2025?",
+      "options": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Sunday"
+      ],
+      "ans": 1,
+      "exp": "2024 is a leap year (366 days = 52 weeks + 2 odd days). Adding 2 days to Monday gives Wednesday."
+    }
+  ],
+  "verbal": [
+    {
+      "id": "ver1",
+      "q": "Choose the synonym of 'VERBOSE':",
+      "options": [
+        "Concise",
+        "Wordy",
+        "Silent",
+        "Ambiguous"
+      ],
+      "ans": 1,
+      "exp": "Verbose = using too many words. Synonym = Wordy."
+    },
+    {
+      "id": "ver2",
+      "q": "Identify the error: 'He go to school every day'",
+      "options": [
+        "He",
+        "go",
+        "to school",
+        "every day"
+      ],
+      "ans": 1,
+      "exp": "'go' should be 'goes' — third-person singular requires -s/-es in simple present."
+    },
+    {
+      "id": "ver3",
+      "q": "Select the correctly spelled word:",
+      "options": [
+        "Accomodation",
+        "Accommodation",
+        "Acommodation",
+        "Accomadation"
+      ],
+      "ans": 1,
+      "exp": "Correct: 'Accommodation' — double 'c' and double 'm'."
+    },
+    {
+      "id": "ver4",
+      "q": "Antonym of 'BENEVOLENT':",
+      "options": [
+        "Kind",
+        "Generous",
+        "Malevolent",
+        "Charitable"
+      ],
+      "ans": 2,
+      "exp": "Benevolent = kind/well-meaning. Antonym = Malevolent (wishing evil)."
+    },
+    {
+      "id": "ver5",
+      "q": "'She _____ to the market yesterday.'",
+      "options": [
+        "go",
+        "goes",
+        "went",
+        "going"
+      ],
+      "ans": 2,
+      "exp": "'Yesterday' = past tense. Past of 'go' = 'went'."
+    },
+    {
+      "id": "ver6",
+      "q": "'The project was ___ by the team within the deadline.'",
+      "options": [
+        "Completing",
+        "Completed",
+        "Complete",
+        "Completes"
+      ],
+      "ans": 1,
+      "exp": "Passive voice 'was ___' requires past participle 'Completed'."
+    },
+    {
+      "id": "ver7",
+      "q": "Correct passive voice sentence:",
+      "options": [
+        "The dog bit the man",
+        "The man was bitten by the dog",
+        "The man bited by the dog",
+        "The dog was biting the man"
+      ],
+      "ans": 1,
+      "exp": "Passive: Object + was/were + past participle + by agent. 'The man was bitten by the dog'."
+    },
+    {
+      "id": "ver8",
+      "q": "'The wind whispered through the trees' is an example of:",
+      "options": [
+        "Simile",
+        "Metaphor",
+        "Personification",
+        "Hyperbole"
+      ],
+      "ans": 2,
+      "exp": "Personification attributes human quality (whispering) to non-human entity (wind)."
+    },
+    {
+      "id": "ver9",
+      "q": "Choose the word: 'Despite working _____, she finished on time.'",
+      "options": [
+        "lazily",
+        "diligently",
+        "carelessly",
+        "slowly"
+      ],
+      "ans": 1,
+      "exp": "'Despite' + positive result (finished on time) suggests hard work = 'diligently'."
+    },
+    {
+      "id": "ver10",
+      "q": "Para jumble: Which sequence makes a coherent paragraph?\nA: She loved reading.\nB: Books were her escape.\nC: Every evening she read.\nD: Libraries were her sanctuary.",
+      "options": [
+        "A-B-D-C",
+        "B-A-C-D",
+        "C-A-B-D",
+        "A-C-B-D"
+      ],
+      "ans": 0,
+      "exp": "Logical sequence A-B-D-C."
+    },
+    {
+      "id": "ver11",
+      "q": "Idiom meaning: 'Bite the bullet'",
+      "options": [
+        "To eat quickly",
+        "To endure a painful situation with courage",
+        "To start a fight",
+        "To make an error"
+      ],
+      "ans": 1,
+      "exp": "'Bite the bullet' means to face a difficult situation with bravery."
+    },
+    {
+      "id": "ver12",
+      "q": "Find the error: 'Neither of the two candidates have submitted their resume.'",
+      "options": [
+        "Neither",
+        "have submitted",
+        "their",
+        "No error"
+      ],
+      "ans": 1,
+      "exp": "'Neither of' takes a singular verb: 'has submitted'."
+    },
+    {
+      "id": "ver13",
+      "q": "Choose antonym of 'EPHEMERAL':",
+      "options": [
+        "Short-lived",
+        "Eternal",
+        "Fleeting",
+        "Transient"
+      ],
+      "ans": 1,
+      "exp": "Ephemeral = temporary. Antonym = Eternal/Permanent."
+    },
+    {
+      "id": "ver14",
+      "q": "Sentence Improvement: 'I look forward to meet you.'",
+      "options": [
+        "to meeting you",
+        "to met you",
+        "for meeting you",
+        "No improvement"
+      ],
+      "ans": 0,
+      "exp": "'Look forward to' takes a gerund (-ing): 'to meeting you'."
+    },
+    {
+      "id": "ver15",
+      "q": "Synonym of 'PRAGMATIC':",
+      "options": [
+        "Theoretical",
+        "Practical",
+        "Emotional",
+        "Idealistic"
+      ],
+      "ans": 1,
+      "exp": "Pragmatic means practical, dealing with things realistically."
+    },
+    {
+      "id": "ver16",
+      "q": "Select the synonym of 'UBIQUITOUS':",
+      "options": [
+        "Rare",
+        "Omnipresent (found everywhere)",
+        "Precious",
+        "Uncertain"
+      ],
+      "ans": 1,
+      "exp": "Ubiquitous means present, appearing, or found everywhere (e.g. 'Smartphones have become ubiquitous')."
+    },
+    {
+      "id": "ver17",
+      "q": "Select the synonym of 'METICULOUS':",
+      "options": [
+        "Careless",
+        "Fast",
+        "Painstakingly thorough and careful",
+        "Indifferent"
+      ],
+      "ans": 2,
+      "exp": "Meticulous refers to showing great attention to detail, very careful and precise."
+    },
+    {
+      "id": "ver18",
+      "q": "Choose the antonym of 'CANDOR':",
+      "options": [
+        "Frankness",
+        "Deceitfulness / Insincerity",
+        "Honesty",
+        "Openness"
+      ],
+      "ans": 1,
+      "exp": "Candor means being open, honest, and frank. The antonym is deceitfulness, insincerity, or guile."
+    },
+    {
+      "id": "ver19",
+      "q": "Choose the antonym of 'PLACATE':",
+      "options": [
+        "Appease",
+        "Soothe",
+        "Enrage / Provoke",
+        "Pacify"
+      ],
+      "ans": 2,
+      "exp": "To placate means to make someone less angry or hostile. The opposite is to enrage or provoke."
+    },
+    {
+      "id": "ver20",
+      "q": "Identify the error: 'Scarcely had the teacher entered the classroom then the students stood up.'",
+      "options": [
+        "Scarcely had",
+        "entered",
+        "then",
+        "stood up"
+      ],
+      "ans": 2,
+      "exp": "'Scarcely' and 'Hardly' are always paired with 'when', not 'then' (e.g. 'Scarcely had... when...')."
+    },
+    {
+      "id": "ver21",
+      "q": "Fill in the blank: 'The committee _____ divided in their opinions regarding the budget.'",
+      "options": [
+        "is",
+        "was",
+        "were",
+        "has been"
+      ],
+      "ans": 2,
+      "exp": "When a collective noun functions with members acting individually or with differing opinions, it takes a plural verb ('were divided')."
+    },
+    {
+      "id": "ver22",
+      "q": "Choose the correct preposition: 'She has been working in this firm _____ 2021.'",
+      "options": [
+        "for",
+        "since",
+        "from",
+        "by"
+      ],
+      "ans": 1,
+      "exp": "'Since' is used to denote a specific starting point in time in the past for actions continuing into the present."
+    },
+    {
+      "id": "ver23",
+      "q": "What is the meaning of the idiom 'To spill the beans'?",
+      "options": [
+        "To waste food",
+        "To disclose a secret prematurely or inadvertently",
+        "To cook hurriedly",
+        "To make a mess"
+      ],
+      "ans": 1,
+      "exp": "'To spill the beans' means to reveal secret information accidentally or maliciously."
+    },
+    {
+      "id": "ver24",
+      "q": "What is the meaning of the idiom 'To burn the midnight oil'?",
+      "options": [
+        "To light kerosene lamps",
+        "To waste resources",
+        "To work or study late into the night",
+        "To cause an accident"
+      ],
+      "ans": 2,
+      "exp": "'To burn the midnight oil' means to work or study late into the night."
+    },
+    {
+      "id": "ver25",
+      "q": "Convert to Indirect Speech: He said, 'I have completed my assignment.'",
+      "options": [
+        "He said that he completed his assignment.",
+        "He said that he had completed his assignment.",
+        "He said that he has completed his assignment.",
+        "He said that he would complete his assignment."
+      ],
+      "ans": 1,
+      "exp": "Present Perfect ('have completed') shifts to Past Perfect ('had completed') in reported speech with a past reporting verb."
+    },
+    {
+      "id": "ver26",
+      "q": "Choose the correct passive voice: 'They will announce the results tomorrow.'",
+      "options": [
+        "The results will announced tomorrow.",
+        "The results will be announced tomorrow by them.",
+        "The results are announced tomorrow.",
+        "The results have been announced tomorrow."
+      ],
+      "ans": 1,
+      "exp": "Simple Future passive voice structure: Subject + will + be + past participle ('will be announced')."
+    },
+    {
+      "id": "ver27",
+      "q": "Select the correctly spelled word:",
+      "options": [
+        "Bureaucracy",
+        "Burocracy",
+        "Beurocracy",
+        "Bureaucracyy"
+      ],
+      "ans": 0,
+      "exp": "Correct spelling is 'Bureaucracy' (b-u-r-e-a-u-c-r-a-c-y)."
+    },
+    {
+      "id": "ver28",
+      "q": "One Word Substitution: 'A person who hates or distrusts humankind'",
+      "options": [
+        "Philanthropist",
+        "Misanthrope",
+        "Altruist",
+        "Introvert"
+      ],
+      "ans": 1,
+      "exp": "A misanthrope is someone who dislikes, distrusts, or avoids human society."
+    },
+    {
+      "id": "ver29",
+      "q": "Identify the correct sentence:",
+      "options": [
+        "One of the students who has participated is absent.",
+        "One of the students who have participated is absent.",
+        "One of the student who has participated is absent.",
+        "One of the students who have participated are absent."
+      ],
+      "ans": 1,
+      "exp": "The relative pronoun 'who' refers to plural antecedent 'students' (taking 'have participated'), while the main clause subject 'One' takes singular verb 'is absent'."
+    },
+    {
+      "id": "ver30",
+      "q": "What does the idiom 'Cut corners' mean?",
+      "options": [
+        "To take a sharp turn",
+        "To do something poorly or cheaply in order to save time or money",
+        "To cut paper with scissors",
+        "To solve a difficult puzzle"
+      ],
+      "ans": 1,
+      "exp": "'To cut corners' means to undertake a task in the easiest, cheapest, or fastest way, frequently compromising quality."
+    }
+  ],
+  "debugging": [
+    {
+      "id": "deb1",
+      "q": "Find the bug:\nint sum=0;\nfor(int i=0; i<=n; i++) sum+=arr[i];\nreturn sum;",
+      "options": [
+        "i<=n causes array out-of-bounds; should be i<n",
+        "sum should be initialized differently",
+        "arr[i] should be arr[i+1]",
+        "return type is wrong"
+      ],
+      "ans": 0,
+      "exp": "i<=n accesses arr[n] which is out of bounds. Correct condition is i<n for 0-based arrays of size n."
+    },
+    {
+      "id": "deb2",
+      "q": "Find the bug:\nint factorial(int n){\n  return n * factorial(n-1);\n}",
+      "options": [
+        "Missing base case — will cause infinite recursion/stack overflow",
+        "Return type should be long",
+        "n should be n+1",
+        "Loop should be used instead"
+      ],
+      "ans": 0,
+      "exp": "No base case! When n reaches 0 or negative, recursion never terminates. Add: if(n<=1) return 1;"
+    },
+    {
+      "id": "deb3",
+      "q": "Find the bug:\nint a;\na = a + 5;\nprintf(\"%d\", a);",
+      "options": [
+        "printf format is wrong",
+        "a is uninitialized — contains garbage value",
+        "Addition syntax is wrong",
+        "No bug exists"
+      ],
+      "ans": 1,
+      "exp": "int a; declared but not initialized. a contains a garbage/undefined value. Should be int a=0;"
+    },
+    {
+      "id": "deb4",
+      "q": "Find the bug:\nint* ptr = NULL;\n*ptr = 42;",
+      "options": [
+        "ptr type is wrong",
+        "Dereferencing a NULL pointer — causes segmentation fault",
+        "42 is invalid",
+        "= should be =="
+      ],
+      "ans": 1,
+      "exp": "Dereferencing a NULL pointer (*ptr) causes undefined behavior / segmentation fault at runtime."
+    },
+    {
+      "id": "deb5",
+      "q": "Find the bug in BST insertion:\nvoid insert(Node* root, int val){\n  if(val < root->data) insert(root->left, val);\n  else insert(root->right, val);\n}",
+      "options": [
+        "Missing NULL check — doesn't handle empty tree or create new nodes",
+        "val comparison is wrong",
+        "Should use iterative approach",
+        "root->data should be root->val"
+      ],
+      "ans": 0,
+      "exp": "No NULL check! When root is NULL, should create new Node. Also doesn't return/assign the new node back."
+    },
+    {
+      "id": "deb6",
+      "q": "Find the bug:\nfor(int i=0; i<n; i++){\n  for(int j=0; j<n; j++){\n    if(arr[i] == arr[j]) printf(\"dup\");\n  }\n}",
+      "options": [
+        "Missing break statement",
+        "When i==j it always finds a 'duplicate' (element equals itself)",
+        "arr comparison is wrong",
+        "Loop bounds are wrong"
+      ],
+      "ans": 1,
+      "exp": "When i==j, arr[i]==arr[j] is always true (same element). Inner loop should start at j=i+1."
+    },
+    {
+      "id": "deb7",
+      "q": "Find the bug:\nint str_len(char* s){\n  int count=0;\n  while(s[count] != NULL) count++;\n  return count;\n}",
+      "options": [
+        "count should start at 1",
+        "NULL should be '\\0' (null terminator) not the NULL pointer",
+        "return should be count-1",
+        "s is wrong type"
+      ],
+      "ans": 1,
+      "exp": "String null terminator is '\\0' (char 0), not NULL pointer. Use while(s[count] != '\\0') or while(s[count])."
+    },
+    {
+      "id": "deb8",
+      "q": "Find the bug in this swap:\nvoid swap(int a, int b){\n  int temp = a;\n  a = b;\n  b = temp;\n}",
+      "options": [
+        "temp variable is wrong",
+        "Passed by value — changes don't reflect outside; needs pointers",
+        "Should use XOR swap",
+        "No bug"
+      ],
+      "ans": 1,
+      "exp": "C passes by value. Changes to a,b don't affect caller's variables. Use void swap(int* a, int* b) and dereference."
+    },
+    {
+      "id": "deb9",
+      "q": "Find the bug:\nint arr[5] = {1,2,3,4,5};\nprintf(\"%d\", arr[5]);",
+      "options": [
+        "printf format wrong",
+        "arr[5] is out of bounds — valid indices are 0 to 4",
+        "Array initialization wrong",
+        "No bug"
+      ],
+      "ans": 1,
+      "exp": "Array of size 5 has valid indices 0–4. arr[5] accesses beyond the array boundary — undefined behavior."
+    },
+    {
+      "id": "deb10",
+      "q": "Find the bug:\nwhile(1){\n  printf(\"hello\");\n  if(count == 10) break;\n}",
+      "options": [
+        "break is wrong",
+        "count is never incremented — infinite loop",
+        "printf shouldn't be in loop",
+        "while(1) is invalid"
+      ],
+      "ans": 1,
+      "exp": "count is never incremented inside the loop, so count==10 is never reached, causing an infinite loop."
+    },
+    {
+      "id": "deb11",
+      "q": "Find the bug in linked list traversal:\nNode* curr = head;\nwhile(curr != NULL){\n  printf(\"%d \", curr->data);\n  curr = curr->data;\n}",
+      "options": [
+        "Should print curr->next->data",
+        "curr = curr->data should be curr = curr->next",
+        "head should be used not curr",
+        "NULL check is wrong"
+      ],
+      "ans": 1,
+      "exp": "curr->data is the integer data field. To advance in a linked list, use curr = curr->next (the pointer to next node)."
+    },
+    {
+      "id": "deb12",
+      "q": "Find the memory leak in C++:\nint* arr = new int[100];\n// ... processing ...\ndelete arr;",
+      "options": [
+        "Should be delete[] arr; to deallocate array memory",
+        "arr should be free()",
+        "new is not allowed",
+        "delete is wrong"
+      ],
+      "ans": 0,
+      "exp": "Arrays allocated with new[] must be freed using delete[] to prevent memory leaks."
+    },
+    {
+      "id": "deb13",
+      "q": "Find the bug in Binary Search midpoint calculation:\nint mid = (low + high) / 2;",
+      "options": [
+        "Causes integer overflow if low + high exceeds INT_MAX; should be low + (high - low) / 2",
+        "Division should be by 2.0",
+        "mid should be float",
+        "low + high must be odd"
+      ],
+      "ans": 0,
+      "exp": "For large array indices (e.g. low + high > 2^31 - 1), direct addition wraps into negative numbers causing an overflow crash. Use `low + (high - low) / 2`."
+    },
+    {
+      "id": "deb14",
+      "q": "Find the bug in floating-point comparison:\ndouble x = 0.1 * 3;\nif (x == 0.3) printf(\"Equal\");",
+      "options": [
+        "x is not initialized",
+        "Direct equality `==` fails due to binary IEEE-754 precision representation; should use `fabs(x - 0.3) < 1e-9`",
+        "double cannot be multiplied by int",
+        "printf syntax error"
+      ],
+      "ans": 1,
+      "exp": "0.1 cannot be represented exactly in binary floating-point. Comparing with `==` often fails. Always compare with an epsilon tolerance."
+    },
+    {
+      "id": "deb15",
+      "q": "Find the bug with pointer post-increment:\nint* ptr = arr;\nint val = *ptr++;",
+      "options": [
+        "val is unassigned",
+        "It dereferences ptr first, then increments the pointer address, not the value pointed to",
+        "Syntax error with ++",
+        "ptr is invalidated"
+      ],
+      "ans": 1,
+      "exp": "`*ptr++` evaluates to `*(ptr++)`, advancing the pointer to the next element. If the intent was incrementing the integer value, parentheses are required: `(*ptr)++`."
+    },
+    {
+      "id": "deb16",
+      "q": "Find the bug in 2D Dynamic Programming table allocation:\nint dp[m][n];\n// trying to compute dp for lengths up to m and n",
+      "options": [
+        "Table sizes should be `dp[m+1][n+1]` to accommodate the 0-length base case (indices 0 to m and 0 to n)",
+        "Variable-length arrays are strictly forbidden in all compilers",
+        "dp should be float",
+        "dp cannot be 2D"
+      ],
+      "ans": 0,
+      "exp": "Standard 2D DP problems (like LCS or Edit Distance) require index 0 as an empty string/base case, requiring an array of dimensions `(m+1) × (n+1)`."
+    },
+    {
+      "id": "deb17",
+      "q": "Find the bug in dynamic memory deallocation:\nint* p = (int*)malloc(sizeof(int));\nfree(p);\nfree(p);",
+      "options": [
+        "malloc cannot allocate single int",
+        "Double Free error: freeing already freed pointer results in heap corruption or SIGABRT",
+        "free requires two arguments",
+        "p must be set to 1 before free"
+      ],
+      "ans": 1,
+      "exp": "Calling `free()` twice on the same heap pointer causes a Double Free vulnerability, corrupting the memory allocator's metadata."
+    },
+    {
+      "id": "deb18",
+      "q": "Find the bug in string manipulation:\nchar* str = \"hello\";\nstr[0] = 'H';",
+      "options": [
+        "Single quotes cannot be used",
+        "String literal is stored in read-only data segment (RODATA); modifying it triggers a Segmentation Fault",
+        "str is not a char pointer",
+        "'H' is invalid character"
+      ],
+      "ans": 1,
+      "exp": "String literals are immutable and stored in read-only memory. Attempting to write to `str[0]` causes an immediate access violation / SIGSEGV. Use `char str[] = \"hello\";` instead."
+    },
+    {
+      "id": "deb19",
+      "q": "Find the bug in function return:\nint* getArray() {\n  int localArr[5] = {1,2,3,4,5};\n  return localArr;\n}",
+      "options": [
+        "localArr has too few elements",
+        "Returning address of local stack variable results in a dangling pointer after function frame unwinds",
+        "Array cannot be initialized with braces",
+        "Return type should be void"
+      ],
+      "ans": 1,
+      "exp": "Local array `localArr` is allocated on the stack frame. Once `getArray()` returns, that stack frame is invalidated. Returning its address creates a dangerous dangling pointer."
+    },
+    {
+      "id": "deb20",
+      "q": "Find the bug in modulo arithmetic with negative numbers in C++:\nint r = -7 % 3;\n// expected positive remainder in range [0, 2]",
+      "options": [
+        "% operator is not supported for negative integers in C++",
+        "In C++, -7 % 3 evaluates to -1; to get mathematical positive modulo use `(n % m + m) % m`",
+        "3 cannot divide 7",
+        "r must be unsigned"
+      ],
+      "ans": 1,
+      "exp": "In C/C++ (C99+ / C++11+), `%` computes the remainder which retains the numerator's sign (`-7 % 3 == -1`). To map into `[0, m-1]`, use `((n % m) + m) % m`."
+    },
+    {
+      "id": "deb21",
+      "q": "Find the bug in string concatenation inside a loop in Java:\nString s = \"\";\nfor(int i = 0; i < 10000; i++) s += i;",
+      "options": [
+        "Loop bound is too large",
+        "Repeated `+=` creates 10,000 intermediate String objects causing O(N^2) time and memory overhead; should use `StringBuilder`",
+        "int cannot be added to String",
+        "Java does not allow `+=` on Strings"
+      ],
+      "ans": 1,
+      "exp": "Strings in Java are immutable. Each `s += i` creates a new String and copies previous characters, degrading performance to O(N^2). `StringBuilder.append()` operates in amortized O(1) time."
+    },
+    {
+      "id": "deb22",
+      "q": "Find the bug in C++ struct pointer access:\nstruct Student { int id; };\nStudent* s = new Student();\ns.id = 101;",
+      "options": [
+        "Student cannot be dynamically allocated",
+        "Member access on a pointer must use the arrow operator `s->id` or `(*s).id`, not `s.id`",
+        "101 is not a valid id",
+        "delete is missing immediately"
+      ],
+      "ans": 1,
+      "exp": "The dot operator `.` is used for object instances or references. For pointers to structs/classes, the arrow operator `->` or explicit dereference `(*s).id` must be used."
+    }
+  ],
+  "ai_coding": [
+    {
+      "id": "ai_1",
+      "q": "In Capgemini's AI-Assisted Coding (Stage 3), which type of prompt will NOT unlock the next step?",
+      "options": [
+        "A prompt explaining input/output and constraints in your own words",
+        "A one-liner like 'write the code for this'",
+        "A prompt specifying edge cases like null input",
+        "A prompt explaining your chosen algorithm approach"
+      ],
+      "ans": 1,
+      "exp": "Capgemini's AI assistant specifically rejects vague one-liners. You must restate inputs, outputs, and constraints meaningfully."
+    },
+    {
+      "id": "ai_2",
+      "q": "What does Capgemini evaluate under 'Prompt Quality' in the AI Coding Assessment?",
+      "options": [
+        "Speed of typing",
+        "Structured, constraint-driven prompts — not random one-liners",
+        "Length of the prompt",
+        "Number of follow-up prompts sent"
+      ],
+      "ans": 1,
+      "exp": "Prompt Quality: structured, relevant prompts that describe the problem, constraints, and expected behavior clearly."
+    },
+    {
+      "id": "ai_3",
+      "q": "For the AI-Assisted Coding round, what should you do AFTER the AI generates code?",
+      "options": [
+        "Submit immediately",
+        "Delete and rewrite manually",
+        "Review for correctness, verify edge cases, and adapt if wrong",
+        "Copy-paste without checking"
+      ],
+      "ans": 2,
+      "exp": "'Review & Adapt' is the 4th evaluation criterion. Never blindly copy-paste — always verify AI output against test cases."
+    },
+    {
+      "id": "ai_4",
+      "q": "Which is the BEST prompt to start the AI-Assisted Coding task of 'Reverse a Linked List in-place'?",
+      "options": [
+        "'Reverse linked list'",
+        "'Write me the code'",
+        "'Input: head of a singly linked list. Output: new head after reversing all next pointers in-place. Constraint: O(1) memory, no extra arrays. Handle NULL and single-node cases.'",
+        "'Use three pointers'"
+      ],
+      "ans": 2,
+      "exp": "A great framing prompt includes: input, output, constraints, and edge cases in your own words — not just task name."
+    },
+    {
+      "id": "ai_5",
+      "q": "Capgemini's AI Coding Assessment measures 'AI Literacy' as:",
+      "options": [
+        "Your knowledge of Python",
+        "Understanding & interpreting the problem, then responding meaningfully to the AI",
+        "How fast you type",
+        "How many tokens you use"
+      ],
+      "ans": 1,
+      "exp": "AI Literacy criterion: understanding the problem fully and framing your AI interactions meaningfully."
+    },
+    {
+      "id": "ai_6",
+      "q": "'Problem-Solving' criterion in the AI Coding Assessment means:",
+      "options": [
+        "Getting the exact answer",
+        "Brute-forcing the solution",
+        "Choosing the right algorithmic approach and guiding the AI step-by-step",
+        "Submitting fastest"
+      ],
+      "ans": 2,
+      "exp": "Problem-Solving: selecting the correct approach (e.g., 3-pointer technique for linked list reversal) and systematically guiding the AI."
+    },
+    {
+      "id": "ai_7",
+      "q": "What is 'iterative prompting' in the AI Coding context?",
+      "options": [
+        "Running code multiple times",
+        "Refining and narrowing your prompt across multiple messages to fix issues",
+        "Using loops in code",
+        "Typing prompts faster"
+      ],
+      "ans": 1,
+      "exp": "Iterative prompting: starting broad, then drilling into specifics across follow-up prompts as the AI's response is refined."
+    },
+    {
+      "id": "ai_8",
+      "q": "The Debugging Assessment (Stage 2B) specifically tests on:",
+      "options": [
+        "Web development bugs",
+        "UI/UX errors",
+        "Trees, Graphs, and 2D Dynamic Programming in C/C++/Java",
+        "Python runtime errors only"
+      ],
+      "ans": 2,
+      "exp": "Official Capgemini syllabus: Debugging Assessment covers Trees, Graphs, and 2D DP in C, C++, or Java."
+    },
+    {
+      "id": "ai_9",
+      "q": "In the 4-step Debugging process, what happens in the 'Validate' step?",
+      "options": [
+        "Rewrite entire code",
+        "Submit",
+        "Check logic, test approach, and handle edge cases like null/empty inputs",
+        "Just compile the code"
+      ],
+      "ans": 2,
+      "exp": "Validate: After fixing, check correctness — test edge cases like null input, single node, empty arrays, duplicates."
+    },
+    {
+      "id": "ai_10",
+      "q": "What should you prompt the AI when its generated code exceeds the time limit (TLE)?",
+      "options": [
+        "'Make it faster'",
+        "'The current O(N^2) brute-force approach causes TLE on N=10^5. Please optimize to an O(N log N) or O(N) approach using a Hash Map or Two Pointers.'",
+        "'Error'",
+        "'Retry'"
+      ],
+      "ans": 1,
+      "exp": "Explicit algorithmic direction identifying the asymptotic bottleneck and suggesting the target data structure gets immediate correct results."
+    },
+    {
+      "id": "ai_11",
+      "q": "Under Capgemini's Lab 27 prompt rubric, why is verbatim copying of the problem statement penalized?",
+      "options": [
+        "Because the platform does not allow clipboard paste",
+        "Because the AI evaluates your ability to decompose and synthesize requirements in your own words, proving genuine comprehension",
+        "Because the prompt will exceed maximum token limits",
+        "Because LLMs cannot read long text"
+      ],
+      "ans": 1,
+      "exp": "The evaluation framework specifically tests comprehension and articulation. Rephrasing the problem in your own terms demonstrates algorithmic understanding."
+    },
+    {
+      "id": "ai_12",
+      "q": "When the AI generates code that hallucinates a non-existent standard library method, what is the best follow-up prompt?",
+      "options": [
+        "'This does not work, write something else'",
+        "'Method X does not exist in standard Java/C++ libraries. Please replace it using standard collections/primitives and verify standard library compatibility.'",
+        "'Change programming language'",
+        "'Restart session'"
+      ],
+      "ans": 1,
+      "exp": "Pointing out the exact hallucinated API and specifying the replacement constraint (standard collections/primitives) yields targeted corrections."
+    },
+    {
+      "id": "ai_13",
+      "q": "What is 'Few-Shot Prompting' and how does it help when generating competitive programming logic?",
+      "options": [
+        "Sending only few prompts per day",
+        "Providing 1 or 2 concrete examples of inputs and desired outputs with step-by-step traces before requesting the code",
+        "Writing short code snippets",
+        "Prompting without examples"
+      ],
+      "ans": 1,
+      "exp": "Few-shot prompting provides concrete demonstration pairs of inputs and expected outputs, which grounds the model's inductive reasoning on complex edge cases."
+    },
+    {
+      "id": "ai_14",
+      "q": "How should you guide an AI to optimize a 2D DP solution from O(M × N) space to O(min(M, N)) auxiliary space?",
+      "options": [
+        "'Reduce memory'",
+        "'Since the recurrence relation dp[i][j] only depends on row i-1 and current row i, optimize space by using two 1D rolling arrays of size N.'",
+        "'Use bit manipulation'",
+        "'Remove the array entirely'"
+      ],
+      "ans": 1,
+      "exp": "Explicitly stating the recurrence dependency structure (only needing the prior row) instructs the LLM to implement rolling array space optimization."
+    },
+    {
+      "id": "ai_15",
+      "q": "What should be included when pasting compiler errors back to the AI assistant?",
+      "options": [
+        "Only the word 'Compilation Error'",
+        "The exact compiler error message, the specific line number, and the corresponding code snippet",
+        "A screenshot of the screen",
+        "Nothing, just ask it to regenerate"
+      ],
+      "ans": 1,
+      "exp": "Feeding the exact error message and line number allows the LLM to isolate the syntax or type mismatch without having to guess context."
+    },
+    {
+      "id": "ai_16",
+      "q": "When prompting the AI for a graph traversal algorithm (BFS/DFS), what critical edge case should you explicitly mandate?",
+      "options": [
+        "The graph having 1,000,000 edges",
+        "Handling disconnected graph components using an outer loop over all vertices, and detecting cycles via visited states",
+        "Using only while loops",
+        "Ignoring visited nodes"
+      ],
+      "ans": 1,
+      "exp": "Graphs frequently feature multiple disconnected subgraphs or cycles. Explicitly requiring an outer loop over unvisited vertices prevents incomplete traversals."
+    },
+    {
+      "id": "ai_17",
+      "q": "What is 'Chain-of-Thought' prompting in coding tasks?",
+      "options": [
+        "Writing code with chained method calls",
+        "Instructing the model to write out the algorithmic logic, invariants, and step-by-step reasoning in plain English BEFORE generating the code",
+        "Running multiple chained LLMs",
+        "Writing multiple recursive functions"
+      ],
+      "ans": 1,
+      "exp": "Chain-of-Thought (CoT) prompting prompts the AI to think aloud step-by-step, drastically reducing logic flaws and edge-case omissions in generated code."
+    },
+    {
+      "id": "ai_18",
+      "q": "How should you instruct the AI when writing code that handles 64-bit integer calculations?",
+      "options": [
+        "'Use big numbers'",
+        "'Ensure all intermediate product computations use 64-bit integers (`long long` in C++ / `long` in Java) to prevent 32-bit integer overflow before modulo.'",
+        "'Use floating point double'",
+        "'Ignore large inputs'"
+      ],
+      "ans": 1,
+      "exp": "Intermediate products (e.g. `(a * b) % MOD`) can overflow a standard 32-bit signed int even if both operands are smaller than MOD. Explicit 64-bit casting is critical."
+    },
+    {
+      "id": "ai_19",
+      "q": "What is the safest way to prompt the AI to implement defensive programming against null inputs in Tree algorithms?",
+      "options": [
+        "'Check if root is NULL at the entry of the function and return 0 / NULL before accessing root->left or root->right.'",
+        "'Assume root is always non-null'",
+        "'Use try-catch blocks everywhere'",
+        "'Trees never have null pointers'"
+      ],
+      "ans": 0,
+      "exp": "Explicitly specifying base-case guard clauses for NULL/empty trees prevents runtime segmentation faults and null pointer exceptions."
+    },
+    {
+      "id": "ai_20",
+      "q": "If the AI gives you a recursive solution that will hit a Recursion Depth / Stack Overflow error on N=10^5, how do you prompt it?",
+      "options": [
+        "'Make recursion faster'",
+        "'Recursion depth of N=10^5 exceeds call stack limits. Please rewrite the solution iteratively using an explicit Stack / Two Pointers.'",
+        "'Increase stack memory'",
+        "'Change return type'"
+      ],
+      "ans": 1,
+      "exp": "Specifying the stack overflow constraint and instructing an iterative refactor using an explicit data structure resolves call stack exhaustion."
+    }
+  ],
+  "situational": [
+    {
+      "id": "sit1",
+      "q": "You finish a task 2 hours early. What do you do?",
+      "options": [
+        "Leave for the day",
+        "Start learning or help teammates / ask for more work",
+        "Browse social media",
+        "Wait for the day to end"
+      ],
+      "ans": 1,
+      "exp": "Capgemini values initiative and teamwork. Proactively adding value by helping others or upskilling demonstrates the right attitude."
+    },
+    {
+      "id": "sit2",
+      "q": "A teammate submits code with a critical bug before a deadline. You notice it. What do you do?",
+      "options": [
+        "Say nothing — not your problem",
+        "Tell your manager only",
+        "Inform your teammate immediately and help fix it, then notify the manager if needed",
+        "Rewrite their entire module yourself"
+      ],
+      "ans": 2,
+      "exp": "Collaborative problem-solving. Respectfully alert the teammate first, offer to help, then escalate if time requires."
+    },
+    {
+      "id": "sit3",
+      "q": "You disagree with your tech lead's technical decision. What do you do?",
+      "options": [
+        "Ignore it and do your own thing",
+        "Raise your concern privately with data and reasoning, then accept the final decision",
+        "Complain to other team members",
+        "File a formal complaint"
+      ],
+      "ans": 1,
+      "exp": "Professional disagreement: raise concerns with evidence in a respectful channel, then respect the hierarchy's decision."
+    },
+    {
+      "id": "sit4",
+      "q": "You are assigned a task using a technology you've never used. What do you do?",
+      "options": [
+        "Refuse the task",
+        "Inform your manager immediately that you can't do it",
+        "Research independently, ask targeted questions when stuck, deliver within timeline",
+        "Do nothing and wait for training"
+      ],
+      "ans": 2,
+      "exp": "Continuous learning is core to Capgemini's culture. Self-directed learning with smart escalation is the expected approach."
+    },
+    {
+      "id": "sit5",
+      "q": "During a client presentation, your live demo crashes. You should:",
+      "options": [
+        "Panic and apologize repeatedly",
+        "Remain calm, explain what the demo shows conceptually, offer to share screenshots/recording later",
+        "Blame a teammate",
+        "Cancel the meeting"
+      ],
+      "ans": 1,
+      "exp": "Professional composure under pressure. Pivot smoothly — clients appreciate calm problem-solving over panic."
+    },
+    {
+      "id": "sit6",
+      "q": "Your project deadline is tomorrow and you realize you need 3 more days. What do you do?",
+      "options": [
+        "Submit incomplete work without telling anyone",
+        "Work all night without telling your manager",
+        "Proactively inform your manager TODAY with a revised timeline and mitigation plan",
+        "Ask a teammate to cover you without telling management"
+      ],
+      "ans": 2,
+      "exp": "Early, transparent communication with a solution plan is critical. Surprises at the deadline are far worse than early escalation."
+    },
+    {
+      "id": "sit7",
+      "q": "In the Motion Challenge cognitive game, what is the best strategy?",
+      "options": [
+        "Random clicking to see what moves",
+        "Planning 3-4 moves in advance to minimize total step count",
+        "Moving the largest obstacle first always",
+        "Restarting repeatedly"
+      ],
+      "ans": 1,
+      "exp": "Motion Challenge penalizes excessive trial-and-error moves. Planning paths mentally before executing produces higher scores."
+    },
+    {
+      "id": "sit8",
+      "q": "In the Grid Challenge (working memory game), how should you manage dual tasks?",
+      "options": [
+        "Ignore the symmetry question and only memorize dots",
+        "Use verbal rehearsal (e.g. repeating 'top-left, center') while evaluating symmetry",
+        "Guess all dots at the end",
+        "Click as fast as possible"
+      ],
+      "ans": 1,
+      "exp": "Verbal chunking and mental rehearsal keeps spatial coordinates active in working memory during distraction tasks."
+    },
+    {
+      "id": "sit9",
+      "q": "Under the ADEPT-15 behavioral framework, what does 'Consistency' measure?",
+      "options": [
+        "Answering in the same time per question",
+        "Maintaining coherent trait responses across re-phrased situational questions without contradiction",
+        "Always picking the first option",
+        "Selecting extreme answers"
+      ],
+      "ans": 1,
+      "exp": "ADEPT-15 assesses authenticity by re-phrasing underlying workplace traits across multiple questions to detect random guessing or fake personas."
+    },
+    {
+      "id": "sit10",
+      "q": "A client requests a feature that wasn't in the original scope. You should:",
+      "options": [
+        "Build it immediately without telling anyone",
+        "Refuse outright",
+        "Discuss with your team lead, assess impact, document scope change, then communicate timeline adjustment",
+        "Promise it verbally"
+      ],
+      "ans": 2,
+      "exp": "Scope changes need structured impact assessment, team alignment, and formal change management."
+    },
+    {
+      "id": "sit11",
+      "q": "A critical production bug occurs on a Friday evening right after release. What is your immediate course of action?",
+      "options": [
+        "Wait until Monday morning since work hours are over",
+        "Follow incident protocol: alert on-call lead, check error logs, prepare a hotfix or rollback, and verify resolution",
+        "Restart the production database without telling anyone",
+        "Delete the release branch"
+      ],
+      "ans": 1,
+      "exp": "Production incidents require following incident response protocols: immediate escalation to on-call leads, root-cause log inspection, mitigation/rollback, and post-mortem analysis."
+    },
+    {
+      "id": "sit12",
+      "q": "You notice a subtle security vulnerability in an internal tool that isn't part of your assigned deliverables. What should you do?",
+      "options": [
+        "Ignore it because it is outside your sprint commitment",
+        "Privately report the vulnerability to the tech lead or security team with reproduction steps",
+        "Exploit it to demonstrate it to peers",
+        "Post about it on public social media"
+      ],
+      "ans": 1,
+      "exp": "Demonstrating proactive integrity and organizational stewardship: quietly report security issues through proper channels with reproducible evidence."
+    },
+    {
+      "id": "sit13",
+      "q": "During a sprint code review, a senior peer leaves very critical feedback on your pull request. How should you react?",
+      "options": [
+        "Take it personally and reject their comments",
+        "View it objectively as a learning opportunity, discuss architectural improvements professionally, and implement constructive fixes",
+        "Complain to HR",
+        "Ignore the review and merge directly"
+      ],
+      "ans": 1,
+      "exp": "Receptiveness to feedback is a core engineering competency. Separate your ego from your code, seek clarification respectfully, and adopt best practices."
+    },
+    {
+      "id": "sit14",
+      "q": "In the Switch Challenge (Capgemini cognitive test), what is the optimal deduction tactic?",
+      "options": [
+        "Guessing based on visual patterns",
+        "Tracking the change in position of one unique symbol across the operators to determine the switch rule",
+        "Selecting options randomly to beat the countdown timer",
+        "Focusing only on color"
+      ],
+      "ans": 1,
+      "exp": "In Switch Challenge, isolating a single symbol and tracking how each numbered operator alters its position allows you to systematically deduce the correct transformation sequence."
+    },
+    {
+      "id": "sit15",
+      "q": "In the Digit Challenge (mental arithmetic cognitive game), what balance produces the highest score?",
+      "options": [
+        "Guessing every question instantly",
+        "Maintaining high speed while ensuring strict accuracy, skipping only excessively lengthy equations",
+        "Attempting only 2 questions perfectly",
+        "Using a physical calculator"
+      ],
+      "ans": 1,
+      "exp": "Capgemini cognitive games evaluate both speed and accuracy. Reckless guessing drastically lowers efficiency ratings, while calculated speed with high accuracy maximizes percentile rank."
+    },
+    {
+      "id": "sit16",
+      "q": "Under ADEPT-15, which trait reflects an employee's willingness to help peers without seeking personal credit?",
+      "options": [
+        "Ambition",
+        "Cooperation / Altruism",
+        "Assertiveness",
+        "Autonomy"
+      ],
+      "ans": 1,
+      "exp": "Cooperation and Altruism evaluate a candidate's readiness to support team members, share knowledge, and prioritize collective team success over individual ego."
+    },
+    {
+      "id": "sit17",
+      "q": "Under ADEPT-15, which behavior best demonstrates 'Emotional Composure'?",
+      "options": [
+        "Expressing frustration openly when deadlines compress",
+        "Remaining calm, measured, and solution-focused during unexpected escalations or setbacks",
+        "Avoiding all difficult conversations",
+        "Never speaking in meetings"
+      ],
+      "ans": 1,
+      "exp": "Emotional Composure assesses resilience: keeping a level head under stressful project milestones and focusing energy on mitigation rather than panic."
+    },
+    {
+      "id": "sit18",
+      "q": "You are dependent on an API from another team, but their engineer has not responded to messages for 2 days. What should you do?",
+      "options": [
+        "Stop working and wait indefinitely",
+        "Escalate to your lead with the timeline impact while working on mock data/stubs to prevent your own sprint blocker",
+        "Send 20 urgent emails to their manager",
+        "Abandon the feature"
+      ],
+      "ans": 1,
+      "exp": "Unblocking yourself using mock interfaces while professionally informing leadership of the cross-team dependency minimizes project downtime."
+    },
+    {
+      "id": "sit19",
+      "q": "A client asks for an unrealistic deadline that you know cannot be met without severe code degradation. What is the best approach?",
+      "options": [
+        "Agree to the date and ship untested, buggy code",
+        "Provide data-backed estimates, explain the trade-offs, and propose a phased MVP delivery schedule",
+        "Blame the development team",
+        "Refuse to communicate"
+      ],
+      "ans": 1,
+      "exp": "Professional consulting involves managing expectations: offering a prioritized MVP (Minimum Viable Product) and demonstrating realistic effort-hour estimates."
+    },
+    {
+      "id": "sit20",
+      "q": "What is the Capgemini value demonstrated when an employee takes ownership of an honest mistake in production?",
+      "options": [
+        "Boldness and Honesty",
+        "Modesty only",
+        "Fun",
+        "Freedom without accountability"
+      ],
+      "ans": 0,
+      "exp": "Honesty (owning the mistake with transparency) combined with Boldness (stepping forward to address it decisively) directly embodies Capgemini's founding values."
+    }
+  ],
+  "interview": [
+    {
+      "id": "int1",
+      "q": "What are Capgemini's 7 Core Values?",
+      "options": [
+        "Speed, Power, Profit, Quality, Tech, Global, Code",
+        "Honesty, Boldness, Trust, Freedom, Fun, Modesty, Team Spirit",
+        "Integrity, Discipline, Fast Delivery, Sales, AI, Cloud, Java",
+        "Respect, Punctuality, Leadership, Vision, Cost, Innovation, Design"
+      ],
+      "ans": 1,
+      "exp": "Founded in 1967 by Serge Kampf, Capgemini's 7 Core Values are Honesty, Boldness, Trust, Freedom, Fun, Modesty, Team Spirit."
+    },
+    {
+      "id": "int2",
+      "q": "In the STAR framework, what does 'A' stand for?",
+      "options": [
+        "Answer",
+        "Action — the specific steps you personally took",
+        "Analysis",
+        "Agreement"
+      ],
+      "ans": 1,
+      "exp": "STAR = Situation, Task, Action (your personal contribution & actions), Result (quantifiable outcome)."
+    },
+    {
+      "id": "int3",
+      "q": "When asked 'Why Capgemini?', which response is strongest?",
+      "options": [
+        "'I need a job immediately'",
+        "'Capgemini is a global leader in AI, digital transformation, and people-first culture where I can grow in Cloud and enterprise engineering'",
+        "'Because my friend works here'",
+        "'For high package'"
+      ],
+      "ans": 1,
+      "exp": "Connecting your personal tech aspirations with Capgemini's industry leadership (AI, Cloud, Digital Transformation) shows genuine interest."
+    },
+    {
+      "id": "int4",
+      "q": "Why do we use JWT (JSON Web Tokens) with HttpOnly cookies?",
+      "options": [
+        "To make web pages load faster",
+        "To prevent Cross-Site Scripting (XSS) attacks from accessing auth tokens via JavaScript",
+        "Because it is required by HTML5",
+        "To compress images"
+      ],
+      "ans": 1,
+      "exp": "HttpOnly cookies cannot be accessed via document.cookie by client-side JS, mitigating token theft via XSS."
+    },
+    {
+      "id": "int5",
+      "q": "When explaining project architecture, what is the best sequence?",
+      "options": [
+        "Show code line by line",
+        "Problem Statement → High-level architecture & DB choice → Key Challenges & Trade-offs → Quantifiable Impact/Result",
+        "Complain about team members",
+        "Only talk about UI"
+      ],
+      "ans": 1,
+      "exp": "Senior interviewers look for structured systems thinking: Problem → Tech Stack Rationale → Challenges/Trade-offs → Results."
+    },
+    {
+      "id": "int6",
+      "q": "'Tell me about yourself' — the ideal structure in an interview is:",
+      "options": [
+        "List your hobbies first",
+        "Background → Technical skills → Key project highlight → Why this role aligns with your goals",
+        "Only mention academic marks",
+        "Start with your salary expectation"
+      ],
+      "ans": 1,
+      "exp": "Elevator pitch structure: brief background, core tech skills, one strong project highlight, and tie it to why you want this specific role."
+    },
+    {
+      "id": "int7",
+      "q": "What does 'S' in SOLID stand for?",
+      "options": [
+        "Synchronization Principle",
+        "Single Responsibility Principle — each class has one reason to change",
+        "Speed Optimization",
+        "Static Declaration"
+      ],
+      "ans": 1,
+      "exp": "S = Single Responsibility Principle: a class should have only ONE reason to change, meaning only one job/responsibility."
+    },
+    {
+      "id": "int8",
+      "q": "In system design interviews, what is 'horizontal scaling'?",
+      "options": [
+        "Making one server more powerful",
+        "Adding more servers to distribute load (scale out)",
+        "Increasing RAM in a single server",
+        "Vertical partitioning of databases"
+      ],
+      "ans": 1,
+      "exp": "Horizontal scaling (scale-out): add more machines. Vertical scaling (scale-up): make one machine more powerful. Horizontal is preferred for fault tolerance."
+    },
+    {
+      "id": "int9",
+      "q": "Database indexing improves:",
+      "options": [
+        "Write performance at cost of storage",
+        "Read query performance, especially for large datasets",
+        "Only JOIN operations",
+        "Primary key uniqueness"
+      ],
+      "ans": 1,
+      "exp": "Indexes (B-tree, Hash) dramatically speed up SELECT/WHERE lookups at the cost of extra storage and slower INSERTs/UPDATEs."
+    },
+    {
+      "id": "int10",
+      "q": "What is 'Dependency Injection' in OOP?",
+      "options": [
+        "Injecting bugs into code",
+        "Providing dependencies (objects a class needs) from outside rather than creating them inside",
+        "A runtime error",
+        "A database pattern"
+      ],
+      "ans": 1,
+      "exp": "Dependency Injection: pass required dependencies (collaborators) into a class via constructor/method rather than having the class create them — improves testability and decoupling."
+    },
+    {
+      "id": "int11",
+      "q": "How would you answer 'Tell me about a time you failed'?",
+      "options": [
+        "Deny ever failing",
+        "STAR format: real failure, personal responsibility, concrete lessons, how you applied them subsequently",
+        "Blame teammates",
+        "Say it was the manager's fault"
+      ],
+      "ans": 1,
+      "exp": "Interviewers want growth mindset. Use STAR: real failure, own it, specific lessons learned, and evidence you applied them in later work."
+    },
+    {
+      "id": "int12",
+      "q": "REST API vs GraphQL — GraphQL's key advantage is:",
+      "options": [
+        "Faster servers",
+        "Client requests only the exact fields it needs — no over-fetching or under-fetching",
+        "Better security",
+        "Simpler authentication"
+      ],
+      "ans": 1,
+      "exp": "GraphQL lets clients specify exactly what data they need in one query, eliminating REST's over-fetching (too much data) and under-fetching (multiple requests)."
+    },
+    {
+      "id": "int13",
+      "q": "What is 'technical debt'?",
+      "options": [
+        "Money owed for software licenses",
+        "Shortcuts or suboptimal code written now that will require refactoring later — trades short-term speed for long-term maintenance cost",
+        "A type of database error",
+        "Server downtime cost"
+      ],
+      "ans": 1,
+      "exp": "Technical debt is the implied cost of future rework caused by choosing an easy/fast solution now instead of a better approach that would take longer."
+    },
+    {
+      "id": "int14",
+      "q": "Capgemini's global headquarters is in:",
+      "options": [
+        "London, UK",
+        "Paris, France",
+        "New York, USA",
+        "Bangalore, India"
+      ],
+      "ans": 1,
+      "exp": "Capgemini SE is headquartered in Paris, France. Founded 1967 by Serge Kampf. Listed on Euronext Paris (CAC 40 index)."
+    },
+    {
+      "id": "int15",
+      "q": "During HR negotiation, when asked 'What is your expected salary?', best response:",
+      "options": [
+        "Say the highest number possible",
+        "Research market rates, give a justified range based on the role, skills, and market data, while expressing flexibility",
+        "Refuse to answer",
+        "Quote your friend's package"
+      ],
+      "ans": 1,
+      "exp": "Come prepared with market research (Glassdoor, Ambitionbox). Give a reasoned range, express enthusiasm for the role, and show willingness to discuss the full package."
+    },
+    {
+      "id": "int16",
+      "q": "What does the Spade symbol in Capgemini's logo represent historically?",
+      "options": [
+        "Playing cards only",
+        "Serge Kampf chose the ace of spades representing highest value and strength in bridge/poker, and precision in engineering",
+        "A gardening tool",
+        "French royalty crest"
+      ],
+      "ans": 1,
+      "exp": "In 1967, founder Serge Kampf selected the ace of spades because in card games (bridge) it is the highest card, signifying top-tier excellence and strength."
+    },
+    {
+      "id": "int17",
+      "q": "What does the CAP Theorem state for distributed data stores?",
+      "options": [
+        "Consistency, Availability, and Partition Tolerance cannot all three be guaranteed simultaneously in network partitions",
+        "Compute, Access, and Performance are equal",
+        "Cloud Always Protects data",
+        "Continuous API Polling is required"
+      ],
+      "ans": 0,
+      "exp": "CAP theorem proves that in any distributed data system across an unreliable network, you can guarantee at most two of: Consistency, Availability, and Partition Tolerance (CP or AP)."
+    },
+    {
+      "id": "int18",
+      "q": "What is the Cache-Aside (Lazy Loading) caching pattern?",
+      "options": [
+        "The application writes to cache first and async writes to DB",
+        "The application queries cache; on a miss, reads from database, writes result into cache, and returns it to the client",
+        "Cache automatically polls the database every second",
+        "Database directly invalidates browser memory"
+      ],
+      "ans": 1,
+      "exp": "Cache-Aside: app queries cache first. On cache miss, it reads from the DB, stores the result in cache for future reads, and returns data."
+    },
+    {
+      "id": "int19",
+      "q": "What is the Circuit Breaker pattern in microservices architecture?",
+      "options": [
+        "A physical switch on the server rack",
+        "A software design pattern that detects downstream service failures and immediately returns fallback responses without overloading failing dependencies",
+        "A Docker restart policy",
+        "A method to terminate deadlocks"
+      ],
+      "ans": 1,
+      "exp": "Circuit Breaker (e.g. Resilience4j) wraps network calls to downstream services. If error rates exceed a threshold, it trips open, preventing cascading failures across the system."
+    },
+    {
+      "id": "int20",
+      "q": "When should you choose a NoSQL Document Store (like MongoDB) over a Relational SQL DB (like PostgreSQL)?",
+      "options": [
+        "When ACID multi-table transactions and strict schema guarantees are paramount",
+        "When dealing with rapidly evolving, hierarchical, unstructured/semi-structured JSON-like data with high horizontal write scale",
+        "When using foreign keys heavily",
+        "Only for small toy apps"
+      ],
+      "ans": 1,
+      "exp": "Document stores excel when data is non-relational, schemas change frequently, and data models fit into nested JSON documents with horizontal sharding."
+    },
+    {
+      "id": "int21",
+      "q": "What is the difference between PUT and PATCH HTTP methods?",
+      "options": [
+        "PUT is for deletion; PATCH is for creation",
+        "PUT replaces the entire resource representation idempotently; PATCH applies partial modifications to the resource",
+        "PUT is unencrypted; PATCH is encrypted",
+        "They are identical"
+      ],
+      "ans": 1,
+      "exp": "PUT replaces the entire entity with the provided payload (idempotent). PATCH applies partial field-level updates to an existing resource."
+    },
+    {
+      "id": "int22",
+      "q": "How should a candidate answer 'What is your greatest weakness?' in Capgemini HR interview?",
+      "options": [
+        "'I am a perfectionist and work too hard'",
+        "State a genuine, non-critical technical or soft skill weakness, along with the proactive steps you are actively taking to improve it",
+        "'I have no weaknesses'",
+        "'I am always late for work'"
+      ],
+      "ans": 1,
+      "exp": "Interviewers test self-awareness and continuous improvement. Mention an authentic skill gap (e.g. public speaking or a specific framework) and show concrete actions you are taking."
+    },
+    {
+      "id": "int23",
+      "q": "At the end of an interview, what is the best question to ask the interviewer?",
+      "options": [
+        "'How many days of leave do I get?'",
+        "'What does success look like for a graduate engineer in their first 6 months on your team, and what tech stack initiatives is the team focusing on?'",
+        "'Did I pass the interview?'",
+        "'Nothing, I am ready to leave'"
+      ],
+      "ans": 1,
+      "exp": "Asking about team goals, 6-month performance expectations, and technical roadmap shows enthusiasm, maturity, and forward-thinking professionalism."
+    },
+    {
+      "id": "int24",
+      "q": "How do you explain a gap in education or non-CS background during the technical round?",
+      "options": [
+        "Hide it and hope they don't notice",
+        "Acknowledge it transparently, highlight self-driven learning, certifications, hands-on projects, and how your unique perspective adds value",
+        "Blame college professors",
+        "Make up false work experience"
+      ],
+      "ans": 1,
+      "exp": "Honesty and resilience impress interviewers. Connect your transition with self-discipline, projects built, and how problem-solving carries across domains."
+    },
+    {
+      "id": "int25",
+      "q": "In Capgemini enterprise architectures, what is the advantage of asynchronous messaging (Kafka / RabbitMQ)?",
+      "options": [
+        "Decouples microservices, absorbs traffic spikes (buffer), and provides eventual consistency without blocking client threads",
+        "Replaces all databases",
+        "Makes networks 100% immune to failures",
+        "Allows writing frontend code in Java"
+      ],
+      "ans": 0,
+      "exp": "Message queues decouple producers and consumers, smooth out sudden traffic spikes via buffering, and enable event-driven architectures with high throughput."
+    }
+  ]
+}

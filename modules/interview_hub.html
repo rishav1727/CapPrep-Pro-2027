@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interview & Cognitive Master Hub | Capgemini Exceller 2027</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    body { background: #0a0f1d; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding-bottom: 3rem; }
+    .hub-header { background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .nav-pill-group { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .nav-pill { background: #131d33; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
+    .nav-pill.active { background: linear-gradient(135deg, #00d4ff, #7c3aed); color: #fff; border-color: transparent; }
+    
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+    .hub-card { background: #0f172a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .hub-card h3 { margin: 0; font-size: 1.15rem; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+    .hub-card p { margin: 0; font-size: 0.88rem; color: #94a3b8; line-height: 1.55; }
+    
+    .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+    .tag-blue { background: rgba(0,212,255,0.15); color: #00d4ff; }
+    .tag-purple { background: rgba(124,58,237,0.2); color: #c084fc; }
+    .tag-green { background: rgba(6,214,160,0.15); color: #06d6a0; }
+    .tag-orange { background: rgba(249,115,22,0.15); color: #fb923c; }
+
+    .qa-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 1rem; }
+    .qa-q { font-weight: 700; font-size: 0.92rem; color: #f1f5f9; margin-bottom: 0.5rem; }
+    .qa-a { font-size: 0.84rem; color: #94a3b8; line-height: 1.5; }
+    .star-step { border-left: 2px solid #00d4ff; padding-left: 0.75rem; margin-top: 0.5rem; }
+    .star-step strong { color: #00d4ff; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="hub-header">
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <span style="font-size:1.5rem;">🎓</span>
+      <div>
+        <h1 style="font-size:1.15rem; font-weight:800; margin:0; color:#fff;">Stages 4, 5 &amp; 6 Master Hub</h1>
+        <div style="font-size:0.75rem; color:#94a3b8;">Cognitive Assessment • Technical Interview • HR &amp; 7 Capgemini Core Values</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="location.href='../index.html'">← Back to Dashboard</button>
+  </div>
+
+  <div class="container">
+    <!-- TABS -->
+    <div class="nav-pill-group">
+      <button class="nav-pill active" onclick="showTab('stage4')">🧩 Stage 4: Cognitive &amp; ADEPT-15</button>
+      <button class="nav-pill" onclick="showTab('stage5')">💻 Stage 5: Technical Interview</button>
+      <button class="nav-pill" onclick="showTab('stage6')">🤝 Stage 6: HR &amp; 7 Core Values (STAR)</button>
+    </div>
+
+    <!-- ================= STAGE 4: COGNITIVE ================= -->
+    <div id="tab-stage4" class="tab-panel">
+      <div class="card-grid">
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-blue">GAME-BASED COGNITIVE</span>
+            <span style="font-size:0.75rem; color:#64748b;">~20-30 Mins</span>
+          </div>
+          <h3>🎮 Motion &amp; Grid Challenge</h3>
+          <p>Capgemini assesses spatial ability, inductive logic, and working memory through rapid interactive mini-games:</p>
+          
+          <div class="qa-box">
+            <div class="qa-q">1. Motion Challenge (Pathfinding)</div>
+            <div class="qa-a">Move a ball from start to hole in minimum steps. Obstacles are movable blocks. Plan 3-4 moves ahead without random trial-and-error.</div>
+          </div>
+
+          <div class="qa-box">
+            <div class="qa-q">2. Grid Challenge (Spatial Working Memory)</div>
+            <div class="qa-a">Memorize dot sequences on 3x3/4x4 grids while solving quick symmetry calculations between screens. Tests simultaneous retention and processing.</div>
+          </div>
+
+          <div class="qa-box">
+            <div class="qa-q">3. Inductive &amp; Deductive Reasoning</div>
+            <div class="qa-a">Identify rules governing 4 symbol matrices to predict the 5th. Focus on rotation degrees (45°/90°), color inversion, and element counts.</div>
+          </div>
+        </div>
+
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-purple">BEHAVIORAL PROFILE</span>
+            <span style="font-size:0.75rem; color:#64748b;">ADEPT-15 Model</span>
+          </div>
+          <h3>🧠 ADEPT-15 Behavioral Assessment</h3>
+          <p>Adaptive Personality Evaluation assessing 15 workplace traits across 6 core styles:</p>
+          
+          <div class="qa-box">
+            <div class="qa-q">Key Traits Capgemini Evaluates:</div>
+            <div class="qa-a">
+              • <strong>Drive &amp; Ambition:</strong> Initiative, goal focus, self-development.<br/>
+              • <strong>Cooperation &amp; Empathy:</strong> Team spirit, active listening, conflict moderation.<br/>
+              • <strong>Adaptability &amp; Flexibility:</strong> Handling project pivots, continuous tech upskilling.<br/>
+              • <strong>Integrity &amp; Honesty:</strong> Transparent communication, adherence to ethical codes.
+            </div>
+          </div>
+
+          <div class="qa-box" style="background:rgba(6,214,160,0.06); border-color:rgba(6,214,160,0.2);">
+            <div class="qa-q" style="color:#06d6a0;">Pro-Tip for ADEPT-15:</div>
+            <div class="qa-a">Never choose contradictory extremes. Maintain consistency in situational responses across questions that re-phrase the same underlying trait.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STAGE 5: TECHNICAL INTERVIEW ================= -->
+    <div id="tab-stage5" class="tab-panel" style="display:none;">
+      <div class="card-grid">
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-orange">LIVE RESUME &amp; PROJECT DEFENSE</span>
+            <span style="font-size:0.75rem; color:#64748b;">20–35 Mins</span>
+          </div>
+          <h3>🛡️ Project Architecture &amp; System Defense</h3>
+          <p>Interviewers probe the reasoning behind your technology stack and architectural decisions.</p>
+
+          <div class="qa-box">
+            <div class="qa-q">Q: "Why did you choose PostgreSQL / MongoDB over alternative databases?"</div>
+            <div class="qa-a">
+              <strong>Model Answer Framework:</strong> Frame in terms of schema requirements (ACID consistency vs unstructured dynamic documents), read/write throughput, and query relationships.
+            </div>
+          </div>
+
+          <div class="qa-box">
+            <div class="qa-q">Q: "Explain how you managed authentication and authorization."</div>
+            <div class="qa-a">
+              <strong>Key Points:</strong> Mention JWT (JSON Web Tokens) with short-lived access tokens and refresh tokens in HttpOnly cookies, bcrypt hashing, and RBAC (Role-Based Access Control).
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-blue">CORE CS FUNDAMENTALS</span>
+            <span style="font-size:0.75rem; color:#64748b;">Frequently Asked</span>
+          </div>
+          <h3>⚡ Technical Rapid Fire</h3>
+          <p>Must-know foundational questions frequently asked by Capgemini tech panels:</p>
+
+          <div class="qa-box">
+            <div class="qa-q">1. Process vs Thread &amp; Deadlock Prevention</div>
+            <div class="qa-a">Process has its own address space; threads share parent process memory. Deadlock prevented by violating one of 4 Coffman conditions (e.g., resource ordering for Circular Wait).</div>
+          </div>
+
+          <div class="qa-box">
+            <div class="qa-q">2. 1NF to 3NF Normalization in simple terms</div>
+            <div class="qa-a">1NF = atomic values (no repeating groups). 2NF = 1NF + no partial dependency on composite PK. 3NF = 2NF + no transitive dependency (non-key depending on non-key).</div>
+          </div>
+
+          <div class="qa-box">
+            <div class="qa-q">3. Real-world example of Polymorphism</div>
+            <div class="qa-a">Payment Gateway Interface: `pay(amount)` implemented differently by `CreditCardPayment`, `UPIPayment`, and `NetBankingPayment`.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STAGE 6: HR & CORE VALUES ================= -->
+    <div id="tab-stage6" class="tab-panel" style="display:none;">
+      <div class="card-grid">
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-green">CAPGEMINI IDENTITY</span>
+            <span style="font-size:0.75rem; color:#64748b;">The 7 Pillars</span>
+          </div>
+          <h3>🏛️ Capgemini's 7 Core Values</h3>
+          <p>Every HR evaluation references these 7 core founding principles since 1967:</p>
+
+          <div class="qa-box">
+            <div class="qa-a" style="line-height:1.7;">
+              1. <strong>Honesty:</strong> Refusing unfair business practices; transparent communication.<br/>
+              2. <strong>Boldness:</strong> Willingness to take calculated risks and innovate.<br/>
+              3. <strong>Trust:</strong> Delegating responsibility; trusting client and team commitments.<br/>
+              4. <strong>Freedom:</strong> Encouraging individual initiative and creative problem-solving.<br/>
+              5. <strong>Fun:</strong> Enjoying the journey, celebrating milestones with the team.<br/>
+              6. <strong>Modesty:</strong> Humility in success, open to feedback and learning from mistakes.<br/>
+              7. <strong>Team Spirit:</strong> Collective solidarity; sharing credit, supporting peers.
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag tag-purple">STAR METHOD BUILDER</span>
+            <span style="font-size:0.75rem; color:#64748b;">Behavioral QA</span>
+          </div>
+          <h3>⭐ Master Behavioral Responses</h3>
+          <p>Structure every behavioral answer using the proven STAR framework:</p>
+
+          <div class="qa-box">
+            <div class="qa-q">Q: "Tell me about a time you had a conflict with a teammate."</div>
+            <div class="qa-a">
+              <div class="star-step"><strong>S (Situation):</strong> During our final year capstone project, our backend teammate disagreed on using REST vs GraphQL APIs.</div>
+              <div class="star-step"><strong>T (Task):</strong> We needed to finalize our contracts within 48 hours to meet sprint deadlines.</div>
+              <div class="star-step"><strong>A (Action):</strong> I organized a 30-minute sync, mapped payload bandwidth and caching requirements, and demonstrated REST fit our mobile client better.</div>
+              <div class="star-step"><strong>R (Result):</strong> We delivered 2 days ahead of schedule, maintaining zero breaking schema changes.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).style.display = 'block';
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

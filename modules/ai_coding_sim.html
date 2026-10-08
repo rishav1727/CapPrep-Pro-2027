@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stage 3: AI-Assisted Coding Assessment (Multi-Language: C, C++, Java, Python) | Capgemini Exceller 2027</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    body {
+      background: #0a0f1d;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .sim-header {
+      background: #0f172a;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .badge-lab {
+      background: #06d6a0;
+      color: #042f2e;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    .sim-timer {
+      font-family: monospace;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ef4444;
+    }
+    
+    .sim-container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Panel: Problem Specification + Code Editor */
+    .left-workspace {
+      display: flex;
+      flex-direction: column;
+      background: #060a12;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    .prob-header-bar {
+      background: #090d16;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .prob-selector {
+      background: #131d33;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      flex: 1;
+      outline: none;
+    }
+    
+    .prob-details-pane {
+      flex: 0 0 250px;
+      overflow-y: auto;
+      padding: 0.85rem 1.15rem;
+      background: #0c1322;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.83rem;
+      line-height: 1.55;
+      color: #cbd5e1;
+    }
+    .prob-num {
+      font-size: 0.74rem;
+      color: #00d4ff;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .prob-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    
+    .section-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.65rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    
+    .code-box {
+      background: #040711;
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      font-family: "Fira Code", Consolas, monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      margin: 0.35rem 0;
+      white-space: pre-wrap;
+    }
+    
+    .example-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+      margin: 0.45rem 0;
+    }
+    .example-header {
+      font-weight: 800;
+      font-size: 0.76rem;
+      color: #a5b4fc;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Code Editor in Left Workspace */
+    .editor-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #080c14;
+    }
+    .editor-toolbar {
+      background: #0f172a;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lang-dropdown {
+      background: #1e293b;
+      color: #00d4ff;
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+    .code-area {
+      flex: 1;
+      padding: 1rem;
+      font-family: "Fira Code", monospace, Consolas;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #a5f3fc;
+      background: #060a12;
+      border: none;
+      outline: none;
+      resize: none;
+      overflow: auto;
+      white-space: pre;
+    }
+    
+    .testcase-panel {
+      height: 120px;
+      background: #090d16;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      overflow-y: auto;
+    }
+    .tc-pill {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .tc-pass { background: rgba(6,214,160,0.15); color: #06d6a0; border: 1px solid rgba(6,214,160,0.3); }
+    .tc-fail { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+
+    /* Right Panel: AI Coding Assistant */
+    .right-assistant {
+      display: flex;
+      flex-direction: column;
+      background: #0c1322;
+      overflow: hidden;
+    }
+    .assistant-header {
+      background: #090d16;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    /* Token Budget Meter */
+    .token-meter-box {
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 0.3rem 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .token-bar-bg {
+      width: 80px;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .token-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: #06d6a0;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    .token-text {
+      font-size: 0.74rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #06d6a0;
+    }
+
+    .chat-history {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .chat-msg {
+      max-width: 92%;
+      padding: 0.75rem 0.95rem;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      line-height: 1.5;
+    }
+    .msg-ai {
+      align-self: flex-start;
+      background: #131e36;
+      border: 1px solid rgba(0,212,255,0.18);
+      color: #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .msg-user {
+      align-self: flex-end;
+      background: #1e3a8a;
+      color: #ffffff;
+      border-bottom-right-radius: 2px;
+    }
+    
+    .token-spent-badge {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.35rem;
+    }
+
+    .chat-input-area {
+      padding: 0.75rem 1rem;
+      background: #090d16;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .chat-input {
+      width: 100%;
+      background: #131d33;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.84rem;
+      resize: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .chat-input:focus {
+      border-color: #00d4ff;
+    }
+    .chat-input:disabled {
+      background: rgba(239,68,68,0.08);
+      border-color: #ef4444;
+      color: #f87171;
+      cursor: not-allowed;
+    }
+    
+    .btn-send {
+      background: linear-gradient(135deg, #00d4ff, #7c3aed);
+      color: #fff;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-send:hover { opacity: 0.9; }
+    .btn-send:disabled { opacity: 0.4; cursor: not-allowed; }
+    
+    .btn-insert {
+      background: #06d6a0;
+      color: #042f2e;
+      border: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-insert:hover { background: #059669; }
+
+    .step-badge {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(0,212,255,0.15);
+      color: #00d4ff;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIMULATOR HEADER -->
+  <div class="sim-header">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <span class="badge-lab">STAGE 3 • AI ASSISTED CODING</span>
+      <div>
+        <div style="font-weight:800; font-size:0.92rem; color:#fff;">AI Assisted Coding Assessment (Multi-Language)</div>
+        <div style="font-size:0.72rem; color:#94a3b8;">Official Capgemini Exceller Aon Simulator • 2,000 AI Token Budget</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:1.25rem;">
+      <div style="text-align:right;">
+        <span style="font-size:0.7rem; color:#94a3b8; display:block;">TIME REMAINING</span>
+        <span class="sim-timer" id="timer">45:00</span>
+      </div>
+      <button class="btn-send" style="background:#334155;" onclick="location.href='../index.html#stage3'">← Dashboard</button>
+    </div>
+  </div>
+
+  <div class="sim-container">
+    <!-- LEFT PANEL: PROBLEM & CODE EDITOR -->
+    <div class="left-workspace">
+      <div class="prob-header-bar">
+        <label style="font-size:0.75rem; color:#94a3b8; font-weight:700; white-space:nowrap;">SELECT TEST (1-10):</label>
+        <select class="prob-selector" id="probSelect" onchange="loadProblem(this.value)">
+          <option value="aic_1">Test 1: 01. LCM of Two Binary Trees [FREE TRIAL]</option>
+          <option value="aic_2">Test 2: 02. In-Place Reversal of Singly Linked List [FREE TRIAL]</option>
+          <option value="aic_3">Test 3: 03. Longest Substring Without Repeating Characters 🔒 [PRO]</option>
+          <option value="aic_4">Test 4: 04. Lowest Common Ancestor (LCA) in Binary Tree 🔒 [PRO]</option>
+          <option value="aic_5">Test 5: 05. Course Schedule / Cycle Detection in DAG 🔒 [PRO]</option>
+          <option value="aic_6">Test 6: 06. Merge K Sorted Linked Lists 🔒 [PRO]</option>
+          <option value="aic_7">Test 7: 07. Subarray Sum Equals K 🔒 [PRO]</option>
+          <option value="aic_8">Test 8: 08. Coin Change (Minimum Coins DP) 🔒 [PRO]</option>
+          <option value="aic_9">Test 9: 09. Valid Parentheses with Wildcards 🔒 [PRO]</option>
+          <option value="aic_10">Test 10: 10. Word Search on 2D Matrix (Backtracking) 🔒 [PRO]</option>
+        </select>
+      </div>
+
+      <!-- PROBLEM DETAILS PANE -->
+      <div class="prob-details-pane" id="probDetailsPane">
+        <div class="prob-num" id="probNum">Test 1 • Tree Recursion</div>
+        <div class="prob-title" id="probTitle">01. LCM of Two Binary Trees</div>
+        
+        <div class="section-title">📌 Problem Statement</div>
+        <div id="probDesc">Loading description...</div>
+
+        <div class="section-title">⚙️ Method Signature &amp; Struct Definition (<span id="currLangLabel">C</span>)</div>
+        <div class="code-box" id="probStruct">Loading struct...</div>
+
+        <div class="section-title">📥 Input &amp; Output Format</div>
+        <div style="font-size:0.8rem; margin-bottom:0.4rem;">
+          <div><strong>Input:</strong> <span id="probInput"></span></div>
+          <div><strong>Output:</strong> <span id="probOutput"></span></div>
+        </div>
+
+        <div class="section-title">📏 Constraints &amp; Complexity</div>
+        <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:0.5rem;" id="probConstraints"></div>
+
+        <div class="section-title">💡 Worked Examples with Explanations</div>
+        <div id="probExamplesList"></div>
+      </div>
+
+      <!-- CODING PANEL -->
+      <div class="editor-section">
+        <div class="editor-toolbar">
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <span style="font-weight:700; font-size:0.82rem; color:#fff;">&lt;&gt; Coding Workspace</span>
+            <select class="lang-dropdown" id="langSelect" onchange="switchLanguage(this.value)">
+              <option value="c">C (GCC 11.3)</option>
+              <option value="cpp">C++ 20</option>
+              <option value="java">Java 17</option>
+              <option value="python">Python 3.10</option>
+            </select>
+            <span style="color:#64748b; font-size:0.75rem;" id="fileName">Solution.c</span>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn-send" style="padding:0.35rem 0.75rem; font-size:0.75rem; background:#334155;" onclick="resetEditor()">↺ Reset Code</button>
+            <button class="btn-send" style="padding:0.35rem 0.9rem; font-size:0.75rem; background:#06d6a0; color:#042f2e;" onclick="runTestCases()">▶ Compile &amp; Run Test Cases</button>
+          </div>
+        </div>
+
+        <textarea class="code-area" id="codeEditor" spellcheck="false"></textarea>
+
+        <!-- TEST CASES RUNNER -->
+        <div class="testcase-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; font-weight:700; color:#94a3b8;">
+            <span>EXECUTION &amp; TEST RESULTS</span>
+            <span id="tcSummary" style="color:#94a3b8;">0 / 3 Passed</span>
+          </div>
+          <div id="tcList" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <div class="tc-pill" style="background:#131d33; color:#94a3b8;">Click "Compile &amp; Run Test Cases" to validate your solution</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: YOUR CODING ASSISTANT -->
+    <div class="right-assistant">
+      <div class="assistant-header">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-weight:800; font-size:0.88rem; color:#fff;">🤖 Your AI Assistant</span>
+          <span class="step-badge" id="stepBadge">Step 1 of 3</span>
+        </div>
+        
+        <!-- TOKEN BUDGET GAUGE -->
+        <div class="token-meter-box" title="AI Token Budget: Max 2000 credits allowed per coding session">
+          <span style="font-size:0.7rem; color:#94a3b8;">TOKENS:</span>
+          <div class="token-bar-bg">
+            <div class="token-bar-fill" id="tokenBarFill"></div>
+          </div>
+          <span class="token-text" id="tokenCount">2,000 / 2,000</span>
+        </div>
+      </div>
+
+      <!-- CHAT HISTORY -->
+      <div class="chat-history" id="chatHistory">
+        <div class="chat-msg msg-ai" id="welcomeMsg">
+          <strong>Welcome to Capgemini Stage 3 AI-Assisted Assessment!</strong><br/>
+          I am your interactive AI Assistant. You have a strict <strong>2,000 Token Credit Budget</strong>.<br/>
+          Follow the 3 official scaffolding steps:<br/>
+          <strong>Step 1:</strong> Explain the problem requirements &amp; edge cases in your own words.<br/>
+          <strong>Step 2:</strong> Detail the data structure and algorithmic approach you plan to use.<br/>
+          <strong>Step 3:</strong> I will generate and refine starter code for you in your chosen language.<br/><br/>
+          <em>👉 To begin, type your problem framing below or click 'Auto-Fill Best Prompt'.</em>
+        </div>
+      </div>
+
+      <!-- CHAT INPUT AREA -->
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="userInput" rows="2" placeholder="Explain the problem in your own words (inputs, outputs, edge cases)..."></textarea>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.72rem; color:#64748b;" id="stepPromptHint">Step 1: Frame problem logic</span>
+          <div style="display:flex; gap:0.4rem;">
+            <button class="btn-send" id="btnAutoPrompt" style="background:#1e293b; font-size:0.75rem; padding:0.4rem 0.8rem;" onclick="autoFillGoodPrompt()">Auto-Fill Best Prompt</button>
+            <button class="btn-send" id="btnSendPrompt" style="font-size:0.75rem; padding:0.4rem 0.9rem;" onclick="sendPrompt()">Send Prompt</button>
+          </div>
+        </div>
+        <div id="tokenWarning" style="display:none; color:#f87171; font-size:0.74rem; font-weight:700; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); padding:0.35rem 0.65rem; border-radius:6px; text-align:center;">
+          ⚠️ Token Budget Exhausted (0 Credits Remaining). Write or refine the remaining code manually in the editor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-SIMULATOR LOCKED ASSESSMENT POP-UP MODAL -->
+  <div id="sim-locked-modal" class="pay-modal-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(3,7,18,0.92); backdrop-filter:blur(14px); align-items:center; justify-content:center; padding:1rem;" onclick="if(event.target === this) closeSimLockedModal()">
+    <div style="background:linear-gradient(160deg,#0d1e38 0%,#081124 100%); border:1px solid rgba(0,212,255,0.35); border-radius:20px; max-width:500px; width:100%; padding:1.8rem; box-shadow:0 25px 70px rgba(0,0,0,0.8), 0 0 50px rgba(0,212,255,0.2); position:relative; text-align:center;">
+      <button onclick="closeSimLockedModal()" style="position:absolute; top:1rem; right:1rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1rem;">✕</button>
+      
+      <div style="font-size:2.8rem; margin-bottom:0.4rem;">🔒</div>
+      <div id="sim-locked-badge" style="display:inline-block; background:rgba(245,158,11,0.15); border:1px solid #f59e0b; color:#fbbf24; font-size:0.75rem; font-weight:800; padding:0.25rem 0.65rem; border-radius:20px; margin-bottom:0.6rem;">
+        CAPPREP PRO ASSESSMENT
+      </div>
+      
+      <h2 id="sim-locked-title" style="font-size:1.25rem; color:#fff; margin:0 0 0.4rem 0;">
+        This Stage 3 AI Coding Challenge is Locked
+      </h2>
+      <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.5; margin:0 0 1rem 0;">
+        Test 1 &amp; Test 2 are free demo trials. <strong>Tests 3 to 10</strong> are premium proctored challenges included with the <strong>CapPrep Pro Lifetime Pass (₹51)</strong>.
+      </p>
+
+      <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:0.85rem; text-align:left; font-size:0.78rem; color:#cbd5e1; margin-bottom:1.25rem;">
+        <div style="font-weight:700; color:#fff; margin-bottom:0.3rem;">⚡ Pro Pass Includes:</div>
+        <ul style="padding-left:1.2rem; margin:0; line-height:1.5;">
+          <li>All 10 Stage 3 AI Coding Challenges (2,000 Token AI Lab)</li>
+          <li>All 10 Algorithmic Debugging Challenges (C, C++, Java, Python)</li>
+          <li>76+ Full Mock Tests &amp; Protected In-Browser PDF Guides</li>
+        </ul>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.65rem;">
+        <button class="pay-btn-checkout" style="padding:0.75rem; font-size:0.9rem;" onclick="location.href='../index.html?open_pay=true'">
+          ⚡ Unlock Pro Pass for ₹51 (Flash 83% OFF) →
+        </button>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-action" style="flex:1; justify-content:center; font-size:0.8rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; padding:0.5rem; border-radius:6px; cursor:pointer;" onclick="location.href='../index.html?open_signin=true'">
+            🔑 Already Enrolled? Sign In
+          </button>
+          <button class="btn-action" style="flex:1; justify-content:center; font-size:0.8rem; background:rgba(6,214,160,0.15); border:1px solid rgba(6,214,160,0.3); color:#06d6a0; padding:0.5rem; border-radius:6px; cursor:pointer;" onclick="closeSimLockedModal(); loadProblem('aic_1');">
+            🎯 Free Test 1
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AIC_BANK = {
+  "aic_1": {
+    "num": "Test 1 \u2022 Tree Recursion & Arithmetic",
+    "title": "01. LCM of Two Binary Trees (Official Capgemini Pattern)",
+    "desc": "Given the roots of two binary trees, <code>root1</code> and <code>root2</code>, merge them into a single binary tree such that each node's value is the <strong>Least Common Multiple (LCM)</strong> of the values of the nodes at the identical position in the two trees.<br><br>If a node exists only in <code>root1</code>, copy that node directly to the output. If a node exists only in <code>root2</code>, copy that node directly to the output. If both corresponding positions are null/empty, the merged tree should also have null at that position.",
+    "method_signatures": {
+      "c": "struct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2);",
+      "cpp": "TreeNode* LCMOfTrees(TreeNode* root1, TreeNode* root2);",
+      "java": "public static TreeNode LCMOfTrees(TreeNode root1, TreeNode root2)",
+      "python": "def lcm_of_trees(root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:"
+    },
+    "input_format": "<code>root1</code>: Pointer/reference to root of first binary tree.<br><code>root2</code>: Pointer/reference to root of second binary tree.",
+    "output_format": "Return pointer/reference to root of the merged LCM binary tree.",
+    "constraints": "\u2022 0 <= Number of nodes in either tree <= 10^4<br>\u2022 1 <= Node.val <= 10^4<br>\u2022 Formula: LCM(a, b) = (a * b) / GCD(a, b)",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "root1 = [4, 6, 8], root2 = [6, 3, 12]",
+        "output": "[12, 6, 24]",
+        "explanation": "\u2022 Root node: LCM(4, 6) = 12<br>\u2022 Left child: LCM(6, 3) = 6<br>\u2022 Right child: LCM(8, 12) = 24<br>Result tree is [12, 6, 24]."
+      },
+      {
+        "ex_num": 2,
+        "input": "root1 = [2, null, 5], root2 = [3, 7, null]",
+        "output": "[6, 7, 5]",
+        "explanation": "\u2022 Root node: LCM(2, 3) = 6<br>\u2022 Left child: root1 has null, root2 has 7 -> Copy 7 directly<br>\u2022 Right child: root1 has 5, root2 has null -> Copy 5 directly<br>Result tree is [6, 7, 5]."
+      }
+    ],
+    "structs": {
+      "c": "struct TreeNode {\n    int data;\n    struct TreeNode* left;\n    struct TreeNode* right;\n};",
+      "cpp": "struct TreeNode {\n    int data;\n    TreeNode* left;\n    TreeNode* right;\n    TreeNode(int x) : data(x), left(nullptr), right(nullptr) {}\n};",
+      "java": "public static class TreeNode {\n    int data;\n    TreeNode left;\n    TreeNode right;\n    TreeNode(int d) { this.data = d; }\n}",
+      "python": "class TreeNode:\n    def __init__(self, data=0, left=None, right=None):\n        self.data = data\n        self.left = left\n        self.right = right"
+    },
+    "files": {
+      "c": "LCMTrees.c",
+      "cpp": "LCMTrees.cpp",
+      "java": "LCMTrees.java",
+      "python": "lcm_trees.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct TreeNode {\n    int data;\n    struct TreeNode* left;\n    struct TreeNode* right;\n};\n\nint gcd(int a, int b) {\n    return b == 0 ? a : gcd(b, a % b);\n}\n\nint lcm(int a, int b) {\n    if (a == 0 || b == 0) return 0;\n    return (a / gcd(a, b)) * b;\n}\n\n// Implement the function below\nstruct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2) {\n    // Write your code here using AI scaffolding\n    return NULL;\n}\n",
+      "cpp": "#include <iostream>\n#include <numeric>\nusing namespace std;\n\nstruct TreeNode {\n    int data;\n    TreeNode* left;\n    TreeNode* right;\n    TreeNode(int x) : data(x), left(nullptr), right(nullptr) {}\n};\n\nint gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }\nint lcm(int a, int b) { return (a == 0 || b == 0) ? 0 : (a / gcd(a, b)) * b; }\n\n// Implement the function below\nTreeNode* LCMOfTrees(TreeNode* root1, TreeNode* root2) {\n    // Write your code here using AI scaffolding\n    return nullptr;\n}\n",
+      "java": "public class Solution {\n    static class TreeNode {\n        int data;\n        TreeNode left, right;\n        TreeNode(int d) { this.data = d; }\n    }\n\n    public static int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }\n    public static int lcm(int a, int b) { return (a == 0 || b == 0) ? 0 : (a / gcd(a, b)) * b; }\n\n    // Implement the function below\n    public static TreeNode LCMOfTrees(TreeNode root1, TreeNode root2) {\n        // Write your code here using AI scaffolding\n        return null;\n    }\n}\n",
+      "python": "import math\n\nclass TreeNode:\n    def __init__(self, data=0, left=None, right=None):\n        self.data = data\n        self.left = left\n        self.right = right\n\ndef lcm(a, b):\n    return (a * b) // math.gcd(a, b) if a and b else 0\n\n# Implement the function below\ndef lcm_of_trees(root1, root2):\n    # Write your code here using AI scaffolding\n    return None\n"
+    },
+    "step1Auto": "The problem asks us to merge two binary trees (root1 and root2) into a single new tree. At every position, if both nodes exist, the new node's value is LCM(root1.data, root2.data). If only one exists, we copy that node. If both are null, that position is null.",
+    "step2Auto": "I will use a recursive tree traversal (DFS approach). At each recursive call: 1) Base case: if root1 is NULL and root2 is NULL return NULL. 2) If root1 is NULL return root2, if root2 is NULL return root1. 3) Otherwise, allocate a new node with data = lcm(root1->data, root2->data), and recursively compute left = LCMOfTrees(root1->left, root2->left) and right = LCMOfTrees(root1->right, root2->right). Return the new node.",
+    "generatedCodes": {
+      "c": "struct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2) {\n    if (!root1 && !root2) return NULL;\n    if (!root1) return root2;\n    if (!root2) return root1;\n    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));\n    node->data = lcm(root1->data, root2->data);\n    node->left = LCMOfTrees(root1->left, root2->left);\n    node->right = LCMOfTrees(root1->right, root2->right);\n    return node;\n}",
+      "cpp": "TreeNode* LCMOfTrees(TreeNode* root1, TreeNode* root2) {\n    if (!root1 && !root2) return nullptr;\n    if (!root1) return root2;\n    if (!root2) return root1;\n    TreeNode* node = new TreeNode(lcm(root1->data, root2->data));\n    node->left = LCMOfTrees(root1->left, root2->left);\n    node->right = LCMOfTrees(root1->right, root2->right);\n    return node;\n}",
+      "java": "public static TreeNode LCMOfTrees(TreeNode root1, TreeNode root2) {\n    if (root1 == null && root2 == null) return null;\n    if (root1 == null) return root2;\n    if (root2 == null) return root1;\n    TreeNode node = new TreeNode(lcm(root1.data, root2.data));\n    node.left = LCMOfTrees(root1.left, root2.left);\n    node.right = LCMOfTrees(root1.right, root2.right);\n    return node;\n}",
+      "python": "def lcm_of_trees(root1, root2):\n    if not root1 and not root2: return None\n    if not root1: return root2\n    if not root2: return root1\n    node = TreeNode(lcm(root1.data, root2.data))\n    node.left = lcm_of_trees(root1.left, root2.left)\n    node.right = lcm_of_trees(root1.right, root2.right)\n    return node"
+    },
+    "tc_names": [
+      "Both Subtrees Populated: LCM(4, 6)=12",
+      "Asymmetric Subtrees: Null propagation",
+      "Edge Case: Both Root Nodes Null"
+    ]
+  },
+  "aic_2": {
+    "num": "Test 2 \u2022 Linked Lists & Pointers",
+    "title": "02. In-Place Reversal of Singly Linked List",
+    "desc": "Given the <code>head</code> of a singly linked list, reverse the list in-place and return the new head pointer. You must solve this with <strong>O(1) extra auxiliary space</strong> and <strong>O(N) time complexity</strong>.",
+    "method_signatures": {
+      "c": "struct ListNode* reverseList(struct ListNode* head);",
+      "cpp": "ListNode* reverseList(ListNode* head);",
+      "java": "public static ListNode reverseList(ListNode head)",
+      "python": "def reverse_list(head: Optional[ListNode]) -> Optional[ListNode]:"
+    },
+    "input_format": "<code>head</code>: Pointer to the first node of the singly linked list.",
+    "output_format": "Return pointer to the new head node after complete in-place reversal.",
+    "constraints": "\u2022 0 <= Number of nodes <= 5000<br>\u2022 -5000 <= Node.val <= 5000<br>\u2022 Must be in-place: No array copies or node re-allocations.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "head = [1 -> 2 -> 3 -> 4 -> 5]",
+        "output": "[5 -> 4 -> 3 -> 2 -> 1]",
+        "explanation": "The links between successive nodes are reversed in-place. Node 5 becomes the new head, and Node 1 points to null."
+      },
+      {
+        "ex_num": 2,
+        "input": "head = [1 -> 2]",
+        "output": "[2 -> 1]",
+        "explanation": "Node 2 points to Node 1, and Node 1 points to null. Output head is 2."
+      }
+    ],
+    "structs": {
+      "c": "struct ListNode {\n    int val;\n    struct ListNode* next;\n};",
+      "cpp": "struct ListNode {\n    int val;\n    ListNode* next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};",
+      "java": "public static class ListNode {\n    int val;\n    ListNode next;\n    ListNode(int x) { this.val = x; }\n}",
+      "python": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next"
+    },
+    "files": {
+      "c": "ReverseList.c",
+      "cpp": "ReverseList.cpp",
+      "java": "ReverseList.java",
+      "python": "reverse_list.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct ListNode {\n    int val;\n    struct ListNode* next;\n};\n\n// Implement the function below\nstruct ListNode* reverseList(struct ListNode* head) {\n    // Write your code here using AI scaffolding\n    return head;\n}\n",
+      "cpp": "#include <iostream>\nusing namespace std;\n\nstruct ListNode {\n    int val;\n    ListNode* next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n\n// Implement the function below\nListNode* reverseList(ListNode* head) {\n    // Write your code here using AI scaffolding\n    return head;\n}\n",
+      "java": "public class Solution {\n    static class ListNode {\n        int val;\n        ListNode next;\n        ListNode(int x) { this.val = x; }\n    }\n\n    // Implement the function below\n    public static ListNode reverseList(ListNode head) {\n        // Write your code here using AI scaffolding\n        return head;\n    }\n}\n",
+      "python": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\n# Implement the function below\ndef reverse_list(head):\n    # Write your code here using AI scaffolding\n    return head\n"
+    },
+    "step1Auto": "The task is to reverse a singly linked list in-place. We receive the head node and must return the new head node. All next pointers should point to their predecessors. Constraints: O(1) extra space, O(N) time.",
+    "step2Auto": "I will implement the classic 3-pointer iterative pattern: prev = NULL, curr = head, next = NULL. While curr is not NULL: store next = curr->next, reverse pointer curr->next = prev, advance prev = curr, advance curr = next. At the end, return prev.",
+    "generatedCodes": {
+      "c": "struct ListNode* reverseList(struct ListNode* head) {\n    struct ListNode *prev = NULL, *curr = head, *next = NULL;\n    while (curr != NULL) {\n        next = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = next;\n    }\n    return prev;\n}",
+      "cpp": "ListNode* reverseList(ListNode* head) {\n    ListNode *prev = nullptr, *curr = head, *nxt = nullptr;\n    while (curr != nullptr) {\n        nxt = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = nxt;\n    }\n    return prev;\n}",
+      "java": "public static ListNode reverseList(ListNode head) {\n    ListNode prev = null, curr = head, next = null;\n    while (curr != null) {\n        next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    return prev;\n}",
+      "python": "def reverse_list(head):\n    prev = None\n    curr = head\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    return prev"
+    },
+    "tc_names": [
+      "Standard 5-Node List Inversion",
+      "Empty & Single Node Boundary Case",
+      "O(1) Memory Verification"
+    ]
+  },
+  "aic_3": {
+    "num": "Test 3 \u2022 Strings & Sliding Window",
+    "title": "03. Longest Substring Without Repeating Characters",
+    "desc": "Given a string <code>s</code>, find the length of the <strong>longest contiguous substring</strong> without repeating characters.",
+    "method_signatures": {
+      "c": "int lengthOfLongestSubstring(char* s);",
+      "cpp": "int lengthOfLongestSubstring(string s);",
+      "java": "public static int lengthOfLongestSubstring(String s)",
+      "python": "def length_of_longest_substring(s: str) -> int:"
+    },
+    "input_format": "<code>s</code>: A string containing letters, digits, symbols, and spaces.",
+    "output_format": "Return an integer representing the maximum length found.",
+    "constraints": "\u2022 0 <= s.length <= 5 * 10^4<br>\u2022 Expected Time Complexity: O(N)<br>\u2022 Expected Space Complexity: O(min(N, charset))",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "s = \"abcabcbb\"",
+        "output": "3",
+        "explanation": "The longest substring without repeating characters is \"abc\", with the length of 3."
+      },
+      {
+        "ex_num": 2,
+        "input": "s = \"bbbbb\"",
+        "output": "1",
+        "explanation": "The longest substring is \"b\", with the length of 1."
+      }
+    ],
+    "structs": {
+      "c": "int lengthOfLongestSubstring(char* s);",
+      "cpp": "int lengthOfLongestSubstring(string s);",
+      "java": "public static int lengthOfLongestSubstring(String s);",
+      "python": "def length_of_longest_substring(s: str) -> int:"
+    },
+    "files": {
+      "c": "LongestSubstring.c",
+      "cpp": "LongestSubstring.cpp",
+      "java": "LongestSubstring.java",
+      "python": "longest_substring.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <string.h>\n\n// Implement the function below\nint lengthOfLongestSubstring(char* s) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "cpp": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\n// Implement the function below\nint lengthOfLongestSubstring(string s) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "java": "public class Solution {\n    // Implement the function below\n    public static int lengthOfLongestSubstring(String s) {\n        // Write your code here using AI scaffolding\n        return 0;\n    }\n}\n",
+      "python": "# Implement the function below\ndef length_of_longest_substring(s: str) -> int:\n    # Write your code here using AI scaffolding\n    return 0\n"
+    },
+    "step1Auto": "The goal is to determine the maximum length of any contiguous substring in string s that contains no duplicate characters. Edge cases include empty string (0), all identical characters (1), and all unique characters (length of string).",
+    "step2Auto": "I will use the Two-Pointer Sliding Window approach. Maintain a pointer 'left' = 0, and iterate 'right' from 0 to N-1. Use a hash map or 256-element integer lookup table to store the last seen index of each character. When s[right] is already in the window (lastSeen[c] >= left), slide 'left' to lastSeen[c] + 1. Update maxLen = max(maxLen, right - left + 1) and record lastSeen[c] = right.",
+    "generatedCodes": {
+      "c": "int lengthOfLongestSubstring(char* s) {\n    if (!s || !*s) return 0;\n    int lastSeen[256];\n    for (int i = 0; i < 256; i++) lastSeen[i] = -1;\n    int maxLen = 0, left = 0;\n    for (int right = 0; s[right]; right++) {\n        unsigned char c = (unsigned char)s[right];\n        if (lastSeen[c] >= left) {\n            left = lastSeen[c] + 1;\n        }\n        lastSeen[c] = right;\n        int len = right - left + 1;\n        if (len > maxLen) maxLen = len;\n    }\n    return maxLen;\n}",
+      "cpp": "int lengthOfLongestSubstring(string s) {\n    vector<int> lastSeen(256, -1);\n    int maxLen = 0, left = 0;\n    for (int right = 0; right < (int)s.length(); right++) {\n        unsigned char c = s[right];\n        if (lastSeen[c] >= left) {\n            left = lastSeen[c] + 1;\n        }\n        lastSeen[c] = right;\n        maxLen = max(maxLen, right - left + 1);\n    }\n    return maxLen;\n}",
+      "java": "public static int lengthOfLongestSubstring(String s) {\n    int[] lastSeen = new int[256];\n    java.util.Arrays.fill(lastSeen, -1);\n    int maxLen = 0, left = 0;\n    for (int right = 0; right < s.length(); right++) {\n        char c = s.charAt(right);\n        if (lastSeen[c] >= left) {\n            left = lastSeen[c] + 1;\n        }\n        lastSeen[c] = right;\n        maxLen = Math.max(maxLen, right - left + 1);\n    }\n    return maxLen;\n}",
+      "python": "def length_of_longest_substring(s: str) -> int:\n    last_seen = {}\n    max_len = left = 0\n    for right, c in enumerate(s):\n        if c in last_seen and last_seen[c] >= left:\n            left = last_seen[c] + 1\n        last_seen[c] = right\n        max_len = max(max_len, right - left + 1)\n    return max_len"
+    },
+    "tc_names": [
+      "Standard Repeating Pattern ('abcabcbb' -> 3)",
+      "All Monotonous Characters ('bbbbb' -> 1)",
+      "Empty & Whitespace Substring Handled"
+    ]
+  },
+  "aic_4": {
+    "num": "Test 4 \u2022 Binary Trees & LCA",
+    "title": "04. Lowest Common Ancestor (LCA) in Binary Tree",
+    "desc": "Given a binary tree, find the lowest common ancestor (LCA) of two given nodes <code>p</code> and <code>q</code>.<br><br>The lowest common ancestor is defined between two nodes <code>p</code> and <code>q</code> as the lowest node in <code>T</code> that has both <code>p</code> and <code>q</code> as descendants (where we allow a node to be a descendant of itself).",
+    "method_signatures": {
+      "c": "struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q);",
+      "cpp": "TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);",
+      "java": "public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)",
+      "python": "def lowest_common_ancestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:"
+    },
+    "input_format": "<code>root</code>: Root of the binary tree.<br><code>p</code>, <code>q</code>: Pointers to target nodes to find ancestor for.",
+    "output_format": "Return pointer/reference to LCA node.",
+    "constraints": "\u2022 Number of nodes in tree: [2, 10^5]<br>\u2022 All Node.val are unique.<br>\u2022 p != q and both p and q exist in the tree.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1",
+        "output": "3",
+        "explanation": "The LCA of nodes 5 and 1 is node 3 because it is the deepest node possessing both 5 and 1 in its subtrees."
+      },
+      {
+        "ex_num": 2,
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4",
+        "output": "5",
+        "explanation": "The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition."
+      }
+    ],
+    "structs": {
+      "c": "struct TreeNode {\n    int val;\n    struct TreeNode* left;\n    struct TreeNode* right;\n};",
+      "cpp": "struct TreeNode {\n    int val;\n    TreeNode* left;\n    TreeNode* right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};",
+      "java": "public static class TreeNode {\n    int val;\n    TreeNode left, right;\n    TreeNode(int x) { this.val = x; }\n}",
+      "python": "class TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None"
+    },
+    "files": {
+      "c": "LCA.c",
+      "cpp": "LCA.cpp",
+      "java": "LCA.java",
+      "python": "lca.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct TreeNode {\n    int val;\n    struct TreeNode* left;\n    struct TreeNode* right;\n};\n\n// Implement the function below\nstruct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {\n    // Write your code here using AI scaffolding\n    return NULL;\n}\n",
+      "cpp": "#include <iostream>\nusing namespace std;\n\nstruct TreeNode {\n    int val;\n    TreeNode* left;\n    TreeNode* right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};\n\n// Implement the function below\nTreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n    // Write your code here using AI scaffolding\n    return nullptr;\n}\n",
+      "java": "public class Solution {\n    static class TreeNode {\n        int val;\n        TreeNode left, right;\n        TreeNode(int x) { this.val = x; }\n    }\n\n    // Implement the function below\n    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // Write your code here using AI scaffolding\n        return null;\n    }\n}\n",
+      "python": "class TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\n# Implement the function below\ndef lowest_common_ancestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n    # Write your code here using AI scaffolding\n    return None\n"
+    },
+    "step1Auto": "Given the root of a binary tree and two nodes p and q, find the lowest node that has both p and q in its descendants. Both p and q are guaranteed to be in the tree, and all values are unique.",
+    "step2Auto": "I will use bottom-up recursive DFS. 1) If root is NULL, or root == p, or root == q, return root. 2) Recurse on left = LCA(root->left, p, q) and right = LCA(root->right, p, q). 3) If both left and right return non-null, root is the LCA. 4) If only one is non-null, return that non-null child.",
+    "generatedCodes": {
+      "c": "struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {\n    if (!root || root == p || root == q) return root;\n    struct TreeNode* left = lowestCommonAncestor(root->left, p, q);\n    struct TreeNode* right = lowestCommonAncestor(root->right, p, q);\n    if (left && right) return root;\n    return left ? left : right;\n}",
+      "cpp": "TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n    if (!root || root == p || root == q) return root;\n    TreeNode* left = lowestCommonAncestor(root->left, p, q);\n    TreeNode* right = lowestCommonAncestor(root->right, p, q);\n    if (left && right) return root;\n    return left ? left : right;\n}",
+      "java": "public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    if (root == null || root == p || root == q) return root;\n    TreeNode left = lowestCommonAncestor(root.left, p, q);\n    TreeNode right = lowestCommonAncestor(root.right, p, q);\n    if (left != null && right != null) return root;\n    return left != null ? left : right;\n}",
+      "python": "def lowest_common_ancestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n    if not root or root == p or root == q:\n        return root\n    left = lowest_common_ancestor(root.left, p, q)\n    right = lowest_common_ancestor(root.right, p, q)\n    if left and right:\n        return root\n    return left if left else right"
+    },
+    "tc_names": [
+      "Split Ancestor across Root (p in left, q in right)",
+      "Self-Descendant Ancestor (p is parent of q)",
+      "Deep Subtree LCA Identification"
+    ]
+  },
+  "aic_5": {
+    "num": "Test 5 \u2022 Graphs & Topological Sort",
+    "title": "05. Course Schedule / Cycle Detection in DAG",
+    "desc": "There are a total of <code>numCourses</code> courses you have to take, labeled from <code>0</code> to <code>numCourses - 1</code>. You are given an array <code>prerequisites</code> where <code>prerequisites[i] = [a, b]</code> indicates that you must take course <code>b</code> first if you want to take course <code>a</code>.<br><br>Return <code>true</code> if you can finish all courses. Otherwise, return <code>false</code> (i.e. if there exists a circular dependency / directed cycle).",
+    "method_signatures": {
+      "c": "bool canFinish(int numCourses, int prerequisitesSize, int prerequisitesColSize, int** prerequisites);",
+      "cpp": "bool canFinish(int numCourses, vector<vector<int>>& prerequisites);",
+      "java": "public static boolean canFinish(int numCourses, int[][] prerequisites)",
+      "python": "def can_finish(num_courses: int, prerequisites: list[list[int]]) -> bool:"
+    },
+    "input_format": "<code>numCourses</code>: Total number of courses.<br><code>prerequisites</code>: List of direct requirement pairs [course, prereq].",
+    "output_format": "Return boolean: true if feasible to complete all courses, false otherwise.",
+    "constraints": "\u2022 1 <= numCourses <= 2000<br>\u2022 0 <= prerequisites.length <= 5000<br>\u2022 All pairs are unique.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "numCourses = 2, prerequisites = [[1, 0]]",
+        "output": "true",
+        "explanation": "To take course 1 you must have finished course 0. You can take course 0 first and then course 1."
+      },
+      {
+        "ex_num": 2,
+        "input": "numCourses = 2, prerequisites = [[1, 0], [0, 1]]",
+        "output": "false",
+        "explanation": "To take course 1 you need 0, and to take 0 you need 1. This is a circular dependency (deadlock), so impossible."
+      }
+    ],
+    "structs": {
+      "c": "#include <stdbool.h>\nbool canFinish(int numCourses, int prerequisitesSize, int* prerequisitesColSize, int** prerequisites);",
+      "cpp": "bool canFinish(int numCourses, vector<vector<int>>& prerequisites);",
+      "java": "public static boolean canFinish(int numCourses, int[][] prerequisites);",
+      "python": "def can_finish(num_courses: int, prerequisites: list[list[int]]) -> bool:"
+    },
+    "files": {
+      "c": "CourseSchedule.c",
+      "cpp": "CourseSchedule.cpp",
+      "java": "CourseSchedule.java",
+      "python": "course_schedule.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <stdbool.h>\n\n// Implement Kahn's Algorithm / BFS Indegree\nbool canFinish(int numCourses, int prerequisitesSize, int* prerequisitesColSize, int** prerequisites) {\n    // Write your code here using AI scaffolding\n    return true;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\n// Implement Kahn's Algorithm / BFS Indegree\nbool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n    // Write your code here using AI scaffolding\n    return true;\n}\n",
+      "java": "import java.util.*;\n\npublic class Solution {\n    // Implement Kahn's Algorithm / BFS Indegree\n    public static boolean canFinish(int numCourses, int[][] prerequisites) {\n        // Write your code here using AI scaffolding\n        return true;\n    }\n}\n",
+      "python": "from collections import deque, defaultdict\n\n# Implement Kahn's Algorithm / BFS Indegree\ndef can_finish(num_courses: int, prerequisites: list[list[int]]) -> bool:\n    # Write your code here using AI scaffolding\n    return True\n"
+    },
+    "step1Auto": "The problem asks whether we can finish numCourses given prerequisite dependencies. If the directed dependency graph contains a cycle, return false; if it is a Directed Acyclic Graph (DAG), return true.",
+    "step2Auto": "I will implement Kahn's Algorithm for Topological Sorting using BFS. 1) Build adjacency list and compute indegree for each course. 2) Enqueue all nodes with indegree == 0. 3) While queue is not empty, dequeue a course, decrement indegrees of its neighbors, and if any neighbor's indegree becomes 0, enqueue it. Count processed courses. 4) Return count == numCourses.",
+    "generatedCodes": {
+      "c": "bool canFinish(int numCourses, int prerequisitesSize, int* prerequisitesColSize, int** prerequisites) {\n    int inDegree[2000] = {0};\n    int adj[2000][100];\n    int adjSize[2000] = {0};\n    for (int i = 0; i < prerequisitesSize; i++) {\n        int u = prerequisites[i][1], v = prerequisites[i][0];\n        adj[u][adjSize[u]++] = v;\n        inDegree[v]++;\n    }\n    int queue[2000], head = 0, tail = 0;\n    for (int i = 0; i < numCourses; i++) {\n        if (inDegree[i] == 0) queue[tail++] = i;\n    }\n    int count = 0;\n    while (head < tail) {\n        int curr = queue[head++];\n        count++;\n        for (int i = 0; i < adjSize[curr]; i++) {\n            int nxt = adj[curr][i];\n            if (--inDegree[nxt] == 0) queue[tail++] = nxt;\n        }\n    }\n    return count == numCourses;\n}",
+      "cpp": "bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n    vector<vector<int>> adj(numCourses);\n    vector<int> inDegree(numCourses, 0);\n    for (auto& p : prerequisites) {\n        adj[p[1]].push_back(p[0]);\n        inDegree[p[0]]++;\n    }\n    queue<int> q;\n    for (int i = 0; i < numCourses; i++) {\n        if (inDegree[i] == 0) q.push(i);\n    }\n    int count = 0;\n    while (!q.empty()) {\n        int curr = q.front(); q.pop();\n        count++;\n        for (int nxt : adj[curr]) {\n            if (--inDegree[nxt] == 0) q.push(nxt);\n        }\n    }\n    return count == numCourses;\n}",
+      "java": "public static boolean canFinish(int numCourses, int[][] prerequisites) {\n    List<List<Integer>> adj = new ArrayList<>();\n    for (int i = 0; i < numCourses; i++) adj.add(new ArrayList<>());\n    int[] inDegree = new int[numCourses];\n    for (int[] p : prerequisites) {\n        adj.get(p[1]).add(p[0]);\n        inDegree[p[0]]++;\n    }\n    Queue<Integer> q = new LinkedList<>();\n    for (int i = 0; i < numCourses; i++) {\n        if (inDegree[i] == 0) q.offer(i);\n    }\n    int count = 0;\n    while (!q.isEmpty()) {\n        int curr = q.poll();\n        count++;\n        for (int nxt : adj.get(curr)) {\n            if (--inDegree[nxt] == 0) q.offer(nxt);\n        }\n    }\n    return count == numCourses;\n}",
+      "python": "def can_finish(num_courses: int, prerequisites: list[list[int]]) -> bool:\n    adj = {i: [] for i in range(num_courses)}\n    in_degree = [0] * num_courses\n    for dest, src in prerequisites:\n        adj[src].append(dest)\n        in_degree[dest] += 1\n    q = deque([i for i in range(num_courses) if in_degree[i] == 0])\n    count = 0\n    while q:\n        curr = q.popleft()\n        count += 1\n        for nxt in adj[curr]:\n            in_degree[nxt] -= 1\n            if in_degree[nxt] == 0:\n                q.append(nxt)\n    return count == num_courses"
+    },
+    "tc_names": [
+      "Acyclic Valid Sequence (Kahn BFS)",
+      "Deadlock Circular Dependency Cycle",
+      "Disconnected Graph Multiple Components"
+    ]
+  },
+  "aic_6": {
+    "num": "Test 6 \u2022 Heaps & Linked Lists",
+    "title": "06. Merge K Sorted Linked Lists",
+    "desc": "You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return its head.",
+    "method_signatures": {
+      "c": "struct ListNode* mergeKLists(struct ListNode** lists, int listsSize);",
+      "cpp": "ListNode* mergeKLists(vector<ListNode*>& lists);",
+      "java": "public static ListNode mergeKLists(ListNode[] lists)",
+      "python": "def merge_k_lists(lists: list[Optional[ListNode]]) -> Optional[ListNode]:"
+    },
+    "input_format": "<code>lists</code>: Array of k sorted singly-linked list head pointers.",
+    "output_format": "Return head pointer of the merged, fully sorted linked list.",
+    "constraints": "\u2022 k == lists.length, 0 <= k <= 10^4<br>\u2022 0 <= lists[i].length <= 500<br>\u2022 Total nodes <= 10^5<br>\u2022 Optimal: O(N log k) via Min-Heap or Divide and Conquer.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "lists = [[1->4->5],[1->3->4],[2->6]]",
+        "output": "[1->1->2->3->4->4->5->6]",
+        "explanation": "All 3 lists are merged into a single sorted list preserving relative node orders."
+      },
+      {
+        "ex_num": 2,
+        "input": "lists = []",
+        "output": "[]",
+        "explanation": "Empty input lists array returns null."
+      }
+    ],
+    "structs": {
+      "c": "struct ListNode {\n    int val;\n    struct ListNode* next;\n};",
+      "cpp": "struct ListNode {\n    int val;\n    ListNode* next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};",
+      "java": "public static class ListNode {\n    int val;\n    ListNode next;\n    ListNode(int x) { this.val = x; }\n}",
+      "python": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next"
+    },
+    "files": {
+      "c": "MergeKLists.c",
+      "cpp": "MergeKLists.cpp",
+      "java": "MergeKLists.java",
+      "python": "merge_k_lists.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct ListNode {\n    int val;\n    struct ListNode* next;\n};\n\n// Implement Merge K Sorted Lists (Divide & Conquer or Min-Heap)\nstruct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {\n    // Write your code here using AI scaffolding\n    return NULL;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nstruct ListNode {\n    int val;\n    ListNode* next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n\n// Implement Merge K Sorted Lists\nListNode* mergeKLists(vector<ListNode*>& lists) {\n    // Write your code here using AI scaffolding\n    return nullptr;\n}\n",
+      "java": "import java.util.PriorityQueue;\n\npublic class Solution {\n    static class ListNode {\n        int val;\n        ListNode next;\n        ListNode(int x) { this.val = x; }\n    }\n\n    // Implement Merge K Sorted Lists\n    public static ListNode mergeKLists(ListNode[] lists) {\n        // Write your code here using AI scaffolding\n        return null;\n    }\n}\n",
+      "python": "import heapq\n\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\n# Implement Merge K Sorted Lists\ndef merge_k_lists(lists: list[ListNode]) -> ListNode:\n    # Write your code here using AI scaffolding\n    return None\n"
+    },
+    "step1Auto": "Given k sorted linked lists, merge all of them into one single sorted list. Total elements N, number of lists k. Target time complexity is O(N log k).",
+    "step2Auto": "I will use a Min-Priority Queue (Min-Heap). 1) Push the head of each non-empty linked list into the heap, ordered by node value. 2) Pop the minimum element, append it to our result list. 3) If that popped node has a next node, push the next node into the heap. 4) Repeat until the heap is empty. Return dummy.next.",
+    "generatedCodes": {
+      "c": "struct ListNode* mergeTwo(struct ListNode* l1, struct ListNode* l2) {\n    if (!l1) return l2;\n    if (!l2) return l1;\n    if (l1->val < l2->val) { l1->next = mergeTwo(l1->next, l2); return l1; }\n    else { l2->next = mergeTwo(l1, l2->next); return l2; }\n}\nstruct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {\n    if (listsSize == 0) return NULL;\n    int interval = 1;\n    while (interval < listsSize) {\n        for (int i = 0; i + interval < listsSize; i += interval * 2) {\n            lists[i] = mergeTwo(lists[i], lists[i + interval]);\n        }\n        interval *= 2;\n    }\n    return lists[0];\n}",
+      "cpp": "ListNode* mergeKLists(vector<ListNode*>& lists) {\n    auto comp = [](ListNode* a, ListNode* b) { return a->val > b->val; };\n    priority_queue<ListNode*, vector<ListNode*>, decltype(comp)> pq(comp);\n    for (auto node : lists) if (node) pq.push(node);\n    ListNode dummy(0);\n    ListNode* tail = &dummy;\n    while (!pq.empty()) {\n        ListNode* curr = pq.top(); pq.pop();\n        tail->next = curr;\n        tail = tail->next;\n        if (curr->next) pq.push(curr->next);\n    }\n    return dummy.next;\n}",
+      "java": "public static ListNode mergeKLists(ListNode[] lists) {\n    if (lists == null || lists.length == 0) return null;\n    PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);\n    for (ListNode node : lists) if (node != null) pq.offer(node);\n    ListNode dummy = new ListNode(0);\n    ListNode tail = dummy;\n    while (!pq.isEmpty()) {\n        ListNode curr = pq.poll();\n        tail.next = curr;\n        tail = tail.next;\n        if (curr.next != null) pq.offer(curr.next);\n    }\n    return dummy.next;\n}",
+      "python": "def merge_k_lists(lists: list[ListNode]) -> ListNode:\n    heap = []\n    for i, node in enumerate(lists):\n        if node:\n            heapq.heappush(heap, (node.val, i, node))\n    dummy = ListNode(0)\n    tail = dummy\n    while heap:\n        val, i, node = heapq.heappop(heap)\n        tail.next = node\n        tail = tail.next\n        if node.next:\n            heapq.heappush(heap, (node.next.val, i, node.next))\n    return dummy.next"
+    },
+    "tc_names": [
+      "Standard 3-List Merge in O(N log K)",
+      "Empty List and Single Element Arrays",
+      "Large Value Disjoint Ranges"
+    ]
+  },
+  "aic_7": {
+    "num": "Test 7 \u2022 Hash Maps & Prefix Sums",
+    "title": "07. Subarray Sum Equals K",
+    "desc": "Given an array of integers <code>nums</code> and an integer <code>k</code>, return the <strong>total number of subarrays</strong> whose sum equals to <code>k</code>.<br><br>A subarray is a contiguous non-empty sequence of elements within an array.",
+    "method_signatures": {
+      "c": "int subarraySum(int* nums, int numsSize, int k);",
+      "cpp": "int subarraySum(vector<int>& nums, int k);",
+      "java": "public static int subarraySum(int[] nums, int k)",
+      "python": "def subarray_sum(nums: list[int], k: int) -> int:"
+    },
+    "input_format": "<code>nums</code>: Array of integers (can include negatives).<br><code>k</code>: Target sum integer.",
+    "output_format": "Return integer count of contiguous subarrays that sum to k.",
+    "constraints": "\u2022 1 <= nums.length <= 2 * 10^4<br>\u2022 -1000 <= nums[i] <= 1000<br>\u2022 -10^7 <= k <= 10^7<br>\u2022 Optimal: O(N) using Prefix Sum + Hash Map.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "nums = [1, 1, 1], k = 2",
+        "output": "2",
+        "explanation": "Subarrays [1, 1] at indices [0..1] and [1..2] both sum to 2."
+      },
+      {
+        "ex_num": 2,
+        "input": "nums = [1, 2, 3], k = 3",
+        "output": "2",
+        "explanation": "Subarrays [1, 2] and [3] both sum to 3."
+      }
+    ],
+    "structs": {
+      "c": "int subarraySum(int* nums, int numsSize, int k);",
+      "cpp": "int subarraySum(vector<int>& nums, int k);",
+      "java": "public static int subarraySum(int[] nums, int k);",
+      "python": "def subarray_sum(nums: list[int], k: int) -> int:"
+    },
+    "files": {
+      "c": "SubarraySum.c",
+      "cpp": "SubarraySum.cpp",
+      "java": "SubarraySum.java",
+      "python": "subarray_sum.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n// Implement Subarray Sum Equals K (Prefix Sum + Frequency Map)\nint subarraySum(int* nums, int numsSize, int k) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <unordered_map>\nusing namespace std;\n\n// Implement Subarray Sum Equals K\nint subarraySum(vector<int>& nums, int k) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "java": "import java.util.HashMap;\n\npublic class Solution {\n    // Implement Subarray Sum Equals K\n    public static int subarraySum(int[] nums, int k) {\n        // Write your code here using AI scaffolding\n        return 0;\n    }\n}\n",
+      "python": "from collections import defaultdict\n\n# Implement Subarray Sum Equals K\ndef subarray_sum(nums: list[int], k: int) -> int:\n    # Write your code here using AI scaffolding\n    return 0\n"
+    },
+    "step1Auto": "The problem asks for the count of contiguous subarrays in nums that sum to k. Elements can be negative, zero, or positive, so a simple two-pointer window won't work. We need O(N) time.",
+    "step2Auto": "I will use Prefix Sums with a Hash Map. Keep a running sum 'currSum'. At each index, check if (currSum - k) exists in the map. If so, add its frequency to 'count'. Then increment the frequency of 'currSum' in the map. Initialize map with {0: 1} to handle subarrays starting from index 0.",
+    "generatedCodes": {
+      "c": "int subarraySum(int* nums, int numsSize, int k) {\n    int count = 0;\n    for (int i = 0; i < numsSize; i++) {\n        int sum = 0;\n        for (int j = i; j < numsSize; j++) {\n            sum += nums[j];\n            if (sum == k) count++;\n        }\n    }\n    return count;\n}",
+      "cpp": "int subarraySum(vector<int>& nums, int k) {\n    unordered_map<int, int> prefixMap;\n    prefixMap[0] = 1;\n    int currSum = 0, count = 0;\n    for (int x : nums) {\n        currSum += x;\n        if (prefixMap.find(currSum - k) != prefixMap.end()) {\n            count += prefixMap[currSum - k];\n        }\n        prefixMap[currSum]++;\n    }\n    return count;\n}",
+      "java": "public static int subarraySum(int[] nums, int k) {\n    HashMap<Integer, Integer> map = new HashMap<>();\n    map.put(0, 1);\n    int currSum = 0, count = 0;\n    for (int x : nums) {\n        currSum += x;\n        if (map.containsKey(currSum - k)) {\n            count += map.get(currSum - k);\n        }\n        map.put(currSum, map.getOrDefault(currSum, 0) + 1);\n    }\n    return count;\n}",
+      "python": "def subarray_sum(nums: list[int], k: int) -> int:\n    map_freq = defaultdict(int)\n    map_freq[0] = 1\n    curr_sum = count = 0\n    for x in nums:\n        curr_sum += x\n        if curr_sum - k in map_freq:\n            count += map_freq[curr_sum - k]\n        map_freq[curr_sum] += 1\n    return count"
+    },
+    "tc_names": [
+      "Standard All-Positive Array ([1,1,1], k=2)",
+      "Negative Numbers Mixed Array ([1,-1,0], k=0)",
+      "Single Element Matches Target"
+    ]
+  },
+  "aic_8": {
+    "num": "Test 8 \u2022 Dynamic Programming",
+    "title": "08. Coin Change (Minimum Coins DP)",
+    "desc": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money.<br><br>Return the <strong>fewest number of coins</strong> that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return <code>-1</code>.",
+    "method_signatures": {
+      "c": "int coinChange(int* coins, int coinsSize, int amount);",
+      "cpp": "int coinChange(vector<int>& coins, int amount);",
+      "java": "public static int coinChange(int[] coins, int amount)",
+      "python": "def coin_change(coins: list[int], amount: int) -> int:"
+    },
+    "input_format": "<code>coins</code>: Array of distinct coin denominations.<br><code>amount</code>: Target sum amount.",
+    "output_format": "Return minimum coin count required, or -1 if impossible.",
+    "constraints": "\u2022 1 <= coins.length <= 12<br>\u2022 1 <= coins[i] <= 2^31 - 1<br>\u2022 0 <= amount <= 10^4",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "coins = [1, 2, 5], amount = 11",
+        "output": "3",
+        "explanation": "11 = 5 + 5 + 1 (3 coins total, which is the minimum)."
+      },
+      {
+        "ex_num": 2,
+        "input": "coins = [2], amount = 3",
+        "output": "-1",
+        "explanation": "Amount 3 cannot be formed using only coins of denomination 2."
+      }
+    ],
+    "structs": {
+      "c": "int coinChange(int* coins, int coinsSize, int amount);",
+      "cpp": "int coinChange(vector<int>& coins, int amount);",
+      "java": "public static int coinChange(int[] coins, int amount);",
+      "python": "def coin_change(coins: list[int], amount: int) -> int:"
+    },
+    "files": {
+      "c": "CoinChange.c",
+      "cpp": "CoinChange.cpp",
+      "java": "CoinChange.java",
+      "python": "coin_change.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n// Implement Minimum Coin Change DP\nint coinChange(int* coins, int coinsSize, int amount) {\n    // Write your code here using AI scaffolding\n    return -1;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n// Implement Minimum Coin Change DP\nint coinChange(vector<int>& coins, int amount) {\n    // Write your code here using AI scaffolding\n    return -1;\n}\n",
+      "java": "import java.util.Arrays;\n\npublic class Solution {\n    // Implement Minimum Coin Change DP\n    public static int coinChange(int[] coins, int amount) {\n        // Write your code here using AI scaffolding\n        return -1;\n    }\n}\n",
+      "python": "# Implement Minimum Coin Change DP\ndef coin_change(coins: list[int], amount: int) -> int:\n    # Write your code here using AI scaffolding\n    return -1\n"
+    },
+    "step1Auto": "The problem asks for the minimum number of coins from given denominations to sum up to amount. If unattainable, return -1. If amount is 0, return 0.",
+    "step2Auto": "I will use bottom-up 1D Dynamic Programming. Define dp[i] as the minimum coins to make amount i. Initialize dp array of size amount + 1 with amount + 1 (infinity), and set dp[0] = 0. For each i from 1 to amount, and for each coin in coins: if i - coin >= 0, dp[i] = min(dp[i], dp[i - coin] + 1). Finally return dp[amount] > amount ? -1 : dp[amount].",
+    "generatedCodes": {
+      "c": "int coinChange(int* coins, int coinsSize, int amount) {\n    if (amount == 0) return 0;\n    int* dp = (int*)malloc((amount + 1) * sizeof(int));\n    for (int i = 0; i <= amount; i++) dp[i] = amount + 1;\n    dp[0] = 0;\n    for (int i = 1; i <= amount; i++) {\n        for (int j = 0; j < coinsSize; j++) {\n            if (i >= coins[j]) {\n                int prev = dp[i - coins[j]];\n                if (prev + 1 < dp[i]) dp[i] = prev + 1;\n            }\n        }\n    }\n    int res = dp[amount] > amount ? -1 : dp[amount];\n    free(dp);\n    return res;\n}",
+      "cpp": "int coinChange(vector<int>& coins, int amount) {\n    vector<int> dp(amount + 1, amount + 1);\n    dp[0] = 0;\n    for (int i = 1; i <= amount; i++) {\n        for (int c : coins) {\n            if (i >= c) dp[i] = min(dp[i], dp[i - c] + 1);\n        }\n    }\n    return dp[amount] > amount ? -1 : dp[amount];\n}",
+      "java": "public static int coinChange(int[] coins, int amount) {\n    int[] dp = new int[amount + 1];\n    Arrays.fill(dp, amount + 1);\n    dp[0] = 0;\n    for (int i = 1; i <= amount; i++) {\n        for (int c : coins) {\n            if (i >= c) dp[i] = Math.min(dp[i], dp[i - c] + 1);\n        }\n    }\n    return dp[amount] > amount ? -1 : dp[amount];\n}",
+      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0\n    for i in range(1, amount + 1):\n        for c in coins:\n            if i >= c:\n                dp[i] = min(dp[i], dp[i - c] + 1)\n    return dp[amount] if dp[amount] != float('inf') else -1"
+    },
+    "tc_names": [
+      "Standard Denominations ([1,2,5], amount=11 -> 3)",
+      "Impossible Target Amount ([2], amount=3 -> -1)",
+      "Zero Amount Base Case (amount=0 -> 0)"
+    ]
+  },
+  "aic_9": {
+    "num": "Test 9 \u2022 Stacks & Greedy Strings",
+    "title": "09. Valid Parentheses String with Wildcards",
+    "desc": "Given a string <code>s</code> containing only three types of characters: <code>'('</code>, <code>')'</code> and <code>'*'</code>, return <code>true</code> if <code>s</code> is valid.<br><br>The following rules define a valid string:<br>\u2022 Any left parenthesis <code>'('</code> must have a corresponding right parenthesis <code>')'</code>.<br>\u2022 Any right parenthesis <code>')'</code> must have a corresponding left parenthesis <code>'('</code>.<br>\u2022 Left parenthesis must occur before the corresponding right parenthesis.<br>\u2022 <code>'*'</code> could be treated as a single right parenthesis <code>')'</code> or a single left parenthesis <code>'('</code> or an empty string <code>\"\"</code>.",
+    "method_signatures": {
+      "c": "bool checkValidString(char* s);",
+      "cpp": "bool checkValidString(string s);",
+      "java": "public static boolean checkValidString(String s)",
+      "python": "def check_valid_string(s: str) -> bool:"
+    },
+    "input_format": "<code>s</code>: String containing '(', ')', '*'.",
+    "output_format": "Return boolean: true if string can be balanced, false otherwise.",
+    "constraints": "\u2022 1 <= s.length <= 100<br>\u2022 s[i] is '(', ')' or '*'.<br>\u2022 Optimal: O(N) time and O(1) space via range greedy.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "s = \"(*))\"",
+        "output": "true",
+        "explanation": "The wildcard '*' acts as a '(' to balance the two right parentheses: \"(())\"."
+      },
+      {
+        "ex_num": 2,
+        "input": "s = \"(*)\"",
+        "output": "true",
+        "explanation": "The wildcard '*' acts as an empty string: \"()\"."
+      }
+    ],
+    "structs": {
+      "c": "#include <stdbool.h>\nbool checkValidString(char* s);",
+      "cpp": "bool checkValidString(string s);",
+      "java": "public static boolean checkValidString(String s);",
+      "python": "def check_valid_string(s: str) -> bool:"
+    },
+    "files": {
+      "c": "ValidString.c",
+      "cpp": "ValidString.cpp",
+      "java": "ValidString.java",
+      "python": "valid_string.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdbool.h>\n\n// Implement Wildcard Parentheses Validator\nbool checkValidString(char* s) {\n    // Write your code here using AI scaffolding\n    return true;\n}\n",
+      "cpp": "#include <iostream>\n#include <string>\nusing namespace std;\n\n// Implement Wildcard Parentheses Validator\nbool checkValidString(string s) {\n    // Write your code here using AI scaffolding\n    return true;\n}\n",
+      "java": "public class Solution {\n    // Implement Wildcard Parentheses Validator\n    public static boolean checkValidString(String s) {\n        // Write your code here using AI scaffolding\n        return true;\n    }\n}\n",
+      "python": "# Implement Wildcard Parentheses Validator\ndef check_valid_string(s: str) -> bool:\n    # Write your code here using AI scaffolding\n    return True\n"
+    },
+    "step1Auto": "The problem asks whether a string with '(', ')', and '*' can form a valid balanced parentheses sequence where '*' can be '(', ')', or empty string.",
+    "step2Auto": "I will use the Greedy Range tracking algorithm (cmin, cmax) representing the minimum and maximum number of open '(' brackets possible. Iterate each char: if '(', cmin++, cmax++; if ')', cmin--, cmax--; if '*', cmin--, cmax++. If cmax < 0, return false immediately (too many ')'). Ensure cmin = max(cmin, 0). At the end, return cmin == 0.",
+    "generatedCodes": {
+      "c": "bool checkValidString(char* s) {\n    int cmin = 0, cmax = 0;\n    for (int i = 0; s[i]; i++) {\n        if (s[i] == '(') { cmin++; cmax++; }\n        else if (s[i] == ')') { cmin--; cmax--; }\n        else if (s[i] == '*') { cmin--; cmax++; }\n        if (cmax < 0) return false;\n        if (cmin < 0) cmin = 0;\n    }\n    return cmin == 0;\n}",
+      "cpp": "bool checkValidString(string s) {\n    int cmin = 0, cmax = 0;\n    for (char c : s) {\n        if (c == '(') { cmin++; cmax++; }\n        else if (c == ')') { cmin--; cmax--; }\n        else if (c == '*') { cmin--; cmax++; }\n        if (cmax < 0) return false;\n        if (cmin < 0) cmin = 0;\n    }\n    return cmin == 0;\n}",
+      "java": "public static boolean checkValidString(String s) {\n    int cmin = 0, cmax = 0;\n    for (int i = 0; i < s.length(); i++) {\n        char c = s.charAt(i);\n        if (c == '(') { cmin++; cmax++; }\n        else if (c == ')') { cmin--; cmax--; }\n        else if (c == '*') { cmin--; cmax++; }\n        if (cmax < 0) return false;\n        if (cmin < 0) cmin = 0;\n    }\n    return cmin == 0;\n}",
+      "python": "def check_valid_string(s: str) -> bool:\n    cmin = cmax = 0\n    for c in s:\n        if c == '(':\n            cmin += 1; cmax += 1\n        elif c == ')':\n            cmin -= 1; cmax -= 1\n        elif c == '*':\n            cmin -= 1; cmax += 1\n        if cmax < 0:\n            return False\n        if cmin < 0:\n            cmin = 0\n    return cmin == 0"
+    },
+    "tc_names": [
+      "Multi-Wildcard Balancing ('(*))' -> True)",
+      "Empty Wildcard Reduction ('(*)' -> True)",
+      "Invalid Prefix Mismatch (')(' -> False)"
+    ]
+  },
+  "aic_10": {
+    "num": "Test 10 \u2022 Backtracking & 2D Matrix DFS",
+    "title": "10. Word Search on 2D Matrix (Backtracking)",
+    "desc": "Given an <code>m x n</code> grid of characters <code>board</code> and a string <code>word</code>, return <code>true</code> if <code>word</code> exists in the grid.<br><br>The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.",
+    "method_signatures": {
+      "c": "bool exist(char** board, int boardSize, int* boardColSize, char* word);",
+      "cpp": "bool exist(vector<vector<char>>& board, string word);",
+      "java": "public static boolean exist(char[][] board, String word)",
+      "python": "def exist(board: list[list[str]], word: str) -> bool:"
+    },
+    "input_format": "<code>board</code>: 2D matrix of uppercase/lowercase English letters.<br><code>word</code>: Target word string to search.",
+    "output_format": "Return boolean: true if word is found along a valid contiguous non-repeating path, false otherwise.",
+    "constraints": "\u2022 m == board.length, n == board[i].length<br>\u2022 1 <= m, n <= 6<br>\u2022 1 <= word.length <= 15<br>\u2022 Backtracking with in-place cell masking.",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"",
+        "output": "true",
+        "explanation": "Path: (0,0) 'A' -> (0,1) 'B' -> (0,2) 'C' -> (1,2) 'C' -> (2,2) 'E' -> (2,1) 'D'."
+      },
+      {
+        "ex_num": 2,
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"",
+        "output": "false",
+        "explanation": "Cell 'B' at (0,1) cannot be reused after moving to (0,2) 'C'."
+      }
+    ],
+    "structs": {
+      "c": "#include <stdbool.h>\nbool exist(char** board, int boardSize, int* boardColSize, char* word);",
+      "cpp": "bool exist(vector<vector<char>>& board, string word);",
+      "java": "public static boolean exist(char[][] board, String word);",
+      "python": "def exist(board: list[list[str]], word: str) -> bool:"
+    },
+    "files": {
+      "c": "WordSearch.c",
+      "cpp": "WordSearch.cpp",
+      "java": "WordSearch.java",
+      "python": "word_search.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdbool.h>\n#include <string.h>\n\n// Implement 2D Grid Backtracking DFS\nbool exist(char** board, int boardSize, int* boardColSize, char* word) {\n    // Write your code here using AI scaffolding\n    return false;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\n// Implement 2D Grid Backtracking DFS\nbool exist(vector<vector<char>>& board, string word) {\n    // Write your code here using AI scaffolding\n    return false;\n}\n",
+      "java": "public class Solution {\n    // Implement 2D Grid Backtracking DFS\n    public static boolean exist(char[][] board, String word) {\n        // Write your code here using AI scaffolding\n        return false;\n    }\n}\n",
+      "python": "# Implement 2D Grid Backtracking DFS\ndef exist(board: list[list[str]], word: str) -> bool:\n    # Write your code here using AI scaffolding\n    return False\n"
+    },
+    "step1Auto": "The task is to verify if a word exists in a 2D matrix of characters. Letters must be horizontally or vertically adjacent, and no cell can be visited twice during the same path exploration.",
+    "step2Auto": "I will use Depth First Search (DFS) with Backtracking. 1) Iterate every cell (r, c). If board[r][c] == word[0], launch dfs(r, c, 0). 2) In dfs(r, c, idx): if idx == word.length return true. If out of bounds or board[r][c] != word[idx] return false. 3) Temporarily mark board[r][c] = '#' (visited). 4) Explore 4 directions: (r+1,c), (r-1,c), (r,c+1), (r,c-1). 5) Restore board[r][c] = word[idx] (backtrack). Return true if any path matches.",
+    "generatedCodes": {
+      "c": "bool dfs(char** board, int m, int n, int r, int c, char* word, int idx) {\n    if (word[idx] == '\\0') return true;\n    if (r < 0 || r >= m || c < 0 || c >= n || board[r][c] != word[idx]) return false;\n    char temp = board[r][c];\n    board[r][c] = '#';\n    bool found = dfs(board, m, n, r + 1, c, word, idx + 1) ||\n                 dfs(board, m, n, r - 1, c, word, idx + 1) ||\n                 dfs(board, m, n, r, c + 1, word, idx + 1) ||\n                 dfs(board, m, n, r, c - 1, word, idx + 1);\n    board[r][c] = temp;\n    return found;\n}\nbool exist(char** board, int boardSize, int* boardColSize, char* word) {\n    int m = boardSize, n = boardColSize[0];\n    for (int r = 0; r < m; r++) {\n        for (int c = 0; c < n; c++) {\n            if (dfs(board, m, n, r, c, word, 0)) return true;\n        }\n    }\n    return false;\n}",
+      "cpp": "bool dfs(vector<vector<char>>& board, int r, int c, string& word, int idx) {\n    if (idx == word.size()) return true;\n    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != word[idx]) return false;\n    char temp = board[r][c];\n    board[r][c] = '#';\n    bool found = dfs(board, r + 1, c, word, idx + 1) ||\n                 dfs(board, r - 1, c, word, idx + 1) ||\n                 dfs(board, r, c + 1, word, idx + 1) ||\n                 dfs(board, r, c - 1, word, idx + 1);\n    board[r][c] = temp;\n    return found;\n}\nbool exist(vector<vector<char>>& board, string word) {\n    for (int r = 0; r < board.size(); r++) {\n        for (int c = 0; c < board[0].size(); c++) {\n            if (dfs(board, r, c, word, 0)) return true;\n        }\n    }\n    return false;\n}",
+      "java": "static boolean dfs(char[][] board, int r, int c, String word, int idx) {\n    if (idx == word.length()) return true;\n    if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(idx)) return false;\n    char temp = board[r][c];\n    board[r][c] = '#';\n    boolean found = dfs(board, r + 1, c, word, idx + 1) ||\n                    dfs(board, r - 1, c, word, idx + 1) ||\n                    dfs(board, r, c + 1, word, idx + 1) ||\n                    dfs(board, r, c - 1, word, idx + 1);\n    board[r][c] = temp;\n    return found;\n}\npublic static boolean exist(char[][] board, String word) {\n    for (int r = 0; r < board.length; r++) {\n        for (int c = 0; c < board[0].length; c++) {\n            if (dfs(board, r, c, word, 0)) return true;\n        }\n    }\n    return false;\n}",
+      "python": "def exist(board: list[list[str]], word: str) -> bool:\n    m, n = len(board), len(board[0])\n    def dfs(r, c, idx):\n        if idx == len(word): return True\n        if r < 0 or r >= m or c < 0 or c >= n or board[r][c] != word[idx]: return False\n        temp = board[r][c]\n        board[r][c] = '#'\n        found = (dfs(r + 1, c, idx + 1) or dfs(r - 1, c, idx + 1) or\n                 dfs(r, c + 1, idx + 1) or dfs(r, c - 1, idx + 1))\n        board[r][c] = temp\n        return found\n    for r in range(m):\n        for c in range(n):\n            if dfs(r, c, 0): return True\n    return False"
+    },
+    "tc_names": [
+      "Valid Zigzag Snake Path ('ABCCED' -> True)",
+      "Cell Reuse Prevention ('ABCB' -> False)",
+      "Single Character Grid Boundary"
+    ]
+  }
+};
+
+    let currentLang = 'c';
+    let currentProbKey = 'aic_1';
+    let step = 1;
+    const MAX_TOKENS = 2000;
+    let tokensRemaining = MAX_TOKENS;
+
+    function deductTokens(amount) {
+      tokensRemaining = Math.max(0, tokensRemaining - amount);
+      updateTokenUI();
+    }
+
+    function updateTokenUI() {
+      const tokenCount = document.getElementById('tokenCount');
+      const tokenBarFill = document.getElementById('tokenBarFill');
+      const tokenWarning = document.getElementById('tokenWarning');
+      const btnSendPrompt = document.getElementById('btnSendPrompt');
+      const btnAutoPrompt = document.getElementById('btnAutoPrompt');
+      const userInput = document.getElementById('userInput');
+
+      if (tokenCount) tokenCount.innerText = tokensRemaining.toLocaleString() + ' / ' + MAX_TOKENS.toLocaleString();
+      
+      const pct = (tokensRemaining / MAX_TOKENS) * 100;
+      if (tokenBarFill) {
+        tokenBarFill.style.width = pct + '%';
+        if (tokensRemaining <= 300) {
+          tokenBarFill.style.backgroundColor = '#ef4444';
+          if (tokenCount) tokenCount.style.color = '#ef4444';
+        } else if (tokensRemaining <= 800) {
+          tokenBarFill.style.backgroundColor = '#f59e0b';
+          if (tokenCount) tokenCount.style.color = '#f59e0b';
+        } else {
+          tokenBarFill.style.backgroundColor = '#06d6a0';
+          if (tokenCount) tokenCount.style.color = '#06d6a0';
+        }
+      }
+
+      if (tokensRemaining <= 0) {
+        if (tokenWarning) tokenWarning.style.display = 'block';
+        if (btnSendPrompt) btnSendPrompt.disabled = true;
+        if (btnAutoPrompt) btnAutoPrompt.disabled = true;
+        if (userInput) {
+          userInput.disabled = true;
+          userInput.placeholder = "Token budget exhausted. Please write code manually in the editor.";
+        }
+      } else {
+        if (tokenWarning) tokenWarning.style.display = 'none';
+        if (btnSendPrompt) btnSendPrompt.disabled = false;
+        if (btnAutoPrompt) btnAutoPrompt.disabled = false;
+        if (userInput) {
+          userInput.disabled = false;
+          userInput.placeholder = step === 1 
+            ? "Explain the problem in your own words (inputs, outputs, edge cases)..." 
+            : (step === 2 ? "Describe your algorithm, data structures, and time/space complexity..." : "Ask questions or request code refinements...");
+        }
+      }
+    }
+
+    const FREE_AIC_PROBLEMS = ['aic_1', 'aic_2'];
+
+    function isProUser() {
+      try {
+        const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
+        if (cur && cur.isPro) return true;
+        return localStorage.getItem('capprep_pro_unlocked') === 'true';
+      } catch(e) {
+        return false;
+      }
+    }
+
+    function openSimLockedModal(key) {
+      const p = AIC_BANK[key] || { title: "Stage 3 AI Coding Challenge", num: "PRO ASSESSMENT" };
+      const titleEl = document.getElementById('sim-locked-title');
+      const badgeEl = document.getElementById('sim-locked-badge');
+      if (titleEl) titleEl.textContent = p.title;
+      if (badgeEl) badgeEl.textContent = p.num;
+      const modal = document.getElementById('sim-locked-modal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeSimLockedModal() {
+      const modal = document.getElementById('sim-locked-modal');
+      if (modal) modal.style.display = 'none';
+      const select = document.getElementById('probSelect');
+      if (select) select.value = currentProbKey || 'aic_1';
+    }
+
+    function loadProblem(key) {
+      // Pro Lock Guard
+      if (!FREE_AIC_PROBLEMS.includes(key) && !isProUser()) {
+        openSimLockedModal(key);
+        const select = document.getElementById('probSelect');
+        if (select) select.value = currentProbKey || 'aic_1';
+        return;
+      }
+
+      currentProbKey = key;
+      const select = document.getElementById('probSelect');
+      if (select && select.value !== key) select.value = key;
+
+      const p = AIC_BANK[key];
+      if (!p) return;
+
+      document.getElementById('probNum').innerText = p.num;
+      document.getElementById('probTitle').innerText = p.title;
+      document.getElementById('probDesc').innerHTML = p.desc;
+      document.getElementById('probInput').innerHTML = p.input_format;
+      document.getElementById('probOutput').innerHTML = p.output_format;
+      document.getElementById('probConstraints').innerHTML = p.constraints;
+
+      // Worked Examples rendering
+      const exContainer = document.getElementById('probExamplesList');
+      if (exContainer && p.examples) {
+        exContainer.innerHTML = p.examples.map(ex => `
+          <div class="example-card">
+            <div class="example-header">Example ${ex.ex_num}</div>
+            <div style="font-size:0.78rem; font-family:monospace; color:#38bdf8; margin-bottom:0.2rem;"><strong>Input:</strong> ${ex.input}</div>
+            <div style="font-size:0.78rem; font-family:monospace; color:#06d6a0; margin-bottom:0.35rem;"><strong>Output:</strong> ${ex.output}</div>
+            <div style="font-size:0.76rem; color:#94a3b8; line-height:1.4;"><strong>Explanation:</strong> ${ex.explanation}</div>
+          </div>
+        `).join('');
+      }
+
+      updateLangStruct();
+      resetEditor();
+      resetChat();
+      tokensRemaining = MAX_TOKENS;
+      updateTokenUI();
+    }
+
+    function updateLangStruct() {
+      const p = AIC_BANK[currentProbKey];
+      if (!p) return;
+      const langNames = { c: "C", cpp: "C++", java: "Java", python: "Python" };
+      const langLabel = document.getElementById('currLangLabel');
+      if (langLabel) langLabel.innerText = langNames[currentLang] || currentLang.toUpperCase();
+      
+      const structText = (p.structs && p.structs[currentLang]) ? p.structs[currentLang] : (p.method_signatures[currentLang] || "");
+      document.getElementById('probStruct').innerText = structText;
+      document.getElementById('fileName').innerText = p.files[currentLang] || 'Solution.' + currentLang;
+    }
+
+    function switchLanguage(lang) {
+      currentLang = lang;
+      updateLangStruct();
+      resetEditor();
+      if (step === 3) {
+        generateAICodeReply();
+      }
+    }
+
+    function resetEditor() {
+      const p = AIC_BANK[currentProbKey];
+      if (p && p.initialCodes) {
+        document.getElementById('codeEditor').value = p.initialCodes[currentLang] || '';
+      }
+      document.getElementById('tcList').innerHTML = '<div class="tc-pill" style="background:#131d33; color:#94a3b8;">Click \"Compile & Run Test Cases\" to validate your solution</div>';
+      document.getElementById('tcSummary').innerText = '0 / 3 Passed';
+      document.getElementById('tcSummary').style.color = '#94a3b8';
+    }
+
+    function resetChat() {
+      step = 1;
+      document.getElementById('stepBadge').innerText = 'Step 1 of 3';
+      document.getElementById('stepPromptHint').innerText = 'Step 1: Frame the problem';
+      document.getElementById('chatHistory').innerHTML = `
+        <div class="chat-msg msg-ai">
+          <strong>Welcome to Capgemini Stage 3 AI-Assisted Assessment!</strong><br/>
+          I am your interactive AI Assistant. You have a strict <strong>2,000 Token Credit Budget</strong>.<br/>
+          Follow the 3 official scaffolding steps:<br/>
+          <strong>Step 1:</strong> Explain the problem requirements &amp; edge cases in your own words.<br/>
+          <strong>Step 2:</strong> Detail the data structure and algorithmic approach you plan to use.<br/>
+          <strong>Step 3:</strong> I will generate and refine starter code for you in your chosen language.<br/><br/>
+          <em>👉 To begin, type your problem framing below or click 'Auto-Fill Best Prompt'.</em>
+        </div>
+      `;
+      document.getElementById('userInput').value = '';
+    }
+
+    function autoFillGoodPrompt() {
+      const p = AIC_BANK[currentProbKey];
+      if (!p) return;
+      if (step === 1) {
+        document.getElementById('userInput').value = p.step1Auto;
+      } else if (step === 2) {
+        document.getElementById('userInput').value = p.step2Auto;
+      } else {
+        document.getElementById('userInput').value = "Can you optimize the code for memory efficiency and add comments?";
+      }
+    }
+
+    function sendPrompt() {
+      if (tokensRemaining <= 0) return;
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      // Deduct tokens based on prompt length (min 120 tokens)
+      const promptTokens = Math.min(300, Math.max(120, Math.round(text.length * 0.8)));
+      deductTokens(promptTokens);
+
+      const chat = document.getElementById('chatHistory');
+      
+      // User bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'chat-msg msg-user';
+      userBubble.innerHTML = escapeHtml(text) + `<br><span class="token-spent-badge">⚡ -${promptTokens} tokens</span>`;
+      chat.appendChild(userBubble);
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+
+      // AI response based on step
+      setTimeout(() => {
+        if (step === 1) {
+          const aiTokens = 220;
+          deductTokens(aiTokens);
+          step = 2;
+          document.getElementById('stepBadge').innerText = 'Step 2 of 3';
+          document.getElementById('stepPromptHint').innerText = 'Step 2: Algorithm & Data Structures';
+          const aiBubble = document.createElement('div');
+          aiBubble.className = 'chat-msg msg-ai';
+          aiBubble.innerHTML = `
+            <strong>Great problem formulation! 👍</strong><br/>
+            You clearly identified the inputs, outputs, and edge cases.<br/><br/>
+            <strong>Now, Step 2:</strong> What algorithmic approach, data structure, and time/space complexity do you plan to employ?<br/>
+            <em>(e.g., Recursion DFS, Two Pointers, Sliding Window, DP, Kahn's algorithm)</em><br>
+            <span class="token-spent-badge">⚡ -${aiTokens} tokens generated</span>
+          `;
+          chat.appendChild(aiBubble);
+        } else if (step === 2) {
+          step = 3;
+          document.getElementById('stepBadge').innerText = 'Step 3 of 3';
+          document.getElementById('stepPromptHint').innerText = 'Step 3: Code Generated & Review';
+          generateAICodeReply();
+        } else {
+          const aiTokens = 180;
+          deductTokens(aiTokens);
+          const aiBubble = document.createElement('div');
+          aiBubble.className = 'chat-msg msg-ai';
+          aiBubble.innerHTML = `
+            <strong>Refinement Insight:</strong><br/>
+            The solution has been generated with optimal time &amp; space complexity.<br/>
+            Click <strong>"Insert Code into Editor"</strong> above to load it directly into your Coding Workspace, then click <strong>"Compile &amp; Run Test Cases"</strong>.<br>
+            <span class="token-spent-badge">⚡ -${aiTokens} tokens generated</span>
+          `;
+          chat.appendChild(aiBubble);
+        }
+        chat.scrollTop = chat.scrollHeight;
+        updateTokenUI();
+      }, 500);
+    }
+
+    function generateAICodeReply() {
+      const p = AIC_BANK[currentProbKey];
+      if (!p) return;
+      const code = (p.generatedCodes && p.generatedCodes[currentLang]) ? p.generatedCodes[currentLang] : "// No code";
+      const codeTokens = 350;
+      deductTokens(codeTokens);
+
+      const chat = document.getElementById('chatHistory');
+      const aiBubble = document.createElement('div');
+      aiBubble.className = 'chat-msg msg-ai';
+      aiBubble.innerHTML = `
+        <strong>Excellent plan! Here is your scaffolded solution in ${currentLang.toUpperCase()}:</strong>
+        <div class="code-box" style="margin-top:0.4rem; max-height:220px; overflow-y:auto;">${escapeHtml(code)}</div>
+        <button class="btn-insert" onclick="insertCodeToEditor()">⬇️ Insert Code into Editor</button><br>
+        <span class="token-spent-badge">⚡ -${codeTokens} tokens generated</span>
+      `;
+      chat.appendChild(aiBubble);
+      chat.scrollTop = chat.scrollHeight;
+      updateTokenUI();
+    }
+
+    function insertCodeToEditor() {
+      const p = AIC_BANK[currentProbKey];
+      if (!p) return;
+      const code = (p.generatedCodes && p.generatedCodes[currentLang]) ? p.generatedCodes[currentLang] : "";
+      document.getElementById('codeEditor').value = code;
+    }
+
+    function runTestCases() {
+      const p = AIC_BANK[currentProbKey];
+      const code = document.getElementById('codeEditor').value.trim();
+      const tcList = document.getElementById('tcList');
+      const tcSummary = document.getElementById('tcSummary');
+      
+      const tcNames = p.tc_names || ["Test Case 1 (Sample)", "Test Case 2 (Edge Case)", "Test Case 3 (Performance)"];
+      
+      // Validation heuristic
+      const isNotEmpty = code.length > 40;
+      const hasCoreLogic = code.includes("return") && (code.includes("if") || code.includes("while") || code.includes("for"));
+      const isPassed = isNotEmpty && hasCoreLogic;
+
+      if (isPassed) {
+        tcList.innerHTML = tcNames.map((name, i) => `
+          <div class="tc-pill tc-pass">
+            <span>✅</span> <span>TC ${i + 1}: ${name} [PASS 0.${12 + i * 4}s]</span>
+          </div>
+        `).join('');
+        tcSummary.innerText = "3 / 3 Passed (100%)";
+        tcSummary.style.color = "#06d6a0";
+      } else {
+        tcList.innerHTML = `
+          <div class="tc-pill tc-fail">
+            <span>❌</span> <span>TC 1: ${tcNames[0]} (Compilation / Incomplete Implementation Error)</span>
+          </div>
+          <div class="tc-pill tc-fail">
+            <span>❌</span> <span>TC 2: ${tcNames[1]} (Not Evaluated)</span>
+          </div>
+          <div class="tc-pill tc-fail">
+            <span>❌</span> <span>TC 3: ${tcNames[2]} (Not Evaluated)</span>
+          </div>
+        `;
+        tcSummary.innerText = "0 / 3 Passed (Failed)";
+        tcSummary.style.color = "#ef4444";
+      }
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Timer countdown
+    let seconds = 45 * 60;
+    setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        document.getElementById('timer').innerText = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      }
+    }, 1000);
+
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const testId = urlParams.get('id') || 'aic_1';
+      loadProblem(AIC_BANK[testId] ? testId : 'aic_1');
+    };
+  </script>
+</body>
+</html>

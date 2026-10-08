@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
   <title>Stage 2B: Debugging Assessment (Multi-Language: C, C++, Java, Python) | Capgemini Exceller 2027</title>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
@@ -56,7 +59,10 @@
     <div style="display:flex; align-items:center; gap:0.75rem;">
       <span class="badge-lab">STAGE 2B</span>
       <div>
-        <div style="font-weight:800; font-size:0.92rem; color:#fff;">Debugging Assessment Simulator</div>
+        <div style="font-weight:800; font-size:0.92rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">
+          Debugging Assessment Simulator
+          <span id="tierPill" style="font-size:0.68rem; font-weight:800; padding:0.15rem 0.5rem; border-radius:12px; background:rgba(6,214,160,0.15); color:#06d6a0; border:1px solid rgba(6,214,160,0.3);">🟢 FREE TRIAL ACTIVE</span>
+        </div>
         <div style="font-size:0.72rem; color:#94a3b8;">10 Hands-On Challenges • Multi-Language Support (C, C++, Java, Python)</div>
       </div>
     </div>
@@ -496,6 +502,55 @@
       }
     }
 
+    const DBG_TITLES = {
+      dbg_1: "01. Knapsack-C (0/1 Knapsack)",
+      dbg_2: "02. Binary Tree: Max Path Sum",
+      dbg_3: "03. Graph: Detect Cycle in Directed Graph",
+      dbg_4: "04. 2D DP: Grid Unique Paths with Obstacles",
+      dbg_5: "05. Linked List: Cycle Detection & Length",
+      dbg_6: "06. Binary Search & Midpoint Overflow",
+      dbg_7: "07. String: Palindrome & Null-Terminator",
+      dbg_8: "08. Pointers: Pass-by-Value Swap Bug",
+      dbg_9: "09. Memory: Dangling Pointer & Double Free",
+      dbg_10: "10. DP: Longest Increasing Subsequence"
+    };
+
+    function updateSimulatorDropdownBadges() {
+      const isPro = isProUser();
+      const select = document.getElementById('probSelect');
+      const tierPill = document.getElementById('tierPill');
+      
+      if (tierPill) {
+        if (isPro) {
+          tierPill.textContent = "⭐ PRO PASS ACTIVE (ALL UNLOCKED)";
+          tierPill.style.background = "rgba(6,214,160,0.2)";
+          tierPill.style.color = "#06d6a0";
+          tierPill.style.borderColor = "#06d6a0";
+        } else {
+          tierPill.textContent = "🟢 FREE TRIAL ACTIVE (TESTS 1 & 2 FREE)";
+          tierPill.style.background = "rgba(245,158,11,0.15)";
+          tierPill.style.color = "#fbbf24";
+          tierPill.style.borderColor = "#f59e0b";
+        }
+      }
+
+      if (select) {
+        select.innerHTML = Object.keys(DBG_TITLES).map((k, idx) => {
+          const num = idx + 1;
+          const isFree = FREE_DBG_PROBLEMS.includes(k);
+          let badge = '';
+          if (isPro) {
+            badge = `⭐ [PRO UNLOCKED]`;
+          } else if (isFree) {
+            badge = `🟢 [FREE TRIAL]`;
+          } else {
+            badge = `🔒 [PRO ONLY]`;
+          }
+          return `<option value="${k}">Test ${num}: ${DBG_TITLES[k]} ${badge}</option>`;
+        }).join('');
+      }
+    }
+
     function openSimLockedModal(key) {
       const p = DBG_BANK[key] || { title: "Stage 2B Pro Assessment", badge: "PRO ASSESSMENT" };
       const titleEl = document.getElementById('sim-locked-title');
@@ -701,6 +756,7 @@
 
     // Initial load from URL param ?id=dbg_1 to dbg_10
     window.onload = () => {
+      updateSimulatorDropdownBadges();
       const urlParams = new URLSearchParams(window.location.search);
       const testId = urlParams.get('id') || 'dbg_1';
       loadProblem(DBG_BANK[testId] ? testId : 'dbg_1');

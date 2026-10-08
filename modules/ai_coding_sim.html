@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
   <title>Stage 3: AI-Assisted Coding Assessment (Multi-Language: C, C++, Java, Python) | Capgemini Exceller 2027</title>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
@@ -364,7 +367,10 @@
     <div style="display:flex; align-items:center; gap:0.75rem;">
       <span class="badge-lab">STAGE 3 • AI ASSISTED CODING</span>
       <div>
-        <div style="font-weight:800; font-size:0.92rem; color:#fff;">AI Assisted Coding Assessment (Multi-Language)</div>
+        <div style="font-weight:800; font-size:0.92rem; color:#fff; display:flex; align-items:center; gap:0.5rem;">
+          AI Assisted Coding Assessment (Multi-Language)
+          <span id="tierPill" style="font-size:0.68rem; font-weight:800; padding:0.15rem 0.5rem; border-radius:12px; background:rgba(6,214,160,0.15); color:#06d6a0; border:1px solid rgba(6,214,160,0.3);">🟢 FREE TRIAL ACTIVE</span>
+        </div>
         <div style="font-size:0.72rem; color:#94a3b8;">Official Capgemini Exceller Aon Simulator • 2,000 AI Token Budget</div>
       </div>
     </div>
@@ -1197,6 +1203,55 @@
 
     const FREE_AIC_PROBLEMS = ['aic_1', 'aic_2'];
 
+    const AIC_TITLES = {
+      aic_1: "01. LCM of Two Binary Trees",
+      aic_2: "02. In-Place Reversal of Singly Linked List",
+      aic_3: "03. Longest Substring Without Repeating Characters",
+      aic_4: "04. Lowest Common Ancestor (LCA) in Binary Tree",
+      aic_5: "05. Course Schedule / Cycle Detection in DAG",
+      aic_6: "06. Merge K Sorted Linked Lists",
+      aic_7: "07. Subarray Sum Equals K",
+      aic_8: "08. Coin Change (Minimum Coins DP)",
+      aic_9: "09. Valid Parentheses with Wildcards",
+      aic_10: "10. Word Search on 2D Matrix (Backtracking)"
+    };
+
+    function updateSimulatorDropdownBadges() {
+      const isPro = isProUser();
+      const select = document.getElementById('probSelect');
+      const tierPill = document.getElementById('tierPill');
+      
+      if (tierPill) {
+        if (isPro) {
+          tierPill.textContent = "⭐ PRO PASS ACTIVE (ALL UNLOCKED)";
+          tierPill.style.background = "rgba(6,214,160,0.2)";
+          tierPill.style.color = "#06d6a0";
+          tierPill.style.borderColor = "#06d6a0";
+        } else {
+          tierPill.textContent = "🟢 FREE TRIAL ACTIVE (TESTS 1 & 2 FREE)";
+          tierPill.style.background = "rgba(245,158,11,0.15)";
+          tierPill.style.color = "#fbbf24";
+          tierPill.style.borderColor = "#f59e0b";
+        }
+      }
+
+      if (select) {
+        select.innerHTML = Object.keys(AIC_TITLES).map((k, idx) => {
+          const num = idx + 1;
+          const isFree = FREE_AIC_PROBLEMS.includes(k);
+          let badge = '';
+          if (isPro) {
+            badge = `⭐ [PRO UNLOCKED]`;
+          } else if (isFree) {
+            badge = `🟢 [FREE TRIAL]`;
+          } else {
+            badge = `🔒 [PRO ONLY]`;
+          }
+          return `<option value="${k}">Test ${num}: ${AIC_TITLES[k]} ${badge}</option>`;
+        }).join('');
+      }
+    }
+
     function isProUser() {
       try {
         const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
@@ -1476,6 +1531,7 @@
     }, 1000);
 
     window.onload = function() {
+      updateSimulatorDropdownBadges();
       const urlParams = new URLSearchParams(window.location.search);
       const testId = urlParams.get('id') || 'aic_1';
       loadProblem(AIC_BANK[testId] ? testId : 'aic_1');

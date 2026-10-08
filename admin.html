@@ -882,11 +882,19 @@ function logoutAdmin() {
 }
 
 function switchTab(panelId) {
-  document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(btn => {
+    btn.classList.remove('active');
+    const oc = btn.getAttribute('onclick') || '';
+    if (oc.includes(`'${panelId}'`) || oc.includes(`"${panelId}"`)) {
+      btn.classList.add('active');
+    }
+  });
   document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
 
-  event.currentTarget.classList.add('active');
-  document.getElementById(panelId).classList.add('active');
+  const target = document.getElementById(panelId);
+  if (target) {
+    target.classList.add('active');
+  }
 }
 
 // ==========================================
@@ -1238,7 +1246,11 @@ function selfUnlockPro() {
 
 function openVipModal() {
   switchTab('vip-panel');
-  document.getElementById('vip-grant-name').focus();
+  const nameInput = document.getElementById('vip-grant-name');
+  if (nameInput) {
+    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => nameInput.focus(), 150);
+  }
 }
 
 function getStoredVipWhitelist() {

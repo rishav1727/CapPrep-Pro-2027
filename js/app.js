@@ -1037,7 +1037,7 @@ function processUserSignIn() {
   // Failed Authentication
   if (errorEl) {
     errorEl.style.display = 'block';
-    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(email)}</strong>.<br><br>• Forgot password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover Password →</a><br>• Haven't enrolled yet? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:var(--accent); font-weight:700;">Enroll for ₹51 →</a><br>• Testing? Use <code>demo@capprep.com</code> / <code>cap2027</code>`;
+    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(email)}</strong>.<br><br>• Forgot password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover Password →</a><br>• Haven't enrolled yet? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:var(--accent); font-weight:700;">Enroll for ₹51 →</a>`;
   }
 }
 

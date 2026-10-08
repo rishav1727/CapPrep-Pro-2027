@@ -769,8 +769,8 @@ const MOCK_TESTS = [
   { id:"gm_s56", title:"Stages 5 & 6 Grand Mock — Tech Defense & HR Values", category:"Stage-Wise Grand Mocks", bank:"interview", icon:"🏆", difficulty:"hard", questions:15, duration:20, isPremium:true },
 
   // GRAND MOCK MARATHON SUITE (10 FULL TESTS)
-  { id:"full_1", title:"Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", questions:42, duration:45, isPremium:false, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5}] },
-  { id:"full_2", title:"Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", questions:50, duration:55, isPremium:false, spec:[{bank:"verbal",n:8},{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5},{bank:"interview",n:4}] },
+  { id:"full_1", title:"Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", questions:42, duration:45, isPremium:true, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5}] },
+  { id:"full_2", title:"Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", questions:50, duration:55, isPremium:true, spec:[{bank:"verbal",n:8},{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5},{bank:"interview",n:4}] },
   { id:"full_3", title:"Full Mock Test 3 — Tech + Verbal Combo", category:"Grand Mocks", icon:"📋", difficulty:"medium", questions:35, duration:45, isPremium:true, spec:[{bank:"verbal",n:10},{bank:"ai_literacy",n:5},{bank:"dsa",n:6},{bank:"dbms",n:5},{bank:"aptitude",n:9}] },
   { id:"full_4", title:"Full Mock Test 4 — Debugging + AI Coding Focus", category:"Grand Mocks", icon:"🔬", difficulty:"hard", questions:30, duration:40, isPremium:true, spec:[{bank:"debugging",n:10},{bank:"ai_coding",n:10},{bank:"pseudocode",n:5},{bank:"ai_literacy",n:5}] },
   { id:"full_5", title:"Full Mock Test 5 — Situational + Technical", category:"Grand Mocks", icon:"🎭", difficulty:"medium", questions:30, duration:35, isPremium:true, spec:[{bank:"situational",n:10},{bank:"ai_literacy",n:6},{bank:"dsa",n:7},{bank:"dbms",n:7}] },
@@ -909,7 +909,9 @@ function validateActiveSession() {
 function isProUser() {
   if (!validateActiveSession()) return false;
   const cur = getCurrentUser();
-  if (cur && cur.isPro) return true;
+  if (!cur) return false;  // Must be logged in — no user = no Pro
+  if (cur.isPro) return true;
+  // Double-check the localStorage flag only when user IS logged in
   return localStorage.getItem('capprep_pro_unlocked') === 'true';
 }
 

@@ -495,7 +495,8 @@
     function isProUser() {
       try {
         const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
-        if (cur && cur.isPro) return true;
+        if (!cur) return false;
+        if (cur.isPro) return true;
         return localStorage.getItem('capprep_pro_unlocked') === 'true';
       } catch(e) {
         return false;

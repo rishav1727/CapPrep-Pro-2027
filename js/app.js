@@ -1590,21 +1590,30 @@ function processCardPayment() {
   }, 1000);
 }
 
+let lastCompletedOrder = null;
+
 function completeOrderActivation(orderDetails) {
   unlockProPass(orderDetails.utr);
   const orderId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
   
-  // Store order in ledger
+  const fullOrder = {
+    id: orderId,
+    orderId: orderId,
+    ...orderDetails,
+    timestamp: new Date().toLocaleString(),
+    status: 'VERIFIED_ACTIVE'
+  };
+  lastCompletedOrder = fullOrder;
+
+  // 1. Store order in ledger
   try {
     const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
-    orders.unshift({
-      id: orderId,
-      ...orderDetails,
-      timestamp: new Date().toLocaleString(),
-      status: 'VERIFIED_ACTIVE'
-    });
+    orders.unshift(fullOrder);
     localStorage.setItem('capprep_orders', JSON.stringify(orders));
   } catch(e) {}
+
+  // 2. Dispatch Automated Dual Email (Candidate Confirmation + Admin Notification)
+  dispatchOrderEmails(fullOrder, orderId);
 
   closeLockedTestModal();
   updateProUI();
@@ -1624,7 +1633,201 @@ function completeOrderActivation(orderDetails) {
   if (confEmail) confEmail.textContent = orderDetails.email;
   if (confOrderId) confOrderId.textContent = '#' + orderId;
 
-  showSecurityToast(`🎉 Pro Pass Activated for ${orderDetails.name}!`);
+  showSecurityToast(`🎉 Pro Pass Activated! Confirmation email sent to ${orderDetails.email}.`);
+}
+
+// Dual Email Dispatcher: Candidate Receipt + Admin Sale Alert
+function dispatchOrderEmails(orderDetails, orderId) {
+  const adminEmail = "rishavofficials1727@gmail.com";
+  const customerEmail = orderDetails.email;
+  const studentName = orderDetails.name || "Enrolled Student";
+  const amountStr = `₹${orderDetails.amount || 51}`;
+  const utrRef = orderDetails.utr || "DIRECT_UPI";
+  const timestamp = orderDetails.timestamp || new Date().toLocaleString();
+  const siteUrl = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : "https://capprep-pro-2027.vercel.app";
+
+  // 1. Log into Admin In-App Notifications Feed (admin.html)
+  try {
+    const notifs = JSON.parse(localStorage.getItem('capprep_admin_notifs') || '[]');
+    notifs.unshift({
+      title: `💰 [NEW SALE] ${amountStr} from ${studentName}`,
+      buyer: studentName,
+      email: customerEmail,
+      phone: orderDetails.phone || "N/A",
+      college: orderDetails.college || "Capgemini Candidate",
+      amount: orderDetails.amount || 51,
+      utr: utrRef,
+      orderId: orderId,
+      timestamp: timestamp
+    });
+    localStorage.setItem('capprep_admin_notifs', JSON.stringify(notifs));
+  } catch(e) {}
+
+  // 2. Dispatch Automated Notification Email to Admin (rishavofficials1727@gmail.com)
+  try {
+    if (typeof fetch !== 'undefined') {
+      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(adminEmail)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `💰 [NEW SALE] ${amountStr} Received from ${studentName} (Order #${orderId})`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: customerEmail,
+          "Order ID": `#${orderId}`,
+          "Student Name": studentName,
+          "Registered Email": customerEmail,
+          "WhatsApp Phone": orderDetails.phone || "N/A",
+          "College / Batch": orderDetails.college || "Capgemini Aspirant",
+          "Amount Paid": `${amountStr} INR`,
+          "Payment Method": orderDetails.method || "UPI (rishavofficials1727-7@okaxis)",
+          "UPI UTR Reference": utrRef,
+          "Status": "VERIFIED & PRO PASS UNLOCKED",
+          "Timestamp": timestamp,
+          "Admin Control Center": `${siteUrl}/admin.html`
+        })
+      }).then(res => res.json())
+        .then(d => console.log("Admin notification email dispatched:", d))
+        .catch(err => console.warn("Admin email notice (async):", err));
+    }
+  } catch(e) {}
+
+  // 3. Dispatch Automated Confirmation & Invoice to Candidate (customerEmail)
+  try {
+    if (typeof fetch !== 'undefined' && customerEmail && customerEmail.includes('@')) {
+      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(customerEmail)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `🎓 CapPrep Pro Order Confirmation & Lifetime Pass Active (Order #${orderId})`,
+          _template: "box",
+          _captcha: "false",
+          _replyto: adminEmail,
+          "Greetings": `Hello ${studentName}, your payment of ${amountStr} is confirmed!`,
+          "Order Reference": `#${orderId}`,
+          "Amount Paid": `${amountStr} INR (Lifetime Pro Pass)`,
+          "UPI Transaction Ref (UTR)": utrRef,
+          "Registered Login ID": customerEmail,
+          "Access URL": siteUrl,
+          "Included Access": "All 76+ Proctored Mock Tests, Lab 27 AI Simulator, Stage 2B Debugger, Stage 4 HR & Technical Hub, Full Downloadable Study PDF Guides",
+          "Support & Helpdesk": "rishavofficials1727@gmail.com"
+        })
+      }).then(res => res.json())
+        .then(d => console.log("Candidate confirmation email dispatched:", d))
+        .catch(err => console.warn("Candidate email notice (async):", err));
+    }
+  } catch(e) {}
+}
+
+function downloadCurrentReceipt() {
+  const o = lastCompletedOrder || {
+    id: 'ORD-PRO-' + Math.floor(100000 + Math.random() * 900000),
+    name: (document.getElementById('conf-cust-name')?.textContent || 'Candidate').trim(),
+    email: (document.getElementById('conf-cust-email')?.textContent || 'candidate@capprep.com').trim(),
+    phone: "+91 Candidate",
+    college: "Capgemini Aspirant",
+    amount: 51,
+    method: "UPI (rishavofficials1727-7@okaxis)",
+    utr: "VERIFIED_ACTIVE",
+    timestamp: new Date().toLocaleString()
+  };
+
+  const invoiceHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tax Invoice / Receipt - ${o.id || 'CAP-PRO'}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #1e293b; background: #fff; line-height: 1.6; }
+    .invoice-card { max-width: 680px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #00d4ff; padding-bottom: 20px; margin-bottom: 24px; }
+    .brand { font-size: 24px; font-weight: 800; color: #0f172a; }
+    .brand span { color: #00d4ff; }
+    .badge { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; font-size: 14px; }
+    .table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    .table th { background: #f8fafc; text-align: left; padding: 12px; font-size: 12px; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+    .table td { padding: 14px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .total-row { font-size: 16px; font-weight: 700; color: #0f172a; }
+    .footer { text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="invoice-card">
+    <div class="header">
+      <div>
+        <div class="brand">CapPrep <span>Pro</span> 2027</div>
+        <div style="font-size: 13px; color: #64748b; margin-top: 4px;">Exceller Recruitment Preparation Platform</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="badge">● PAYMENT VERIFIED</div>
+        <div style="font-size: 12px; color: #64748b; margin-top: 6px;">Date: ${o.timestamp || new Date().toLocaleDateString()}</div>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div>
+        <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Billed To:</strong><br>
+        <strong>${o.name || 'Candidate'}</strong><br>
+        Email: ${o.email || 'N/A'}<br>
+        Phone: ${o.phone || 'N/A'}<br>
+        College: ${o.college || 'Capgemini Candidate'}
+      </div>
+      <div style="text-align: right;">
+        <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Order Details:</strong><br>
+        Order Ref: <strong>#${o.id || o.orderId || 'CAP-90218'}</strong><br>
+        Payment Method: ${o.method || 'UPI Direct'}<br>
+        UTR Reference: <code>${o.utr || 'VERIFIED'}</code><br>
+        Authorized By: Rishav (rishavofficials1727@gmail.com)
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Access Tier</th>
+          <th>Validity</th>
+          <th style="text-align: right;">Amount (INR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>CapPrep Pro 2027 — Master Recruitment Suite</strong><br>
+            <span style="font-size: 12px; color: #64748b;">Includes 76+ Mock Tests, Lab 27 AI Simulator, Stage 2B Debugger, Stage 4 Interview Hub & Study Notes</span>
+          </td>
+          <td>VIP Lifetime Pass</td>
+          <td>Unlimited 2027</td>
+          <td style="text-align: right; font-weight: 700;">₹${o.amount || 51}.00</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3" style="text-align: right;">Total Amount Paid:</td>
+          <td style="text-align: right; color: #16a34a;">₹${o.amount || 51}.00 INR</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; margin-bottom: 20px;">
+      ✅ <strong>Access Confirmation:</strong> Your account is registered under <strong>${o.email}</strong>. Log in anytime at <strong>https://capprep-pro-2027.vercel.app</strong> using your password or 1-click VIP link.
+    </div>
+
+    <div class="footer">
+      This is a computer-generated tax receipt. Issued by CapPrep Pro Management.<br>
+      Support Contact: <strong>rishavofficials1727@gmail.com</strong> • UPI VPA: <strong>rishavofficials1727-7@okaxis</strong>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([invoiceHtml], { type: 'text/html;charset=utf-8;' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('download', `CapPrep_Pro_Invoice_${(o.id || 'ORDER').replace('#','')}.html`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function unlockProPass(txnId) {

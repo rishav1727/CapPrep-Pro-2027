@@ -227,28 +227,28 @@ function submitSupportTicket() {
   if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Sending...'; }
   if (feedback) feedback.style.display = 'none';
 
-  // ── Real Email via Formspree ──────────────────────────────────────────────
-  // Formspree endpoint: replace with your own at https://formspree.io/f/YOUR_ID
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xkgwbjnb';
+  // ── Real Email via Formsubmit.co (zero signup, sends directly to Gmail) ──
+  const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/rishav.gupta0527@gmail.com';
 
-  fetch(FORMSPREE_ENDPOINT, {
+  fetch(FORMSUBMIT_ENDPOINT, {
     method: 'POST',
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({
       _subject: '[CapPrep Support] ' + topic + ' — Ticket ' + ticketId,
-      name:    name || 'Candidate',
-      email:   email,
-      topic:   topic,
-      message: msg,
-      ticket:  ticketId,
-      _replyto: email
+      name:     name || 'Candidate',
+      email:    email,
+      topic:    topic,
+      message:  msg,
+      ticket:   ticketId,
+      _replyto: email,
+      _captcha: 'false'
     })
   })
   .then(function(res) {
     if (res.ok) {
       showSupportSuccess(ticketId, email);
     } else {
-      // Formspree failed — fall back to mailto
+      // Formsubmit failed — fall back to mailto
       mailtoFallback(name, email, topic, msg, ticketId);
       showSupportSuccess(ticketId, email);
     }

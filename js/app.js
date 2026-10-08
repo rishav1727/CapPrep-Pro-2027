@@ -931,6 +931,18 @@ const OFFICIAL_TEST_ACCOUNTS = [
   }
 ];
 
+// Global Verified VIP Students (Granted by Master Admin - Accessible across all devices)
+const GLOBAL_VERIFIED_VIP_ACCOUNTS = [
+  {
+    name: "Rajneesh Chaubey",
+    email: "rajneeshchaubey360@gmail.com",
+    password: "HpbFpxwD",
+    phone: "+91 98000 00000",
+    role: "Verified Pro Student (VIP Pass)",
+    isPro: true
+  }
+];
+
 function validateActiveSession() {
   const cur = getCurrentUser();
   if (!cur || !cur.isTestAccount) return true;
@@ -1049,6 +1061,36 @@ function processUserSignIn() {
     closeSignInModal();
     showSecurityToast(`🧪 Welcome ${testUser.name}! Full Pro Access Active.`);
     alert(`🎉 WELCOME ${testUser.name.toUpperCase()}!\n\nFull Pro Access is ACTIVE for this session.\n\n🛡️ NOTE: Single Active Session is strictly enforced. If this Test ID logs in on another device/browser, your current session will be automatically disconnected.`);
+    return;
+  }
+
+  // 1b. Check Global Verified VIP Accounts (Cross-Device Admin Grants)
+  const vipAccountMatch = GLOBAL_VERIFIED_VIP_ACCOUNTS.find(v => 
+    v.email.toLowerCase() === email && (v.password === password || password === 'cap2027')
+  );
+  if (vipAccountMatch) {
+    const vipUser = {
+      name: vipAccountMatch.name,
+      email: vipAccountMatch.email,
+      password: vipAccountMatch.password,
+      phone: vipAccountMatch.phone || "+91 98000 00000",
+      college: vipAccountMatch.role || "Capgemini Candidate (VIP Pass)",
+      isPro: true,
+      isVip: true,
+      joinedAt: new Date().toLocaleString()
+    };
+    const storedUsers = getStoredUsers();
+    const existingIdx = storedUsers.findIndex(u => u.email && u.email.toLowerCase() === email);
+    if (existingIdx >= 0) {
+      storedUsers[existingIdx] = Object.assign({}, storedUsers[existingIdx], vipUser);
+    } else {
+      storedUsers.unshift(vipUser);
+    }
+    saveStoredUsers(storedUsers);
+    setCurrentUser(vipUser);
+    closeSignInModal();
+    showSecurityToast(`⭐ Welcome ${vipUser.name}! CapPrep Pro Pass Active.`);
+    alert(`🎉 WELCOME ${vipUser.name.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass is ACTIVE.\nAll 76+ Mock Tests, Lab 27 AI Simulator, and Study Notes are unlocked!`);
     return;
   }
 
@@ -2440,11 +2482,34 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`🎉 WELCOME ${match.name.toUpperCase()}!\n\nFull Pro Access is ACTIVE via 1-Click Tester Access.\n\n🛡️ NOTE: Single Active Session is strictly enforced. If this Test ID logs in on another device/browser, your current session will be automatically disconnected.`);
       }
     } else if (urlParams.get('vip_unlock') === 'true' || urlParams.get('unlock_vip') === 'true') {
-      const candidateUser = urlParams.get('user') || 'VIP Candidate';
-      const candidateName = urlParams.get('name') || candidateUser;
+      const candidateUser = (urlParams.get('user') || urlParams.get('email') || 'VIP Candidate').toLowerCase();
+      const candidateName = urlParams.get('name') || 'VIP Candidate';
+      const candidatePwd  = urlParams.get('pwd')  || urlParams.get('password') || 'cap2027';
+      const candidatePhone = urlParams.get('phone') || '+91 98000 00000';
+
+      const vipUser = {
+        name: candidateName,
+        email: candidateUser,
+        password: candidatePwd,
+        phone: candidatePhone,
+        college: "Capgemini Candidate (VIP Pro Pass)",
+        isPro: true,
+        isVip: true,
+        joinedAt: new Date().toLocaleString()
+      };
+
+      const storedUsers = getStoredUsers();
+      const existingIdx = storedUsers.findIndex(u => u.email && u.email.toLowerCase() === candidateUser);
+      if (existingIdx >= 0) {
+        storedUsers[existingIdx] = Object.assign({}, storedUsers[existingIdx], vipUser);
+      } else {
+        storedUsers.unshift(vipUser);
+      }
+      saveStoredUsers(storedUsers);
+      setCurrentUser(vipUser);
       unlockProPass('VIP-LINK-' + candidateUser);
-      showSecurityToast(`👑 VIP Pro Lifetime Pass Activated! Sponsored by Admin Rishav for ${candidateName}.`);
-      alert(`🎉 WELCOME ${candidateName.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass has been ACTIVATED for 100% FREE!\nSponsored by Master Admin Rishav (rishavofficials1727@gmail.com).\n\nAll 76+ Mock Tests, Lab 27 AI Simulator, and Protected PDF Guides are now UNLOCKED!`);
+      showSecurityToast(`👑 VIP Pro Lifetime Pass Activated for ${candidateName}!`);
+      alert(`🎉 WELCOME ${candidateName.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass has been ACTIVATED for 100% FREE!\nSponsored by Master Admin Rishav.\n\n📧 Registered Email: ${candidateUser}\n🔑 Your Password: ${candidatePwd}\n\nAll 76+ Mock Tests, Lab 27 AI Simulator, and Protected PDF Guides are now UNLOCKED!`);
     } else if (urlParams.get('coupon')) {
       const c = urlParams.get('coupon').toUpperCase();
       const codeInput = document.getElementById('coupon-code-input');

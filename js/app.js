@@ -1183,7 +1183,7 @@ function prefillAndSignIn(email, password) {
 }
 
 function copyUpiId() {
-  const upiId = "rishavofficials1727@oksbi";
+  const upiId = "rishavofficials1727-7@okaxis";
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(upiId).then(() => {
       showSecurityToast("📋 UPI ID Copied: " + upiId);
@@ -1214,16 +1214,34 @@ function updateUpiLinksAndPrices(price) {
   const fixedAmtDisplay = document.getElementById('upi-fixed-amt-display');
   if (fixedAmtDisplay) fixedAmtDisplay.textContent = '₹' + price;
 
+  const upiId = "rishavofficials1727-7@okaxis";
+  const payeeName = "Rishav Kumar Gupta";
+  const note = "CapPrep Pro Pass";
+  const uri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${price}&cu=INR&tn=${encodeURIComponent(note)}`;
+
   const gpay = document.getElementById('upi-intent-gpay');
   const phonepe = document.getElementById('upi-intent-phonepe');
   const paytm = document.getElementById('upi-intent-paytm');
   const cred = document.getElementById('upi-intent-cred');
 
-  const uri = `upi://pay?pa=rishavofficials1727@oksbi&pn=Rishav%20Kumar%20Gupta&am=${price}&cu=INR&tn=CapPrep%20Pro%20Pass`;
   if (gpay) gpay.href = uri;
   if (phonepe) phonepe.href = uri;
   if (paytm) paytm.href = uri;
   if (cred) cred.href = uri;
+
+  // Dynamic QR Code generation with fixed amount embedded
+  const dynamicQr = document.getElementById('dynamic-upi-qr');
+  if (dynamicQr) {
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uri)}&margin=10`;
+    if (typeof Image !== 'undefined') {
+      const img = new Image();
+      img.onload = () => { dynamicQr.src = qrUrl; };
+      img.onerror = () => { dynamicQr.src = 'assets/upi_qr.png'; };
+      img.src = qrUrl;
+    } else {
+      dynamicQr.src = qrUrl;
+    }
+  }
 }
 
 function goToPaymentScreen() {
@@ -1388,7 +1406,7 @@ function processUpiPayment() {
     return;
   }
   if (!utr || utr.length < 8) {
-    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹51 to rishavofficials1727@oksbi in your UPI app.");
+    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹51 to rishavofficials1727-7@okaxis in your UPI app.");
     document.getElementById('upi-utr-input')?.focus();
     return;
   }
@@ -1426,7 +1444,7 @@ function processUpiPayment() {
       email,
       phone: phone || "+91 98000 00000",
       college: college || "Capgemini Candidate",
-      method: "UPI Direct (rishavofficials1727@oksbi)",
+      method: "UPI Direct (rishavofficials1727-7@okaxis)",
       utr: utr,
       amount: currentPayablePrice
     });

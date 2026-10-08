@@ -60,8 +60,8 @@ C:\cap\ai\
   - List price: <del>₹299</del>. Auto-applied welcome coupon `SUPER51` slashes the price to **₹51** (83% OFF / Save ₹248).
   - Ticking urgency countdown timer (14:59) and live social proof toasts across Indian engineering campuses.
 - **Direct Indian UPI Integration (0% Fee / 100% Profit)**:
-  - Integrated UPI ID: **`rishavofficials1727@oksbi`**.
-  - Direct dynamic QR code generator and 1-tap mobile payment app intents (Google Pay, PhonePe, Paytm, BHIM).
+  - Integrated UPI ID: **`rishavofficials1727-7@okaxis`** (Axis Bank).
+  - Direct dynamic QR code generator with fixed amount (₹51) locked and 1-tap mobile payment app intents (Google Pay, PhonePe, Paytm, BHIM).
   - Students enter 12-digit UTR reference upon completion; admin verifies in `admin.html`.
 - **Student Accounts & Dedicated Logout Flow**:
   - Enrollment requires Name, Email, Password (min 6 characters), Phone, and UTR.

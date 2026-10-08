@@ -373,34 +373,63 @@
           <span style="font-size:1.3rem;">👑</span>
           <div>
             <div style="font-weight:800; color:#c084fc; font-size:0.98rem;">Manual Free Pro Access Grant</div>
-            <div style="font-size:0.76rem; color:#94a3b8; margin-top:0.1rem;">Enter email &amp; phone → instantly grant 100% free lifetime Pro access to any candidate</div>
+            <div style="font-size:0.76rem; color:#94a3b8; margin-top:0.1rem;">Fill details → click Grant → share the email &amp; password with the student</div>
           </div>
         </div>
+
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem; margin-bottom:0.9rem;">
+          <!-- Name -->
           <div>
             <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Full Name</label>
             <input type="text" id="manual-grant-name" class="form-control" placeholder="e.g. Sneha Sharma" style="width:100%; font-size:0.85rem;" />
           </div>
+          <!-- Email -->
           <div>
             <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Email / Student ID <span style="color:#f87171;">*</span></label>
             <input type="text" id="manual-grant-email" class="form-control" placeholder="e.g. sneha@gmail.com" style="width:100%; font-size:0.85rem;" />
           </div>
+          <!-- Phone -->
           <div>
             <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Phone / WhatsApp</label>
             <input type="tel" id="manual-grant-phone" class="form-control" placeholder="+91 98765 43210" style="width:100%; font-size:0.85rem;" />
           </div>
+          <!-- Password -->
+          <div>
+            <label style="font-size:0.75rem; color:#94a3b8; display:block; margin-bottom:0.3rem;">Login Password <span style="color:#f87171;">*</span></label>
+            <div style="display:flex; gap:0.4rem; align-items:center;">
+              <input type="text" id="manual-grant-password" class="form-control" placeholder="Auto or type custom" style="flex:1; font-size:0.85rem; font-family:'JetBrains Mono', monospace; letter-spacing:0.05em;" />
+              <button class="btn-action" title="Generate random password" onclick="generateGrantPassword()" style="padding:0.35rem 0.6rem; font-size:0.8rem; white-space:nowrap;">🎲 Random</button>
+            </div>
+            <div style="font-size:0.7rem; color:#64748b; margin-top:0.25rem;">Student will use this to sign in</div>
+          </div>
         </div>
+
+        <!-- Buttons row -->
         <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
           <button class="btn-action btn-primary-action" style="background:linear-gradient(135deg,#7c3aed,#6d28d9); border-color:#7c3aed; font-weight:700; padding:0.5rem 1.1rem;" onclick="manualGrantFreePro()">
             ⚡ Grant Free Pro Access
           </button>
-          <button class="btn-action" style="padding:0.5rem 1rem;" onclick="document.getElementById('manual-grant-name').value='';document.getElementById('manual-grant-email').value='';document.getElementById('manual-grant-phone').value='';document.getElementById('manual-grant-msg').textContent='';">
+          <button class="btn-action" style="padding:0.5rem 0.9rem;" onclick="generateGrantPassword()">
+            🎲 Generate Password
+          </button>
+          <button class="btn-action" style="padding:0.5rem 0.9rem;" onclick="clearManualGrantForm()">
             🗑️ Clear
           </button>
-          <span id="manual-grant-msg" style="font-size:0.82rem; color:#06d6a0; font-weight:600;"></span>
+        </div>
+
+        <!-- Inline success / error message -->
+        <div id="manual-grant-msg-box" style="display:none; margin-top:1rem; background:rgba(6,214,160,0.08); border:1px solid rgba(6,214,160,0.35); border-radius:10px; padding:0.9rem 1rem;">
+          <div style="font-weight:700; color:#06d6a0; font-size:0.9rem; margin-bottom:0.5rem;">✅ Free Pro Access Granted!</div>
+          <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.7;">
+            Share these login credentials with the student:<br/>
+            <strong style="color:#fff;">📧 Email:</strong> <span id="grant-result-email" style="color:#00d4ff; font-family:'JetBrains Mono';"></span><br/>
+            <strong style="color:#fff;">🔑 Password:</strong> <span id="grant-result-password" style="color:#6ee7b7; font-family:'JetBrains Mono'; font-weight:700;"></span>
+            <button onclick="copyGrantCredentials()" class="btn-action" style="margin-left:0.75rem; padding:0.2rem 0.6rem; font-size:0.75rem;">📋 Copy Credentials</button>
+          </div>
         </div>
       </div>
       <!-- ===== END MANUAL GRANT FORM ===== -->
+
 
       <div class="data-table-container">
         <table class="data-table">
@@ -1336,20 +1365,51 @@ function grantFreeFromOrder(email, name, phone) {
 }
 
 
+function generateGrantPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#';
+  let pwd = '';
+  for (let i = 0; i < 8; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
+  const pwdEl = document.getElementById('manual-grant-password');
+  if (pwdEl) { pwdEl.value = pwd; pwdEl.select(); }
+}
+
+function clearManualGrantForm() {
+  ['manual-grant-name','manual-grant-email','manual-grant-phone','manual-grant-password'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const box = document.getElementById('manual-grant-msg-box');
+  if (box) box.style.display = 'none';
+}
+
+function copyGrantCredentials() {
+  const email = (document.getElementById('grant-result-email') || {}).textContent || '';
+  const pwd   = (document.getElementById('grant-result-password') || {}).textContent || '';
+  const text  = 'CapPrep Pro Login\nEmail: ' + email + '\nPassword: ' + pwd + '\nURL: https://capprep-pro-2027.vercel.app';
+  navigator.clipboard.writeText(text).then(() => alert('📋 Credentials copied!\n\n' + text));
+}
+
 function manualGrantFreePro() {
   const nameEl  = document.getElementById('manual-grant-name');
   const emailEl = document.getElementById('manual-grant-email');
   const phoneEl = document.getElementById('manual-grant-phone');
-  const msgEl   = document.getElementById('manual-grant-msg');
+  const pwdEl   = document.getElementById('manual-grant-password');
+  const msgBox  = document.getElementById('manual-grant-msg-box');
 
   const name  = (nameEl  ? nameEl.value.trim()  : '') || 'VIP Candidate';
   const email = (emailEl ? emailEl.value.trim()  : '');
   const phone = (phoneEl ? phoneEl.value.trim()  : '') || '+91 98000 00000';
+  let   password = (pwdEl ? pwdEl.value.trim() : '');
 
   if (!email) {
-    if (msgEl) { msgEl.style.color = '#f87171'; msgEl.textContent = '⚠️ Email / Student ID is required.'; }
-    if (emailEl) emailEl.focus();
+    if (emailEl) { emailEl.style.borderColor = '#f87171'; emailEl.focus(); }
+    alert('⚠️ Email / Student ID is required.');
     return;
+  }
+
+  // Auto-generate password if empty
+  if (!password) {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#';
+    for (let i = 0; i < 8; i++) password += chars[Math.floor(Math.random() * chars.length)];
   }
 
   // 1. Add to VIP whitelist
@@ -1384,11 +1444,11 @@ function manualGrantFreePro() {
   });
   saveStoredOrders(orders);
 
-  // 3. Patch capprep_users
+  // 3. Patch capprep_users — store password so student can sign in
   try {
     const users = JSON.parse(localStorage.getItem('capprep_users') || '[]');
     const ui = users.findIndex(u => u.email && u.email.toLowerCase() === email.toLowerCase());
-    const vipObj = { name, email, phone, isPro: true, isVip: true, joinedAt: new Date().toLocaleString() };
+    const vipObj = { name, email, phone, password, isPro: true, isVip: true, joinedAt: new Date().toLocaleString() };
     if (ui >= 0) { users[ui] = Object.assign({}, users[ui], vipObj); } else { users.unshift(vipObj); }
     localStorage.setItem('capprep_users', JSON.stringify(users));
   } catch(e) {}
@@ -1396,15 +1456,20 @@ function manualGrantFreePro() {
   // 4. Refresh dashboard
   loadDashboardData();
 
-  // 5. Show inline success + clear fields
-  if (msgEl) { msgEl.style.color = '#06d6a0'; msgEl.textContent = '✅ Free Pro granted to ' + email + '!'; }
-  if (nameEl)  nameEl.value  = '';
-  if (emailEl) emailEl.value = '';
-  if (phoneEl) phoneEl.value = '';
+  // 5. Show success box with credentials
+  const resultEmail = document.getElementById('grant-result-email');
+  const resultPwd   = document.getElementById('grant-result-password');
+  if (resultEmail) resultEmail.textContent = email;
+  if (resultPwd)   resultPwd.textContent   = password;
+  if (msgBox)      msgBox.style.display    = 'block';
 
-  // Auto-clear message after 5s
-  setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 5000);
+  // Clear form fields (keep result box visible)
+  if (nameEl)  nameEl.value  = '';
+  if (emailEl) { emailEl.value = ''; emailEl.style.borderColor = ''; }
+  if (phoneEl) phoneEl.value = '';
+  if (pwdEl)   pwdEl.value   = '';
 }
+
 
 function exportOrdersCSV() {
   const orders = getStoredOrders();

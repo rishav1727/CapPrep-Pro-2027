@@ -1041,7 +1041,10 @@ function processUserSignIn() {
   }
 }
 
+let currentLockedTest = null;
+
 function openLockedTestModal(test) {
+  currentLockedTest = test;
   const modal = document.getElementById('locked-test-modal');
   if (!modal) {
     openPaymentModal(test);
@@ -1049,8 +1052,34 @@ function openLockedTestModal(test) {
   }
   const titleEl = document.getElementById('locked-modal-test-title');
   const metaEl = document.getElementById('locked-modal-test-meta');
+  const freeBtn = document.getElementById('locked-modal-free-btn');
+
   if (titleEl && test) titleEl.textContent = `🔒 ${test.title} is Locked`;
   if (metaEl && test) metaEl.textContent = `${test.category} • ${test.questions || 1} Challenge(s) • ${test.duration} Minutes (Pro Tier)`;
+
+  if (freeBtn && test) {
+    const tid = test.id || '';
+    if (tid.startsWith('dbg_') || tid === 'gm_s2b' || (test.category && test.category.includes('Stage 2B'))) {
+      freeBtn.textContent = '🎯 Try Free Debugging Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); window.location.href = 'modules/debug_sim.html?id=dbg_1'; };
+    } else if (tid.startsWith('aic_') || tid === 'gm_s3' || (test.category && test.category.includes('Stage 3'))) {
+      freeBtn.textContent = '🎯 Try Free AI Coding Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); window.location.href = 'modules/ai_coding_sim.html?id=aic_1'; };
+    } else if (tid.startsWith('ps_') || tid === 'gm_s2a' || (test.category && test.category.includes('Stage 2A'))) {
+      freeBtn.textContent = '🎯 Try Free PseudoCode Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); startTest('ps_1'); };
+    } else if (tid.startsWith('mc_') || tid === 'gm_s4' || (test.category && test.category.includes('Stage 4'))) {
+      freeBtn.textContent = '🎯 Try Free Cloud / Coding Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); startTest('mc_1'); };
+    } else if (tid.startsWith('be_') || tid === 'gm_s56' || (test.category && test.category.includes('Stage 5'))) {
+      freeBtn.textContent = '🎯 Try Free Behavioral Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); startTest('be_1'); };
+    } else {
+      freeBtn.textContent = '🎯 Try Free Verbal Test 1';
+      freeBtn.onclick = () => { closeLockedTestModal(); startTest('vb_1'); };
+    }
+  }
+
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -2092,8 +2121,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Stealth Admin Access Shortcut: Press Ctrl + Shift + A anywhere on the page
+// Global Keydown Listeners (Esc to close modals, Ctrl+Shift+A for Admin)
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    closeLockedTestModal();
+    closePaymentModal();
+    closeSignInModal();
+    closeForgotPasswordModal();
+    closeSupportModal();
+  }
   if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
     e.preventDefault();
     window.location.href = 'admin.html';

@@ -754,6 +754,13 @@
       }
     }, 1000);
 
+    // Global keydown listeners (Esc to close lock modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        closeSimLockedModal();
+      }
+    });
+
     // Initial load from URL param ?id=dbg_1 to dbg_10
     window.onload = () => {
       updateSimulatorDropdownBadges();

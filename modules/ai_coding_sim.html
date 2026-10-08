@@ -1530,6 +1530,13 @@
       }
     }, 1000);
 
+    // Global keydown listeners (Esc to close lock modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        closeSimLockedModal();
+      }
+    });
+
     window.onload = function() {
       updateSimulatorDropdownBadges();
       const urlParams = new URLSearchParams(window.location.search);

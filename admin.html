@@ -1083,8 +1083,9 @@ function renderOrdersTable(orders) {
       <td><span class="status-badge status-success">● Active Pro</span></td>
       <td style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml(o.date)}</td>
       <td>
-        <div style="display:flex; gap:0.4rem;">
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
           <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="viewReceipt('${o.orderId}')">🧾 Receipt</button>
+          <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; background:rgba(5,150,105,0.2); border-color:#059669; color:#6ee7b7;" onclick="grantFreeFromOrder('${o.email}','${escapeHtml(o.name)}','${escapeHtml(o.phone||'')}')">👑 Grant Free</button>
           <button class="btn-action" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#f87171;" onclick="revokeAccess('${o.orderId}')">Revoke</button>
         </div>
       </td>
@@ -1259,6 +1260,44 @@ function viewReceipt(orderId) {
 
   alert(`🧾 CAPPREP PRO OFFICIAL ENROLLMENT RECEIPT\n--------------------------------------------\nOrder ID: ${o.orderId}\nStudent: ${o.name}\nEmail: ${o.email}\nPhone: ${o.phone || 'N/A'}\nCollege: ${o.college || 'N/A'}\nAmount Paid: ₹${o.amount} INR\nPayment Method: ${o.method}\nUTR / Ref: ${o.utr}\nStatus: VERIFIED & ACTIVE\nDate: ${o.date}\nAuthorized by: Rishav (${MASTER_ADMIN_EMAIL})`);
 }
+
+function grantFreeFromOrder(email, name, phone) {
+  if (!email) { alert('No email found for this order.'); return; }
+  if (!confirm('👑 Grant FREE lifetime VIP access to:\n\nName: ' + name + '\nEmail: ' + email + '\n\nThis will whitelist them for free login. Continue?')) return;
+
+  // 1. Add to VIP whitelist
+  const whitelist = getStoredVipWhitelist();
+  const refCode = 'VIP-' + Math.floor(10000 + Math.random() * 90000);
+  const existingIdx = whitelist.findIndex(item => item.id.toLowerCase() === email.toLowerCase());
+  const entry = {
+    ref: refCode,
+    name: name || 'VIP Candidate',
+    id: email,
+    phone: phone || '+91 98000 00000',
+    reason: 'Admin Granted – Free Access',
+    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+    status: 'ACTIVE_VIP'
+  };
+  if (existingIdx >= 0) {
+    whitelist[existingIdx] = entry;
+  } else {
+    whitelist.unshift(entry);
+  }
+  saveStoredVipWhitelist(whitelist);
+
+  // 2. Patch capprep_users to set isPro=true
+  try {
+    const users = JSON.parse(localStorage.getItem('capprep_users') || '[]');
+    const ui = users.findIndex(u => u.email && u.email.toLowerCase() === email.toLowerCase());
+    const vipObj = { name: name || 'VIP Candidate', email: email, phone: phone || '+91 98000 00000', isPro: true, isVip: true };
+    if (ui >= 0) { users[ui] = Object.assign({}, users[ui], vipObj); } else { users.unshift(vipObj); }
+    localStorage.setItem('capprep_users', JSON.stringify(users));
+  } catch(e) {}
+
+  loadDashboardData();
+  alert('✅ FREE VIP lifetime access granted!\n\nName: ' + name + '\nEmail: ' + email + '\n\nSee the "Free VIP Pass Controller" tab to copy their 1-click link.');
+}
+
 
 function exportOrdersCSV() {
   const orders = getStoredOrders();

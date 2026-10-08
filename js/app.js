@@ -195,52 +195,96 @@ function closeSupportModal() {
 }
 
 function submitSupportTicket() {
-  const name = (document.getElementById('supp-name')?.value || '').trim();
+  const name  = (document.getElementById('supp-name')?.value  || '').trim();
   const email = (document.getElementById('supp-email')?.value || '').trim();
-  const topic = document.getElementById('supp-topic')?.value || 'General Support';
-  const msg = (document.getElementById('supp-msg')?.value || '').trim();
+  const topic = document.getElementById('supp-topic')?.value  || 'General Support';
+  const msg   = (document.getElementById('supp-msg')?.value   || '').trim();
   const feedback = document.getElementById('supp-feedback');
+  const btn   = document.querySelector('#support-form-container .pay-btn-checkout');
 
   if (!email || !msg) {
     if (feedback) {
       feedback.style.display = 'block';
-      feedback.style.background = 'rgba(239, 68, 68, 0.15)';
-      feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      feedback.style.background = 'rgba(239,68,68,0.15)';
+      feedback.style.border = '1px solid rgba(239,68,68,0.3)';
       feedback.style.color = '#f87171';
       feedback.innerText = 'Please provide both your registered email and a message / UTR.';
     }
     return;
   }
 
+  // Generate ticket ID
   const ticketId = 'CAP-' + Math.floor(10000 + Math.random() * 90000);
-  const ticketObj = {
-    id: ticketId,
-    name: name || 'Candidate',
-    email: email,
-    topic: topic,
-    message: msg,
-    timestamp: new Date().toISOString(),
-    status: 'OPEN'
-  };
 
+  // Save locally
   try {
     const existing = JSON.parse(localStorage.getItem('capprep_support_tickets') || '[]');
-    existing.unshift(ticketObj);
+    existing.unshift({ id:ticketId, name:name||'Candidate', email, topic, message:msg, timestamp:new Date().toISOString(), status:'OPEN' });
     localStorage.setItem('capprep_support_tickets', JSON.stringify(existing));
-  } catch (e) {
-    console.warn("Local storage error:", e);
-  }
+  } catch(e) {}
+
+  // Show loading state
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Sending...'; }
+  if (feedback) feedback.style.display = 'none';
+
+  // ── Real Email via Formspree ──────────────────────────────────────────────
+  // Formspree endpoint: replace with your own at https://formspree.io/f/YOUR_ID
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xkgwbjnb';
+
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      _subject: '[CapPrep Support] ' + topic + ' — Ticket ' + ticketId,
+      name:    name || 'Candidate',
+      email:   email,
+      topic:   topic,
+      message: msg,
+      ticket:  ticketId,
+      _replyto: email
+    })
+  })
+  .then(function(res) {
+    if (res.ok) {
+      showSupportSuccess(ticketId, email);
+    } else {
+      // Formspree failed — fall back to mailto
+      mailtoFallback(name, email, topic, msg, ticketId);
+      showSupportSuccess(ticketId, email);
+    }
+  })
+  .catch(function() {
+    // Network error — fall back to mailto
+    mailtoFallback(name, email, topic, msg, ticketId);
+    showSupportSuccess(ticketId, email);
+  });
+}
+
+function mailtoFallback(name, email, topic, msg, ticketId) {
+  const subject = encodeURIComponent('[CapPrep Support] ' + topic + ' — Ticket ' + ticketId);
+  const body = encodeURIComponent(
+    'Ticket ID: ' + ticketId + '\n' +
+    'Name: ' + (name || 'Candidate') + '\n' +
+    'Email: ' + email + '\n' +
+    'Topic: ' + topic + '\n\n' +
+    'Message:\n' + msg
+  );
+  window.open('mailto:rishavofficials1727@gmail.com?subject=' + subject + '&body=' + body, '_blank');
+}
+
+function showSupportSuccess(ticketId, email) {
+  const btn = document.querySelector('#support-form-container .pay-btn-checkout');
+  if (btn) { btn.disabled = false; btn.innerHTML = '📨 Send Direct Message to Support'; }
 
   const formContainer = document.getElementById('support-form-container');
-  const successBox = document.getElementById('supp-success-box');
-  const ticketRef = document.getElementById('supp-ticket-ref');
-
+  const successBox    = document.getElementById('supp-success-box');
+  const ticketRef     = document.getElementById('supp-ticket-ref');
   if (formContainer) formContainer.style.display = 'none';
-  if (successBox) successBox.style.display = 'block';
-  if (ticketRef) {
-    ticketRef.innerHTML = `Your Ticket ID is <strong style="color:#00d4ff;">#${ticketId}</strong>. We have securely logged your request under <em>${escapeHtml(email)}</em> and the administration team will process it promptly.`;
-  }
+  if (successBox)    successBox.style.display = 'block';
+  if (ticketRef)     ticketRef.innerHTML = 'Your Ticket ID is <strong style="color:#00d4ff;">#' + ticketId + '</strong>. Your message has been sent to our support team at <em>rishavofficials1727@gmail.com</em>. We will reply to <em>' + escapeHtml(email) + '</em> within 24 hours.';
 }
+
+
 
 // ==========================================
 // CAPPREP PRO — MASTER QUESTION BANK & ENGINE

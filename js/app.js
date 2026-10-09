@@ -940,6 +940,14 @@ const GLOBAL_VERIFIED_VIP_ACCOUNTS = [
     phone: "+91 98000 00000",
     role: "Verified Pro Student (VIP Pass)",
     isPro: true
+  },
+  {
+    name: "Enrolled Pro Student",
+    email: "pinea8888@gmail.com",
+    password: "cap2027",
+    phone: "+91 98000 00000",
+    role: "Verified Paid Candidate (CapPrep Pro)",
+    isPro: true
   }
 ];
 
@@ -1287,14 +1295,46 @@ function recoverUserPassword() {
   }
 
   const users = getStoredUsers();
-  const user = users.find(u => u.email && u.email.toLowerCase() === email);
+  let user = users.find(u => u.email && u.email.toLowerCase() === email);
+
+  // Check Global Verified VIP Accounts (Admin Grants / Paid Students)
+  if (!user) {
+    const vip = GLOBAL_VERIFIED_VIP_ACCOUNTS.find(v => v.email.toLowerCase() === email);
+    if (vip) {
+      user = {
+        name: vip.name,
+        email: vip.email,
+        password: vip.password || 'cap2027',
+        isPro: true
+      };
+      // Auto-save to local users so subsequent sign-in is instant
+      users.unshift(user);
+      saveStoredUsers(users);
+    }
+  }
+
+  // Check Orders Ledger
+  if (!user) {
+    try {
+      const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
+      const ordMatch = orders.find(o => o.email && o.email.toLowerCase() === email);
+      if (ordMatch) {
+        user = {
+          name: ordMatch.name || "Enrolled Student",
+          email: ordMatch.email,
+          password: ordMatch.password || "cap2027",
+          isPro: true
+        };
+      }
+    } catch(e) {}
+  }
 
   if (!user) {
     feedback.style.display = 'block';
     feedback.style.background = 'rgba(239, 68, 68, 0.15)';
     feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
     feedback.style.color = '#f87171';
-    feedback.innerHTML = `❌ No active account found for <strong>${escapeHtml(email)}</strong>.<br><br>You have not purchased the CapPrep Pro Pass with this email. Please click 'Enroll now for ₹51' to get access.`;
+    feedback.innerHTML = `❌ No active account found for <strong>${escapeHtml(email)}</strong>.<br><br>• If you paid via UPI, please WhatsApp Admin with your receipt/UTR to verify instantly.<br>• Haven't enrolled yet? <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openPaymentModal();" style="color:var(--accent); font-weight:700;">Enroll for ₹51 →</a>`;
     return;
   }
 

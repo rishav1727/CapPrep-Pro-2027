@@ -398,7 +398,8 @@
           <option value="aic_7">Test 7: 07. Subarray Sum Equals K 🔒 [PRO ONLY]</option>
           <option value="aic_8">Test 8: 08. Coin Change (Minimum Coins DP) 🔒 [PRO ONLY]</option>
           <option value="aic_9">Test 9: 09. Valid Parentheses with Wildcards 🔒 [PRO ONLY]</option>
-          <option value="aic_10">Test 10: 10. Word Search on 2D Matrix (Backtracking) 🔒 [PRO ONLY]</option>
+          <option value="aic_10">Test 10: 10. Word Search on 2D Matrix (Backtracking) ⭐ [UNLOCKED]</option>
+          <option value="aic_11">Test 11: 11. House Robber (Dynamic Programming) ⭐ [UNLOCKED]</option>
         </select>
       </div>
 
@@ -1141,6 +1142,65 @@
       "Cell Reuse Prevention ('ABCB' -> False)",
       "Single Character Grid Boundary"
     ]
+  },
+  "aic_11": {
+    "num": "Test 11 • Dynamic Programming (Capgemini Core)",
+    "title": "11. House Robber (Maximum Non-Adjacent Sum)",
+    "desc": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and <strong>it will automatically contact the police if two adjacent houses were broken into on the same night</strong>.<br><br>Given an integer array <code>nums</code> representing the amount of money of each house, return the <strong>maximum amount of money</strong> you can rob tonight without alerting the police.",
+    "method_signatures": {
+      "c": "int rob(int* nums, int numsSize);",
+      "cpp": "int rob(vector<int>& nums);",
+      "java": "public static int rob(int[] nums)",
+      "python": "def rob(nums: list[int]) -> int:"
+    },
+    "input_format": "<code>nums</code>: An integer array where <code>nums[i]</code> represents the amount of money at house <code>i</code>.",
+    "output_format": "Return a single integer: the maximum money robbed without choosing adjacent houses.",
+    "constraints": "• 1 <= nums.length <= 100<br>• 0 <= nums[i] <= 400<br>• Time Complexity: O(N)<br>• Space Complexity: O(1)",
+    "examples": [
+      {
+        "ex_num": 1,
+        "input": "nums = [1, 2, 3, 1]",
+        "output": "4",
+        "explanation": "Rob house 1 (money = 1) and house 3 (money = 3). Total money = 1 + 3 = 4."
+      },
+      {
+        "ex_num": 2,
+        "input": "nums = [2, 7, 9, 3, 1]",
+        "output": "12",
+        "explanation": "Rob house 1 (money = 2), house 3 (money = 9), and house 5 (money = 1). Total money = 2 + 9 + 1 = 12."
+      }
+    ],
+    "structs": {
+      "c": "// Standard C Array manipulation",
+      "cpp": "// Using std::vector<int>",
+      "java": "// Using int[] array",
+      "python": "# Using standard Python list"
+    },
+    "files": {
+      "c": "HouseRobber.c",
+      "cpp": "HouseRobber.cpp",
+      "java": "HouseRobber.java",
+      "python": "house_robber.py"
+    },
+    "initialCodes": {
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n// Implement the function below\nint rob(int* nums, int numsSize) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n// Implement the function below\nint rob(vector<int>& nums) {\n    // Write your code here using AI scaffolding\n    return 0;\n}\n",
+      "java": "public class Solution {\n    // Implement the function below\n    public static int rob(int[] nums) {\n        // Write your code here using AI scaffolding\n        return 0;\n    }\n}\n",
+      "python": "# Implement the function below\ndef rob(nums: list[int]) -> int:\n    # Write your code here using AI scaffolding\n    return 0\n"
+    },
+    "step1Auto": "The problem asks for the maximum money we can rob from a street of houses given by nums, under the constraint that we cannot rob any two adjacent houses. If nums is empty, answer is 0. If 1 house, rob it. For house i, we decide whether to rob it (adding its cash to the max money from house i-2) or skip it (retaining max money from house i-1).",
+    "step2Auto": "I will formulate an optimal Dynamic Programming approach with O(1) space. Let prev1 be the max money robbed up to house i-1 and prev2 be the max money up to house i-2. For each house cash in nums, compute current = max(prev1, prev2 + cash). Then update prev2 = prev1, and prev1 = current. Return prev1 at the end. Time: O(N), Space: O(1).",
+    "generatedCodes": {
+      "c": "int rob(int* nums, int numsSize) {\n    if (numsSize == 0) return 0;\n    if (numsSize == 1) return nums[0];\n    int prev2 = 0, prev1 = 0;\n    for (int i = 0; i < numsSize; i++) {\n        int current = (prev2 + nums[i] > prev1) ? (prev2 + nums[i]) : prev1;\n        prev2 = prev1;\n        prev1 = current;\n    }\n    return prev1;\n}",
+      "cpp": "int rob(vector<int>& nums) {\n    if (nums.empty()) return 0;\n    int prev2 = 0, prev1 = 0;\n    for (int num : nums) {\n        int current = max(prev1, prev2 + num);\n        prev2 = prev1;\n        prev1 = current;\n    }\n    return prev1;\n}",
+      "java": "public static int rob(int[] nums) {\n    if (nums == null || nums.length == 0) return 0;\n    int prev2 = 0, prev1 = 0;\n    for (int num : nums) {\n        int current = Math.max(prev1, prev2 + num);\n        prev2 = prev1;\n        prev1 = current;\n    }\n    return prev1;\n}",
+      "python": "def rob(nums: list[int]) -> int:\n    if not nums: return 0\n    prev2, prev1 = 0, 0\n    for num in nums:\n        current = max(prev1, prev2 + num)\n        prev2 = prev1\n        prev1 = current\n    return prev1"
+    },
+    "tc_names": [
+      "Sample Street: [1, 2, 3, 1] -> Output: 4",
+      "Larger Street: [2, 7, 9, 3, 1] -> Output: 12",
+      "Alternating Houses: [4, 1, 2, 7, 5, 3, 1] & Edge Cases"
+    ]
   }
 };
 
@@ -1213,7 +1273,8 @@
       aic_7: "07. Subarray Sum Equals K",
       aic_8: "08. Coin Change (Minimum Coins DP)",
       aic_9: "09. Valid Parentheses with Wildcards",
-      aic_10: "10. Word Search on 2D Matrix (Backtracking)"
+      aic_10: "10. Word Search on 2D Matrix (Backtracking)",
+      aic_11: "11. House Robber (Dynamic Programming)"
     };
 
     const GLOBAL_FREE_ACCESS_MODE = true;

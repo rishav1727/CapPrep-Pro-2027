@@ -771,6 +771,7 @@ const MOCK_TESTS = [
   { id:"aic_8", title:"AI Coding Challenge 8 — 08. Coin Change (Minimum Coins DP)", category:"Stage 3 AI Coding", icon:"📐", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_9", title:"AI Coding Challenge 9 — 09. Valid Parentheses with Wildcards", category:"Stage 3 AI Coding", icon:"📋", difficulty:"medium", questions:1, duration:45, isPremium:true },
   { id:"aic_10", title:"AI Coding Challenge 10 — 10. Word Search on 2D Matrix", category:"Stage 3 AI Coding", icon:"🌟", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_11", title:"AI Coding Challenge 11 — 11. House Robber (Dynamic Programming)", category:"Stage 3 AI Coding", icon:"🏠", difficulty:"medium", questions:1, duration:45, isPremium:false },
 
   // ==========================================
   // STAGE 4: COGNITIVE & SITUATIONAL (10 TESTS)

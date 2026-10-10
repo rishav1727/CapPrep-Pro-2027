@@ -188,3 +188,105 @@ window.dbAuthenticate = dbAuthenticate;
 window.dbSaveUser = dbSaveUser;
 window.dbSaveOrder = dbSaveOrder;
 window.dbGetOrders = dbGetOrders;
+
+// ==========================================
+// 6. VISITOR TRACKING & REACH ANALYTICS
+// ==========================================
+
+function dbGetVisitorId() {
+  try {
+    let vid = localStorage.getItem('capprep_visitor_id');
+    if (!vid) {
+      vid = 'cpv_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
+      localStorage.setItem('capprep_visitor_id', vid);
+    }
+    return vid;
+  } catch(e) {
+    return 'cpv_anonymous_' + Date.now();
+  }
+}
+
+async function dbTrackVisitor(customPath) {
+  try {
+    const vid = dbGetVisitorId();
+    const pagePath = customPath || window.location.pathname.split('/').pop() || 'index.html';
+    const referrer = document.referrer ? document.referrer.substring(0, 150) : 'direct';
+
+    // Anti-spam debounce: avoid spamming Supabase if reloaded within 60s on same page
+    const sessionKey = 'capprep_last_ping_' + pagePath;
+    const lastPing = Number(sessionStorage.getItem(sessionKey) || 0);
+    const now = Date.now();
+    if (now - lastPing < 60000) {
+      return; // Already recorded visit in this session within last 60 seconds
+    }
+    sessionStorage.setItem(sessionKey, now.toString());
+
+    const payload = {
+      visitor_id: vid,
+      page_path: pagePath,
+      referrer: referrer
+    };
+
+    await fetch(`${SUPABASE_URL}/rest/v1/capprep_visitors`, {
+      method: "POST",
+      headers: DB_HEADERS,
+      body: JSON.stringify(payload)
+    });
+  } catch(err) {
+    // Non-blocking, fail silently for visitors
+  }
+}
+
+async function dbGetVisitorStats() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/capprep_visitors?select=visitor_id,created_at,page_path&order=created_at.desc&limit=5000`, {
+      method: "GET",
+      headers: DB_HEADERS
+    });
+    if (res.ok) {
+      const rows = await res.json();
+      const uniqueSet = new Set(rows.map(r => r.visitor_id));
+      const todayDateStr = new Date().toISOString().slice(0, 10);
+      const todayRows = rows.filter(r => r.created_at && r.created_at.startsWith(todayDateStr));
+      const todayUnique = new Set(todayRows.map(r => r.visitor_id));
+
+      const pageCounts = {};
+      rows.forEach(r => {
+        const p = r.page_path || 'index.html';
+        pageCounts[p] = (pageCounts[p] || 0) + 1;
+      });
+
+      return {
+        totalVisits: rows.length,
+        uniqueVisitors: uniqueSet.size,
+        todayVisits: todayRows.length,
+        todayUniqueVisitors: todayUnique.size,
+        pageCounts: pageCounts,
+        recent: rows.slice(0, 15)
+      };
+    }
+  } catch(err) {
+    console.warn("Supabase dbGetVisitorStats error:", err);
+  }
+  return {
+    totalVisits: 0,
+    uniqueVisitors: 0,
+    todayVisits: 0,
+    todayUniqueVisitors: 0,
+    pageCounts: {},
+    recent: []
+  };
+}
+
+window.dbGetVisitorId = dbGetVisitorId;
+window.dbTrackVisitor = dbTrackVisitor;
+window.dbGetVisitorStats = dbGetVisitorStats;
+
+// Auto-track on load
+if (typeof window !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(dbTrackVisitor, 300));
+  } else {
+    setTimeout(dbTrackVisitor, 300);
+  }
+}

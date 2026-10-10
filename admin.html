@@ -123,6 +123,7 @@
     .metric-green::before { background: linear-gradient(90deg, #06d6a0, #059669); }
     .metric-purple::before { background: linear-gradient(90deg, #7c3aed, #c084fc); }
     .metric-amber::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .metric-cyan::before { background: linear-gradient(90deg, #00d4ff, #06d6a0); }
     
     .metric-title { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
     .metric-value { font-size: 2.2rem; font-weight: 900; margin: 0.4rem 0 0.2rem; color: #fff; font-family: 'JetBrains Mono', monospace; }
@@ -339,11 +340,18 @@
       <div class="metric-value">18.4%</div>
       <div class="metric-sub">High conversion via ₹299 ➔ ₹51 Flash Deal</div>
     </div>
+
+    <div class="metric-card metric-cyan" style="border-color:rgba(0,212,255,0.35);">
+      <div class="metric-title" style="color:var(--accent);">Free Access Reach (Live)</div>
+      <div class="metric-value" id="kpi-unique-visitors" style="color:#06d6a0;">0</div>
+      <div class="metric-sub" id="kpi-total-pageviews">0 visits during free unlock window</div>
+    </div>
   </div>
 
   <!-- Navigation Tabs -->
   <div class="admin-tabs">
     <button class="tab-item active" onclick="switchTab('orders-panel')">📋 Paid Student Orders (<span id="tab-orders-count">0</span>)</button>
+    <button class="tab-item" onclick="switchTab('visitors-panel')">🌐 Free Reach &amp; Visitors (<span id="tab-visitors-count">0</span>)</button>
     <button class="tab-item" onclick="switchTab('support-panel')">🎧 Candidate Support Tickets (<span id="tab-support-count">0</span>)</button>
     <button class="tab-item" onclick="switchTab('vip-panel')">👑 Free VIP Pass Controller (<span id="tab-vip-count">0</span>)</button>
     <button class="tab-item" onclick="switchTab('notifs-panel')">🔔 Live Notifications Log (<span id="tab-notifs-count">0</span>)</button>
@@ -824,6 +832,62 @@
     </div>
   </div>
 
+  <!-- PANEL 8: FREE OPEN ACCESS VISITOR TRACKING & REACH -->
+  <div id="visitors-panel" class="admin-panel">
+    <div class="panel-card" style="border-color:rgba(0,212,255,0.3); background:linear-gradient(180deg, rgba(0,212,255,0.04), rgba(17,24,39,0.98));">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🌐</span> Free Open Access Traffic &amp; Candidate Reach
+        </div>
+        <div class="panel-actions">
+          <button class="btn-action btn-primary-action" onclick="refreshVisitorStats()">🔄 Refresh Live Traffic</button>
+        </div>
+      </div>
+
+      <div style="background:rgba(6,214,160,0.06); border:1px solid rgba(6,214,160,0.25); border-radius:10px; padding:1.25rem; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.25rem;">
+        <div>
+          <strong style="color:var(--accent-green); font-size:1.02rem;">⚡ Status: Global Free Open Access Mode ACTIVE</strong>
+          <div style="font-size:0.82rem; color:#94a3b8; margin-top:0.35rem;">
+            All 76+ tests, questions, and interactive simulators are currently 100% unlocked for every student.
+            Counting every unique candidate reaching the platform in real time via Supabase.
+          </div>
+        </div>
+        <div style="display:flex; gap:1.75rem; background:rgba(0,0,0,0.3); padding:0.75rem 1.25rem; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+          <div>
+            <div style="font-size:0.72rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Unique People Reached</div>
+            <div style="font-size:1.6rem; font-weight:900; color:#fff; font-family:'JetBrains Mono';" id="vp-unique-count">0</div>
+          </div>
+          <div style="border-left:1px solid rgba(255,255,255,0.1); padding-left:1.75rem;">
+            <div style="font-size:0.72rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Total Simulator Visits</div>
+            <div style="font-size:1.6rem; font-weight:900; color:var(--accent); font-family:'JetBrains Mono';" id="vp-total-count">0</div>
+          </div>
+          <div style="border-left:1px solid rgba(255,255,255,0.1); padding-left:1.75rem;">
+            <div style="font-size:0.72rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Today's Reach</div>
+            <div style="font-size:1.6rem; font-weight:900; color:var(--accent-green); font-family:'JetBrains Mono';" id="vp-today-count">0</div>
+          </div>
+        </div>
+      </div>
+
+      <h4 style="font-size:0.95rem; margin-bottom:0.85rem; color:#e2e8f0;">Recent Candidate Activity Stream</h4>
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Visitor ID</th>
+              <th>Page / Module Visited</th>
+              <th>Referrer / Source</th>
+              <th>Timestamp (IST / Local)</th>
+              <th>Access Status</th>
+            </tr>
+          </thead>
+          <tbody id="visitors-table-body">
+            <tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Loading live visitor stream from Supabase...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ===== MODAL: MANUALLY GRANT ACCESS ===== -->
@@ -1031,6 +1095,9 @@ function switchTab(panelId) {
   const target = document.getElementById(panelId);
   if (target) {
     target.classList.add('active');
+    if (panelId === 'visitors-panel') {
+      refreshVisitorStats();
+    }
   }
 }
 
@@ -1128,7 +1195,56 @@ function loadDashboardData() {
   renderNotificationsFeed();
   renderVipWhitelistTable();
   renderCustomCoupons();
+  refreshVisitorStats();
 }
+
+async function refreshVisitorStats() {
+  try {
+    if (typeof dbGetVisitorStats !== 'function') return;
+    const stats = await dbGetVisitorStats();
+
+    // 1. Update KPI Card
+    const kpiUniq = document.getElementById('kpi-unique-visitors');
+    if (kpiUniq) kpiUniq.textContent = (stats.uniqueVisitors || 0).toLocaleString();
+
+    const kpiViews = document.getElementById('kpi-total-pageviews');
+    if (kpiViews) kpiViews.textContent = `${stats.totalVisits || 0} visits during free unlock window`;
+
+    // 2. Update Panel Badges and Metrics
+    const tabCount = document.getElementById('tab-visitors-count');
+    if (tabCount) tabCount.textContent = stats.uniqueVisitors || 0;
+
+    const vpUnique = document.getElementById('vp-unique-count');
+    if (vpUnique) vpUnique.textContent = stats.uniqueVisitors || 0;
+
+    const vpTotal = document.getElementById('vp-total-count');
+    if (vpTotal) vpTotal.textContent = stats.totalVisits || 0;
+
+    const vpToday = document.getElementById('vp-today-count');
+    if (vpToday) vpToday.textContent = stats.todayUniqueVisitors || 0;
+
+    // 3. Render Visitor Stream Table
+    const tbody = document.getElementById('visitors-table-body');
+    if (tbody) {
+      if (!stats.recent || stats.recent.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No visitors logged yet. Real visits will appear here live when candidates access the site or tests.</td></tr>`;
+      } else {
+        tbody.innerHTML = stats.recent.map(v => `
+          <tr>
+            <td><code style="color:var(--accent); font-size:0.82rem; font-family:'JetBrains Mono';">${escapeHtml(v.visitor_id || 'anonymous')}</code></td>
+            <td><span style="font-weight:700; color:#fff; font-size:0.85rem;">/${escapeHtml(v.page_path || 'index.html')}</span></td>
+            <td style="color:var(--text-muted); font-size:0.8rem;">${escapeHtml(v.referrer || 'direct')}</td>
+            <td style="font-size:0.82rem; color:#cbd5e1;">${v.created_at ? new Date(v.created_at).toLocaleString() : 'Just now'}</td>
+            <td><span class="status-badge status-success">● Free Unlocked</span></td>
+          </tr>
+        `).join('');
+      }
+    }
+  } catch(err) {
+    console.warn("refreshVisitorStats error:", err);
+  }
+}
+
 
 function renderOrdersTable(orders) {
   const tbody = document.getElementById('orders-table-body');

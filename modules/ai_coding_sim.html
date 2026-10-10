@@ -1216,6 +1216,8 @@
       aic_10: "10. Word Search on 2D Matrix (Backtracking)"
     };
 
+    const GLOBAL_FREE_ACCESS_MODE = true;
+
     function updateSimulatorDropdownBadges() {
       const isPro = isProUser();
       const select = document.getElementById('probSelect');
@@ -1223,7 +1225,7 @@
       
       if (tierPill) {
         if (isPro) {
-          tierPill.textContent = "⭐ PRO PASS ACTIVE (ALL UNLOCKED)";
+          tierPill.textContent = "⭐ ALL CHALLENGES UNLOCKED (FREE OPEN ACCESS)";
           tierPill.style.background = "rgba(6,214,160,0.2)";
           tierPill.style.color = "#06d6a0";
           tierPill.style.borderColor = "#06d6a0";
@@ -1241,7 +1243,7 @@
           const isFree = FREE_AIC_PROBLEMS.includes(k);
           let badge = '';
           if (isPro) {
-            badge = `⭐ [PRO UNLOCKED]`;
+            badge = `⭐ [UNLOCKED]`;
           } else if (isFree) {
             badge = `🟢 [FREE TRIAL]`;
           } else {
@@ -1253,6 +1255,7 @@
     }
 
     function isProUser() {
+      if (GLOBAL_FREE_ACCESS_MODE) return true;
       try {
         const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
         if (!cur) return false;

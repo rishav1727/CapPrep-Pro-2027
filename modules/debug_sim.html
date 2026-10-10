@@ -491,8 +491,10 @@
     let currentLang = 'c';
     let currentProbKey = 'dbg_1';
     const FREE_DBG_PROBLEMS = ['dbg_1', 'dbg_2'];
+    const GLOBAL_FREE_ACCESS_MODE = true;
 
     function isProUser() {
+      if (GLOBAL_FREE_ACCESS_MODE) return true;
       try {
         const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
         if (!cur) return false;
@@ -523,7 +525,7 @@
       
       if (tierPill) {
         if (isPro) {
-          tierPill.textContent = "⭐ PRO PASS ACTIVE (ALL UNLOCKED)";
+          tierPill.textContent = "⭐ ALL CHALLENGES UNLOCKED (FREE OPEN ACCESS)";
           tierPill.style.background = "rgba(6,214,160,0.2)";
           tierPill.style.color = "#06d6a0";
           tierPill.style.borderColor = "#06d6a0";

@@ -970,7 +970,15 @@ function validateActiveSession() {
   return true;
 }
 
+// ==========================================
+// MASTER ACCESS SWITCH:
+// Set to true = 100% UNLOCKED FOR EVERYONE (FREE OPEN ACCESS)
+// Set to false = RESTORE PRO PAYWALL (PAID / LOGIN REQUIRED)
+// ==========================================
+const GLOBAL_FREE_ACCESS_MODE = true;
+
 function isProUser() {
+  if (GLOBAL_FREE_ACCESS_MODE) return true;
   if (!validateActiveSession()) return false;
   const cur = getCurrentUser();
   if (!cur) return false;  // Must be logged in — no user = no Pro
@@ -1997,7 +2005,14 @@ function updateProUI() {
   // 1. Update Navbar Pro Badge
   const proBadgeNav = document.getElementById('nav-pro-btn');
   if (proBadgeNav) {
-    if (isPro) {
+    if (GLOBAL_FREE_ACCESS_MODE) {
+      proBadgeNav.className = 'nav-pro-badge';
+      proBadgeNav.style.background = 'linear-gradient(135deg, #06d6a0, #059669)';
+      proBadgeNav.innerHTML = `⭐ ALL TESTS UNLOCKED`;
+      proBadgeNav.onclick = () => {
+        showSecurityToast("🎉 Free Open Access: All 76+ Mock Tests & Simulators are UNLOCKED for everyone!");
+      };
+    } else if (isPro) {
       proBadgeNav.className = 'nav-pro-badge';
       proBadgeNav.style.background = 'linear-gradient(135deg, #06d6a0, #059669)';
       proBadgeNav.innerHTML = `⭐ PRO ACTIVE`;

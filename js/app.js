@@ -1028,7 +1028,7 @@ function userSignOut() {
   showSecurityToast("👋 Signed out successfully. Reverted to Free Tier (2 Free Trials per Stage).");
 }
 
-function processUserSignIn() {
+async function processUserSignIn() {
   const email = (document.getElementById('signin-email-input')?.value || '').trim().toLowerCase();
   const password = (document.getElementById('signin-password-input')?.value || '').trim();
   const errorEl = document.getElementById('signin-error-msg');
@@ -1100,6 +1100,22 @@ function processUserSignIn() {
     showSecurityToast(`⭐ Welcome ${vipUser.name}! CapPrep Pro Pass Active.`);
     alert(`🎉 WELCOME ${vipUser.name.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass is ACTIVE.\nAll 76+ Mock Tests, Lab 27 AI Simulator, and Study Notes are unlocked!`);
     return;
+  }
+
+  // 1c. Check Live Supabase Cloud Database (Centralized Across All Devices)
+  if (typeof dbAuthenticate === 'function') {
+    try {
+      const cloudUser = await dbAuthenticate(email, password);
+      if (cloudUser) {
+        setCurrentUser(cloudUser);
+        closeSignInModal();
+        showSecurityToast(`⭐ Welcome ${cloudUser.name}! CapPrep Pro Pass Active.`);
+        alert(`🎉 WELCOME ${cloudUser.name.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass is ACTIVE via Live Cloud Database.\nAll 76+ Mock Tests, Simulators, and Study Notes are unlocked!`);
+        return;
+      }
+    } catch(err) {
+      console.warn("Supabase auth check fallback:", err);
+    }
   }
 
   // 2. Check Master Admin Credentials
@@ -1280,7 +1296,7 @@ function closeForgotPasswordModal() {
   }
 }
 
-function recoverUserPassword() {
+async function recoverUserPassword() {
   const email = (document.getElementById('forgot-email-input')?.value || '').trim().toLowerCase();
   const feedback = document.getElementById('forgot-feedback-msg');
   if (!feedback) return;
@@ -1294,8 +1310,28 @@ function recoverUserPassword() {
     return;
   }
 
-  const users = getStoredUsers();
-  let user = users.find(u => u.email && u.email.toLowerCase() === email);
+  let user = null;
+
+  // 1. Check Live Supabase Cloud Database First
+  if (typeof dbFindUser === 'function') {
+    try {
+      const cloudUser = await dbFindUser(email);
+      if (cloudUser) {
+        user = {
+          name: cloudUser.name || 'CapPrep Student',
+          email: cloudUser.email,
+          password: cloudUser.password || 'cap2027',
+          isPro: cloudUser.is_pro ?? true
+        };
+      }
+    } catch(e) {}
+  }
+
+  // 2. Check local users
+  if (!user) {
+    const users = getStoredUsers();
+    user = users.find(u => u.email && u.email.toLowerCase() === email);
+  }
 
   // Check Global Verified VIP Accounts (Admin Grants / Paid Students)
   if (!user) {
@@ -1622,6 +1658,9 @@ function processUpiPayment() {
     }
     saveStoredUsers(users);
     setCurrentUser(userObj);
+    if (typeof dbSaveUser === 'function') {
+      dbSaveUser(userObj);
+    }
 
     completeOrderActivation({
       name,
@@ -1678,6 +1717,9 @@ function processCardPayment() {
     users.unshift(userObj);
     saveStoredUsers(users);
     setCurrentUser(userObj);
+    if (typeof dbSaveUser === 'function') {
+      dbSaveUser(userObj);
+    }
 
     completeOrderActivation({
       name,
@@ -1717,6 +1759,10 @@ function completeOrderActivation(orderDetails) {
     orders.unshift(fullOrder);
     localStorage.setItem('capprep_orders', JSON.stringify(orders));
   } catch(e) {}
+
+  if (typeof dbSaveOrder === 'function') {
+    dbSaveOrder(fullOrder);
+  }
 
   // 2. Dispatch Automated Dual Email (Candidate Confirmation + Admin Notification)
   dispatchOrderEmails(fullOrder, orderId);

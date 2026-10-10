@@ -859,6 +859,7 @@
   </div>
 </div>
 
+<script src="js/db.js"></script>
 <script>
 // ==========================================
 // ADMIN DASHBOARD JAVASCRIPT LOGIC
@@ -1469,6 +1470,14 @@ function manualGrantFreePro() {
     if (ui >= 0) { users[ui] = Object.assign({}, users[ui], vipObj); } else { users.unshift(vipObj); }
     localStorage.setItem('capprep_users', JSON.stringify(users));
   } catch(e) {}
+
+  // Save to Supabase Cloud Database (Instantly unlocks on student's mobile device)
+  if (typeof dbSaveUser === 'function') {
+    dbSaveUser({ name, email, phone, password, isPro: true, isVip: true });
+  }
+  if (typeof dbSaveOrder === 'function') {
+    dbSaveOrder({ orderId: refCode, name, email, phone, college: 'Manual Admin Grant', amount: 0, method: 'ADMIN_FREE_GRANT', utr: 'GRANTED_BY_RISHAV', status: 'VERIFIED' });
+  }
 
   // 4. Refresh dashboard
   loadDashboardData();

@@ -759,6 +759,16 @@ const MOCK_TESTS = [
   { id:"dbg_8", title:"Debugging Challenge 8 — 08. Pass-by-Reference & Swaps", category:"Stage 2B Debugging", icon:"🧩", difficulty:"medium", questions:1, duration:20, isPremium:true },
   { id:"dbg_9", title:"Debugging Challenge 9 — 09. Double Free & Dangling Pointer", category:"Stage 2B Debugging", icon:"💾", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_10", title:"Debugging Challenge 10 — 10. Longest Increasing Subsequence DP", category:"Stage 2B Debugging", icon:"🎖️", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_11", title:"Debugging Challenge 11 — 11. BFS Shortest Path in Unweighted Graph", category:"Stage 2B Debugging", icon:"🕸️", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_12", title:"Debugging Challenge 12 — 12. Two Sum in Sorted Array (Two Pointers)", category:"Stage 2B Debugging", icon:"🎯", difficulty:"medium", questions:1, duration:20, isPremium:true },
+  { id:"dbg_13", title:"Debugging Challenge 13 — 13. Invert Binary Tree & Null Traversal", category:"Stage 2B Debugging", icon:"🌳", difficulty:"medium", questions:1, duration:20, isPremium:true },
+  { id:"dbg_14", title:"Debugging Challenge 14 — 14. String Compression Run-Length Encoding", category:"Stage 2B Debugging", icon:"🔤", difficulty:"medium", questions:1, duration:20, isPremium:true },
+  { id:"dbg_15", title:"Debugging Challenge 15 — 15. Merge Intervals Overlapping Ranges", category:"Stage 2B Debugging", icon:"📊", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_16", title:"Debugging Challenge 16 — 16. QuickSelect Kth Largest Element", category:"Stage 2B Debugging", icon:"⚡", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_17", title:"Debugging Challenge 17 — 17. Circular Queue Array Ring Buffer", category:"Stage 2B Debugging", icon:"🔄", difficulty:"medium", questions:1, duration:20, isPremium:true },
+  { id:"dbg_18", title:"Debugging Challenge 18 — 18. Balanced Parentheses with Multiple Brackets", category:"Stage 2B Debugging", icon:"🧩", difficulty:"medium", questions:1, duration:20, isPremium:true },
+  { id:"dbg_19", title:"Debugging Challenge 19 — 19. Matrix Spiral Order Traversal", category:"Stage 2B Debugging", icon:"🌀", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_20", title:"Debugging Challenge 20 — 20. Kadane's Algorithm for Maximum Subarray", category:"Stage 2B Debugging", icon:"📈", difficulty:"medium", questions:1, duration:20, isPremium:true },
 
   // ==========================================
   // STAGE 3: AI-ASSISTED CODING (10 HANDS-ON CHALLENGES — NO MCQS)
@@ -774,6 +784,16 @@ const MOCK_TESTS = [
   { id:"aic_9", title:"AI Coding Challenge 9 — 09. Valid Parentheses with Wildcards", category:"Stage 3 AI Coding", icon:"📋", difficulty:"medium", questions:1, duration:45, isPremium:true },
   { id:"aic_10", title:"AI Coding Challenge 10 — 10. Word Search on 2D Matrix", category:"Stage 3 AI Coding", icon:"🌟", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_11", title:"AI Coding Challenge 11 — 11. House Robber (Dynamic Programming)", category:"Stage 3 AI Coding", icon:"🏠", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_12", title:"AI Coding Challenge 12 — 12. Trapping Rain Water (Two Pointers)", category:"Stage 3 AI Coding", icon:"🌧️", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_13", title:"AI Coding Challenge 13 — 13. Top K Frequent Elements in Array", category:"Stage 3 AI Coding", icon:"🔥", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_14", title:"AI Coding Challenge 14 — 14. Longest Palindromic Substring", category:"Stage 3 AI Coding", icon:"🪞", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_15", title:"AI Coding Challenge 15 — 15. Binary Tree Level Order Traversal", category:"Stage 3 AI Coding", icon:"🌿", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_16", title:"AI Coding Challenge 16 — 16. Word Break Problem (Trie & DP)", category:"Stage 3 AI Coding", icon:"📖", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_17", title:"AI Coding Challenge 17 — 17. Minimum Window Substring", category:"Stage 3 AI Coding", icon:"🔍", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_18", title:"AI Coding Challenge 18 — 18. Rotten Oranges Multi-Source BFS", category:"Stage 3 AI Coding", icon:"🍊", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_19", title:"AI Coding Challenge 19 — 19. Clone Graph (Deep Copy with Adjacency)", category:"Stage 3 AI Coding", icon:"🌐", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_20", title:"AI Coding Challenge 20 — 20. Median of Two Sorted Arrays", category:"Stage 3 AI Coding", icon:"⚖️", difficulty:"hard", questions:1, duration:45, isPremium:true },
+  { id:"aic_21", title:"AI Coding Challenge 21 — 21. Jump Game II (Greedy Range Optimization)", category:"Stage 3 AI Coding", icon:"🦘", difficulty:"medium", questions:1, duration:45, isPremium:true },
 
   // ==========================================
   // STAGE 4: COGNITIVE & SITUATIONAL (10 TESTS)

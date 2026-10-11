@@ -577,8 +577,24 @@ document.addEventListener('keydown', e => {
   }
 });
 
+function isProUser() {
+  try {
+    const cur = JSON.parse(localStorage.getItem('capprep_current_user') || 'null');
+    if (!cur) return false;
+    if (cur.isPro) return true;
+    return localStorage.getItem('capprep_pro_unlocked') === 'true';
+  } catch(e) {
+    return false;
+  }
+}
+
 // Check query param for initial stage
 window.addEventListener('DOMContentLoaded', () => {
+  if (!isProUser()) {
+    alert("🔒 CapPrep Pro Protected Study Guide\n\nThis Master PDF manual is reserved for verified Pro Members.\nRedirecting to checkout...");
+    window.location.href = '../index.html?open_pay=true';
+    return;
+  }
   const params = new URLSearchParams(window.location.search);
   const initialStage = params.get('stage') || 'stage1';
   if (STAGE_DOCS[initialStage]) {

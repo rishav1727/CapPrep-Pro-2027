@@ -713,8 +713,10 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 1: ENGLISH COMMUNICATION (10 TESTS)
   // ==========================================
-  { id:"vb_1", title:"Verbal Test 1 — Grammar & Error Spotting", category:"Stage 1 English", bank:"verbal", icon:"📝", difficulty:"easy", questions:10, duration:12 , isPremium:false },
-  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:false },
+  // STAGE 1: ENGLISH COMMUNICATION (10 TESTS)
+  // ==========================================
+  { id:"vb_1", title:"Verbal Test 1 — Grammar & Error Spotting", category:"Stage 1 English", bank:"verbal", icon:"📝", difficulty:"easy", questions:10, duration:12 , isPremium:true },
+  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_3", title:"Verbal Test 3 — Para Jumbles & Ordering", category:"Stage 1 English", bank:"verbal", icon:"✏️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_4", title:"Verbal Test 4 — Active & Passive Voice", category:"Stage 1 English", bank:"verbal", icon:"🗣️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_5", title:"Verbal Test 5 — Vocabulary & Synonyms", category:"Stage 1 English", bank:"verbal", icon:"📚", difficulty:"easy", questions:10, duration:12, isPremium:true },
@@ -727,8 +729,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 2A: TECHNICAL ASSESSMENT (16 TESTS)
   // ==========================================
-  { id:"ai_1", title:"AI Literacy Test 1 — GenAI & RAG Basics", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🤖", difficulty:"medium", questions:12, duration:15, isPremium:false },
-  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:false },
+  { id:"ai_1", title:"AI Literacy Test 1 — GenAI & RAG Basics", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🤖", difficulty:"medium", questions:12, duration:15, isPremium:true },
+  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:true },
   { id:"ai_3", title:"AI Literacy Test 3 — Responsible AI & Safety", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🛡️", difficulty:"hard", questions:10, duration:12, isPremium:true },
   { id:"ps_1", title:"Pseudocode Test 1 — Bitwise & Logic", category:"Stage 2A Tech", bank:"pseudocode", icon:"⚙️", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"ps_2", title:"Pseudocode Test 2 — Recursion & Scope", category:"Stage 2A Tech", bank:"pseudocode", icon:"🔄", difficulty:"hard", questions:10, duration:15, isPremium:true },
@@ -747,8 +749,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 2B: DEBUGGING ASSESSMENT (10 HANDS-ON TESTS — NO MCQS)
   // ==========================================
-  { id:"dbg_1", title:"Debugging Challenge 1 — 01. Knapsack-C (Aon Replica)", category:"Stage 2B Debugging", icon:"🐛", difficulty:"hard", questions:1, duration:20, isPremium:false },
-  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:false },
+  { id:"dbg_1", title:"Debugging Challenge 1 — 01. Knapsack-C (Aon Replica)", category:"Stage 2B Debugging", icon:"🐛", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_3", title:"Debugging Challenge 3 — 03. Graph Cycle in DAG (Java)", category:"Stage 2B Debugging", icon:"🕸️", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_4", title:"Debugging Challenge 4 — 04. 2D DP Grid Obstacles (C)", category:"Stage 2B Debugging", icon:"🧮", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_5", title:"Debugging Challenge 5 — 05. List Cycle Traps (C++)", category:"Stage 2B Debugging", icon:"🔗", difficulty:"hard", questions:1, duration:20, isPremium:true },
@@ -761,8 +763,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 3: AI-ASSISTED CODING (10 HANDS-ON CHALLENGES — NO MCQS)
   // ==========================================
-  { id:"aic_1", title:"AI Coding Challenge 1 — 01. LCM of Two Trees (Official Capgemini)", category:"Stage 3 AI Coding", icon:"💡", difficulty:"medium", questions:1, duration:45, isPremium:false },
-  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:false },
+  { id:"aic_1", title:"AI Coding Challenge 1 — 01. LCM of Two Trees (Official Capgemini)", category:"Stage 3 AI Coding", icon:"💡", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:true },
   { id:"aic_3", title:"AI Coding Challenge 3 — 03. Longest Substring Without Repeating", category:"Stage 3 AI Coding", icon:"🛡️", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_4", title:"AI Coding Challenge 4 — 04. Lowest Common Ancestor (LCA)", category:"Stage 3 AI Coding", icon:"⚡", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_5", title:"AI Coding Challenge 5 — 05. Course Schedule / DAG Cycle", category:"Stage 3 AI Coding", icon:"🌳", difficulty:"hard", questions:1, duration:45, isPremium:true },
@@ -771,13 +773,13 @@ const MOCK_TESTS = [
   { id:"aic_8", title:"AI Coding Challenge 8 — 08. Coin Change (Minimum Coins DP)", category:"Stage 3 AI Coding", icon:"📐", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_9", title:"AI Coding Challenge 9 — 09. Valid Parentheses with Wildcards", category:"Stage 3 AI Coding", icon:"📋", difficulty:"medium", questions:1, duration:45, isPremium:true },
   { id:"aic_10", title:"AI Coding Challenge 10 — 10. Word Search on 2D Matrix", category:"Stage 3 AI Coding", icon:"🌟", difficulty:"hard", questions:1, duration:45, isPremium:true },
-  { id:"aic_11", title:"AI Coding Challenge 11 — 11. House Robber (Dynamic Programming)", category:"Stage 3 AI Coding", icon:"🏠", difficulty:"medium", questions:1, duration:45, isPremium:false },
+  { id:"aic_11", title:"AI Coding Challenge 11 — 11. House Robber (Dynamic Programming)", category:"Stage 3 AI Coding", icon:"🏠", difficulty:"medium", questions:1, duration:45, isPremium:true },
 
   // ==========================================
   // STAGE 4: COGNITIVE & SITUATIONAL (10 TESTS)
   // ==========================================
-  { id:"sit_1", title:"Cognitive Test 1 — Motion Challenge Logic", category:"Stage 4 Cognitive", bank:"situational", icon:"🎮", difficulty:"medium", questions:10, duration:15, isPremium:false },
-  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:false },
+  { id:"sit_1", title:"Cognitive Test 1 — Motion Challenge Logic", category:"Stage 4 Cognitive", bank:"situational", icon:"🎮", difficulty:"medium", questions:10, duration:15, isPremium:true },
+  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:true },
   { id:"sit_3", title:"Cognitive Test 3 — Inductive Pattern Rules", category:"Stage 4 Cognitive", bank:"situational", icon:"🔍", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"sit_4", title:"Cognitive Test 4 — ADEPT-15 Drive & Ambition", category:"Stage 4 Cognitive", bank:"situational", icon:"🚀", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"sit_5", title:"Cognitive Test 5 — Teamwork & Conflict", category:"Stage 4 Cognitive", bank:"situational", icon:"🤝", difficulty:"medium", questions:10, duration:12, isPremium:true },
@@ -790,8 +792,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGES 5 & 6: INTERVIEW & CORE VALUES (10 TESTS)
   // ==========================================
-  { id:"int_1", title:"Interview Test 1 — Capgemini 7 Core Values", category:"Stages 5-6 Interview", bank:"interview", icon:"🏛️", difficulty:"medium", questions:5, duration:8, isPremium:false },
-  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:false },
+  { id:"int_1", title:"Interview Test 1 — Capgemini 7 Core Values", category:"Stages 5-6 Interview", bank:"interview", icon:"🏛️", difficulty:"medium", questions:5, duration:8, isPremium:true },
+  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:true },
   { id:"int_3", title:"Interview Test 3 — Architecture & DB Defense", category:"Stages 5-6 Interview", bank:"interview", icon:"🛡️", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_4", title:"Interview Test 4 — Security & Auth Mechanics", category:"Stages 5-6 Interview", bank:"interview", icon:"🔐", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_5", title:"Interview Test 5 — Project Storytelling", category:"Stages 5-6 Interview", bank:"interview", icon:"💬", difficulty:"medium", questions:5, duration:8, isPremium:true },
@@ -1234,27 +1236,8 @@ function openLockedTestModal(test) {
   if (titleEl && test) titleEl.textContent = `🔒 ${test.title} is Locked`;
   if (metaEl && test) metaEl.textContent = `${test.category} • ${test.questions || 1} Challenge(s) • ${test.duration} Minutes (Pro Tier)`;
 
-  if (freeBtn && test) {
-    const tid = test.id || '';
-    if (tid.startsWith('dbg_') || tid === 'gm_s2b' || (test.category && test.category.includes('Stage 2B'))) {
-      freeBtn.textContent = '🎯 Try Free Debugging Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); window.location.href = 'modules/debug_sim.html?id=dbg_1'; };
-    } else if (tid.startsWith('aic_') || tid === 'gm_s3' || (test.category && test.category.includes('Stage 3'))) {
-      freeBtn.textContent = '🎯 Try Free AI Coding Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); window.location.href = 'modules/ai_coding_sim.html?id=aic_1'; };
-    } else if (tid.startsWith('ps_') || tid === 'gm_s2a' || (test.category && test.category.includes('Stage 2A'))) {
-      freeBtn.textContent = '🎯 Try Free PseudoCode Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); startTest('ps_1'); };
-    } else if (tid.startsWith('mc_') || tid === 'gm_s4' || (test.category && test.category.includes('Stage 4'))) {
-      freeBtn.textContent = '🎯 Try Free Cloud / Coding Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); startTest('mc_1'); };
-    } else if (tid.startsWith('be_') || tid === 'gm_s56' || (test.category && test.category.includes('Stage 5'))) {
-      freeBtn.textContent = '🎯 Try Free Behavioral Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); startTest('be_1'); };
-    } else {
-      freeBtn.textContent = '🎯 Try Free Verbal Test 1';
-      freeBtn.onclick = () => { closeLockedTestModal(); startTest('vb_1'); };
-    }
+  if (freeBtn) {
+    freeBtn.style.display = 'none';
   }
 
   modal.style.display = 'flex';
@@ -1533,6 +1516,11 @@ function goToPaymentScreen() {
   }
 
   updateUpiLinksAndPrices(currentPayablePrice);
+
+  // Directly launch official Razorpay checkout popup
+  setTimeout(() => {
+    openRazorpayCheckout();
+  }, 200);
 }
 
 function backToDetailsScreen() {
@@ -1747,7 +1735,7 @@ async function openRazorpayCheckout() {
   const btn = document.getElementById('rzp-pay-btn');
   if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Connecting to Razorpay...'; }
 
-  let orderId;
+  let orderId = null;
   try {
     // 1. Create Razorpay order on our backend (serverless function)
     const orderRes = await fetch('/api/create-order', {
@@ -1760,21 +1748,15 @@ async function openRazorpayCheckout() {
       }),
     });
 
-    if (!orderRes.ok) {
-      const errData = await orderRes.json().catch(() => ({}));
-      throw new Error(errData.error || `Server error ${orderRes.status}`);
+    if (orderRes.ok) {
+      const orderData = await orderRes.json();
+      orderId = orderData.id;
     }
-
-    const orderData = await orderRes.json();
-    orderId = orderData.id;
   } catch (err) {
-    console.error('Order creation failed:', err);
-    alert('⚠️ Could not connect to payment server. Please try the UPI QR option instead, or contact support.');
-    if (btn) { btn.disabled = false; btn.innerHTML = `🔒 Pay ₹${currentPayablePrice} via Razorpay — Instant & Secure`; }
-    return;
+    console.warn('Backend order creation notice:', err);
   }
 
-  if (btn) { btn.disabled = false; btn.innerHTML = `🔒 Pay ₹${currentPayablePrice} via Razorpay — Instant & Secure`; }
+  if (btn) { btn.disabled = false; btn.innerHTML = `⚡ Pay ₹${currentPayablePrice} with Razorpay — Instant Unlock`; }
 
   // 2. Open the official Razorpay Checkout popup
   const options = {
@@ -1783,7 +1765,6 @@ async function openRazorpayCheckout() {
     currency:    'INR',
     name:        'CapPrep Pro',
     description: 'CapPrep Pro Lifetime Pass — All Tests Unlocked',
-    order_id:    orderId,
     prefill: {
       name:    name,
       email:   email,
@@ -1864,6 +1845,10 @@ async function openRazorpayCheckout() {
   if (typeof Razorpay === 'undefined') {
     alert('⚠️ Razorpay failed to load. Please check your internet connection and try again.');
     return;
+  }
+
+  if (orderId) {
+    options.order_id = orderId;
   }
 
   const rzp = new Razorpay(options);
@@ -2318,8 +2303,8 @@ function startTest(testId) {
     return;
   }
 
-  // Payment Wall Guard
-  if (test.isPremium && !isProUser()) {
+  // Payment Wall Guard — 100% of all tests require Pro membership
+  if (!isProUser()) {
     openLockedTestModal(test);
     return;
   }
@@ -2567,16 +2552,6 @@ function closeQuiz() {
   document.body.style.overflow = '';
 }
 
-// Robust HTML escaping to protect against XSS and attribute breaking
-function escHTML(str) {
-  if (str === null || str === undefined) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 // Toast notification for proctoring and feedback
 function showSecurityToast(msg) {

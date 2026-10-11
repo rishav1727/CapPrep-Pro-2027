@@ -109,8 +109,8 @@
           <div class="stat-label">Live Simulators</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num" style="color:#06d6a0;">FREE</div>
-          <div class="stat-label">Open Access Active</div>
+          <div class="stat-num" style="color:#00d4ff;">PRO</div>
+          <div class="stat-label">Full Pro Suite</div>
         </div>
       </div>
     </div>
@@ -1049,88 +1049,63 @@
         <div style="color:#94a3b8;" id="pill-cust-email">rahul@gmail.com</div>
       </div>
 
-      <!-- Tab Switch: UPI vs Card -->
-      <div class="pay-tab-switch" style="margin:0 0 0.75rem;">
-        <button class="pay-tab-btn active" id="tab-btn-upi" onclick="switchPayTab('upi')">
-          ⚡ Instant UPI QR &amp; 1-Tap Apps (0% Fee)
+      <!-- OFFICIAL RAZORPAY GATEWAY (PRIMARY) -->
+      <div id="pay-mode-razorpay" style="background:#0b0f19; border:1px solid rgba(0,212,255,0.3); border-radius:12px; padding:1.25rem; margin-bottom:1rem; box-shadow:0 8px 32px rgba(0,212,255,0.1);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+          <div style="font-size:0.85rem; color:#fff; font-weight:700;">
+            ⚡ Instant Payment Gateway (Razorpay)
+          </div>
+          <span style="font-size:0.7rem; color:#06d6a0; background:rgba(6,214,160,0.15); border:1px solid rgba(6,214,160,0.3); padding:2px 8px; border-radius:12px; font-weight:700;">
+            ● 0% Platform Fee
+          </span>
+        </div>
+
+        <p style="font-size:0.78rem; color:#94a3b8; margin:0 0 0.85rem; line-height:1.4;">
+          Pay with <strong>Google Pay, PhonePe, Paytm, Any UPI App, Credit/Debit Cards, or NetBanking</strong>. Account unlocks instantly upon payment.
+        </p>
+
+        <!-- Payment methods badge row -->
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:1rem; align-items:center;">
+          <span style="font-size:0.72rem; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:4px;">🟢 GPay</span>
+          <span style="font-size:0.72rem; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:4px;">🟣 PhonePe</span>
+          <span style="font-size:0.72rem; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:4px;">🔵 Paytm</span>
+          <span style="font-size:0.72rem; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:4px;">💳 All Cards</span>
+          <span style="font-size:0.72rem; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:4px;">🏦 NetBanking</span>
+        </div>
+
+        <button id="rzp-pay-btn" class="pay-btn-checkout" style="font-size:1rem; padding:0.85rem 1rem; width:100%; box-shadow:0 4px 20px rgba(0,212,255,0.4);" onclick="openRazorpayCheckout()">
+          ⚡ Pay ₹<span class="rzp-price-display">51</span> with Razorpay — Instant Unlock
         </button>
-        <button class="pay-tab-btn" id="tab-btn-card" onclick="switchPayTab('card')">
-          💳 Debit / Credit Cards / NetBanking
+
+        <div style="font-size:0.7rem; color:#64748b; margin-top:0.75rem; text-align:center;">
+          🔐 256-Bit SSL Encrypted · RBI Compliant Payment Gateway · Powered by Razorpay
+        </div>
+      </div>
+
+      <!-- Optional Backup Manual UPI Transfer (Collapsed by Default) -->
+      <div style="text-align:center; margin-top:0.5rem;">
+        <button type="button" onclick="document.getElementById('manual-upi-drawer').style.display = document.getElementById('manual-upi-drawer').style.display === 'none' ? 'block' : 'none'" style="background:none; border:none; color:#64748b; font-size:0.72rem; cursor:pointer; text-decoration:underline;">
+          Having trouble with gateway? Click here for manual UPI QR
         </button>
       </div>
 
-      <!-- UPI TAB -->
-      <div id="pay-mode-upi" class="upi-payment-container">
-        <div style="font-size:0.78rem; color:#cbd5e1; margin-bottom:0.35rem;">
-          Scan with <strong>Google Pay, PhonePe, Paytm, CRED, BHIM</strong>:
+      <div id="manual-upi-drawer" style="display:none; margin-top:0.75rem; padding:0.75rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px;">
+        <div style="font-size:0.75rem; color:#cbd5e1; margin-bottom:0.5rem; text-align:center;">
+          Scan with any UPI app &amp; enter 12-digit UTR ID:
         </div>
-
-        <!-- Official Uploaded Fixed-Amount QR Card -->
-        <div class="upi-qr-card">
-          <img id="dynamic-upi-qr" class="upi-qr-image" 
-               src="assets/upi_qr.png" 
-               alt="Official UPI QR Code for Rishav Kumar Gupta" />
+        <div class="upi-qr-card" style="text-align:center;">
+          <img id="dynamic-upi-qr" class="upi-qr-image" src="assets/upi_qr.png" alt="UPI QR" style="max-width:180px; margin:0 auto;" />
         </div>
-
-        <div style="font-size:0.78rem; color:#e2e8f0; margin-bottom:0.25rem;">
-          <div>Payee: <strong style="color:#fff;">Rishav Kumar Gupta</strong></div>
-          <div style="margin-top:0.15rem;">Exact Fixed Amount: <strong style="color:#06d6a0; font-size:1.15rem;" id="upi-fixed-amt-display">₹51</strong></div>
-        </div>
-
-        <div>
-          <button type="button" class="btn-copy-upi" onclick="copyUpiId()">
+        <div style="text-align:center; margin-top:0.35rem;">
+          <button type="button" class="btn-copy-upi" onclick="copyUpiId()" style="font-size:0.75rem; padding:4px 10px;">
             <span>📋</span> <span id="copy-upi-btn-text">Copy UPI ID: rishavofficials1727-7@okaxis</span>
           </button>
         </div>
-
-        <!-- 1-Tap Mobile Intent Launchers -->
-        <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.5rem;">Or Tap Below to Auto-Pay via Mobile App:</div>
-        <div class="upi-app-buttons">
-          <a id="upi-intent-gpay" href="upi://pay?pa=rishavofficials1727-7@okaxis&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
-            <span style="font-size:1.1rem;">🟢</span> <span>GPay</span>
-          </a>
-          <a id="upi-intent-phonepe" href="upi://pay?pa=rishavofficials1727-7@okaxis&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
-            <span style="font-size:1.1rem;">🟣</span> <span>PhonePe</span>
-          </a>
-          <a id="upi-intent-paytm" href="upi://pay?pa=rishavofficials1727-7@okaxis&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
-            <span style="font-size:1.1rem;">🔵</span> <span>Paytm</span>
-          </a>
-          <a id="upi-intent-cred" href="upi://pay?pa=rishavofficials1727-7@okaxis&pn=Rishav%20Kumar%20Gupta&am=51&cu=INR&tn=CapPrep%20Pro%20Pass" class="upi-app-btn">
-            <span style="font-size:1.1rem;">⚡</span> <span>Any UPI</span>
-          </a>
-        </div>
-
-        <!-- Step 2: UTR Input -->
-        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:0.65rem; margin-top:0.65rem; text-align:left;">
-          <label style="font-size:0.75rem; color:#cbd5e1; display:block; margin-bottom:0.3rem; font-weight:600;">
-            Enter 12-Digit UPI Transaction / UTR ID from payment receipt:
-          </label>
-          <div style="display:flex; gap:0.5rem;">
-            <input type="text" id="upi-utr-input" class="customer-input" placeholder="e.g. 419827361524 (12 digits)" maxlength="16" />
-            <button id="btn-verify-upi" class="btn btn-primary" style="padding:0.6rem 1rem; font-size:0.82rem; white-space:nowrap;" onclick="processUpiPayment()">
-              ⚡ Verify &amp; Unlock Pro
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CARD / RAZORPAY TAB -->
-      <div id="pay-mode-card" style="display:none; background:#0b0f19; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.25rem; margin-bottom:1rem;">
-        <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:0.75rem;">
-          Pay ₹<span class="rzp-price-display">51</span> securely via <strong>Razorpay</strong> — Cards, NetBanking, Wallets &amp; UPI all supported:
-        </div>
-        <!-- Razorpay supported methods badge row -->
-        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.85rem; align-items:center;">
-          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/visa.svg"   alt="Visa"       height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
-          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/mastercard.svg" alt="MC"    height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
-          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/rupay.svg"  alt="RuPay"     height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
-          <span style="font-size:0.7rem; color:#94a3b8;">+ 100+ payment methods</span>
-        </div>
-        <button id="rzp-pay-btn" class="pay-btn-checkout" onclick="openRazorpayCheckout()">
-          🔒 Pay ₹<span class="rzp-price-display">51</span> via Razorpay — Instant &amp; Secure
-        </button>
-        <div style="font-size:0.7rem; color:#64748b; margin-top:0.6rem; text-align:center;">
-          🔐 Powered by Razorpay · PCI-DSS Level 1 Certified · 256-bit SSL
+        <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+          <input type="text" id="upi-utr-input" class="customer-input" placeholder="12-digit UTR ID" maxlength="16" />
+          <button id="btn-verify-upi" class="btn btn-primary" style="padding:0.5rem 0.8rem; font-size:0.78rem; white-space:nowrap;" onclick="processUpiPayment()">
+            Verify UTR
+          </button>
         </div>
       </div>
 
@@ -1238,7 +1213,7 @@
       This Assessment is Locked
     </h2>
     <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:0.75rem;" id="locked-modal-test-meta">
-      Only Test 1 (Diagnostic Verbal Assessment) is available for free demo.
+      This assessment is reserved exclusively for verified CapPrep Pro members.
     </p>
 
     <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:1rem; margin:1rem 0; text-align:left;">
@@ -1252,14 +1227,11 @@
 
     <div style="display:flex; flex-direction:column; gap:0.65rem; margin-top:1.25rem;">
       <button id="locked-modal-pay-btn" class="pay-btn-checkout" onclick="closeLockedTestModal(); openPaymentModal();">
-        ⚡ Unlock Pro Pass for ₹51 (Flash 83% OFF)
+        ⚡ Unlock Pro Pass for ₹51 (Instant Razorpay)
       </button>
-      <div style="display:flex; gap:0.5rem;">
-        <button id="locked-modal-signin-btn" class="btn btn-outline" style="flex:1; justify-content:center; font-size:0.82rem;" onclick="closeLockedTestModal(); openSignInModal();">
-          🔑 Already Purchased? Sign In
-        </button>
-        <button id="locked-modal-free-btn" class="btn btn-outline" style="flex:1; justify-content:center; font-size:0.82rem; color:#06d6a0; border-color:rgba(6,214,160,0.3);" onclick="closeLockedTestModal(); startTest('vb_1');">
-          🎯 Try Free Test 1
+      <div>
+        <button id="locked-modal-signin-btn" class="btn btn-outline" style="width:100%; justify-content:center; font-size:0.85rem;" onclick="closeLockedTestModal(); openSignInModal();">
+          🔑 Already Purchased? Sign In with Email &amp; Password
         </button>
       </div>
     </div>

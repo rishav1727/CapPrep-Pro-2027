@@ -491,7 +491,7 @@
 };
     let currentLang = 'c';
     let currentProbKey = 'dbg_1';
-    const FREE_DBG_PROBLEMS = ['dbg_1', 'dbg_2'];
+    const FREE_DBG_PROBLEMS = [];
     const GLOBAL_FREE_ACCESS_MODE = false;
 
     function isProUser() {
@@ -526,15 +526,15 @@
       
       if (tierPill) {
         if (isPro) {
-          tierPill.textContent = "⭐ ALL CHALLENGES UNLOCKED (FREE OPEN ACCESS)";
+          tierPill.textContent = "⭐ PRO ACTIVE: ALL CHALLENGES UNLOCKED";
           tierPill.style.background = "rgba(6,214,160,0.2)";
           tierPill.style.color = "#06d6a0";
           tierPill.style.borderColor = "#06d6a0";
         } else {
-          tierPill.textContent = "🟢 FREE TRIAL ACTIVE (TESTS 1 & 2 FREE)";
-          tierPill.style.background = "rgba(245,158,11,0.15)";
-          tierPill.style.color = "#fbbf24";
-          tierPill.style.borderColor = "#f59e0b";
+          tierPill.textContent = "🔒 PRO REQUIRED: ALL CHALLENGES LOCKED";
+          tierPill.style.background = "rgba(239,68,68,0.15)";
+          tierPill.style.color = "#f87171";
+          tierPill.style.borderColor = "#ef4444";
         }
       }
 

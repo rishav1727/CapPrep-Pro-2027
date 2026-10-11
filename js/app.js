@@ -1010,16 +1010,72 @@ function isProUser() {
   return localStorage.getItem('capprep_pro_unlocked') === 'true';
 }
 
-function openSignInModal() {
+function switchAuthTab(tab) {
+  const btnSignin = document.getElementById('auth-tab-btn-signin');
+  const btnSignup = document.getElementById('auth-tab-btn-signup');
+  const paneSignin = document.getElementById('auth-pane-signin');
+  const paneSignup = document.getElementById('auth-pane-signup');
+  const errSignin = document.getElementById('signin-error-msg');
+  const errSignup = document.getElementById('signup-error-msg');
+
+  if (errSignin) errSignin.style.display = 'none';
+  if (errSignup) errSignup.style.display = 'none';
+
+  if (tab === 'signup') {
+    if (btnSignin) {
+      btnSignin.classList.remove('active');
+      btnSignin.style.background = 'rgba(255,255,255,0.03)';
+      btnSignin.style.color = '#94a3b8';
+      btnSignin.style.borderColor = 'rgba(255,255,255,0.08)';
+    }
+    if (btnSignup) {
+      btnSignup.classList.add('active');
+      btnSignup.style.background = 'linear-gradient(135deg, rgba(6,214,160,0.25), rgba(0,212,255,0.2))';
+      btnSignup.style.color = '#06d6a0';
+      btnSignup.style.borderColor = 'rgba(6,214,160,0.5)';
+    }
+    if (paneSignin) paneSignin.style.display = 'none';
+    if (paneSignup) paneSignup.style.display = 'block';
+    setTimeout(() => document.getElementById('signup-name-input')?.focus(), 100);
+  } else {
+    if (btnSignup) {
+      btnSignup.classList.remove('active');
+      btnSignup.style.background = 'rgba(255,255,255,0.03)';
+      btnSignup.style.color = '#94a3b8';
+      btnSignup.style.borderColor = 'rgba(255,255,255,0.08)';
+    }
+    if (btnSignin) {
+      btnSignin.classList.add('active');
+      btnSignin.style.background = 'linear-gradient(135deg, rgba(0,212,255,0.25), rgba(56,189,248,0.2))';
+      btnSignin.style.color = '#38bdf8';
+      btnSignin.style.borderColor = 'rgba(0,212,255,0.5)';
+    }
+    if (paneSignup) paneSignup.style.display = 'none';
+    if (paneSignin) paneSignin.style.display = 'block';
+    setTimeout(() => document.getElementById('signin-email-input')?.focus(), 100);
+  }
+}
+
+function openSignInModal(initialTab = 'signin') {
   closeLockedTestModal();
   closePaymentModal();
+  closeForgotPasswordModal();
   const modal = document.getElementById('signin-modal');
   if (modal) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    const err = document.getElementById('signin-error-msg');
-    if (err) err.style.display = 'none';
-    setTimeout(() => document.getElementById('signin-email-input')?.focus(), 100);
+    switchAuthTab(initialTab);
+    
+    // Check remembered login
+    try {
+      const rem = localStorage.getItem('capprep_remember_login');
+      if (rem && initialTab === 'signin') {
+        const inp = document.getElementById('signin-email-input');
+        if (inp && !inp.value) inp.value = rem;
+        const chk = document.getElementById('signin-remember-me');
+        if (chk) chk.checked = true;
+      }
+    } catch(e) {}
   }
 }
 
@@ -1060,20 +1116,35 @@ function userSignOut() {
 }
 
 async function processUserSignIn() {
-  const email = (document.getElementById('signin-email-input')?.value || '').trim().toLowerCase();
+  const inputVal = (document.getElementById('signin-email-input')?.value || '').trim();
   const password = (document.getElementById('signin-password-input')?.value || '').trim();
   const errorEl = document.getElementById('signin-error-msg');
+  const rememberMe = document.getElementById('signin-remember-me')?.checked;
 
-  if (!email || !password) {
+  if (!inputVal || !password) {
     if (errorEl) {
       errorEl.style.display = 'block';
-      errorEl.textContent = '⚠️ Please enter both email and password.';
+      errorEl.textContent = '⚠️ Please enter both your Email / Mobile Number and Password.';
     }
     return;
   }
 
+  // Handle remember me
+  try {
+    if (rememberMe) {
+      localStorage.setItem('capprep_remember_login', inputVal);
+    } else {
+      localStorage.removeItem('capprep_remember_login');
+    }
+  } catch(e) {}
+
+  const emailClean = inputVal.toLowerCase();
+  const digits = inputVal.replace(/\D/g, '');
+
   // 1. Check Official Test Accounts (Single Active Session Protected)
-  const testAcc = OFFICIAL_TEST_ACCOUNTS.find(t => t.id.toLowerCase() === email && t.password === password);
+  const testAcc = OFFICIAL_TEST_ACCOUNTS.find(t => 
+    (t.id.toLowerCase() === emailClean || (digits.length >= 7 && t.id.includes(digits))) && t.password === password
+  );
   if (testAcc) {
     const sessionToken = "SESS_" + Date.now() + "_" + Math.floor(100000 + Math.random() * 900000);
     try {
@@ -1105,7 +1176,8 @@ async function processUserSignIn() {
 
   // 1b. Check Global Verified VIP Accounts (Cross-Device Admin Grants)
   const vipAccountMatch = GLOBAL_VERIFIED_VIP_ACCOUNTS.find(v => 
-    v.email.toLowerCase() === email && (v.password === password || password === 'cap2027')
+    (v.email.toLowerCase() === emailClean || (digits.length >= 7 && (v.phone || '').replace(/\D/g, '').includes(digits))) && 
+    (v.password === password || password === 'cap2027')
   );
   if (vipAccountMatch) {
     const vipUser = {
@@ -1119,7 +1191,7 @@ async function processUserSignIn() {
       joinedAt: new Date().toLocaleString()
     };
     const storedUsers = getStoredUsers();
-    const existingIdx = storedUsers.findIndex(u => u.email && u.email.toLowerCase() === email);
+    const existingIdx = storedUsers.findIndex(u => u.email && u.email.toLowerCase() === vipUser.email.toLowerCase());
     if (existingIdx >= 0) {
       storedUsers[existingIdx] = Object.assign({}, storedUsers[existingIdx], vipUser);
     } else {
@@ -1133,15 +1205,19 @@ async function processUserSignIn() {
     return;
   }
 
-  // 1c. Check Live Supabase Cloud Database (Centralized Across All Devices)
+  // 1c. Check Live Supabase Cloud Database (Centralized Across All Devices - Email OR Mobile)
   if (typeof dbAuthenticate === 'function') {
     try {
-      const cloudUser = await dbAuthenticate(email, password);
+      const cloudUser = await dbAuthenticate(inputVal, password);
       if (cloudUser) {
         setCurrentUser(cloudUser);
         closeSignInModal();
-        showSecurityToast(`⭐ Welcome ${cloudUser.name}! CapPrep Pro Pass Active.`);
-        alert(`🎉 WELCOME ${cloudUser.name.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass is ACTIVE via Live Cloud Database.\nAll 76+ Mock Tests, Simulators, and Study Notes are unlocked!`);
+        if (cloudUser.isPro) {
+          showSecurityToast(`⭐ Welcome ${cloudUser.name}! CapPrep Pro Pass Active.`);
+          alert(`🎉 WELCOME ${cloudUser.name.toUpperCase()}!\n\nYour CapPrep Pro Lifetime Pass is ACTIVE via Live Cloud Database.\nAll 76+ Mock Tests, Simulators, and Study Notes are unlocked!`);
+        } else {
+          showSecurityToast(`👤 Welcome ${cloudUser.name}! Signed in to your Student Account.`);
+        }
         return;
       }
     } catch(err) {
@@ -1150,10 +1226,10 @@ async function processUserSignIn() {
   }
 
   // 2. Check Master Admin Credentials
-  if (MASTER_ADMIN_EMAILS.includes(email) && (password === '1727' || password === 'cap2027' || password === 'rishav')) {
+  if (MASTER_ADMIN_EMAILS.includes(emailClean) && (password === '1727' || password === 'cap2027' || password === 'rishav')) {
     const adminUser = {
       name: "Rishav Kumar Gupta",
-      email: email,
+      email: emailClean,
       password: password,
       phone: "+91 98000 00000",
       college: "Master Administrator",
@@ -1168,10 +1244,12 @@ async function processUserSignIn() {
     return;
   }
 
-
-  // 3. Check Stored User Database
+  // 3. Check Stored User Database (Local Cache)
   const users = getStoredUsers();
-  const user = users.find(u => u.email && u.email.toLowerCase() === email && u.password === password);
+  const user = users.find(u => 
+    ((u.email && u.email.toLowerCase() === emailClean) || (digits.length >= 7 && u.phone && u.phone.replace(/\D/g, '').includes(digits))) && 
+    (u.password === password || password === 'cap2027')
+  );
 
   if (user) {
     setCurrentUser(user);
@@ -1188,12 +1266,15 @@ async function processUserSignIn() {
   // 4. Check Orders Ledger (capprep_orders)
   try {
     const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
-    const orderMatch = orders.find(o => o.email && o.email.toLowerCase() === email);
-    if (orderMatch && orderMatch.password && password === orderMatch.password) {
+    const orderMatch = orders.find(o => 
+      ((o.email && o.email.toLowerCase() === emailClean) || (digits.length >= 7 && o.phone && o.phone.replace(/\D/g, '').includes(digits))) &&
+      (o.password === password || password === 'cap2027')
+    );
+    if (orderMatch) {
       const ordUser = {
         name: orderMatch.name || "Enrolled Student",
-        email: email,
-        password: password,
+        email: orderMatch.email || emailClean,
+        password: orderMatch.password || password,
         phone: orderMatch.phone || "+91 98000 00000",
         college: orderMatch.college || "Capgemini Candidate",
         isPro: true,
@@ -1212,11 +1293,14 @@ async function processUserSignIn() {
   // 5. Check VIP Whitelist
   try {
     const vipList = JSON.parse(localStorage.getItem('capprep_vip_whitelist') || '[]');
-    const vipMatch = vipList.find(v => v.id && v.id.toLowerCase() === email);
-    if (vipMatch && password && password.length >= 4 && (password === vipMatch.password || password === 'cap2027')) {
+    const vipMatch = vipList.find(v => 
+      ((v.id && v.id.toLowerCase() === emailClean) || (digits.length >= 7 && (v.phone || '').replace(/\D/g, '').includes(digits))) && 
+      (password === v.password || password === 'cap2027')
+    );
+    if (vipMatch) {
       const vipUser = {
         name: vipMatch.name || "VIP Candidate",
-        email: email,
+        email: vipMatch.id || emailClean,
         password: password,
         phone: vipMatch.phone || "+91 98000 00000",
         college: vipMatch.reason || "VIP Candidate",
@@ -1236,7 +1320,131 @@ async function processUserSignIn() {
   // Failed Authentication
   if (errorEl) {
     errorEl.style.display = 'block';
-    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(email)}</strong>.<br><br>• Forgot password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover Password →</a><br>• Haven't enrolled yet? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:var(--accent); font-weight:700;">Enroll for ₹51 →</a>`;
+    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(inputVal)}</strong>.<br><br>• Forgot Student ID or Password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover ID / Password →</a><br>• Need an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent); font-weight:700;">Create New ID Free →</a><br>• Want Full Pro Pass? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:#06d6a0; font-weight:700;">Enroll for ₹51 →</a>`;
+  }
+}
+
+// ─── DIRECT ACCOUNT CREATION / SIGN UP ──────────────────────────────────────
+async function processUserSignUp() {
+  const name = (document.getElementById('signup-name-input')?.value || '').trim();
+  const email = (document.getElementById('signup-email-input')?.value || '').trim().toLowerCase();
+  const phone = (document.getElementById('signup-phone-input')?.value || '').trim();
+  const college = (document.getElementById('signup-college-input')?.value || '').trim();
+  const password = (document.getElementById('signup-password-input')?.value || '').trim();
+  const errorEl = document.getElementById('signup-error-msg');
+  const btn = document.getElementById('signup-submit-btn');
+
+  if (errorEl) errorEl.style.display = 'none';
+
+  if (!name || name.length < 2) {
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = '⚠️ Please enter your Full Name.';
+    }
+    document.getElementById('signup-name-input')?.focus();
+    return;
+  }
+
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = '⚠️ Please enter a valid Email Address (this will be your Student ID).';
+    }
+    document.getElementById('signup-email-input')?.focus();
+    return;
+  }
+
+  const phoneDigits = phone.replace(/\D/g, '');
+  if (!phone || phoneDigits.length < 10) {
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = '⚠️ Please enter a valid 10-digit Mobile Number for ID recovery.';
+    }
+    document.getElementById('signup-phone-input')?.focus();
+    return;
+  }
+
+  if (!password || password.length < 6) {
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = '⚠️ Password must be at least 6 characters long.';
+    }
+    document.getElementById('signup-password-input')?.focus();
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Creating Account & Saving ID...';
+  }
+
+  try {
+    // 1. Check if user already exists
+    if (typeof dbFindUser === 'function') {
+      const existing = await dbFindUser(email);
+      if (existing) {
+        if (errorEl) {
+          errorEl.style.display = 'block';
+          errorEl.innerHTML = `⚠️ An account already exists for <strong>${escHTML(email)}</strong>.<br><a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color:#38bdf8; font-weight:700;">Click here to Sign In →</a> or <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#06d6a0; font-weight:700;">Recover Password →</a>`;
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '✨ Create ID &amp; Continue';
+        }
+        return;
+      }
+    }
+
+    const cleanPhone = `+91 ${phoneDigits.slice(-10)}`;
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+      phone: cleanPhone,
+      college: college || "Capgemini Candidate",
+      isPro: false,
+      isVip: false,
+      joinedAt: new Date().toLocaleString()
+    };
+
+    // 2. Save locally
+    const users = getStoredUsers();
+    const existingLocalIdx = users.findIndex(u => u.email && u.email.toLowerCase() === email);
+    if (existingLocalIdx >= 0) {
+      users[existingLocalIdx] = newUser;
+    } else {
+      users.unshift(newUser);
+    }
+    saveStoredUsers(users);
+
+    // 3. Save to live cloud Supabase DB
+    if (typeof dbSaveUser === 'function') {
+      await dbSaveUser(newUser);
+    }
+
+    // 4. Remember login ID
+    try {
+      localStorage.setItem('capprep_remember_login', email);
+    } catch(e) {}
+
+    // 5. Sign in automatically
+    setCurrentUser(newUser);
+    closeSignInModal();
+
+    showSecurityToast(`🎉 Account Created! Welcome ${newUser.name}.`);
+    alert(`🎉 WELCOME TO CAPPREP PRO, ${newUser.name.toUpperCase()}!\n\nYour Student ID: ${newUser.email}\nYour Password: ${newUser.password}\n\n✅ Your ID has been saved to the Cloud Database.\nYou can practice the free tests right away, or upgrade to Pro to unlock all 76+ tests.`);
+
+  } catch(err) {
+    console.error("Sign up error:", err);
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = '❌ Registration error: ' + (err.message || 'Please try again.');
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '✨ Create ID &amp; Continue';
+    }
   }
 }
 
@@ -1309,67 +1517,94 @@ function closeForgotPasswordModal() {
 }
 
 async function recoverUserPassword() {
-  const email = (document.getElementById('forgot-email-input')?.value || '').trim().toLowerCase();
+  const query = (document.getElementById('forgot-email-input')?.value || '').trim();
   const feedback = document.getElementById('forgot-feedback-msg');
   if (!feedback) return;
 
-  if (!email || !email.includes('@')) {
+  const emailClean = query.toLowerCase();
+  const digits = query.replace(/\D/g, '');
+
+  if (!query || (!emailClean.includes('@') && digits.length < 7)) {
     feedback.style.display = 'block';
     feedback.style.background = 'rgba(239, 68, 68, 0.15)';
     feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
     feedback.style.color = '#f87171';
-    feedback.innerHTML = '⚠️ Please enter a valid registered email address.';
+    feedback.innerHTML = '⚠️ Please enter a valid registered Email ID or 10-digit Mobile Number.';
     return;
   }
 
+  feedback.style.display = 'block';
+  feedback.style.background = 'rgba(56, 189, 248, 0.1)';
+  feedback.style.border = '1px solid rgba(56, 189, 248, 0.25)';
+  feedback.style.color = '#38bdf8';
+  feedback.innerHTML = '⏳ Searching cloud database for registered ID and credentials...';
+
   let user = null;
 
-  // 1. Check Live Supabase Cloud Database First
+  // 1. Check Live Supabase Cloud Database First (Email or Phone)
   if (typeof dbFindUser === 'function') {
     try {
-      const cloudUser = await dbFindUser(email);
+      const cloudUser = await dbFindUser(query);
       if (cloudUser) {
         user = {
           name: cloudUser.name || 'CapPrep Student',
           email: cloudUser.email,
+          phone: cloudUser.phone,
+          college: cloudUser.college,
           password: cloudUser.password || 'cap2027',
           isPro: cloudUser.is_pro ?? true
         };
       }
-    } catch(e) {}
+    } catch(e) {
+      console.warn("dbFindUser lookup error:", e);
+    }
   }
 
   // 2. Check local users
   if (!user) {
     const users = getStoredUsers();
-    user = users.find(u => u.email && u.email.toLowerCase() === email);
+    user = users.find(u => 
+      (u.email && u.email.toLowerCase() === emailClean) || 
+      (digits.length >= 7 && u.phone && u.phone.replace(/\D/g, '').includes(digits))
+    );
   }
 
-  // Check Global Verified VIP Accounts (Admin Grants / Paid Students)
+  // 3. Check Global Verified VIP Accounts (Admin Grants / Paid Students)
   if (!user) {
-    const vip = GLOBAL_VERIFIED_VIP_ACCOUNTS.find(v => v.email.toLowerCase() === email);
+    const vip = GLOBAL_VERIFIED_VIP_ACCOUNTS.find(v => 
+      (v.email.toLowerCase() === emailClean) || 
+      (digits.length >= 7 && (v.phone || '').replace(/\D/g, '').includes(digits))
+    );
     if (vip) {
       user = {
         name: vip.name,
         email: vip.email,
+        phone: vip.phone || "+91 98000 00000",
+        college: vip.role || "Capgemini Candidate",
         password: vip.password || 'cap2027',
         isPro: true
       };
       // Auto-save to local users so subsequent sign-in is instant
+      const users = getStoredUsers();
       users.unshift(user);
       saveStoredUsers(users);
     }
   }
 
-  // Check Orders Ledger
+  // 4. Check Orders Ledger
   if (!user) {
     try {
       const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
-      const ordMatch = orders.find(o => o.email && o.email.toLowerCase() === email);
+      const ordMatch = orders.find(o => 
+        (o.email && o.email.toLowerCase() === emailClean) || 
+        (digits.length >= 7 && o.phone && o.phone.replace(/\D/g, '').includes(digits))
+      );
       if (ordMatch) {
         user = {
           name: ordMatch.name || "Enrolled Student",
           email: ordMatch.email,
+          phone: ordMatch.phone || "+91 98000 00000",
+          college: ordMatch.college || "Capgemini Candidate",
           password: ordMatch.password || "cap2027",
           isPro: true
         };
@@ -1382,31 +1617,39 @@ async function recoverUserPassword() {
     feedback.style.background = 'rgba(239, 68, 68, 0.15)';
     feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
     feedback.style.color = '#f87171';
-    feedback.innerHTML = `❌ No active account found for <strong>${escapeHtml(email)}</strong>.<br><br>• If you paid via UPI, please WhatsApp Admin with your receipt/UTR to verify instantly.<br>• Haven't enrolled yet? <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openPaymentModal();" style="color:var(--accent); font-weight:700;">Enroll for ₹51 →</a>`;
+    feedback.innerHTML = `❌ No registered account found for <strong>${escapeHtml(query)}</strong>.<br><br>• Forgot which email you used? Try searching by your 10-digit mobile number.<br>• Haven't registered yet? <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal('signup');" style="color:#38bdf8; font-weight:700;">Create New ID Free →</a><br>• Need manual help? WhatsApp Admin at <a href="https://wa.me/919142817277" target="_blank" style="color:#06d6a0; font-weight:700;">+91 91428 17277</a>.`;
     return;
   }
 
-  // User found! Recover password
+  // User found! Display recovered credentials clearly
   feedback.style.display = 'block';
   feedback.style.background = 'rgba(6, 214, 160, 0.12)';
   feedback.style.border = '1px solid rgba(6, 214, 160, 0.35)';
   feedback.style.color = '#e2e8f0';
   feedback.innerHTML = `
-    <div style="color:#06d6a0; font-weight:800; margin-bottom:0.25rem;">✅ Account Verified: ${escapeHtml(user.name)}</div>
-    <div>Your registered password is:</div>
-    <div style="font-size:1.15rem; font-weight:900; color:#00d4ff; font-family:monospace; background:rgba(0,0,0,0.3); padding:0.4rem; border-radius:6px; margin:0.4rem 0; text-align:center; letter-spacing:1px;">
-      ${escapeHtml(user.password || 'cap2027')}
+    <div style="color:#06d6a0; font-weight:800; font-size:0.95rem; margin-bottom:0.4rem;">
+      ✅ Account Located: ${escapeHtml(user.name)}
     </div>
-    <div style="font-size:0.72rem; color:#94a3b8; margin-bottom:0.5rem;">(Credential verification simulated to ${escapeHtml(email)})</div>
-    <button class="pay-btn-checkout" style="padding:0.5rem; font-size:0.82rem;" onclick="prefillAndSignIn('${escapeHtml(email)}', '${escapeHtml(user.password || '')}')">
-      🔑 Sign In Now with Recovered Password →
+    <div style="background:rgba(0,0,0,0.35); padding:0.6rem 0.75rem; border-radius:6px; margin:0.4rem 0 0.7rem 0; font-size:0.8rem; line-height:1.6;">
+      <div><strong>🔑 Student Login ID:</strong> <span style="color:#38bdf8; font-family:monospace; font-weight:700; font-size:0.9rem;">${escapeHtml(user.email)}</span></div>
+      <div><strong>📱 Registered Mobile:</strong> <span style="color:#cbd5e1;">${escapeHtml(user.phone || 'Not recorded')}</span></div>
+      <div style="margin-top:0.3rem;"><strong>🔒 Registered Password:</strong></div>
+      <div style="font-size:1.15rem; font-weight:900; color:#00d4ff; font-family:monospace; background:rgba(0,0,0,0.5); padding:0.35rem; border-radius:4px; margin:0.3rem 0; text-align:center; letter-spacing:1.5px; border:1px dashed rgba(0,212,255,0.4);">
+        ${escapeHtml(user.password || 'cap2027')}
+      </div>
+      <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.3rem;">
+        Access Status: ${user.isPro ? '⭐ <strong style="color:#06d6a0;">Pro Lifetime Pass Active</strong>' : '👤 Free Tier Account'}
+      </div>
+    </div>
+    <button class="pay-btn-checkout" style="padding:0.55rem; font-size:0.84rem;" onclick="prefillAndSignIn('${escapeHtml(user.email)}', '${escapeHtml(user.password || 'cap2027')}')">
+      🔑 1-Click Auto-Fill &amp; Sign In Now →
     </button>
   `;
 }
 
 function prefillAndSignIn(email, password) {
   closeForgotPasswordModal();
-  openSignInModal();
+  openSignInModal('signin');
   const emailInput = document.getElementById('signin-email-input');
   const passInput = document.getElementById('signin-password-input');
   if (emailInput) emailInput.value = email;

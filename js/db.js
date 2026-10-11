@@ -12,19 +12,32 @@ const DB_HEADERS = {
   "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
 };
 
-// 1. Fetch user by email from Supabase
-async function dbFindUser(email) {
-  if (!email) return null;
-  const cleanEmail = email.trim().toLowerCase();
+// 1. Fetch user by email or phone from Supabase
+async function dbFindUser(query) {
+  if (!query) return null;
+  const clean = query.trim().toLowerCase();
+  const digits = clean.replace(/\D/g, '');
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/capprep_users?email=eq.${encodeURIComponent(cleanEmail)}&select=*`, {
+    let url;
+    if (digits.length >= 7) {
+      const p1 = `*${digits}*`;
+      const p2 = digits.length >= 10 ? `*${digits.slice(-10, -5)}*${digits.slice(-5)}*` : p1;
+      url = `${SUPABASE_URL}/rest/v1/capprep_users?or=(email.eq.${encodeURIComponent(clean)},phone.ilike.${encodeURIComponent(p1)},phone.ilike.${encodeURIComponent(p2)})&select=*`;
+    } else {
+      url = `${SUPABASE_URL}/rest/v1/capprep_users?email=eq.${encodeURIComponent(clean)}&select=*`;
+    }
+    const res = await fetch(url, {
       method: "GET",
       headers: DB_HEADERS
     });
     if (res.ok) {
       const data = await res.json();
-      if (data && data.length > 0) {
-        const u = data[0];
+      if (Array.isArray(data) && data.length > 0) {
+        let u = data[0];
+        if (digits.length >= 7) {
+          const exact = data.find(x => (x.phone && x.phone.replace(/\D/g, '').includes(digits)) || (x.email && x.email.toLowerCase() === clean));
+          if (exact) u = exact;
+        }
         // Cache to localStorage
         syncLocalUserCache({
           name: u.name,
@@ -45,11 +58,10 @@ async function dbFindUser(email) {
 }
 
 // 2. Authenticate user against Supabase
-async function dbAuthenticate(email, password) {
-  if (!email || !password) return null;
-  const cleanEmail = email.trim().toLowerCase();
+async function dbAuthenticate(identifier, password) {
+  if (!identifier || !password) return null;
   try {
-    const user = await dbFindUser(cleanEmail);
+    const user = await dbFindUser(identifier);
     if (user) {
       if (user.password === password || password === 'cap2027') {
         return {

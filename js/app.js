@@ -1385,7 +1385,7 @@ async function processUserSignUp() {
       if (existing) {
         if (errorEl) {
           errorEl.style.display = 'block';
-          errorEl.innerHTML = `⚠️ An account already exists for <strong>${escHTML(email)}</strong>.<br><a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color:#38bdf8; font-weight:700;">Click here to Sign In →</a> or <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#06d6a0; font-weight:700;">Recover Password →</a>`;
+          errorEl.innerHTML = `⚠️ An account already exists for <strong>${escHTML(email)}</strong>.<br><a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color:#38bdf8; font-weight:700;">Click here to Log in →</a> or <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#06d6a0; font-weight:700;">Recover Password →</a>`;
         }
         if (btn) {
           btn.disabled = false;
@@ -1642,7 +1642,7 @@ async function recoverUserPassword() {
       </div>
     </div>
     <button class="pay-btn-checkout" style="padding:0.55rem; font-size:0.84rem;" onclick="prefillAndSignIn('${escapeHtml(user.email)}', '${escapeHtml(user.password || 'cap2027')}')">
-      🔑 1-Click Auto-Fill &amp; Sign In Now →
+      🔑 1-Click Auto-Fill &amp; Log In Now →
     </button>
   `;
 }

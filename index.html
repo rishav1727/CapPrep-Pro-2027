@@ -63,7 +63,7 @@
     <li><a href="modules/study_reader.html" style="color:var(--accent); font-weight:700;">📖 PDF Study Reader</a></li>
     <li><a href="#grand-mocks" class="nav-cta">Grand Mocks →</a></li>
     <li><a href="javascript:void(0)" onclick="openSupportModal()" style="color:#38bdf8; font-size:0.8rem; font-weight:600; text-decoration:none; padding:0.35rem 0.65rem; border-radius:6px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); white-space:nowrap; display:inline-flex; align-items:center; gap:0.25rem; flex-shrink:0;">🎧 Help & Support</a></li>
-    <li><button id="nav-signin-btn" class="nav-signin-btn" onclick="openSignInModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:0.4rem 0.85rem; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer;">🔑 Sign In / Register</button></li>
+    <li><button id="nav-signin-btn" class="nav-signin-btn" onclick="openSignInModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:0.4rem 0.85rem; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer;">🔑 Log in</button></li>
     <li id="nav-user-item" style="display:none;"><span id="nav-user-pill" style="font-size:0.8rem; color:#a5b4fc; font-weight:700; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); padding:0.35rem 0.75rem; border-radius:6px; display:inline-flex; align-items:center; gap:0.4rem;"><span id="nav-user-name">👤 User</span></span></li>
     <li id="nav-logout-item" style="display:none;"><button id="nav-logout-btn" onclick="userSignOut()" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.4); border-radius:6px; padding:0.35rem 0.75rem; font-weight:700; cursor:pointer; font-size:0.8rem;">🚪 Logout</button></li>
     <li><button id="nav-pro-btn" class="nav-pro-badge" onclick="openPaymentModal()">⚡ Upgrade to Pro (₹51)</button></li>
@@ -1251,7 +1251,7 @@
       </button>
       <div>
         <button id="locked-modal-signin-btn" class="btn btn-outline" style="width:100%; justify-content:center; font-size:0.85rem;" onclick="closeLockedTestModal(); openSignInModal();">
-          🔑 Already Purchased? Sign In with Email &amp; Password
+          🔑 Already Purchased? Log in with Email &amp; Password
         </button>
       </div>
     </div>
@@ -1268,21 +1268,21 @@
       <div style="font-size:1.8rem;">🎓</div>
       <div>
         <h2 style="font-size:1.25rem; color:#fff; margin:0;">CapPrep Pro Candidate Portal</h2>
-        <div style="font-size:0.75rem; color:var(--text-muted);">Sign in to your account or create a new student ID</div>
+        <div style="font-size:0.75rem; color:var(--text-muted);">Log in to your account or create a new student ID</div>
       </div>
     </div>
 
     <!-- Dual Auth Navigation Tabs -->
     <div style="display:flex; gap:0.5rem; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:0.6rem;">
       <button type="button" id="auth-tab-btn-signin" class="tab-btn active" onclick="switchAuthTab('signin')" style="flex:1; padding:0.55rem 0.4rem; font-size:0.85rem; font-weight:700; border-radius:6px; cursor:pointer; background:linear-gradient(135deg, rgba(0,212,255,0.25), rgba(56,189,248,0.2)); border:1px solid rgba(0,212,255,0.5); color:#38bdf8; transition:all 0.2s;">
-        🔑 Sign In
+        🔑 Log in
       </button>
       <button type="button" id="auth-tab-btn-signup" class="tab-btn" onclick="switchAuthTab('signup')" style="flex:1; padding:0.55rem 0.4rem; font-size:0.85rem; font-weight:700; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#94a3b8; transition:all 0.2s;">
         ✨ Create New ID
       </button>
     </div>
 
-    <!-- PANE 1: SIGN IN -->
+    <!-- PANE 1: LOG IN -->
     <div id="auth-pane-signin" style="display:block;">
       <div style="margin-bottom:0.75rem;">
         <label style="font-size:0.78rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.3rem;">Email ID or 10-Digit Mobile Number</label>
@@ -1310,7 +1310,7 @@
       <div id="signin-error-msg" style="display:none; color:#f87171; font-size:0.78rem; margin-bottom:0.75rem; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); padding:0.6rem; border-radius:6px; line-height:1.45;"></div>
 
       <button class="pay-btn-checkout" onclick="processUserSignIn()">
-        🔓 Sign In &amp; Access Dashboard
+        🔓 Log in &amp; Access Dashboard
       </button>
 
       <div style="text-align:center; margin-top:0.85rem; font-size:0.8rem; color:var(--text-muted);">
@@ -1364,7 +1364,7 @@
       <div style="text-align:center; margin-top:0.85rem; font-size:0.8rem; color:var(--text-muted);">
         Already registered? 
         <a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color:#38bdf8; font-weight:700; text-decoration:none;">
-          Sign In here →
+          Log in here →
         </a>
       </div>
     </div>
@@ -1402,7 +1402,7 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; font-size:0.78rem;">
         <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal('signin');" style="color:#38bdf8; text-decoration:none; font-weight:600;">
-          ← Back to Sign In
+          ← Back to Log in
         </a>
         <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal('signup');" style="color:#06d6a0; font-weight:700; text-decoration:none;">
           Create New ID →

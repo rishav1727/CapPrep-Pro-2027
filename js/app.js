@@ -976,7 +976,7 @@ function validateActiveSession() {
 // Set to true = 100% UNLOCKED FOR EVERYONE (FREE OPEN ACCESS)
 // Set to false = RESTORE PRO PAYWALL (PAID / LOGIN REQUIRED)
 // ==========================================
-const GLOBAL_FREE_ACCESS_MODE = true;
+const GLOBAL_FREE_ACCESS_MODE = false;
 
 function isProUser() {
   if (GLOBAL_FREE_ACCESS_MODE) return true;

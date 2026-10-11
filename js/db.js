@@ -88,7 +88,7 @@ async function dbSaveUser(user) {
   syncLocalUserCache(user);
 
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/capprep_users`, {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/capprep_users`, {
       method: "POST",
       headers: {
         ...DB_HEADERS,
@@ -96,8 +96,18 @@ async function dbSaveUser(user) {
       },
       body: JSON.stringify(payload)
     });
+    if (!res.ok) throw new Error("Supabase status: " + res.status);
   } catch(err) {
-    console.warn("Supabase dbSaveUser error:", err);
+    console.warn("Direct Supabase dbSaveUser error, trying /api/save-user fallback:", err);
+    try {
+      await fetch('/api/save-user', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } catch(apiErr) {
+      console.warn("Fallback /api/save-user error:", apiErr);
+    }
   }
 }
 

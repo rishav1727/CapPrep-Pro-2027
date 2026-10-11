@@ -1516,6 +1516,22 @@ function goToPaymentScreen() {
   if (s2) s2.style.display = 'block';
   if (s3) s3.style.display = 'none';
 
+  // Persist user and password to database immediately
+  const phone = (document.getElementById('cust-phone-input')?.value || '').trim();
+  const college = (document.getElementById('cust-college-input')?.value || '').trim();
+  const preUser = {
+    name,
+    email,
+    password,
+    phone: phone || "+91 98000 00000",
+    college: college || "Capgemini Candidate",
+    isPro: false,
+    joinedAt: new Date().toLocaleString()
+  };
+  if (typeof dbSaveUser === 'function') {
+    dbSaveUser(preUser);
+  }
+
   updateUpiLinksAndPrices(currentPayablePrice);
 }
 

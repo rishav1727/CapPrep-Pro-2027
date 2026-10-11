@@ -1,0 +1,10 @@
+{
+  "name": "capprep-pro",
+  "version": "1.0.0",
+  "description": "CapPrep Pro — Capgemini exam preparation platform",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "razorpay": "^2.9.2"
+  }
+}

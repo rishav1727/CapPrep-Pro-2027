@@ -1114,19 +1114,26 @@
         </div>
       </div>
 
-      <!-- CARD TAB -->
+      <!-- CARD / RAZORPAY TAB -->
       <div id="pay-mode-card" style="display:none; background:#0b0f19; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.25rem; margin-bottom:1rem;">
         <div style="font-size:0.8rem; color:#cbd5e1; margin-bottom:0.75rem;">
-          Pay ₹51 securely via Debit/Credit Card or NetBanking:
+          Pay ₹<span class="rzp-price-display">51</span> securely via <strong>Razorpay</strong> — Cards, NetBanking, Wallets &amp; UPI all supported:
         </div>
-        <div class="customer-input-grid">
-          <input type="text" class="customer-input" placeholder="Card Number (•••• •••• •••• ••••)" />
-          <input type="text" class="customer-input" placeholder="MM/YY &amp; CVV" />
+        <!-- Razorpay supported methods badge row -->
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.85rem; align-items:center;">
+          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/visa.svg"   alt="Visa"       height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
+          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/mastercard.svg" alt="MC"    height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
+          <img src="https://cdn.razorpay.com/static/assets/logo/payment-logos/rupay.svg"  alt="RuPay"     height="22" style="border-radius:3px; background:#fff; padding:2px 5px;" />
+          <span style="font-size:0.7rem; color:#94a3b8;">+ 100+ payment methods</span>
         </div>
-        <button id="pay-submit-btn" class="pay-btn-checkout" onclick="processCardPayment()">
-          🔒 Pay ₹51 &amp; Unlock Pro Instantly
+        <button id="rzp-pay-btn" class="pay-btn-checkout" onclick="openRazorpayCheckout()">
+          🔒 Pay ₹<span class="rzp-price-display">51</span> via Razorpay — Instant &amp; Secure
         </button>
+        <div style="font-size:0.7rem; color:#64748b; margin-top:0.6rem; text-align:center;">
+          🔐 Powered by Razorpay · PCI-DSS Level 1 Certified · 256-bit SSL
+        </div>
       </div>
+
 
       <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.74rem; color:var(--text-muted); margin-top:0.5rem;">
         <span>🔒 256-Bit SSL Encrypted</span>
@@ -1412,6 +1419,8 @@
   </div>
 </div>
 
+<!-- Razorpay Checkout SDK (official, loaded last to not block page render) -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="js/db.js"></script>
 <script src="js/app.js"></script>
 </body>

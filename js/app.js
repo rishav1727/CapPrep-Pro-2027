@@ -1605,8 +1605,11 @@ function applyCoupon() {
   if (btnPrice) btnPrice.textContent = '₹' + currentPayablePrice;
   const p2Price = document.getElementById('pay-screen2-price');
   if (p2Price) p2Price.textContent = '₹' + currentPayablePrice;
+  // Also update Razorpay button price badges
+  document.querySelectorAll('.rzp-price-display').forEach(el => el.textContent = currentPayablePrice);
   updateUpiLinksAndPrices(currentPayablePrice);
 }
+
 
 function processUpiPayment() {
   const name = (document.getElementById('cust-name-input')?.value || '').trim();
@@ -1689,63 +1692,172 @@ function processUpiPayment() {
 }
 
 function processCardPayment() {
-  const name = (document.getElementById('cust-name-input')?.value || '').trim();
-  const email = (document.getElementById('cust-email-input')?.value || '').trim().toLowerCase();
-  const password = (document.getElementById('cust-password-input')?.value || '').trim();
-  const phone = (document.getElementById('cust-phone-input')?.value || '').trim();
-  const college = (document.getElementById('cust-college-input')?.value || '').trim();
+  // Legacy alias — now routes to Razorpay
+  openRazorpayCheckout();
+}
 
-  if (!name || !email) {
-    alert("⚠️ Please enter your Name and Email in the Student Details section.");
+// ─── RAZORPAY GATEWAY INTEGRATION ────────────────────────────────────────────
+// Replace RAZORPAY_KEY_ID_HERE with your actual Razorpay Key ID (rzp_test_… or rzp_live_…)
+// This key is PUBLIC — it is safe to embed in frontend JS.
+// The secret key lives ONLY in Vercel env vars, never here.
+const RAZORPAY_KEY_ID = 'rzp_live_Tmg7oHYXdiIjXq';
+
+async function openRazorpayCheckout() {
+  const name     = (document.getElementById('cust-name-input')?.value  || '').trim();
+  const email    = (document.getElementById('cust-email-input')?.value || '').trim().toLowerCase();
+  const password = (document.getElementById('cust-password-input')?.value || '').trim();
+  const phone    = (document.getElementById('cust-phone-input')?.value  || '').trim();
+  const college  = (document.getElementById('cust-college-input')?.value|| '').trim();
+
+  if (!name) {
+    alert('⚠️ Please enter your Full Name first (Step 1).');
     backToDetailsScreen();
+    document.getElementById('cust-name-input')?.focus();
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert('⚠️ Please enter a valid Email Address first (Step 1).');
+    backToDetailsScreen();
+    document.getElementById('cust-email-input')?.focus();
     return;
   }
   if (!password || password.length < 6) {
-    alert("⚠️ Please create an Account Password of at least 6 characters.");
+    alert('⚠️ Please create a Password of at least 6 characters first (Step 1).');
     backToDetailsScreen();
+    document.getElementById('cust-password-input')?.focus();
     return;
   }
 
-  const btn = document.getElementById('pay-submit-btn');
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = `⏳ Processing ₹${currentPayablePrice} Card Payment...`;
-  }
+  const btn = document.getElementById('rzp-pay-btn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Connecting to Razorpay...'; }
 
-  setTimeout(() => {
-    const users = getStoredUsers();
-    const userObj = {
-      name: name,
-      email: email,
-      password: password,
-      phone: phone || "+91 98000 00000",
-      college: college || "Capgemini Candidate",
-      isPro: true,
-      joinedAt: new Date().toLocaleString()
-    };
-    users.unshift(userObj);
-    saveStoredUsers(users);
-    setCurrentUser(userObj);
-    if (typeof dbSaveUser === 'function') {
-      dbSaveUser(userObj);
-    }
-
-    completeOrderActivation({
-      name,
-      email,
-      phone: phone || "+91 98000 00000",
-      college: college || "Capgemini Candidate",
-      method: "Credit/Debit Card",
-      utr: "CARD-" + Math.floor(1000000000 + Math.random() * 9000000000),
-      amount: currentPayablePrice
+  let orderId;
+  try {
+    // 1. Create Razorpay order on our backend (serverless function)
+    const orderRes = await fetch('/api/create-order', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount:  currentPayablePrice * 100,  // paise
+        currency: 'INR',
+        receipt: `rcpt_${Date.now()}`,
+      }),
     });
 
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = `🔒 Pay ₹${currentPayablePrice} & Unlock Everything`;
+    if (!orderRes.ok) {
+      const errData = await orderRes.json().catch(() => ({}));
+      throw new Error(errData.error || `Server error ${orderRes.status}`);
     }
-  }, 1000);
+
+    const orderData = await orderRes.json();
+    orderId = orderData.id;
+  } catch (err) {
+    console.error('Order creation failed:', err);
+    alert('⚠️ Could not connect to payment server. Please try the UPI QR option instead, or contact support.');
+    if (btn) { btn.disabled = false; btn.innerHTML = `🔒 Pay ₹${currentPayablePrice} via Razorpay — Instant & Secure`; }
+    return;
+  }
+
+  if (btn) { btn.disabled = false; btn.innerHTML = `🔒 Pay ₹${currentPayablePrice} via Razorpay — Instant & Secure`; }
+
+  // 2. Open the official Razorpay Checkout popup
+  const options = {
+    key:         RAZORPAY_KEY_ID,
+    amount:      currentPayablePrice * 100,  // paise
+    currency:    'INR',
+    name:        'CapPrep Pro',
+    description: 'CapPrep Pro Lifetime Pass — All Tests Unlocked',
+    order_id:    orderId,
+    prefill: {
+      name:    name,
+      email:   email,
+      contact: phone || '',
+    },
+    notes: {
+      college:  college  || 'Capgemini Candidate',
+      product:  'CapPrep Pro Lifetime Pass',
+    },
+    theme: {
+      color: '#00d4ff',
+    },
+    modal: {
+      backdropclose: false,
+      escape: true,
+      handleback: true,
+    },
+    // Called ONLY when Razorpay confirms the payment
+    handler: async function(response) {
+      // 3. Verify payment signature on the backend (HMAC-SHA256)
+      try {
+        const verifyRes = await fetch('/api/verify-payment', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id:   response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature,
+            customerData: { name, email, phone, college, password },
+          }),
+        });
+
+        const verifyData = await verifyRes.json();
+
+        if (!verifyRes.ok || !verifyData.success) {
+          alert('⚠️ Payment could not be verified. Please contact support with your Razorpay payment ID: ' + response.razorpay_payment_id);
+          return;
+        }
+
+        // 4. Server confirmed payment is genuine → activate Pro in localStorage
+        const users = getStoredUsers();
+        const userObj = {
+          name, email, password,
+          phone:   phone    || '+91 98000 00000',
+          college: college  || 'Capgemini Candidate',
+          isPro: true,
+          joinedAt: new Date().toLocaleString(),
+        };
+        const existingIdx = users.findIndex(u => u.email && u.email.toLowerCase() === email);
+        if (existingIdx >= 0) { users[existingIdx] = userObj; }
+        else { users.unshift(userObj); }
+        saveStoredUsers(users);
+        setCurrentUser(userObj);
+        if (typeof dbSaveUser === 'function') dbSaveUser(userObj);
+
+        completeOrderActivation({
+          name, email,
+          phone:   phone   || '+91 98000 00000',
+          college: college || 'Capgemini Candidate',
+          method:  'Razorpay (Cards / UPI / NetBanking)',
+          utr:     response.razorpay_payment_id,
+          amount:  currentPayablePrice,
+        });
+
+      } catch (err) {
+        console.error('Verification error:', err);
+        alert('⚠️ Payment completed but verification failed. Please contact support with Payment ID: ' + response.razorpay_payment_id);
+      }
+    },
+    // Called when the user closes the Razorpay popup without paying
+    modal: {
+      ondismiss: function() {
+        console.log('Razorpay checkout dismissed by user.');
+      },
+    },
+  };
+
+  if (typeof Razorpay === 'undefined') {
+    alert('⚠️ Razorpay failed to load. Please check your internet connection and try again.');
+    return;
+  }
+
+  const rzp = new Razorpay(options);
+  rzp.on('payment.failed', function(response) {
+    console.error('Razorpay payment failed:', response.error);
+    alert(`⚠️ Payment failed: ${response.error.description || 'Unknown error'}.\nPlease try again or use the UPI QR option.`);
+  });
+  rzp.open();
 }
+
 
 let lastCompletedOrder = null;
 

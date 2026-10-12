@@ -64,13 +64,40 @@ async function dbAuthenticate(identifier, password) {
     const user = await dbFindUser(identifier);
     if (user) {
       if (user.password === password || password === 'cap2027') {
+        let isPro = Boolean(user.is_pro || user.is_vip);
+
+        // If not marked pro in user profile, verify against capprep_orders in Supabase
+        if (!isPro && user.email) {
+          try {
+            const cleanEmail = user.email.trim().toLowerCase();
+            const ordRes = await fetch(`${SUPABASE_URL}/rest/v1/capprep_orders?email=eq.${encodeURIComponent(cleanEmail)}&select=*`, {
+              method: "GET",
+              headers: DB_HEADERS
+            });
+            if (ordRes.ok) {
+              const orders = await ordRes.json();
+              if (Array.isArray(orders) && orders.length > 0) {
+                isPro = true;
+                // Auto-repair user record in Supabase asynchronously
+                fetch(`${SUPABASE_URL}/rest/v1/capprep_users?email=eq.${encodeURIComponent(cleanEmail)}`, {
+                  method: "PATCH",
+                  headers: DB_HEADERS,
+                  body: JSON.stringify({ is_pro: true, is_vip: true })
+                }).catch(() => {});
+              }
+            }
+          } catch(ordErr) {
+            console.warn("Supabase order check error:", ordErr);
+          }
+        }
+
         return {
           name: user.name || "CapPrep Student",
           email: user.email,
           password: user.password,
           phone: user.phone || "+91 98000 00000",
           college: user.college || "Capgemini Candidate",
-          isPro: user.is_pro ?? true,
+          isPro: isPro,
           isVip: user.is_vip ?? false,
           joinedAt: user.created_at || new Date().toLocaleString()
         };

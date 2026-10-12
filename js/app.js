@@ -974,6 +974,14 @@ const OFFICIAL_TEST_ACCOUNTS = [
 // Global Verified VIP Students (Granted by Master Admin - Accessible across all devices)
 const GLOBAL_VERIFIED_VIP_ACCOUNTS = [
   {
+    name: "Rohan",
+    email: "aa.ashak5629@gmail.com",
+    password: "cap2027",
+    phone: "6207113563",
+    role: "Verified Paid Candidate (CapPrep Pro)",
+    isPro: true
+  },
+  {
     name: "Rajneesh Chaubey",
     email: "rajneeshchaubey360@gmail.com",
     password: "HpbFpxwD",
@@ -1023,6 +1031,36 @@ function isProUser() {
   const cur = getCurrentUser();
   if (!cur) return false;  // Must be logged in — no user = no Pro
   if (cur.isPro) return true;
+
+  // Auto-heal 1: Check if user belongs to Global Verified VIP accounts
+  const emailClean = (cur.email || '').toLowerCase().trim();
+  const digits = (cur.phone || '').replace(/\D/g, '');
+  const isVipMatch = GLOBAL_VERIFIED_VIP_ACCOUNTS.some(v => 
+    v.email.toLowerCase() === emailClean || 
+    (digits.length >= 7 && (v.phone || '').replace(/\D/g, '').includes(digits))
+  );
+  if (isVipMatch) {
+    cur.isPro = true;
+    try { localStorage.setItem('capprep_current_user', JSON.stringify(cur)); } catch(e) {}
+    try { localStorage.setItem('capprep_pro_unlocked', 'true'); } catch(e) {}
+    return true;
+  }
+
+  // Auto-heal 2: Check if user has an active verified order in capprep_orders
+  try {
+    const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
+    const hasOrder = orders.some(o => 
+      ((o.email && o.email.toLowerCase() === emailClean) || (digits.length >= 7 && o.phone && o.phone.replace(/\D/g, '').includes(digits))) &&
+      (o.status === 'VERIFIED' || o.status === 'VERIFIED_ACTIVE' || !o.status)
+    );
+    if (hasOrder) {
+      cur.isPro = true;
+      try { localStorage.setItem('capprep_current_user', JSON.stringify(cur)); } catch(e) {}
+      try { localStorage.setItem('capprep_pro_unlocked', 'true'); } catch(e) {}
+      return true;
+    }
+  } catch(e) {}
+
   // Double-check the localStorage flag only when user IS logged in
   return localStorage.getItem('capprep_pro_unlocked') === 'true';
 }
@@ -1269,6 +1307,19 @@ async function processUserSignIn() {
   );
 
   if (user) {
+    // Check if this user had purchased before or has an active order
+    try {
+      const orders = JSON.parse(localStorage.getItem('capprep_orders') || '[]');
+      const hasOrder = orders.some(o => 
+        (o.email && o.email.toLowerCase() === emailClean) || 
+        (digits.length >= 7 && o.phone && o.phone.replace(/\D/g, '').includes(digits))
+      );
+      if (hasOrder) {
+        user.isPro = true;
+        saveStoredUsers(users);
+      }
+    } catch(e) {}
+
     setCurrentUser(user);
     closeSignInModal();
     if (user.isPro) {
@@ -1961,6 +2012,7 @@ function processUpiPayment() {
     completeOrderActivation({
       name,
       email,
+      password,
       phone: phone || "+91 98000 00000",
       college: college || "Capgemini Candidate",
       method: "UPI Direct (rishavofficials1727-7@okaxis)",
@@ -2101,7 +2153,7 @@ async function openRazorpayCheckout() {
         if (typeof dbSaveUser === 'function') dbSaveUser(userObj);
 
         completeOrderActivation({
-          name, email,
+          name, email, password,
           phone:   phone   || '+91 98000 00000',
           college: college || 'Capgemini Candidate',
           method:  'Razorpay (Cards / UPI / NetBanking)',
@@ -2249,25 +2301,29 @@ function dispatchOrderEmails(orderDetails, orderId) {
   // 3. Dispatch Automated Confirmation & Invoice to Candidate (customerEmail)
   try {
     if (typeof fetch !== 'undefined' && customerEmail && customerEmail.includes('@')) {
+      const studentPassword = orderDetails.password || (getCurrentUser()?.password) || 'cap2027';
       fetch(`https://formsubmit.co/ajax/${encodeURIComponent(customerEmail)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          _subject: `🎓 CapPrep Pro Order Confirmation & Lifetime Pass Active (Order #${orderId})`,
+          _subject: `🎓 Congratulations ${studentName}! Your CapPrep Pro Pass is Activated (Order #${orderId})`,
           _template: "box",
           _captcha: "false",
           _replyto: adminEmail,
-          "Greetings": `Hello ${studentName}, your payment of ${amountStr} is confirmed!`,
+          "Congratulations": `🎉 Hello ${studentName}! Congratulations on enrolling in CapPrep Pro for Capgemini Exceller 2027. Your payment of ${amountStr} is verified and your Full Lifetime Access is now 100% ACTIVE!`,
           "Order Reference": `#${orderId}`,
           "Amount Paid": `${amountStr} INR (Lifetime Pro Pass)`,
           "UPI Transaction Ref (UTR)": utrRef,
-          "Registered Login ID": customerEmail,
-          "Access URL": siteUrl,
-          "Included Access": "All 76+ Proctored Mock Tests, Lab 27 AI Simulator, Stage 2B Debugger, Stage 4 HR & Technical Hub, Full Downloadable Study PDF Guides",
-          "Support & Helpdesk": "rishavofficials1727@gmail.com"
+          "--- YOUR LOGIN CREDENTIALS ---": "----------------------------------------",
+          "Student Login ID": customerEmail,
+          "Account Password": studentPassword,
+          "Portal Access Link": `${siteUrl}/index.html`,
+          "--- UNLOCKED FEATURES ---": "----------------------------------------",
+          "Included Access": "All 76+ Proctored Mock Tests (Stages 1, 2A, 2B, 3, 4, 5-6), Lab 27 AI Simulator, Stage 2B Live Debugger, Stage 4 Technical & HR Hub, Full Downloadable Study PDF Guides",
+          "Need Help?": "Direct WhatsApp Support with Master Admin: +91 91428 17277 | Email: rishavofficials1727@gmail.com"
         })
       }).then(res => res.json())
-        .then(d => console.log("Candidate confirmation email dispatched:", d))
+        .then(d => console.log("Candidate confirmation email dispatched with password:", d))
         .catch(err => console.warn("Candidate email notice (async):", err));
     }
   } catch(e) {}

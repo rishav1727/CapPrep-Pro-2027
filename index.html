@@ -45,6 +45,18 @@
   </style>
 </head>
 <body>
+<!-- ===== FLASH SALE TOP PROMO BANNER (₹21 OFFER) ===== -->
+<div id="top-flash-banner" style="background: linear-gradient(90deg, #ea580c 0%, #db2777 50%, #7c3aed 100%); color: #fff; padding: 0.55rem 1rem; text-align: center; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(234,88,12,0.4); position: relative; z-index: 10001; cursor: pointer;" onclick="openPaymentModal()">
+  <span style="display:inline-flex; align-items:center; gap:0.35rem; background:rgba(0,0,0,0.25); padding:0.15rem 0.5rem; border-radius:12px; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px;">
+    🔥 LIVE DRIVE OFFER
+  </span>
+  <span>
+    🚀 <strong>Capgemini Exceller 2027 Pro Pass</strong> now at just <span style="font-size:1.05rem; color:#fde047; text-decoration:none; font-weight:900;">₹21</span> <span style="text-decoration:line-through; opacity:0.75; font-size:0.78rem;">₹299</span> (All 76+ Tests, Lab 27 AI Sim &amp; Study Notes Unlocked!)
+  </span>
+  <button style="background:#fff; color:#ea580c; border:none; padding:0.25rem 0.75rem; border-radius:20px; font-weight:800; font-size:0.78rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.25rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+    ⚡ Grab for ₹21 →
+  </button>
+</div>
 
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar">
@@ -66,7 +78,7 @@
     <li><button id="nav-signin-btn" class="nav-signin-btn" onclick="openSignInModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:0.4rem 0.85rem; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer;">🔑 Log in</button></li>
     <li id="nav-user-item" style="display:none;"><span id="nav-user-pill" style="font-size:0.8rem; color:#a5b4fc; font-weight:700; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); padding:0.35rem 0.75rem; border-radius:6px; display:inline-flex; align-items:center; gap:0.4rem;"><span id="nav-user-name">👤 User</span></span></li>
     <li id="nav-logout-item" style="display:none;"><button id="nav-logout-btn" onclick="userSignOut()" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.4); border-radius:6px; padding:0.35rem 0.75rem; font-weight:700; cursor:pointer; font-size:0.8rem;">🚪 Logout</button></li>
-    <li><button id="nav-pro-btn" class="nav-pro-badge" onclick="openPaymentModal()">⚡ Upgrade to Pro (₹51)</button></li>
+    <li><button id="nav-pro-btn" class="nav-pro-badge" onclick="openPaymentModal()">⚡ Upgrade to Pro (₹21)</button></li>
     <!-- Dynamic Admin Control link (Only visible when registered administrator signs in) -->
     <li id="nav-admin-link-item" style="display:none;"><a href="admin.html" style="color:#fbbf24; font-size:0.8rem; font-weight:800; text-decoration:none; padding:0.35rem 0.65rem; border:1px solid rgba(245,158,11,0.4); border-radius:6px; background:rgba(245,158,11,0.15);">👑 Admin Panel</a></li>
   </ul>
@@ -986,7 +998,7 @@
 <div id="social-proof-toast" class="social-proof-toast">
   <div class="sp-icon">⚡</div>
   <div class="sp-content">
-    <div><span class="sp-name" id="sp-buyer-name">Rohit S.</span> <span class="sp-action">unlocked CapPrep Pro (₹51)</span></div>
+    <div><span class="sp-name" id="sp-buyer-name">Rohit S.</span> <span class="sp-action">unlocked CapPrep Pro (₹21)</span></div>
     <div class="sp-time" id="sp-buyer-time">2 minutes ago • Bangalore</div>
   </div>
 </div>
@@ -1000,7 +1012,7 @@
     <div id="pay-screen-1">
       <div class="flash-deal-banner">
         <div class="flash-deal-text">
-          <span>🔥</span> <strong>FLASH DEAL: 83% OFF SPECIAL BATCH OFFER</strong>
+          <span>🔥</span> <strong>FLASH DEAL: 93% OFF SPECIAL BATCH OFFER</strong>
         </div>
         <div class="flash-countdown">
           <span>⏱ <span id="flash-countdown-clock">14:45</span></span>
@@ -1020,11 +1032,11 @@
         <div>
           <div class="price-details">
             <span class="price-strike-large">₹299</span>
-            <span class="price-deal-large" id="modal-display-price">₹51</span>
-            <span class="discount-chip">83% OFF</span>
+            <span class="price-deal-large" id="modal-display-price">₹21</span>
+            <span class="discount-chip">93% OFF</span>
           </div>
           <div class="price-save-badge">
-            🎉 Auto-Coupon <strong>SUPER51</strong> Applied: You save ₹248!
+            🎉 Auto-Coupon <strong>SUPER21</strong> Applied: You save ₹278!
           </div>
         </div>
         <div style="text-align:right; font-size:0.72rem; color:#94a3b8;">
@@ -1069,12 +1081,12 @@
       </div>
 
       <button class="pay-btn-checkout" onclick="goToPaymentScreen()">
-        👉 Proceed to Secure Payment (₹51) →
+        👉 Proceed to Secure Payment (₹21) →
       </button>
 
       <!-- Promo Code redemption -->
       <div style="display:flex; gap:0.4rem; margin-top:0.6rem;">
-        <input type="text" id="coupon-code-input" class="coupon-input" value="SUPER51" style="padding:0.4rem 0.6rem; font-size:0.78rem;" placeholder="Promo code (e.g. SUPER51)" />
+        <input type="text" id="coupon-code-input" class="coupon-input" value="SUPER21" style="padding:0.4rem 0.6rem; font-size:0.78rem;" placeholder="Promo code (e.g. SUPER21)" />
         <button class="coupon-btn" style="padding:0.4rem 0.8rem; font-size:0.78rem;" onclick="applyCoupon()">Apply</button>
       </div>
       <div id="coupon-feedback" style="font-size:0.75rem; min-height:0.8rem;"></div>
@@ -1088,7 +1100,7 @@
           ← Edit Details
         </button>
         <div style="font-size:0.82rem; color:#fff; font-weight:800;">
-          Total Payable: <span style="color:#06d6a0; font-size:1.15rem;" id="pay-screen2-price">₹51</span>
+          Total Payable: <span style="color:#06d6a0; font-size:1.15rem;" id="pay-screen2-price">₹21</span>
         </div>
       </div>
 
@@ -1123,7 +1135,7 @@
         </div>
 
         <button id="rzp-pay-btn" class="pay-btn-checkout" style="font-size:1rem; padding:0.85rem 1rem; width:100%; box-shadow:0 4px 20px rgba(0,212,255,0.4);" onclick="openRazorpayCheckout()">
-          ⚡ Pay ₹<span class="rzp-price-display">51</span> with Razorpay — Instant Unlock
+          ⚡ Pay ₹<span class="rzp-price-display">21</span> with Razorpay — Instant Unlock
         </button>
 
         <div style="font-size:0.7rem; color:#64748b; margin-top:0.75rem; text-align:center;">
@@ -1186,7 +1198,7 @@
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
           <span style="color:#94a3b8;">Amount Paid:</span>
-          <strong style="color:#06d6a0;">₹51.00 (Lifetime Pass)</strong>
+          <strong style="color:#06d6a0;">₹21.00 (Lifetime Pass)</strong>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
           <span style="color:#94a3b8;">Status:</span>
@@ -1273,7 +1285,7 @@
     </p>
 
     <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:1rem; margin:1rem 0; text-align:left;">
-      <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Unlock Complete Exceller 2027 Suite for ₹51:</div>
+      <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Unlock Complete Exceller 2027 Suite for ₹21:</div>
       <ul style="font-size:0.78rem; color:#cbd5e1; line-height:1.6; padding-left:1.2rem; margin:0;">
         <li>All 75+ Stage-wise Tests & 10 Grand Marathon Mocks</li>
         <li>Stage 2B Debugging Simulator & Stage 3 Lab 27 AI Simulator</li>
@@ -1283,7 +1295,7 @@
 
     <div style="display:flex; flex-direction:column; gap:0.65rem; margin-top:1.25rem;">
       <button id="locked-modal-pay-btn" class="pay-btn-checkout" onclick="closeLockedTestModal(); openPaymentModal();">
-        ⚡ Unlock Pro Pass for ₹51 (Instant Razorpay)
+        ⚡ Unlock Pro Pass for ₹21 (Instant Razorpay)
       </button>
       <div>
         <button id="locked-modal-signin-btn" class="btn btn-outline" style="width:100%; justify-content:center; font-size:0.85rem;" onclick="closeLockedTestModal(); openSignInModal();">
@@ -1356,7 +1368,7 @@
         </a>
         &nbsp;|&nbsp;
         <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:var(--accent); font-weight:700; text-decoration:none;">
-          Pro Pass (₹51) →
+          Pro Pass (₹21) →
         </a>
       </div>
     </div>
@@ -1462,7 +1474,7 @@
     </div>
 
     <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.5; margin-bottom:0.85rem; background:rgba(255,255,255,0.03); padding:0.55rem 0.75rem; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
-      Have a query regarding your <strong>₹51 Pro Pass</strong>, payment verification, test access, or simulator questions? Send a direct message below:
+      Have a query regarding your <strong>₹21 Pro Pass</strong>, payment verification, test access, or simulator questions? Send a direct message below:
     </p>
 
     <div id="support-form-container">
@@ -1479,7 +1491,7 @@
       <div style="margin-bottom:0.6rem;">
         <label style="font-size:0.76rem; font-weight:600; color:#cbd5e1; display:block; margin-bottom:0.25rem;">Inquiry Topic</label>
         <select id="supp-topic" class="customer-input" style="background:#0e1726; color:#fff; cursor:pointer;">
-          <option value="Payment / UTR Verification">⚡ Payment &amp; UTR Verification (₹51 Pro)</option>
+          <option value="Payment / UTR Verification">⚡ Payment &amp; UTR Verification (₹21 Pro)</option>
           <option value="Assessment Access Issue">🔒 Locked Assessment / Access Issue</option>
           <option value="Technical / Simulator Bug">🐛 Simulator Bug (Debugger / AI Simulator)</option>
           <option value="Account & Login Help">🔑 Account Login / Recovery</option>
@@ -1517,7 +1529,7 @@
 
 <!-- Razorpay Checkout SDK (official, loaded last to not block page render) -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="js/db.js?v=20261012_02"></script>
-<script src="js/app.js?v=20261012_02"></script>
+<script src="js/db.js?v=20261012_03"></script>
+<script src="js/app.js?v=20261012_03"></script>
 </body>
 </html>

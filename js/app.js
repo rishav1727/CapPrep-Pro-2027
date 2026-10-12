@@ -898,7 +898,7 @@ function getFreshQuestions(test) {
 // PRO PASS & PAYMENT MODULE SYSTEM
 // ==========================================
 const ADMIN_NOTIFICATION_EMAIL = "rishavofficials1727@gmail.com";
-let currentPayablePrice = 51;
+let currentPayablePrice = 21;
 let flashTimerInterval = null;
 let socialProofInterval = null;
 
@@ -1337,7 +1337,7 @@ async function processUserSignIn() {
   // Failed Authentication
   if (errorEl) {
     errorEl.style.display = 'block';
-    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(inputVal)}</strong>.<br><br>• Forgot Student ID or Password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover ID / Password →</a><br>• Need an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent); font-weight:700;">Create New ID Free →</a><br>• Want Full Pro Pass? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:#06d6a0; font-weight:700;">Enroll for ₹51 →</a>`;
+    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(inputVal)}</strong>.<br><br>• Forgot Student ID or Password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover ID / Password →</a><br>• Need an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent); font-weight:700;">Create New ID Free →</a><br>• Want Full Pro Pass? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:#06d6a0; font-weight:700;">Enroll for ₹21 →</a>`;
   }
 }
 
@@ -1829,14 +1829,14 @@ function openPaymentModal(test) {
     if (s2) s2.style.display = 'none';
     if (s3) s3.style.display = 'none';
 
-    currentPayablePrice = 51;
+    currentPayablePrice = 21;
     const priceEl = document.getElementById('modal-display-price');
-    if (priceEl) priceEl.textContent = '₹51';
+    if (priceEl) priceEl.textContent = '₹21';
     const btnPrice = document.getElementById('btn-display-price');
-    if (btnPrice) btnPrice.textContent = '₹51';
+    if (btnPrice) btnPrice.textContent = '₹21';
     const p2Price = document.getElementById('pay-screen2-price');
-    if (p2Price) p2Price.textContent = '₹51';
-    updateUpiLinksAndPrices(51);
+    if (p2Price) p2Price.textContent = '₹21';
+    updateUpiLinksAndPrices(21);
   }
 }
 
@@ -1873,14 +1873,14 @@ function applyCoupon() {
   if (!input || !feedback) return;
 
   const code = input.value.trim().toUpperCase();
-  if (code === 'SUPER51' || code === 'EXCELLER51' || code === 'CAP51') {
-    currentPayablePrice = 51;
-    feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + code + '</strong> applied! Price set to ₹51 (83% OFF).</span>';
+  if (code === 'SUPER21' || code === 'EXCELLER21' || code === 'CAP21') {
+    currentPayablePrice = 21;
+    feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + code + '</strong> applied! Price set to ₹21 (93% OFF).</span>';
   } else if (code === 'FREE100' || code === 'RISHAVVIP') {
     currentPayablePrice = 0;
     feedback.innerHTML = '<span style="color:#06d6a0">✓ VIP 100% FREE Access Activated!</span>';
   } else {
-    feedback.innerHTML = '<span style="color:#ef4444">✗ Invalid code. Using default ₹51 offer.</span>';
+    feedback.innerHTML = '<span style="color:#ef4444">✗ Invalid code. Using default ₹21 offer.</span>';
   }
 
   const priceEl = document.getElementById('modal-display-price');
@@ -1922,7 +1922,7 @@ function processUpiPayment() {
     return;
   }
   if (!utr || utr.length < 8) {
-    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹51 to rishavofficials1727-7@okaxis in your UPI app.");
+    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹21 to rishavofficials1727-7@okaxis in your UPI app.");
     document.getElementById('upi-utr-input')?.focus();
     return;
   }
@@ -2195,7 +2195,7 @@ function dispatchOrderEmails(orderDetails, orderId) {
   const adminEmail = "rishavofficials1727@gmail.com";
   const customerEmail = orderDetails.email;
   const studentName = orderDetails.name || "Enrolled Student";
-  const amountStr = `₹${orderDetails.amount || 51}`;
+  const amountStr = `₹${orderDetails.amount || 21}`;
   const utrRef = orderDetails.utr || "DIRECT_UPI";
   const timestamp = orderDetails.timestamp || new Date().toLocaleString();
   const siteUrl = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : "https://capprep-pro-2027.vercel.app";
@@ -2209,7 +2209,7 @@ function dispatchOrderEmails(orderDetails, orderId) {
       email: customerEmail,
       phone: orderDetails.phone || "N/A",
       college: orderDetails.college || "Capgemini Candidate",
-      amount: orderDetails.amount || 51,
+      amount: orderDetails.amount || 21,
       utr: utrRef,
       orderId: orderId,
       timestamp: timestamp
@@ -2280,7 +2280,7 @@ function downloadCurrentReceipt() {
     email: (document.getElementById('conf-cust-email')?.textContent || 'candidate@capprep.com').trim(),
     phone: "+91 Candidate",
     college: "Capgemini Aspirant",
-    amount: 51,
+    amount: 21,
     method: "UPI (rishavofficials1727-7@okaxis)",
     utr: "VERIFIED_ACTIVE",
     timestamp: new Date().toLocaleString()
@@ -2353,11 +2353,11 @@ function downloadCurrentReceipt() {
           </td>
           <td>VIP Lifetime Pass</td>
           <td>Unlimited 2027</td>
-          <td style="text-align: right; font-weight: 700;">₹${o.amount || 51}.00</td>
+          <td style="text-align: right; font-weight: 700;">₹${o.amount || 21}.00</td>
         </tr>
         <tr class="total-row">
           <td colspan="3" style="text-align: right;">Total Amount Paid:</td>
-          <td style="text-align: right; color: #16a34a;">₹${o.amount || 51}.00 INR</td>
+          <td style="text-align: right; color: #16a34a;">₹${o.amount || 21}.00 INR</td>
         </tr>
       </tbody>
     </table>
@@ -2417,7 +2417,7 @@ function updateProUI() {
     } else {
       proBadgeNav.className = 'nav-pro-badge';
       proBadgeNav.style.background = 'linear-gradient(135deg, #00d4ff, #7c3aed)';
-      proBadgeNav.innerHTML = `⚡ Upgrade to Pro (₹51)`;
+      proBadgeNav.innerHTML = `⚡ Upgrade to Pro (₹21)`;
       proBadgeNav.onclick = () => openPaymentModal();
     }
   }
@@ -2525,13 +2525,13 @@ function startFlashCountdown() {
 
 // Social Proof Live Buyer Notifications
 const SOCIAL_PROOF_BUYERS = [
-  { name: "Rohit S.", college: "VIT Vellore", action: "unlocked CapPrep Pro (₹51)", time: "2 minutes ago • Bangalore" },
+  { name: "Rohit S.", college: "VIT Vellore", action: "unlocked CapPrep Pro (₹21)", time: "2 minutes ago • Bangalore" },
   { name: "Sneha K.", college: "COEP Pune", action: "scored 94% on Grand Mock 1", time: "Just now • Pune" },
-  { name: "Aman M.", college: "SRM Chennai", action: "unlocked CapPrep Pro (₹51)", time: "4 minutes ago • Chennai" },
+  { name: "Aman M.", college: "SRM Chennai", action: "unlocked CapPrep Pro (₹21)", time: "4 minutes ago • Chennai" },
   { name: "Priya T.", college: "DTU Delhi", action: "unlocked Lab 27 AI Simulator", time: "6 minutes ago • Delhi NCR" },
-  { name: "Karthik N.", college: "BITS Pilani", action: "unlocked CapPrep Pro (₹51)", time: "8 minutes ago • Hyderabad" },
+  { name: "Karthik N.", college: "BITS Pilani", action: "unlocked CapPrep Pro (₹21)", time: "8 minutes ago • Hyderabad" },
   { name: "Ananya B.", college: "Jadavpur Univ", action: "scored 96% on Stage 2B Debugging", time: "11 minutes ago • Kolkata" },
-  { name: "Vikram R.", college: "Thapar Univ", action: "unlocked CapPrep Pro (₹51)", time: "Just now • Chandigarh" }
+  { name: "Vikram R.", college: "Thapar Univ", action: "unlocked CapPrep Pro (₹21)", time: "Just now • Chandigarh" }
 ];
 
 function startSocialProofLoop() {

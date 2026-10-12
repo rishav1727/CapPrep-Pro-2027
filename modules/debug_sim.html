@@ -491,7 +491,7 @@
 };
     let currentLang = 'c';
     let currentProbKey = 'dbg_1';
-    const FREE_DBG_PROBLEMS = [];
+    const FREE_DBG_PROBLEMS = ['dbg_1', 'dbg_2'];
     const GLOBAL_FREE_ACCESS_MODE = false;
 
     function isProUser() {
@@ -542,10 +542,10 @@
           tierPill.style.color = "#06d6a0";
           tierPill.style.borderColor = "#06d6a0";
         } else {
-          tierPill.textContent = "🔒 PRO REQUIRED: ALL CHALLENGES LOCKED";
-          tierPill.style.background = "rgba(239,68,68,0.15)";
-          tierPill.style.color = "#f87171";
-          tierPill.style.borderColor = "#ef4444";
+          tierPill.textContent = "🟢 FREE TRIAL: TESTS 1 & 2 UNLOCKED";
+          tierPill.style.background = "rgba(6,214,160,0.15)";
+          tierPill.style.color = "#06d6a0";
+          tierPill.style.borderColor = "#06d6a0";
         }
       }
 

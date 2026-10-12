@@ -2606,9 +2606,9 @@ function updateProUI() {
     }
   }
 
-  // 3. Update lock badges on test pills and cards
-  // Rule: 2 Free Tests per Stage; all others strictly LOCKED unless isPro
-  document.querySelectorAll('.test-pill-btn, .test-card').forEach(el => {
+  // 3. Update lock badges on test pills, cards, and grand mock cards
+  // Rule: Grand Mock 1 is FREE; all other Grand Mocks & Premium tests strictly LOCKED unless isPro
+  document.querySelectorAll('.test-pill-btn, .test-card, .gm-card-modern').forEach(el => {
     const onclickAttr = el.getAttribute('onclick') || '';
     const match = onclickAttr.match(/startTest\('([^']+)'\)/);
     if (!match) return;
@@ -2618,33 +2618,46 @@ function updateProUI() {
     if (!test) return;
 
     // Clean existing badges
-    const existingLock = el.querySelector('.test-lock-pill, .premium-lock-badge');
-    const existingFree = el.querySelector('.test-free-pill');
+    const existingLock = el.querySelector('.test-lock-pill, .premium-lock-badge, .gm-lock-badge');
+    const existingFree = el.querySelector('.test-free-pill, .gm-free-badge');
+    const launchBtn = el.querySelector('.card-launch-btn');
 
     if (test.isPremium) {
       if (isPro) {
         if (existingLock) existingLock.remove();
         el.classList.remove('locked');
+        if (launchBtn && launchBtn.dataset.origText) {
+          launchBtn.innerHTML = launchBtn.dataset.origText;
+        }
       } else {
         if (!existingLock) {
           const lockPill = document.createElement('span');
-          lockPill.className = 'test-lock-pill';
+          lockPill.className = el.classList.contains('gm-card-modern') ? 'gm-lock-badge' : 'test-lock-pill';
           lockPill.innerHTML = `🔒 LOCKED`;
-          const tpTag = el.querySelector('.tp-tag, .test-difficulty, .test-meta');
+          const tpTag = el.querySelector('.test-header, .tp-tag, .test-difficulty, .test-meta');
           if (tpTag) {
             tpTag.parentNode.insertBefore(lockPill, tpTag);
           } else {
-            el.appendChild(lockPill);
+            el.prepend(lockPill);
           }
         }
         if (existingFree) existingFree.remove();
         el.classList.add('locked');
+        if (launchBtn) {
+          if (!launchBtn.dataset.origText) launchBtn.dataset.origText = launchBtn.innerHTML;
+          if (!launchBtn.innerHTML.includes('🔒')) {
+            launchBtn.innerHTML = `🔒 Locked • Unlock with Pro →`;
+          }
+        }
       }
     } else {
-      // Free Trial Test (2 tests per stage)
+      // Free Test (e.g. Grand Mock 1 or first free tests in stage)
       if (existingLock) existingLock.remove();
       el.classList.remove('locked');
-      if (!isPro && !existingFree) {
+      if (launchBtn && launchBtn.dataset.origText) {
+        launchBtn.innerHTML = launchBtn.dataset.origText;
+      }
+      if (!isPro && !existingFree && !el.classList.contains('gm-card-modern')) {
         const freePill = document.createElement('span');
         freePill.className = 'test-free-pill';
         freePill.innerHTML = `🟢 FREE TRIAL`;

@@ -1335,3 +1335,43 @@ footer {
   box-shadow: 0 4px 18px rgba(0, 212, 255, 0.45);
   transform: translateY(-1px);
 }
+
+/* Locked Grand Mock Card Styling */
+.gm-card-modern.locked {
+  border-color: rgba(239, 68, 68, 0.35) !important;
+  background: linear-gradient(160deg, rgba(20, 24, 39, 0.96) 0%, rgba(13, 17, 30, 0.98) 100%) !important;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5) !important;
+}
+.gm-card-modern.locked:hover {
+  border-color: rgba(239, 68, 68, 0.7) !important;
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.22), 0 4px 15px rgba(0, 0, 0, 0.7) !important;
+}
+.gm-card-modern.locked::before {
+  background: linear-gradient(90deg, #ef4444, #f59e0b) !important;
+}
+.gm-lock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fca5a5;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+  letter-spacing: 0.5px;
+}
+.gm-card-modern.locked .card-launch-btn {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+  color: #fca5a5 !important;
+}
+.gm-card-modern.locked:hover .card-launch-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.45) !important;
+}

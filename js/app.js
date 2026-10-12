@@ -2023,12 +2023,67 @@ function applyCoupon() {
   if (!input || !feedback) return;
 
   const code = input.value.trim().toUpperCase();
-  if (code === 'SUPER21' || code === 'EXCELLER21' || code === 'CAP21') {
-    currentPayablePrice = 21;
-    feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + code + '</strong> applied! Price set to ₹21 (93% OFF).</span>';
-  } else if (code === 'FREE100' || code === 'RISHAVVIP') {
-    currentPayablePrice = 0;
-    feedback.innerHTML = '<span style="color:#06d6a0">✓ VIP 100% FREE Access Activated!</span>';
+  if (!code) return;
+
+  // Retrieve custom coupons from localStorage (synced with cloud)
+  let coupons = [];
+  try {
+    const raw = localStorage.getItem('capprep_custom_coupons');
+    if (raw) coupons = JSON.parse(raw);
+  } catch(e) {}
+
+  // Built-in presets
+  const presets = [
+    { code: 'DHRITI99', discount: 99 },
+    { code: 'SAVE99',   discount: 99 },
+    { code: 'OFFER99',  discount: 99 },
+    { code: 'SUPER21',  discount: 0, finalPrice: 21 },
+    { code: 'CAP21',    discount: 0, finalPrice: 21 },
+    { code: 'EXCELLER21', discount: 0, finalPrice: 21 },
+    { code: 'FREE100',  discount: 100 },
+    { code: 'RISHAVVIP',discount: 100 },
+    { code: 'FREEVIP',  discount: 100 },
+    { code: 'RISHAV100',discount: 100 },
+    { code: 'CAP2027',  discount: 100 },
+    { code: 'EXCELLER100', discount: 100 }
+  ];
+
+  let match = presets.find(c => c.code === code);
+  if (!match) {
+    for (const c of coupons) {
+      if (typeof c === 'string') {
+        if (c.toUpperCase() === code) {
+          match = { code: c.toUpperCase(), discount: c.toUpperCase().endsWith('99') ? 99 : 100 };
+          break;
+        }
+      } else if (c && c.code && c.code.toUpperCase() === code) {
+        match = c;
+        break;
+      }
+    }
+  }
+
+  // Automatic smart pattern rule: any custom code ending with 99 gives 99% discount!
+  if (!match && code.endsWith('99')) {
+    match = { code, discount: 99 };
+  } else if (!match && (code.endsWith('100') || code.startsWith('FREE'))) {
+    match = { code, discount: 100 };
+  }
+
+  if (match) {
+    if (match.discount === 100) {
+      currentPayablePrice = 0;
+      feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! 100% FREE Access Activated!</span>';
+    } else if (match.discount) {
+      const discount = Number(match.discount);
+      let discounted = Math.max(1, Math.round(21 * (1 - discount / 100)));
+      if (discount >= 95) discounted = 1; // 99% off = ₹1 (minimum for Indian gateways)
+      currentPayablePrice = discounted;
+      feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! ' + discount + '% OFF — Price reduced to ₹' + currentPayablePrice + ' only!</span>';
+    } else if (match.finalPrice !== undefined) {
+      currentPayablePrice = match.finalPrice;
+      feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! Price set to ₹' + currentPayablePrice + '.</span>';
+    }
   } else {
     feedback.innerHTML = '<span style="color:#ef4444">✗ Invalid code. Using default ₹21 offer.</span>';
   }
@@ -3745,6 +3800,20 @@ document.addEventListener('DOMContentLoaded', () => {
   startSocialProofLoop();
   initVipCheckListeners();
   initScrollSpy();
+
+  // Sync latest cloud coupons from Supabase
+  try {
+    fetch('https://ynayovthgrlysfogleqo.supabase.co/rest/v1/capprep_users?email=eq.system_coupons@capprep.internal&select=password', {
+      headers: {
+        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluYXlvdnRoZ3JseXNmb2dsZXFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MTg4NzYsImV4cCI6MjEwNzE5NDg3Nn0.NkHNeS6FTzshLmETxaSEravCBA9ner9gjyKvcUZK4Qs",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluYXlvdnRoZ3JseXNmb2dsZXFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MTg4NzYsImV4cCI6MjEwNzE5NDg3Nn0.NkHNeS6FTzshLmETxaSEravCBA9ner9gjyKvcUZK4Qs"
+      }
+    }).then(r => r.json()).then(d => {
+      if (d && d[0] && d[0].password) {
+        localStorage.setItem('capprep_custom_coupons', d[0].password);
+      }
+    }).catch(() => {});
+  } catch(e) {}
 
   // Ensure all sections are visible immediately
   document.querySelectorAll('.fade-in').forEach(el => {

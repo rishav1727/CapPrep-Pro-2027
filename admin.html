@@ -744,17 +744,26 @@
 
       <hr style="border:0; border-top:1px solid var(--card-border); margin:2rem 0;">
 
-      <!-- Custom 100% Free Promo Code Generator -->
+      <!-- Custom Promo Code & Discount Voucher Generator -->
       <div class="panel-title" style="margin-bottom:0.75rem; font-size:1rem;">
-        <span>🎟️</span> Create Custom 100% Free Promo / Voucher Codes
+        <span>🎟️</span> Create &amp; Manage Custom Promo Codes (99% OFF, 100% FREE, etc.)
       </div>
       <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">
-        Generate voucher codes that students can enter in the checkout modal to reduce the price to ₹0 and get instant access.
+        Generate voucher codes that students can enter in checkout. You can customize the discount percentage (e.g. <strong>99% OFF = ₹1</strong>, <strong>100% FREE = ₹0</strong>, or custom %).
       </p>
 
       <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin-bottom:1.25rem;">
-        <input type="text" id="new-free-coupon-code" class="search-input" placeholder="e.g. RISHAV100, FREEVIP, BATCH2027" style="text-transform:uppercase; font-weight:700;" />
-        <button class="btn-action btn-primary-action" onclick="createCustomFreeCoupon()">➕ Create 100% Free Coupon</button>
+        <input type="text" id="new-free-coupon-code" class="search-input" placeholder="e.g. DHRITI99, SPECIAL99, VIP100" style="text-transform:uppercase; font-weight:700; flex:1; min-width:200px;" />
+        <select id="new-coupon-discount" class="search-input" style="width:190px; font-weight:700; background:#0f172a; color:#06d6a0;">
+          <option value="99">99% Discount (₹1)</option>
+          <option value="100">100% Free Pass (₹0)</option>
+          <option value="95">95% Discount (₹1)</option>
+          <option value="90">90% Discount (₹2)</option>
+          <option value="75">75% Discount (₹5)</option>
+          <option value="50">50% Discount (₹10)</option>
+          <option value="custom">Custom %...</option>
+        </select>
+        <button class="btn-action btn-primary-action" onclick="createCustomCoupon()">➕ Create Coupon</button>
       </div>
 
       <div id="custom-coupons-list" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
@@ -1805,14 +1814,59 @@ function saveStoredVipWhitelist(list) {
 
 function getStoredCustomCoupons() {
   try {
-    return JSON.parse(localStorage.getItem('capprep_custom_coupons') || '["RISHAV100", "FREEVIP", "CAP2027", "EXCELLER100"]');
+    const raw = localStorage.getItem('capprep_custom_coupons');
+    if (!raw) return [
+      { code: "RISHAV100", discount: 100 },
+      { code: "FREEVIP", discount: 100 },
+      { code: "CAP2027", discount: 100 },
+      { code: "EXCELLER100", discount: 100 },
+      { code: "DHRITI99", discount: 99 }
+    ];
+    const parsed = JSON.parse(raw);
+    return parsed.map(c => {
+      if (typeof c === 'string') {
+        const is99 = c.toUpperCase().endsWith('99');
+        return { code: c.toUpperCase(), discount: is99 ? 99 : 100 };
+      }
+      return c;
+    });
   } catch(e) {
-    return ["RISHAV100", "FREEVIP", "CAP2027", "EXCELLER100"];
+    return [
+      { code: "RISHAV100", discount: 100 },
+      { code: "FREEVIP", discount: 100 },
+      { code: "CAP2027", discount: 100 },
+      { code: "EXCELLER100", discount: 100 },
+      { code: "DHRITI99", discount: 99 }
+    ];
   }
 }
 
-function saveStoredCustomCoupons(list) {
+async function saveStoredCustomCoupons(list) {
   localStorage.setItem('capprep_custom_coupons', JSON.stringify(list));
+  try {
+    if (typeof SUPABASE_URL !== 'undefined') {
+      await fetch(`${SUPABASE_URL}/rest/v1/capprep_users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Prefer": "resolution=merge-duplicates"
+        },
+        body: JSON.stringify({
+          email: "system_coupons@capprep.internal",
+          name: "System Coupons Config",
+          password: JSON.stringify(list),
+          phone: "0000000000",
+          college: "System",
+          is_pro: false,
+          is_vip: false
+        })
+      });
+    }
+  } catch(e) {
+    console.warn("Supabase coupon sync error:", e);
+  }
 }
 
 function executeVipGrant() {
@@ -2009,31 +2063,51 @@ function revokeVipAccess(candidateId) {
   }
 }
 
-function createCustomFreeCoupon() {
+async function createCustomCoupon() {
   const input = document.getElementById('new-free-coupon-code');
+  const discountSelect = document.getElementById('new-coupon-discount');
   if (!input) return;
   const code = (input.value || '').trim().toUpperCase();
   if (!code) {
-    alert("Please enter a coupon code name.");
+    alert("Please enter a coupon code name (e.g. DHRITI99, SPECIAL99).");
     return;
   }
-  const coupons = getStoredCustomCoupons();
-  if (!coupons.includes(code)) {
-    coupons.push(code);
-    saveStoredCustomCoupons(coupons);
-    input.value = '';
-    renderCustomCoupons();
-    alert(`🎉 100% Free Coupon "${code}" created successfully!\n\nStudents who enter "${code}" at checkout will get 100% free access.`);
-  } else {
-    alert(`Coupon "${code}" already exists.`);
+
+  let discount = 99;
+  if (discountSelect) {
+    if (discountSelect.value === 'custom') {
+      const customVal = prompt("Enter discount percentage (1 to 100):", "99");
+      if (!customVal) return;
+      discount = Math.min(100, Math.max(1, parseInt(customVal) || 99));
+    } else {
+      discount = parseInt(discountSelect.value) || 99;
+    }
   }
+
+  let coupons = getStoredCustomCoupons();
+  const existingIdx = coupons.findIndex(c => (c.code || c).toUpperCase() === code);
+  if (existingIdx >= 0) {
+    coupons[existingIdx] = { code, discount };
+  } else {
+    coupons.push({ code, discount });
+  }
+
+  await saveStoredCustomCoupons(coupons);
+  input.value = '';
+  renderCustomCoupons();
+  const priceDesc = discount === 100 ? "100% FREE (₹0)" : `${discount}% OFF (Price: ₹${discount >= 95 ? 1 : Math.round(21 * (1 - discount/100))})`;
+  alert(`🎉 Coupon "${code}" created with ${priceDesc}!\n\nThis coupon is now synced to cloud and live for all students.`);
 }
 
-function deleteCustomFreeCoupon(code) {
+function createCustomFreeCoupon() {
+  createCustomCoupon();
+}
+
+async function deleteCustomFreeCoupon(code) {
   if (confirm(`Delete coupon "${code}"?`)) {
     let coupons = getStoredCustomCoupons();
-    coupons = coupons.filter(c => c !== code);
-    saveStoredCustomCoupons(coupons);
+    coupons = coupons.filter(c => (c.code || c).toUpperCase() !== code.toUpperCase());
+    await saveStoredCustomCoupons(coupons);
     renderCustomCoupons();
   }
 }
@@ -2042,13 +2116,21 @@ function renderCustomCoupons() {
   const container = document.getElementById('custom-coupons-list');
   if (!container) return;
   const coupons = getStoredCustomCoupons();
-  container.innerHTML = coupons.map(c => `
-    <div style="background:rgba(6,214,160,0.12); border:1px solid rgba(6,214,160,0.3); border-radius:6px; padding:0.35rem 0.75rem; display:flex; align-items:center; gap:0.5rem; font-size:0.82rem;">
-      <strong style="color:var(--accent-green); font-family:'JetBrains Mono'">${escapeHtml(c)}</strong>
-      <span style="color:#a7f3d0; font-size:0.75rem;">(100% FREE)</span>
-      <button style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.85rem; padding:0;" onclick="deleteCustomFreeCoupon('${c}')" title="Delete">✕</button>
-    </div>
-  `).join('');
+  container.innerHTML = coupons.map(c => {
+    const code = typeof c === 'string' ? c : c.code;
+    const discount = typeof c === 'string' ? (c.endsWith('99') ? 99 : 100) : (c.discount || 100);
+    const badgeText = discount === 100 ? '100% FREE (₹0)' : `${discount}% OFF (₹${discount >= 95 ? 1 : Math.round(21 * (1 - discount/100))})`;
+    const badgeColor = discount === 100 ? '#06d6a0' : '#38bdf8';
+    const bg = discount === 100 ? 'rgba(6,214,160,0.12)' : 'rgba(56,189,248,0.12)';
+    const border = discount === 100 ? 'rgba(6,214,160,0.3)' : 'rgba(56,189,248,0.3)';
+    return `
+      <div style="background:${bg}; border:1px solid ${border}; border-radius:6px; padding:0.35rem 0.75rem; display:flex; align-items:center; gap:0.5rem; font-size:0.82rem;">
+        <strong style="color:${badgeColor}; font-family:'JetBrains Mono'">${escapeHtml(code)}</strong>
+        <span style="color:#e2e8f0; font-size:0.75rem; font-weight:600;">(${badgeText})</span>
+        <button style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.85rem; padding:0;" onclick="deleteCustomFreeCoupon('${escapeHtml(code)}')" title="Delete">✕</button>
+      </div>
+    `;
+  }).join('');
 }
 
 function getStoredSupportTickets() {

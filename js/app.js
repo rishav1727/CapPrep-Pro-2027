@@ -703,7 +703,7 @@ const MOCK_TESTS = [
   // STAGE 1: ENGLISH COMMUNICATION (10 TESTS)
   // ==========================================
   { id:"vb_1", title:"Verbal Test 1 — Grammar & Error Spotting", category:"Stage 1 English", bank:"verbal", icon:"📝", difficulty:"easy", questions:10, duration:12 , isPremium:false },
-  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:false },
+  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_3", title:"Verbal Test 3 — Para Jumbles & Ordering", category:"Stage 1 English", bank:"verbal", icon:"✏️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_4", title:"Verbal Test 4 — Active & Passive Voice", category:"Stage 1 English", bank:"verbal", icon:"🗣️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_5", title:"Verbal Test 5 — Vocabulary & Synonyms", category:"Stage 1 English", bank:"verbal", icon:"📚", difficulty:"easy", questions:10, duration:12, isPremium:true },
@@ -718,7 +718,7 @@ const MOCK_TESTS = [
   // ==========================================
   // AI Literacy (5 tests)
   { id:"ai_1", title:"AI Literacy Test 1 — GenAI & RAG Basics", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🤖", difficulty:"medium", questions:12, duration:15, isPremium:false },
-  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:false },
+  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:true },
   { id:"ai_3", title:"AI Literacy Test 3 — Responsible AI & Safety", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🛡️", difficulty:"hard", questions:10, duration:12, isPremium:true },
   { id:"ai_4", title:"AI Literacy Test 4 — Embeddings & Vector DBs", category:"Stage 2A Tech", bank:"ai_literacy", icon:"⚡", difficulty:"hard", questions:10, duration:12, isPremium:true },
   { id:"ai_5", title:"AI Literacy Test 5 — Fine-Tuning, LoRA & Transformers", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🔬", difficulty:"hard", questions:10, duration:12, isPremium:true },
@@ -766,7 +766,7 @@ const MOCK_TESTS = [
   // STAGE 2B: DEBUGGING ASSESSMENT (10 HANDS-ON TESTS — NO MCQS)
   // ==========================================
   { id:"dbg_1", title:"Debugging Challenge 1 — 01. Knapsack-C (Aon Replica)", category:"Stage 2B Debugging", icon:"🐛", difficulty:"hard", questions:1, duration:20, isPremium:false },
-  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:false },
+  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_3", title:"Debugging Challenge 3 — 03. Graph Cycle in DAG (Java)", category:"Stage 2B Debugging", icon:"🕸️", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_4", title:"Debugging Challenge 4 — 04. 2D DP Grid Obstacles (C)", category:"Stage 2B Debugging", icon:"🧮", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_5", title:"Debugging Challenge 5 — 05. List Cycle Traps (C++)", category:"Stage 2B Debugging", icon:"🔗", difficulty:"hard", questions:1, duration:20, isPremium:true },
@@ -790,7 +790,7 @@ const MOCK_TESTS = [
   // STAGE 3: AI-ASSISTED CODING (10 HANDS-ON CHALLENGES — NO MCQS)
   // ==========================================
   { id:"aic_1", title:"AI Coding Challenge 1 — 01. LCM of Two Trees (Official Capgemini)", category:"Stage 3 AI Coding", icon:"💡", difficulty:"medium", questions:1, duration:45, isPremium:false },
-  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:false },
+  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:true },
   { id:"aic_3", title:"AI Coding Challenge 3 — 03. Longest Substring Without Repeating", category:"Stage 3 AI Coding", icon:"🛡️", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_4", title:"AI Coding Challenge 4 — 04. Lowest Common Ancestor (LCA)", category:"Stage 3 AI Coding", icon:"⚡", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_5", title:"AI Coding Challenge 5 — 05. Course Schedule / DAG Cycle", category:"Stage 3 AI Coding", icon:"🌳", difficulty:"hard", questions:1, duration:45, isPremium:true },
@@ -815,7 +815,7 @@ const MOCK_TESTS = [
   // STAGE 4: COGNITIVE & SITUATIONAL (10 TESTS)
   // ==========================================
   { id:"sit_1", title:"Cognitive Test 1 — Motion Challenge Logic", category:"Stage 4 Cognitive", bank:"situational", icon:"🎮", difficulty:"medium", questions:10, duration:15, isPremium:false },
-  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:false },
+  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:true },
   { id:"sit_3", title:"Cognitive Test 3 — Inductive Pattern Rules", category:"Stage 4 Cognitive", bank:"situational", icon:"🔍", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"sit_4", title:"Cognitive Test 4 — ADEPT-15 Drive & Ambition", category:"Stage 4 Cognitive", bank:"situational", icon:"🚀", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"sit_5", title:"Cognitive Test 5 — Teamwork & Conflict", category:"Stage 4 Cognitive", bank:"situational", icon:"🤝", difficulty:"medium", questions:10, duration:12, isPremium:true },
@@ -829,7 +829,7 @@ const MOCK_TESTS = [
   // STAGES 5 & 6: INTERVIEW & CORE VALUES (10 TESTS)
   // ==========================================
   { id:"int_1", title:"Interview Test 1 — Capgemini 7 Core Values", category:"Stages 5-6 Interview", bank:"interview", icon:"🏛️", difficulty:"medium", questions:5, duration:8, isPremium:false },
-  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:false },
+  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:true },
   { id:"int_3", title:"Interview Test 3 — Architecture & DB Defense", category:"Stages 5-6 Interview", bank:"interview", icon:"🛡️", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_4", title:"Interview Test 4 — Security & Auth Mechanics", category:"Stages 5-6 Interview", bank:"interview", icon:"🔐", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_5", title:"Interview Test 5 — Project Storytelling", category:"Stages 5-6 Interview", bank:"interview", icon:"💬", difficulty:"medium", questions:5, duration:8, isPremium:true },
@@ -1900,6 +1900,13 @@ function goToPaymentScreen() {
     document.getElementById('cust-password-input')?.focus();
     return;
   }
+  const phoneRaw = (document.getElementById('cust-phone-input')?.value || '').trim();
+  const phoneDigits = phoneRaw.replace(/\D/g, '');
+  if (!phoneDigits || phoneDigits.length < 10) {
+    alert("⚠️ Please enter your 10-digit WhatsApp / Mobile Number.");
+    document.getElementById('cust-phone-input')?.focus();
+    return;
+  }
   if (!tcAgreed) {
     alert("⚠️ Please agree to the Digital Course Terms of Service and Non-Refundable Policy by checking the box.");
     document.getElementById('tc-agree-checkbox')?.focus();
@@ -2134,7 +2141,9 @@ async function openRazorpayCheckout() {
   const name     = (document.getElementById('cust-name-input')?.value  || '').trim();
   const email    = (document.getElementById('cust-email-input')?.value || '').trim().toLowerCase();
   const password = (document.getElementById('cust-password-input')?.value || '').trim();
-  const phone    = (document.getElementById('cust-phone-input')?.value  || '').trim();
+  const rawPhone = (document.getElementById('cust-phone-input')?.value || '').trim();
+  const phoneDigits = rawPhone.replace(/\D/g, '');
+  const phone = phoneDigits.length >= 10 ? phoneDigits.slice(-10) : rawPhone;
   const college  = (document.getElementById('cust-college-input')?.value|| '').trim();
 
   if (!name) {

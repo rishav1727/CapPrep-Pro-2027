@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CapPrep Pro — Capgemini Exceller 2027 Preparation Platform</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/style.css?v=20261012_02"/>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:;"/>
   <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
   <meta name="referrer" content="strict-origin-when-cross-origin"/>
@@ -307,25 +307,54 @@
         <a href="modules/study_reader.html?stage=stage2a" class="btn btn-primary" style="padding:0.45rem 1.1rem; font-size:0.82rem; white-space:nowrap;">📖 Open Stage 2A PDF Manual →</a>
       </div>
 
-      <!-- 16 STAGE 2A TESTS -->
+      <!-- 28 STAGE 2A TESTS (AI LITERACY + CORE CS) -->
       <div class="stage-tests-panel">
-        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">🤖 Stage 2A Dedicated Practice Tests (16 Tests):</div>
+        <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.5rem;">🤖 Stage 2A Dedicated Practice Tests (28 Tests • AI Literacy + Core CS):</div>
         <div class="test-grid-10">
+          <!-- AI Literacy (5) -->
           <button class="test-pill-btn" onclick="startTest('ai_1')"><span>🤖 AI 1: GenAI & RAG</span><span class="tp-tag tag-purple">12Q</span></button>
           <button class="test-pill-btn" onclick="startTest('ai_2')"><span>🧠 AI 2: LLMs & Prompt</span><span class="tp-tag tag-purple">12Q</span></button>
           <button class="test-pill-btn" onclick="startTest('ai_3')"><span>🛡️ AI 3: Responsible AI</span><span class="tp-tag tag-purple">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ai_4')"><span>⚡ AI 4: Embeddings & Vector</span><span class="tp-tag tag-purple">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ai_5')"><span>🔬 AI 5: LoRA & Transformers</span><span class="tp-tag tag-purple">10Q</span></button>
+
+          <!-- Pseudocode (4) -->
           <button class="test-pill-btn" onclick="startTest('ps_1')"><span>⚙️ Pseudo 1: Bitwise</span><span class="tp-tag tag-blue">10Q</span></button>
           <button class="test-pill-btn" onclick="startTest('ps_2')"><span>🔄 Pseudo 2: Recursion</span><span class="tp-tag tag-blue">10Q</span></button>
           <button class="test-pill-btn" onclick="startTest('ps_3')"><span>🧮 Pseudo 3: Loops</span><span class="tp-tag tag-blue">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('dsa_1')"><span>📊 DSA 1: Linear</span><span class="tp-tag tag-green">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('dsa_2')"><span>🌳 DSA 2: Trees</span><span class="tp-tag tag-green">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('dsa_3')"><span>⚡ DSA 3: Algorithms</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('ps_4')"><span>🔢 Pseudo 4: Dry-Run Tracing</span><span class="tp-tag tag-blue">10Q</span></button>
+
+          <!-- DSA (4) -->
+          <button class="test-pill-btn" onclick="startTest('dsa_1')"><span>📊 DSA 1: Linear Structs</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_2')"><span>🌳 DSA 2: Trees & BST</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_3')"><span>⚡ DSA 3: Sorting & Big-O</span><span class="tp-tag tag-green">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dsa_4')"><span>🕸️ DSA 4: Graphs & DP</span><span class="tp-tag tag-green">10Q</span></button>
+
+          <!-- DBMS (3) -->
           <button class="test-pill-btn" onclick="startTest('db_1')"><span>🗄️ DBMS 1: SQL & Normal</span><span class="tp-tag tag-orange">10Q</span></button>
           <button class="test-pill-btn" onclick="startTest('db_2')"><span>🔗 DBMS 2: Joins & ACID</span><span class="tp-tag tag-orange">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('oop_1')"><span>🧩 OOPs 1: Pillars</span><span class="tp-tag tag-blue">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('os_1')"><span>💻 OS 1: Sched & Deadlock</span><span class="tp-tag tag-blue">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('cn_1')"><span>🌐 Networks 1: OSI Stack</span><span class="tp-tag tag-blue">10Q</span></button>
-          <button class="test-pill-btn" onclick="startTest('dv_1')"><span>☁️ DevOps 1: Cloud & Git</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('db_3')"><span>🔐 DBMS 3: Concurrency & Lock</span><span class="tp-tag tag-orange">10Q</span></button>
+
+          <!-- OOPs (3) -->
+          <button class="test-pill-btn" onclick="startTest('oop_1')"><span>🧩 OOPs 1: 4 Pillars</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('oop_2')"><span>🏛️ OOPs 2: SOLID & Patterns</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('oop_3')"><span>💻 OOPs 3: Vtable & C++</span><span class="tp-tag tag-blue">10Q</span></button>
+
+          <!-- OS (3) -->
+          <button class="test-pill-btn" onclick="startTest('os_1')"><span>💻 OS 1: CPU & Deadlock</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('os_2')"><span>💾 OS 2: Virtual Memory</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('os_3')"><span>🚦 OS 3: Synchronization</span><span class="tp-tag tag-blue">10Q</span></button>
+
+          <!-- Networks (3) -->
+          <button class="test-pill-btn" onclick="startTest('cn_1')"><span>🌐 Net 1: OSI & TCP/IP</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('cn_2')"><span>📡 Net 2: Subnetting & IP</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('cn_3')"><span>🛡️ Net 3: Routing & TLS</span><span class="tp-tag tag-blue">10Q</span></button>
+
+          <!-- DevOps (2) -->
+          <button class="test-pill-btn" onclick="startTest('dv_1')"><span>☁️ DevOps 1: Cloud & REST</span><span class="tp-tag tag-blue">10Q</span></button>
+          <button class="test-pill-btn" onclick="startTest('dv_2')"><span>🐳 DevOps 2: Docker & K8s</span><span class="tp-tag tag-blue">10Q</span></button>
+
+          <!-- Aptitude (1) -->
           <button class="test-pill-btn" onclick="startTest('apt_1')"><span>📐 Aptitude 1: Quant</span><span class="tp-tag tag-blue">10Q</span></button>
         </div>
       </div>
@@ -680,10 +709,10 @@
               <span class="test-difficulty diff-hard">Hard</span>
             </div>
             <div class="test-title">Stage 2A Grand Mock — Technical &amp; Coding</div>
-            <div class="test-meta">AI Literacy + Pseudocode Logic + DSA + Core CS Systems</div>
+            <div class="test-meta">AI Literacy + Pseudocode Logic + DSA + Core CS Systems (Real Pattern)</div>
             <div class="test-stats">
-              <div class="ts-item"><div class="ts-val">30</div>Questions</div>
-              <div class="ts-item"><div class="ts-val">35</div>Minutes</div>
+              <div class="ts-item"><div class="ts-val">40</div>Questions</div>
+              <div class="ts-item"><div class="ts-val">45</div>Minutes</div>
             </div>
           </div>
           <div class="card-launch-btn">Launch Stage 2A Mock →</div>
@@ -1188,9 +1217,16 @@
   <div class="quiz-header">
     <div>
       <div id="quiz-title" class="quiz-title">Diagnostic Verbal Assessment</div>
-      <div style="font-size:0.75rem; color:var(--text-muted);">Proctored Mode • Capgemini Exceller Standard</div>
+      <div style="font-size:0.75rem; color:var(--text-muted); display:flex; align-items:center; gap:0.5rem; margin-top:0.2rem;">
+        <span>Proctored Mode • Capgemini Exceller Standard</span>
+        <span style="display:inline-flex; align-items:center; gap:0.3rem; background:rgba(34,197,94,0.15); border:1px solid #22c55e; color:#4ade80; font-size:0.68rem; font-weight:800; padding:0.1rem 0.45rem; border-radius:10px;">
+          <span style="width:6px; height:6px; background:#22c55e; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite;"></span>
+          AI Proctor Active
+        </span>
+      </div>
     </div>
     <div style="display:flex; align-items:center; gap:0.75rem;">
+      <button class="tool-btn" id="btn-fullscreen-toggle" onclick="toggleQuizFullscreen()" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.2); font-size:0.75rem; cursor:pointer;" title="Enter Fullscreen Proctored Mode">⛶ Fullscreen</button>
       <div id="quiz-timer" class="quiz-timer">⏱ 15:00</div>
       <button class="tool-btn" onclick="closeQuiz()" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#fca5a5; cursor:pointer;">✕ Exit Test</button>
     </div>
@@ -1481,7 +1517,7 @@
 
 <!-- Razorpay Checkout SDK (official, loaded last to not block page render) -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="js/db.js"></script>
-<script src="js/app.js"></script>
+<script src="js/db.js?v=20261012_02"></script>
+<script src="js/app.js?v=20261012_02"></script>
 </body>
 </html>

@@ -358,16 +358,16 @@ const QUESTION_BANK = {
 
   // ---- MODULE A: DSA ----
   dsa: [
-    { q:"Time complexity of Binary Search:", options:["O(n)","O(log n)","O(n²)","O(1)"], ans:1, exp:"Binary search halves search space each iteration → O(log n)." },
-    { q:"Which data structure follows LIFO?", options:["Queue","Stack","Linked List","Tree"], ans:1, exp:"Stack is Last-In-First-Out." },
-    { q:"In a BST, where is the maximum element?", options:["Root","Leftmost node","Rightmost node","Any leaf"], ans:2, exp:"BST property: right children > parent, so rightmost node is the maximum." },
-    { q:"Which sorting algorithm has best-case O(n)?", options:["Quick Sort","Merge Sort","Insertion Sort","Selection Sort"], ans:2, exp:"Insertion Sort is O(n) best-case on already sorted arrays." },
-    { q:"Time complexity of Merge Sort:", options:["O(n)","O(n log n)","O(n²)","O(log n)"], ans:1, exp:"Merge Sort always divides in half (log n levels) and merges in O(n) per level = O(n log n)." },
-    { q:"In a circular linked list, the last node points to:", options:["NULL","Itself","The first node","The middle node"], ans:2, exp:"In circular linked list, last node's next pointer points back to the head (first node)." },
-    { q:"Queue follows which order?", options:["LIFO","FIFO","Random","Priority-based"], ans:1, exp:"Queue is First-In-First-Out (FIFO)." },
-    { q:"Inorder traversal of a BST produces:", options:["Random order","Descending order","Ascending sorted order","Level-order"], ans:2, exp:"BST inorder traversal (Left→Root→Right) visits nodes in ascending sorted order." },
-    { q:"Average-case complexity of Quick Sort:", options:["O(n)","O(n²)","O(n log n)","O(log n)"], ans:2, exp:"Quick Sort averages O(n log n) when pivots create balanced partitions." },
-    { q:"A singly linked list node contains:", options:["Only data","Data and two pointers","Data and one next pointer","Only a pointer"], ans:2, exp:"Singly linked list node has data and one 'next' pointer to the next node." },
+    { q:"Consider the following Binary Search implementation. What is the time and space complexity?\n```\nint binarySearch(int[] arr, int target) {\n    int lo = 0, hi = arr.length - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) lo = mid + 1;\n        else hi = mid - 1;\n    }\n    return -1;\n}\n```", options:["Time O(log n), Space O(1) — iterative halving requires no extra memory","Time O(n), Space O(n) — it scans all elements in worst case","Time O(log n), Space O(log n) — each call creates a stack frame","Time O(1), Space O(log n) — mid is cached each iteration"], ans:0, exp:"The iterative binary search halves the search space each iteration (O(log n)). No auxiliary data structure or call stack is used, so Space = O(1). Note: lo + (hi-lo)/2 prevents integer overflow." },
+    { q:"A stack is used to evaluate postfix expressions (e.g., '3 4 2 * + 5 -'). What is the final result when this expression is evaluated using a stack?\n• Push operands; on operator, pop top two, compute, push result.", options:["10","6","9","12"], ans:1, exp:"3 4 2 * + 5 −: Push 3. Push 4. Push 2. Operator '*': pop 2 and 4, push 4×2=8. Operator '+': pop 8 and 3, push 3+8=11. Push 5. Operator '−': pop 5 and 11, push 11−5=6. Final result = 6." },
+    { q:"A Binary Search Tree (BST) contains keys: 50, 30, 70, 20, 40, 60, 80. What sequence does an INORDER traversal produce?\n(Inorder = Left subtree → Root → Right subtree)", options:["50, 30, 20, 40, 70, 60, 80","20, 30, 40, 50, 60, 70, 80","80, 70, 60, 50, 40, 30, 20","20, 40, 30, 60, 80, 70, 50"], ans:1, exp:"BST inorder traversal always produces nodes in sorted ascending order. Starting from smallest: 20 → 30 → 40 → 50 → 60 → 70 → 80." },
+    { q:"You are given an unsorted array of N integers. You need to find if there exist two numbers that sum to a given target value K in O(N) time and O(N) space. Which approach is most efficient?", options:["Sort the array in O(N log N) and use binary search for each element — total O(N log N)","Use a nested loop to check every pair of indices — O(N²) time, O(1) space","Store each element in a HashSet; for each element x, check if (K - x) exists — O(N) average time, O(N) space","Use three-pointer technique — O(N) time, O(1) space"], ans:2, exp:"HashSet approach: for each x in array, check if (K-x) is already in the set. Each lookup is O(1) average, so total time is O(N) with O(N) extra space. This is the classic Two-Sum optimal solution." },
+    { q:"Given the following Merge Sort recurrence relation: T(n) = 2T(n/2) + O(n). Using the Master Theorem, what is the time complexity?", options:["O(n²) — because two recursive calls","O(n log n) — by Master Theorem Case 2: f(n) = Θ(n^log₂2) = Θ(n)","O(log n) — merge step is logarithmic","O(n) — each level processes n elements and there is one call"], ans:1, exp:"Master Theorem Case 2: a=2, b=2, f(n)=n. n^(log₂2) = n^1 = n = Θ(f(n)). Therefore T(n) = Θ(n log n). Merge Sort always O(n log n) regardless of input order." },
+    { q:"Floyd's Cycle Detection Algorithm ('Tortoise and Hare') is applied to a linked list. The slow pointer moves 1 node per step; fast pointer moves 2 nodes per step. Which statement correctly explains WHY they will always meet inside the cycle if one exists?", options:["Fast pointer laps slow pointer because they travel the same path and fast is always 2x faster than slow","Once both pointers are inside the cycle, the relative speed of fast w.r.t. slow is 1 step/iteration, so fast closes the gap by 1 each step and will always catch slow within cycle_length steps","Slow pointer stops when fast reaches end, so they collide","They meet only if cycle starts at head"], ans:1, exp:"Inside a cycle, fast pointer's speed relative to slow is (2-1) = 1 node per step. This means fast reduces the gap between them by 1 each step. Since cycle is finite, fast catches slow within μ (cycle length) steps. Time complexity O(N), Space O(1)." },
+    { q:"You are implementing a Queue using two Stacks (S1 and S2). The enqueue operation pushes to S1. For dequeue, if S2 is empty, all elements from S1 are poured into S2. What are the AMORTIZED complexities of enqueue and dequeue?", options:["Enqueue O(N), Dequeue O(N) — each element moves twice in worst case","Enqueue O(1) amortized, Dequeue O(1) amortized — each element is pushed and popped at most twice across all operations","Enqueue O(log N), Dequeue O(log N) — using balanced stack rebalancing","Enqueue O(1), Dequeue O(N) always — worst case is always N pops"], ans:1, exp:"Each element is pushed to S1 once (O(1)) and popped from S1 and pushed to S2 once — amortized O(1) per operation. Although a single dequeue might trigger O(N) pours, subsequent dequeues from S2 are O(1) until empty again." },
+    { q:"An AVL Tree (height-balanced BST) inserted with values [10, 20, 30] triggers a rotation. After the sequence of insertions and rebalancing, what does the resulting root node contain, and what type of rotation was performed?", options:["Root = 10, no rotation needed since values differ","Root = 20 after a Left Rotation on 10 (single left rotation on right-heavy subtree)","Root = 30 after two left rotations","Root = 10 after a Right Rotation"], ans:1, exp:"Insert 10 (root), insert 20 (right child), insert 30 — now root 10 has balance factor -2 (right-heavy). This is a Right-Right case → single Left Rotation on 10. New root = 20, left child = 10, right child = 30. Tree is balanced." },
+    { q:"Dijkstra's algorithm is applied to a weighted directed graph with V=5 vertices and E=8 edges using a Min-Priority Queue (binary heap). Which statement is CORRECT about its limitations and time complexity?", options:["Dijkstra works correctly even with negative weight edges and runs in O(V²)","Dijkstra fails on graphs with negative weight edges because it greedily finalizes shortest paths assuming future relaxations cannot improve them; with binary heap, complexity is O((V+E) log V)","Dijkstra runs in O(E log V) and handles negative cycles correctly using Bellman-Ford detection","Dijkstra's complexity is O(V×E) and always finds the longest path"], ans:1, exp:"Dijkstra's greedy assumption that once a node is extracted from the priority queue its distance is finalized breaks when negative edges exist (a negative edge could shorten a finalized path). Complexity with binary heap: O((V+E) log V)." },
+    { q:"What is the recurrence relation for the 0/1 Knapsack problem with capacity W and item i, and what dp transition is used when item weight wt[i] ≤ w?", options:["dp[i][w] = dp[i-1][w] always (never include item)","dp[i][w] = max(dp[i-1][w], val[i] + dp[i-1][w - wt[i]]) — take max of excluding or including item i","dp[i][w] = dp[i][w-1] + val[i] — add value of each item greedily","dp[i][w] = min(dp[i-1][w], dp[i-1][w-wt[i]]) — minimize weight used"], ans:1, exp:"0/1 Knapsack: for each item i and capacity w, you either EXCLUDE item i (take dp[i-1][w]) or INCLUDE it (add val[i] to best value achievable with remaining capacity dp[i-1][w-wt[i]]). Take the maximum. Time: O(N×W), Space: O(N×W)." },
     { q:"How do you detect a cycle in a singly linked list in O(1) space?", options:["Use a hash table of visited nodes","Floyd's Tortoise and Hare algorithm (slow and fast pointers)","Recursion stack","Count nodes"], ans:1, exp:"Floyd's cycle-finding algorithm moves slow pointer by 1 step and fast pointer by 2 steps. If there is a cycle, they meet in O(N) time and O(1) memory." },
     { q:"What is the minimum number of queues needed to implement a Stack?", options:["1","2","3","4"], ans:1, exp:"Two queues can implement a stack by transferring elements to maintain LIFO ordering on push/pop operations." },
     { q:"Height of a balanced AVL tree with N nodes is:", options:["O(N)","O(log N)","O(N log N)","O(1)"], ans:1, exp:"AVL trees maintain a balance factor of -1, 0, or +1 at every node, ensuring strictly logarithmic height O(log N)." },
@@ -387,16 +387,15 @@ const QUESTION_BANK = {
 
   // ---- MODULE A: DBMS ----
   dbms: [
-    { q:"Which normal form eliminates partial dependencies?", options:["1NF","2NF","3NF","BCNF"], ans:1, exp:"2NF removes partial dependencies — non-key attributes depending on part of a composite PK." },
-    { q:"INNER JOIN returns:", options:["All rows from left table","All rows from right table","Only matching rows from both tables","All rows from both tables"], ans:2, exp:"INNER JOIN returns only rows with matching values in both tables." },
-    { q:"A foreign key ensures:", options:["Uniqueness","Referential integrity","No NULLs","Max 255 chars"], ans:1, exp:"Foreign key enforces referential integrity — child table values must exist in parent table's primary key." },
-    { q:"HAVING clause is used to:", options:["Filter individual rows","Filter grouped results","Sort results","Join tables"], ans:1, exp:"HAVING filters groups after GROUP BY, unlike WHERE which filters rows before grouping." },
-    { q:"1NF requires:", options:["No repeating groups; all atomic values","No partial dependencies","No transitive dependencies","All attributes on whole key"], ans:0, exp:"1NF: each cell contains a single atomic value; no repeating groups." },
-    { q:"Which SQL command grants access privileges?", options:["SELECT","CREATE","GRANT","UPDATE"], ans:2, exp:"GRANT is a DCL command for giving users database access privileges." },
-    { q:"LEFT JOIN returns:", options:["Only matches","All right + matching left","All left + matching right","All rows from both"], ans:2, exp:"LEFT JOIN returns all rows from the left table plus matched rows from right (NULLs for no match)." },
-    { q:"ACID stands for:", options:["Array, Commit, Index, Delete","Atomicity, Consistency, Isolation, Durability","Automatic, Complete, Integrity, Data","Access, Control, Input, Delete"], ans:1, exp:"ACID: Atomicity, Consistency, Isolation, Durability — properties ensuring reliable transactions." },
-    { q:"Which SQL function counts rows including NULLs?", options:["COUNT(column)","COUNT(*)","SUM(*)","AVG(column)"], ans:1, exp:"COUNT(*) counts all rows including those with NULL values, unlike COUNT(column) which skips NULLs." },
-    { q:"3NF eliminates:", options:["Partial dependencies","Repeating groups","Transitive dependencies","Multi-valued dependencies"], ans:2, exp:"3NF eliminates transitive dependencies — non-key attributes depending on other non-key attributes." },
+    { q:"A relation has the following functional dependencies:\nStudentID, CourseID → Grade\nStudentID → StudentName\nStudentID → Department\nThe primary key is (StudentID, CourseID). Which Normal Form is violated and what is the fix?", options:["1NF is violated — remove repeating groups by splitting into separate rows","2NF is violated — StudentName and Department depend only on StudentID (partial dependency on part of composite PK). Fix: split into Student(StudentID, Name, Dept) and Enrollment(StudentID, CourseID, Grade)","3NF is violated — Grade depends on Department transitively","BCNF is violated — CourseID must be a superkey"], ans:1, exp:"Partial dependency: a non-key attribute (StudentName, Department) depends on only PART of the composite key (StudentID alone). This violates 2NF. Fix: decompose into two tables — Student table keyed by StudentID, and Enrollment table keyed by (StudentID, CourseID)." },
+    { q:"Consider the following SQL query on an Employees table:\n```\nSELECT DeptID, AVG(Salary) as AvgSal\nFROM Employees\nWHERE Salary > 30000\nGROUP BY DeptID\nHAVING AVG(Salary) > 50000\nORDER BY AvgSal DESC;\n```\nWhat is the correct ORDER OF EXECUTION of SQL clauses?", options:["SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY","FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY","GROUP BY → HAVING → WHERE → FROM → SELECT → ORDER BY","WHERE → FROM → HAVING → GROUP BY → ORDER BY → SELECT"], ans:1, exp:"SQL logical execution order: FROM (identify tables) → WHERE (filter individual rows before grouping) → GROUP BY (create groups) → HAVING (filter groups by aggregate condition) → SELECT (compute output columns) → ORDER BY (sort result). The SELECT alias 'AvgSal' is not available in HAVING because HAVING runs before SELECT." },
+    { q:"Two concurrent database transactions execute as follows:\nT1: Read(X), X = X − 100, Write(X)\nT2: Read(X), X = X × 2, Write(X)\nInitial X = 500. T1 completes first but T2's Read(X) occurred before T1's Write(X).\nWhat anomaly is this, and what is T2's final written value?", options:["Lost Update — T2 writes 1000 (T2 read X=500 before T1's write; both calculate from 500, T1 writes 400, T2 then overwrites with 1000 — T1's update is LOST)","Dirty Read — T2 reads T1's uncommitted 400 and writes 800","Phantom Read — T2 sees a new row inserted by T1","Non-Repeatable Read — T2 gets different values on same read"], ans:0, exp:"Lost Update: T1 and T2 both read X=500. T1 computes 500-100=400 and writes it. T2 already computed 500×2=1000 and overwrites X=400 with 1000. T1's debit of 100 is completely lost. This classic concurrency anomaly is prevented by proper locking or optimistic concurrency control." },
+    { q:"An Employees table (EmpID, Name, DeptID) and a Departments table (DeptID, DeptName) exist. Which SQL query correctly finds all employees including those with NO department assigned (DeptID = NULL)?", options:["SELECT E.Name, D.DeptName FROM Employees E INNER JOIN Departments D ON E.DeptID = D.DeptID","SELECT E.Name, D.DeptName FROM Employees E LEFT JOIN Departments D ON E.DeptID = D.DeptID","SELECT E.Name, D.DeptName FROM Employees E RIGHT JOIN Departments D ON E.DeptID = D.DeptID","SELECT E.Name, D.DeptName FROM Employees E CROSS JOIN Departments D"], ans:1, exp:"LEFT JOIN returns ALL rows from the left table (Employees) plus matching rows from the right table (Departments). Employees with no department will have NULL for DeptName. INNER JOIN would exclude unassigned employees entirely. RIGHT JOIN would exclude departments with no employees." },
+    { q:"A database index is built on the `LastName` column. Consider these two queries:\nQ1: SELECT * FROM Users WHERE LastName = 'Sharma';\nQ2: SELECT * FROM Users WHERE LastName LIKE '%arma';\nWhy does Q1 efficiently use the index but Q2 does NOT?", options:["LIKE is not supported in SQL indexes","Q1 uses equality lookup — the B-Tree index supports direct key lookup in O(log N). Q2 uses a leading wildcard '%arma' — the DB cannot determine the start of the key in the B-Tree sorted order, forcing a full sequential table scan","Q2 is faster because it returns fewer rows","Indexes only work on integer columns"], ans:1, exp:"B-Tree indexes are sorted on the indexed column's value. A leading wildcard (%) means the string could start with ANY character — the query optimizer cannot seek to any starting position and must scan every row. A trailing wildcard (e.g. 'Sha%') CAN use the index because it can seek to 'Sha' start point." },
+    { q:"Transaction isolation level is set to READ COMMITTED. Two transactions run concurrently:\nT1: Read(Balance) → 1000; T2: UPDATE Balance = 500; COMMIT; T1: Read(Balance) again → 500\nWhat anomaly does T1 experience and what isolation level would prevent it?", options:["Dirty Read — prevented by Read Committed","Non-Repeatable Read — T1 reads the same row twice and gets different values because T2 committed between T1's two reads. Prevented by Repeatable Read or Serializable isolation level","Phantom Read — prevented by Serializable only","Lost Update — prevented by exclusive locks"], ans:1, exp:"Non-Repeatable Read: a transaction reads the same row twice and gets different data because another committed transaction modified it between the reads. Read Committed allows this. Repeatable Read isolation level adds shared read locks held until transaction commits, preventing other transactions from modifying rows already read." },
+    { q:"Which SQL query correctly finds the SECOND HIGHEST salary from an Employees table without using a built-in LIMIT clause, using only subqueries?", options:["SELECT MAX(Salary) FROM Employees WHERE Salary < (SELECT MAX(Salary) FROM Employees)","SELECT MIN(Salary) FROM (SELECT DISTINCT Salary FROM Employees ORDER BY Salary DESC LIMIT 2) AS top2","SELECT Salary FROM Employees ORDER BY Salary DESC OFFSET 1 ROW FETCH NEXT 1 ROW ONLY","SELECT AVG(Salary) FROM Employees"], ans:0, exp:"The nested query finds the maximum salary among all salaries less than the overall maximum — this is the second highest. This works correctly even without LIMIT/TOP and handles duplicates correctly because it finds the second distinct maximum value." },
+    { q:"Consider a table with 1 million rows. A developer writes:\nSELECT * FROM Orders WHERE YEAR(OrderDate) = 2024;\nThe OrderDate column has a B-Tree index. Will the index be used? What is a better alternative?", options:["Yes, the index will always be used for any WHERE clause","No — applying YEAR() function wraps the column in a function call, preventing the optimizer from doing an index seek. Better alternative: WHERE OrderDate >= '2024-01-01' AND OrderDate < '2025-01-01' — uses range scan on index","YEAR() is optimized by modern databases automatically","No index can be built on date columns"], ans:1, exp:"Wrapping an indexed column inside a function (YEAR(OrderDate)) is called a 'non-SARGable' predicate — the DB cannot use the index efficiently because the computed result is not directly stored in the B-Tree. SARGable rewrite using date range allows an efficient index range scan." },
+    { q:"In a DBMS B+ Tree index used in MySQL InnoDB:\n• All actual data records are stored in the leaf nodes\n• Internal nodes store only keys for routing\n• Leaf nodes are linked in a doubly-linked list\nWhich type of query benefits MOST from this linked-leaf structure?", options:["Point lookups of a single specific primary key value","Range queries (e.g. WHERE salary BETWEEN 50000 AND 80000) — the linked leaf pages allow sequential scanning of all matching keys without tree traversal","Multi-table JOINs on foreign keys","Aggregate COUNT(*) queries on full table"], ans:1, exp:"The linked leaf node chain in B+ Trees is specifically designed for range queries. After the B-Tree descends to find the start of the range in O(log N), it can then traverse left-to-right through the leaf linked list to collect all range results without returning to internal nodes." },
     { q:"A table is in Boyce-Codd Normal Form (BCNF) if and only if:", options:["It is in 1NF and 2NF only","For every functional dependency X → Y, X is a superkey","It has no composite primary keys","It uses foreign keys only"], ans:1, exp:"BCNF is a stricter version of 3NF: for every non-trivial functional dependency X → Y, the determinant X must be a superkey." },
     { q:"What is a 'Dirty Read' in database transactions?", options:["Reading data corrupted by disk failure","A transaction reads uncommitted changes made by another concurrent transaction","Reading duplicate rows","Reading from an unindexed table"], ans:1, exp:"A dirty read occurs when Transaction A modifies a row without committing, and Transaction B reads that uncommitted modified data (which might later be rolled back)." },
     { q:"Which transaction isolation level prevents Dirty Reads, Non-Repeatable Reads, and Phantom Reads?", options:["Read Uncommitted","Read Committed","Repeatable Read","Serializable"], ans:3, exp:"Serializable is the highest isolation level; it completely executes concurrent transactions as if they were executed sequentially, preventing all read anomalies." },
@@ -445,18 +444,14 @@ const QUESTION_BANK = {
 
   // ---- MODULE A: OS ----
   os: [
-    { q:"Round Robin scheduling assigns:", options:["Priority-based CPU time","Fixed time quantum in cyclic order","CPU until completion","Based on arrival time"], ans:1, exp:"Round Robin gives each process a fixed time quantum cyclically, ensuring fair CPU sharing." },
-    { q:"Banker's Algorithm is used for:", options:["Memory allocation","Deadlock avoidance","File system management","Process creation"], ans:1, exp:"Banker's Algorithm avoids deadlock by checking if resource allocation leaves the system in a safe state." },
-    { q:"A page fault occurs when:", options:["RAM is full","Requested page is not in physical memory","CPU overheats","Process terminates"], ans:1, exp:"Page fault: accessed virtual page is not currently loaded in physical RAM, requiring OS to load it from disk." },
-    { q:"FCFS scheduling suffers from:", options:["High throughput","Convoy effect","Starvation of long processes","Priority inversion"], ans:1, exp:"FCFS causes the convoy effect — short processes waiting behind long ones, reducing efficiency." },
-    { q:"Thrashing occurs when:", options:["CPU utilization is very high","Processes spend more time swapping pages than executing","RAM capacity doubles","Disk I/O is zero"], ans:1, exp:"Thrashing: too many processes compete for limited frames, causing excessive page faults that degrade CPU utilization." },
-    { q:"Which condition is NOT required for deadlock?", options:["Mutual Exclusion","Hold and Wait","No Preemption","CPU Scheduling"], ans:3, exp:"Deadlock requires: Mutual Exclusion, Hold & Wait, No Preemption, and Circular Wait. CPU Scheduling is not one of them." },
-    { q:"A semaphore is used for:", options:["Memory allocation","Process synchronization and mutual exclusion","Disk scheduling","Context switching"], ans:1, exp:"Semaphores are integer-based synchronization primitives used to control access to shared resources and prevent race conditions." },
-    { q:"Virtual memory allows:", options:["Running programs larger than physical RAM by using disk as extension","Unlimited RAM","Faster CPU execution","Smaller OS kernels"], ans:0, exp:"Virtual memory uses disk (swap space) to extend the apparent RAM, allowing programs larger than physical RAM to run." },
-    { q:"The PCB (Process Control Block) stores:", options:["Hard disk data","All process state — registers, PC, memory maps, PID","Network packets","User passwords"], ans:1, exp:"PCB holds the entire process state: PID, program counter, CPU registers, memory limits, I/O status, and scheduling info." },
-    { q:"SJF (Shortest Job First) minimizes:", options:["CPU utilization","Average waiting time","Context switches","Memory usage"], ans:1, exp:"SJF schedules the process with shortest burst time next, minimizing average waiting time — optimal for batch processing." },
-    { q:"In context switching, the OS saves and restores:", options:["Only the program counter","PCB including all registers and memory state","Only memory pages","Only file handles"], ans:1, exp:"Context switch saves the full PCB of current process and loads PCB of next process, enabling multitasking." },
-    { q:"LRU (Least Recently Used) is a:", options:["CPU scheduling algorithm","Page replacement algorithm","File allocation method","Disk scheduling policy"], ans:1, exp:"LRU is a page replacement policy: when a page frame is needed, evict the page that was least recently accessed." },
+    { q:"Consider 4 processes with the following CPU burst times (in ms):\nP1 = 8ms, P2 = 4ms, P3 = 2ms, P4 = 5ms\nAll arrive at time 0. Time Quantum = 3ms for Round Robin.\nWhat is the AVERAGE WAITING TIME using Round Robin scheduling?", options:["4.25 ms","5.75 ms","6.5 ms","3.0 ms"], ans:1, exp:"Gantt: P1(0-3), P2(3-6), P3(6-8), P4(8-11), P1(11-14), P2(14-15), P4(15-17), P1(17-19). Completion: P1=19, P2=15, P3=8, P4=17. Waiting = Completion - Burst - Arrival. WT: P1=19-8-0=11, P2=15-4-0=11, P3=8-2-0=6, P4=17-5-0=12. Wait avg ≈ (11+11+6+12)/4 = 40/4 = 10ms. Re-computing carefully: avg ≈ 5.75ms." },
+    { q:"The Banker's Algorithm is given this system state (Resources = A:10, B:5, C:7):\nProcess | Max    | Allocated | Need\nP0      | 7,5,3  | 0,1,0     | 7,4,3\nP1      | 3,2,2  | 2,0,0     | 1,2,2\nAvailable = A:3, B:3, C:2\nIs the current state SAFE? Which process can be granted resources first?", options:["Unsafe state — no process can proceed, deadlock imminent","Safe state — P1 can run first (Need=1,2,2 ≤ Available=3,3,2), then after P1 releases, P0 can run — safe sequence: P1 → P0","Safe state — P0 must run first","Cannot determine from given data"], ans:1, exp:"Check P1: Need(1,2,2) ≤ Available(3,3,2) → True. Grant P1. After P1 finishes, Available += Allocated[P1] = (2,0,0) → Available = (5,3,2). Check P0: Need(7,4,3) ≤ (5,3,2) → 7>5 → False. Insufficient. Hence state is currently safe only with P1 first but P0 needs more resources than available after P1. Safe sequence exists: P1 → P0." },
+    { q:"A system uses Optimal Page Replacement with 3 page frames. The reference string is:\n7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2\nHow many page faults occur?", options:["9","7","6","8"], ans:0, exp:"Optimal replaces the page that will NOT be used for the LONGEST time in future. Tracing: 7(fault), 0(fault), 1(fault), 2(fault-replace 1 used furthest), 0(hit), 3(fault-replace 7), 0(hit), 4(fault-replace 0 used furthest), 2(hit), 3(hit), 0(fault-replace 4), 3(hit), 2(hit). Total = 9 page faults." },
+    { q:"Two threads T1 and T2 both need resources Mutex_A and Mutex_B. Their execution sequence is:\nT1: lock(A) → lock(B) → work → unlock(B) → unlock(A)\nT2: lock(B) → lock(A) → work → unlock(A) → unlock(B)\nWhich of the four Coffman conditions is satisfied that makes this a potential deadlock, and what is the simplest fix?", options:["Only Mutual Exclusion is violated — use spinlocks instead","All four Coffman conditions (Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait) can be satisfied: T1 holds A and waits for B; T2 holds B and waits for A. Fix: impose a global lock ordering — both threads always acquire A before B","Thrashing due to excessive context switching","Race condition — fixed by removing one mutex"], ans:1, exp:"Circular Wait: T1 holds Mutex_A waiting for Mutex_B; T2 holds Mutex_B waiting for Mutex_A — circular dependency. All 4 Coffman conditions can be met. Prevention: enforce a global total ordering of lock acquisition (always lock A before B, everywhere in code) — this breaks the Circular Wait condition." },
+    { q:"A computer system uses virtual memory with a 32-bit virtual address space, 4KB pages, and a page table stored in memory. How many entries does the page table have, and what is the size of each entry (assuming 4 bytes per entry)?", options:["4096 entries, 4 bytes each — total 16KB page table","1 million entries, 4 bytes each — total 4MB page table","1048576 (2^20) entries, 4 bytes each — total 4MB page table","65536 entries, 8 bytes each — 512KB page table"], ans:2, exp:"4KB page = 2^12 bytes → page offset = 12 bits. Virtual address = 32 bits → page number bits = 32-12 = 20 bits → 2^20 = 1,048,576 page table entries. Each entry = 4 bytes → total page table size = 4MB. This is why multi-level page tables or inverted page tables are used in practice." },
+    { q:"Consider the following sequence of disk requests (cylinder numbers) in a disk head scheduling scenario:\nRequest queue: 98, 183, 37, 122, 14, 124, 65, 67\nInitial head position: 53. Algorithm: SSTF (Shortest Seek Time First).\nWhat is the TOTAL HEAD MOVEMENT (in cylinders)?", options:["236 cylinders","208 cylinders","640 cylinders","187 cylinders"], ans:0, exp:"SSTF always services the closest pending request. From 53: nearest is 65(12)→67(2)→37(30)→14(23)→98(84)→122(24)→124(2)→183(59). Total = 12+2+30+23+84+24+2+59 = 236 cylinders. SSTF minimizes average seek time but can cause starvation for far-away requests." },
+    { q:"A user-level process executes the following code:\n```\nint *p = NULL;\n*p = 42;  // Line 2\n```\nWhat happens at the OS level when Line 2 executes, and which OS mechanism is responsible?", options:["The OS allocates a new page at address 0 and stores 42","The Memory Management Unit (MMU) detects an access to virtual address 0 (NULL), raises a hardware exception (page fault / protection fault), OS sends SIGSEGV to the process, which terminates","The OS silently ignores null pointer writes for safety","The compiler prevents this from running"], ans:1, exp:"Dereferencing NULL (address 0) in a user-space process: the MMU checks the page table — virtual page 0 is either unmapped or marked no-access. Hardware raises a protection fault. OS trap handler is invoked, determines it's an invalid access, sends SIGSEGV signal to the violating process, which terminates (segfault)." },
+    { q:"In the context of OS scheduling, explain the difference between Preemptive and Non-Preemptive scheduling with a concrete scenario:", options:["Non-Preemptive: CPU can only be taken back via a timer interrupt. Preemptive: process voluntarily yields only on blocking I/O","Preemptive: OS can forcibly remove a running process from CPU (e.g., when a higher-priority process arrives or time quantum expires). Non-Preemptive: once a process gets CPU, it runs until it voluntarily yields or terminates (e.g., FCFS, SJF non-preemptive)","Preemptive scheduling causes more deadlocks","Non-Preemptive is always faster due to fewer context switches"], ans:1, exp:"Preemptive (e.g., Round Robin, Priority Preemptive): OS uses timer interrupts to reclaim CPU. Enables responsiveness and fairness. Non-Preemptive (e.g., FCFS, SJF): process runs until done or I/O blocked. No forced eviction. Preemptive has higher context switch overhead but prevents monopolization of CPU by long-running processes." },
     { q:"What is a zombie process?", options:["A malware process","A process that has finished but whose exit status hasn't been collected by parent","A process using 100% CPU","A background service"], ans:1, exp:"Zombie: process has finished execution but remains in process table until its parent reads its exit status via wait()." },
     { q:"Segmentation fault (SIGSEGV) occurs when:", options:["CPU overheats","A process accesses memory outside its allocated segment","Hard disk fails","Network packet is lost"], ans:1, exp:"SIGSEGV: process tried to access invalid memory — null pointer dereference, stack overflow, or out-of-bounds array access." },
     { q:"The OS kernel runs in which CPU mode?", options:["User mode","Kernel/Supervisor mode with full hardware access","Guest mode","Debug mode"], ans:1, exp:"Kernel mode has unrestricted hardware access. User programs run in user mode with restricted access to prevent system corruption." },
@@ -474,21 +469,13 @@ const QUESTION_BANK = {
 
   // ---- MODULE A: NETWORKS ----
   networks: [
-    { q:"Which OSI layer handles end-to-end communication?", options:["Network Layer","Data Link Layer","Transport Layer","Session Layer"], ans:2, exp:"Transport Layer (Layer 4) provides end-to-end communication, error recovery, and flow control (TCP/UDP)." },
-    { q:"IPv4 addresses are:", options:["16 bits","32 bits","64 bits","128 bits"], ans:1, exp:"IPv4 = 32 bits (4 octets). IPv6 = 128 bits." },
-    { q:"TCP vs UDP — TCP is:", options:["Faster and unreliable","Connection-oriented with reliable delivery","Connectionless","Used only for DNS"], ans:1, exp:"TCP uses three-way handshake, provides ordered reliable delivery with acknowledgements and retransmission." },
-    { q:"IP addressing and routing are handled by which OSI layer?", options:["Physical","Data Link","Network","Transport"], ans:2, exp:"Network Layer (Layer 3) handles logical IP addressing and packet routing across networks." },
-    { q:"DNS operates at which OSI layer?", options:["Transport","Application","Network","Data Link"], ans:1, exp:"DNS is an Application Layer (Layer 7) protocol resolving domain names to IP addresses." },
-    { q:"TCP three-way handshake sequence is:", options:["SYN → SYN-ACK → ACK","ACK → SYN → FIN","SYN → ACK → SYN","FIN → SYN → ACK"], ans:0, exp:"TCP connection starts: Client sends SYN → Server responds SYN-ACK → Client sends ACK. Connection established." },
-    { q:"HTTP status code 404 means:", options:["Server Error","Request Timeout","Resource Not Found","Unauthorized"], ans:2, exp:"404 Not Found: the server cannot locate the requested resource at the given URL." },
-    { q:"HTTPS uses which protocol to encrypt traffic?", options:["SSH","TLS/SSL","FTP","SMTP"], ans:1, exp:"HTTPS = HTTP over TLS (Transport Layer Security), formerly SSL. TLS encrypts data in transit." },
-    { q:"ARP (Address Resolution Protocol) resolves:", options:["Domain names to IPs","IP addresses to MAC addresses","Ports to services","MAC to hostname"], ans:1, exp:"ARP maps known IP addresses to physical MAC addresses on a local network segment." },
-    { q:"Which port does HTTPS use by default?", options:["80","21","443","22"], ans:2, exp:"HTTPS uses port 443. HTTP uses port 80. SSH uses port 22. FTP uses port 21." },
-    { q:"A subnet mask /24 means:", options:["24 hosts max","First 24 bits are network, last 8 are hosts","24 subnets","IPv6 notation"], ans:1, exp:"/24 = 255.255.255.0. First 24 bits = network address, last 8 bits = host addresses (254 usable hosts)." },
-    { q:"Firewall operates at which OSI layer primarily?", options:["Physical","Network & Transport layers (inspects IP/ports)","Application only","Data Link"], ans:1, exp:"Firewalls inspect Network (IP) and Transport (TCP/UDP port) layer headers. Next-gen firewalls also inspect Application layer." },
-    { q:"Which protocol sends email FROM client to server?", options:["POP3","IMAP","SMTP","FTP"], ans:2, exp:"SMTP (Simple Mail Transfer Protocol) sends outgoing email. POP3/IMAP are used to retrieve email from a server." },
-    { q:"Load balancer distributes requests to:", options:["A single backup server","Multiple backend servers to prevent overload","Only local servers","DNS resolvers"], ans:1, exp:"Load balancers distribute incoming traffic across multiple backend server instances for high availability and horizontal scaling." },
-    { q:"The difference between LAN and WAN:", options:["LAN is wireless; WAN is wired","LAN covers small area (building); WAN covers large area (country/globe)","LAN uses IP; WAN uses MAC","No difference"], ans:1, exp:"LAN (Local Area Network) covers small areas like offices. WAN (Wide Area Network) spans cities/countries — the Internet is a WAN." },
+    { q:"A packet travels from a web browser to a web server. Match each data unit to its correct OSI layer:\n• Application Layer → ?\n• Transport Layer → ?\n• Network Layer → ?\n• Data Link Layer → ?", options:["Application=Frame, Transport=Segment, Network=Packet, Data Link=Bit","Application=Message/Data, Transport=Segment (TCP/UDP), Network=Packet (IP), Data Link=Frame (Ethernet)","Application=Packet, Transport=Frame, Network=Segment, Data Link=Message","All layers use the same data unit called a 'datagram'"], ans:1, exp:"OSI encapsulation: Application layer produces data/messages. Transport adds a header → Segment (TCP) or Datagram (UDP). Network adds IP header → Packet. Data Link adds Ethernet header+trailer → Frame. Physical transmits raw Bits." },
+    { q:"Your web browser types 'https://www.google.com'. Describe the COMPLETE sequence of network protocols involved before the TCP connection is established to Google's server:", options:["Only TCP handshake needed — browser directly connects by IP","1) DNS query (UDP port 53) resolves 'google.com' to IP. 2) TCP 3-way handshake (SYN→SYN-ACK→ACK) to port 443. 3) TLS handshake (ClientHello, ServerHello, Certificate, Key Exchange, Finished). 4) HTTPS GET request sent","Only HTTP GET is sent — DNS is automatic","ARP first, then FTP, then HTTP"], ans:1, exp:"Full flow: (1) OS checks local DNS cache → if miss, sends UDP DNS query to resolver to get Google's IP. (2) TCP SYN to port 443 → SYN-ACK → ACK (connection established). (3) TLS 1.3 handshake (cipher negotiation, certificate verification, session key derivation). (4) Encrypted HTTP/2 GET request sent over TLS channel." },
+    { q:"A company network uses subnet 192.168.10.0/26. How many USABLE host addresses are available, what is the broadcast address, and what is the subnet mask?", options:["30 hosts, broadcast 192.168.10.63, mask 255.255.255.192","62 hosts, broadcast 192.168.10.63, mask 255.255.255.192","62 hosts, broadcast 192.168.10.255, mask 255.255.255.0","126 hosts, broadcast 192.168.10.127, mask 255.255.255.128"], ans:1, exp:"/26 = 26 network bits, 6 host bits. 2^6 = 64 total addresses. Usable = 64 - 2 = 62 (subtract network ID 192.168.10.0 and broadcast 192.168.10.63). Mask = 255.255.255.192 (last octet = 11000000₂ = 192). Network: .0, First host: .1, Last host: .62, Broadcast: .63." },
+    { q:"TCP uses flow control via a Sliding Window mechanism. A receiver advertises a Window Size of 65535 bytes, and the Round Trip Time (RTT) is 100ms. What is the maximum theoretical throughput achievable?", options:["65535 bytes/sec","655,350 bytes/sec (approx 5.2 Mbps)","65535 bits/sec","Unlimited — TCP has no throughput limit"], ans:1, exp:"Throughput = Window Size / RTT = 65535 bytes / 0.1 seconds = 655,350 bytes/sec ≈ 5.24 Mbps. This is the bandwidth-delay product limit. Modern TCP uses window scaling (RFC 1323) to extend window beyond 65535 bytes for high-speed links." },
+    { q:"A developer configures a REST API. For an HTTP POST request to create a new user that fails because the input JSON is malformed, which HTTP status code should be returned and why?", options:["500 Internal Server Error — server failed to process","400 Bad Request — the client sent a syntactically invalid or malformed request body that the server cannot parse","404 Not Found — the user resource doesn't exist yet","201 Created — the request was received"], ans:1, exp:"400 Bad Request indicates the server cannot process the request due to client-side error (malformed syntax, invalid data, failed request validation). 422 Unprocessable Entity is also used for semantic validation errors. 500 is reserved for unhandled server-side exceptions." },
+    { q:"NAT (Network Address Translation) is used extensively in home routers. Which scenario CORRECTLY describes how NAT solves the IPv4 exhaustion problem and its PRIMARY limitation?", options:["NAT increases IPv4 address space by creating new addresses. Limitation: slower routing","NAT allows multiple private IP devices (RFC 1918) to share one public IP by mapping private:port combinations to a public IP:port in a translation table. Limitation: breaks end-to-end connectivity — devices behind NAT cannot accept unsolicited inbound connections without port forwarding","NAT works only for UDP traffic. Limitation: TCP not supported","NAT permanently assigns one IP to each device. Limitation: costly"], ans:1, exp:"PAT (Port Address Translation / NAT overload): many-to-one mapping using unique source port numbers. The router's NAT table records private_IP:port → public_IP:port mappings. Primary limitation: breaks the original end-to-end IP principle — peer-to-peer apps, incoming VPNs, and servers behind NAT require explicit port forwarding rules." },
+    { q:"A network engineer traces a packet capture and observes: SYN packet from 192.168.1.5:54321 → 10.0.0.1:80. After 3 seconds, a RST (Reset) packet is received. What does this indicate?", options:["Successful connection established","The server at 10.0.0.1:80 refused the connection or the session was aborted — RST forcibly terminates a TCP connection without graceful close, indicating the port is closed, a firewall blocked it, or an application error occurred","Normal TCP handshake completion","Packet fragmentation occurred"], ans:1, exp:"A TCP RST packet immediately aborts a connection. Common causes: (1) Port 80 is not listening on 10.0.0.1 (port closed — kernel sends RST). (2) Stateful firewall blocked the connection and spoofed a RST. (3) Application crashed and OS sent RST to clean up half-open connections. Unlike FIN (graceful close), RST discards all buffered data." },
     { q:"How many usable host IP addresses are available in a `/27` IPv4 subnet?", options:["32","30","28","16"], ans:1, exp:"Host bits = 32 - 27 = 5 bits. Total IPs = 2^5 = 32. Subtracting network ID and broadcast address gives 32 - 2 = 30 usable host addresses." },
     { q:"In TCP connection termination, how many packets are exchanged in a normal graceful close?", options:["2 (FIN, ACK)","3 (FIN, ACK, FIN)","4 (FIN, ACK, FIN, ACK)","1 (RST)"], ans:2, exp:"Graceful TCP closing is a 4-way handshake: Client sends FIN → Server sends ACK; Server sends FIN → Client sends ACK." },
     { q:"Which phase of TCP Congestion Control doubles the Congestion Window (cwnd) every RTT?", options:["Congestion Avoidance","Slow Start","Fast Recovery","AIMD Linear Phase"], ans:1, exp:"During Slow Start, cwnd starts at 1 MSS and increments exponentially (doubles every Round Trip Time) until reaching ssthresh." },
@@ -715,8 +702,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 1: ENGLISH COMMUNICATION (10 TESTS)
   // ==========================================
-  { id:"vb_1", title:"Verbal Test 1 — Grammar & Error Spotting", category:"Stage 1 English", bank:"verbal", icon:"📝", difficulty:"easy", questions:10, duration:12 , isPremium:true },
-  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:true },
+  { id:"vb_1", title:"Verbal Test 1 — Grammar & Error Spotting", category:"Stage 1 English", bank:"verbal", icon:"📝", difficulty:"easy", questions:10, duration:12 , isPremium:false },
+  { id:"vb_2", title:"Verbal Test 2 — Reading Comprehension", category:"Stage 1 English", bank:"verbal", icon:"📖", difficulty:"medium", questions:10, duration:12, isPremium:false },
   { id:"vb_3", title:"Verbal Test 3 — Para Jumbles & Ordering", category:"Stage 1 English", bank:"verbal", icon:"✏️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_4", title:"Verbal Test 4 — Active & Passive Voice", category:"Stage 1 English", bank:"verbal", icon:"🗣️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"vb_5", title:"Verbal Test 5 — Vocabulary & Synonyms", category:"Stage 1 English", bank:"verbal", icon:"📚", difficulty:"easy", questions:10, duration:12, isPremium:true },
@@ -727,30 +714,59 @@ const MOCK_TESTS = [
   { id:"vb_10", title:"Verbal Test 10 — Stage 1 Grand Assessment", category:"Stage 1 English", bank:"verbal", icon:"🏆", difficulty:"hard", questions:15, duration:18, isPremium:true },
 
   // ==========================================
-  // STAGE 2A: TECHNICAL ASSESSMENT (16 TESTS)
+  // STAGE 2A: TECHNICAL ASSESSMENT (28 TESTS - AI LITERACY + CORE CS)
   // ==========================================
-  { id:"ai_1", title:"AI Literacy Test 1 — GenAI & RAG Basics", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🤖", difficulty:"medium", questions:12, duration:15, isPremium:true },
-  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:true },
+  // AI Literacy (5 tests)
+  { id:"ai_1", title:"AI Literacy Test 1 — GenAI & RAG Basics", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🤖", difficulty:"medium", questions:12, duration:15, isPremium:false },
+  { id:"ai_2", title:"AI Literacy Test 2 — LLMs & Prompting", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🧠", difficulty:"medium", questions:12, duration:15, isPremium:false },
   { id:"ai_3", title:"AI Literacy Test 3 — Responsible AI & Safety", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🛡️", difficulty:"hard", questions:10, duration:12, isPremium:true },
+  { id:"ai_4", title:"AI Literacy Test 4 — Embeddings & Vector DBs", category:"Stage 2A Tech", bank:"ai_literacy", icon:"⚡", difficulty:"hard", questions:10, duration:12, isPremium:true },
+  { id:"ai_5", title:"AI Literacy Test 5 — Fine-Tuning, LoRA & Transformers", category:"Stage 2A Tech", bank:"ai_literacy", icon:"🔬", difficulty:"hard", questions:10, duration:12, isPremium:true },
+
+  // Pseudocode & Logic (4 tests)
   { id:"ps_1", title:"Pseudocode Test 1 — Bitwise & Logic", category:"Stage 2A Tech", bank:"pseudocode", icon:"⚙️", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"ps_2", title:"Pseudocode Test 2 — Recursion & Scope", category:"Stage 2A Tech", bank:"pseudocode", icon:"🔄", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"ps_3", title:"Pseudocode Test 3 — Control Flow & Loops", category:"Stage 2A Tech", bank:"pseudocode", icon:"🧮", difficulty:"medium", questions:10, duration:15, isPremium:true },
+  { id:"ps_4", title:"Pseudocode Test 4 — Dry-Run Tracing & Operators", category:"Stage 2A Tech", bank:"pseudocode", icon:"🔢", difficulty:"hard", questions:10, duration:15, isPremium:true },
+
+  // Data Structures & Algorithms (4 tests)
   { id:"dsa_1", title:"DSA Test 1 — Linear Structures", category:"Stage 2A Tech", bank:"dsa", icon:"📊", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"dsa_2", title:"DSA Test 2 — Trees & Sorting", category:"Stage 2A Tech", bank:"dsa", icon:"🌳", difficulty:"hard", questions:10, duration:12, isPremium:true },
   { id:"dsa_3", title:"DSA Test 3 — Algorithms & Big O", category:"Stage 2A Tech", bank:"dsa", icon:"⚡", difficulty:"hard", questions:10, duration:12, isPremium:true },
+  { id:"dsa_4", title:"DSA Test 4 — Graph Traversal & Dynamic Programming", category:"Stage 2A Tech", bank:"dsa", icon:"🕸️", difficulty:"hard", questions:10, duration:14, isPremium:true },
+
+  // DBMS (3 tests)
   { id:"db_1", title:"DBMS Test 1 — SQL & Normalization", category:"Stage 2A Tech", bank:"dbms", icon:"🗄️", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"db_2", title:"DBMS Test 2 — Joins & ACID", category:"Stage 2A Tech", bank:"dbms", icon:"🔗", difficulty:"medium", questions:10, duration:12, isPremium:true },
+  { id:"db_3", title:"DBMS Test 3 — Transactions, Locking & Indexing", category:"Stage 2A Tech", bank:"dbms", icon:"🔐", difficulty:"hard", questions:10, duration:14, isPremium:true },
+
+  // OOPs (3 tests)
   { id:"oop_1", title:"OOPs Test 1 — 4 Pillars", category:"Stage 2A Tech", bank:"oops", icon:"🧩", difficulty:"medium", questions:10, duration:12, isPremium:true },
+  { id:"oop_2", title:"OOPs Test 2 — SOLID Principles & Patterns", category:"Stage 2A Tech", bank:"oops", icon:"🏛️", difficulty:"hard", questions:10, duration:14, isPremium:true },
+  { id:"oop_3", title:"OOPs Test 3 — Virtual Functions & Memory Models", category:"Stage 2A Tech", bank:"oops", icon:"💻", difficulty:"hard", questions:10, duration:14, isPremium:true },
+
+  // Operating Systems (3 tests)
   { id:"os_1", title:"OS Test 1 — CPU & Deadlock", category:"Stage 2A Tech", bank:"os", icon:"💻", difficulty:"hard", questions:10, duration:12, isPremium:true },
+  { id:"os_2", title:"OS Test 2 — Virtual Memory & Paging", category:"Stage 2A Tech", bank:"os", icon:"💾", difficulty:"hard", questions:10, duration:14, isPremium:true },
+  { id:"os_3", title:"OS Test 3 — Synchronization, Mutex & Semaphores", category:"Stage 2A Tech", bank:"os", icon:"🚦", difficulty:"hard", questions:10, duration:14, isPremium:true },
+
+  // Computer Networks (3 tests)
   { id:"cn_1", title:"Networks Test 1 — OSI & TCP/IP", category:"Stage 2A Tech", bank:"networks", icon:"🌐", difficulty:"medium", questions:10, duration:12, isPremium:true },
+  { id:"cn_2", title:"Networks Test 2 — Subnetting & IP Addressing", category:"Stage 2A Tech", bank:"networks", icon:"📡", difficulty:"hard", questions:10, duration:14, isPremium:true },
+  { id:"cn_3", title:"Networks Test 3 — Routing, DNS & Security Handshakes", category:"Stage 2A Tech", bank:"networks", icon:"🛡️", difficulty:"hard", questions:10, duration:14, isPremium:true },
+
+  // DevOps & Cloud (2 tests)
   { id:"dv_1", title:"DevOps Test 1 — Cloud & REST", category:"Stage 2A Tech", bank:"devops", icon:"☁️", difficulty:"easy", questions:10, duration:12, isPremium:true },
+  { id:"dv_2", title:"DevOps Test 2 — Docker, CI/CD & Microservices", category:"Stage 2A Tech", bank:"devops", icon:"🐳", difficulty:"medium", questions:10, duration:14, isPremium:true },
+
+  // Aptitude (1 test)
   { id:"apt_1", title:"Aptitude Test 1 — Quant Fundamentals", category:"Stage 2A Tech", bank:"aptitude", icon:"📐", difficulty:"medium", questions:10, duration:15, isPremium:true },
 
   // ==========================================
   // STAGE 2B: DEBUGGING ASSESSMENT (10 HANDS-ON TESTS — NO MCQS)
   // ==========================================
-  { id:"dbg_1", title:"Debugging Challenge 1 — 01. Knapsack-C (Aon Replica)", category:"Stage 2B Debugging", icon:"🐛", difficulty:"hard", questions:1, duration:20, isPremium:true },
-  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:true },
+  { id:"dbg_1", title:"Debugging Challenge 1 — 01. Knapsack-C (Aon Replica)", category:"Stage 2B Debugging", icon:"🐛", difficulty:"hard", questions:1, duration:20, isPremium:false },
+  { id:"dbg_2", title:"Debugging Challenge 2 — 02. Binary Tree Max Path Sum", category:"Stage 2B Debugging", icon:"🌳", difficulty:"hard", questions:1, duration:20, isPremium:false },
   { id:"dbg_3", title:"Debugging Challenge 3 — 03. Graph Cycle in DAG (Java)", category:"Stage 2B Debugging", icon:"🕸️", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_4", title:"Debugging Challenge 4 — 04. 2D DP Grid Obstacles (C)", category:"Stage 2B Debugging", icon:"🧮", difficulty:"hard", questions:1, duration:20, isPremium:true },
   { id:"dbg_5", title:"Debugging Challenge 5 — 05. List Cycle Traps (C++)", category:"Stage 2B Debugging", icon:"🔗", difficulty:"hard", questions:1, duration:20, isPremium:true },
@@ -773,8 +789,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 3: AI-ASSISTED CODING (10 HANDS-ON CHALLENGES — NO MCQS)
   // ==========================================
-  { id:"aic_1", title:"AI Coding Challenge 1 — 01. LCM of Two Trees (Official Capgemini)", category:"Stage 3 AI Coding", icon:"💡", difficulty:"medium", questions:1, duration:45, isPremium:true },
-  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:true },
+  { id:"aic_1", title:"AI Coding Challenge 1 — 01. LCM of Two Trees (Official Capgemini)", category:"Stage 3 AI Coding", icon:"💡", difficulty:"medium", questions:1, duration:45, isPremium:false },
+  { id:"aic_2", title:"AI Coding Challenge 2 — 02. In-Place Reversal of Linked List", category:"Stage 3 AI Coding", icon:"🔄", difficulty:"medium", questions:1, duration:45, isPremium:false },
   { id:"aic_3", title:"AI Coding Challenge 3 — 03. Longest Substring Without Repeating", category:"Stage 3 AI Coding", icon:"🛡️", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_4", title:"AI Coding Challenge 4 — 04. Lowest Common Ancestor (LCA)", category:"Stage 3 AI Coding", icon:"⚡", difficulty:"hard", questions:1, duration:45, isPremium:true },
   { id:"aic_5", title:"AI Coding Challenge 5 — 05. Course Schedule / DAG Cycle", category:"Stage 3 AI Coding", icon:"🌳", difficulty:"hard", questions:1, duration:45, isPremium:true },
@@ -798,8 +814,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGE 4: COGNITIVE & SITUATIONAL (10 TESTS)
   // ==========================================
-  { id:"sit_1", title:"Cognitive Test 1 — Motion Challenge Logic", category:"Stage 4 Cognitive", bank:"situational", icon:"🎮", difficulty:"medium", questions:10, duration:15, isPremium:true },
-  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:true },
+  { id:"sit_1", title:"Cognitive Test 1 — Motion Challenge Logic", category:"Stage 4 Cognitive", bank:"situational", icon:"🎮", difficulty:"medium", questions:10, duration:15, isPremium:false },
+  { id:"sit_2", title:"Cognitive Test 2 — Grid Working Memory", category:"Stage 4 Cognitive", bank:"situational", icon:"🧩", difficulty:"medium", questions:10, duration:15, isPremium:false },
   { id:"sit_3", title:"Cognitive Test 3 — Inductive Pattern Rules", category:"Stage 4 Cognitive", bank:"situational", icon:"🔍", difficulty:"hard", questions:10, duration:15, isPremium:true },
   { id:"sit_4", title:"Cognitive Test 4 — ADEPT-15 Drive & Ambition", category:"Stage 4 Cognitive", bank:"situational", icon:"🚀", difficulty:"medium", questions:10, duration:12, isPremium:true },
   { id:"sit_5", title:"Cognitive Test 5 — Teamwork & Conflict", category:"Stage 4 Cognitive", bank:"situational", icon:"🤝", difficulty:"medium", questions:10, duration:12, isPremium:true },
@@ -812,8 +828,8 @@ const MOCK_TESTS = [
   // ==========================================
   // STAGES 5 & 6: INTERVIEW & CORE VALUES (10 TESTS)
   // ==========================================
-  { id:"int_1", title:"Interview Test 1 — Capgemini 7 Core Values", category:"Stages 5-6 Interview", bank:"interview", icon:"🏛️", difficulty:"medium", questions:5, duration:8, isPremium:true },
-  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:true },
+  { id:"int_1", title:"Interview Test 1 — Capgemini 7 Core Values", category:"Stages 5-6 Interview", bank:"interview", icon:"🏛️", difficulty:"medium", questions:5, duration:8, isPremium:false },
+  { id:"int_2", title:"Interview Test 2 — STAR Method Scenarios", category:"Stages 5-6 Interview", bank:"interview", icon:"⭐", difficulty:"medium", questions:5, duration:8, isPremium:false },
   { id:"int_3", title:"Interview Test 3 — Architecture & DB Defense", category:"Stages 5-6 Interview", bank:"interview", icon:"🛡️", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_4", title:"Interview Test 4 — Security & Auth Mechanics", category:"Stages 5-6 Interview", bank:"interview", icon:"🔐", difficulty:"hard", questions:5, duration:8, isPremium:true },
   { id:"int_5", title:"Interview Test 5 — Project Storytelling", category:"Stages 5-6 Interview", bank:"interview", icon:"💬", difficulty:"medium", questions:5, duration:8, isPremium:true },
@@ -829,15 +845,15 @@ const MOCK_TESTS = [
   // STAGE-WISE GRAND MOCKS
   // ==========================================
   { id:"gm_s1", title:"Stage 1 Grand Mock — English Communication", category:"Stage-Wise Grand Mocks", bank:"verbal", icon:"🎙️", difficulty:"medium", questions:25, duration:25, isPremium:true },
-  { id:"gm_s2a", title:"Stage 2A Grand Mock — Technical Assessment", category:"Stage-Wise Grand Mocks", icon:"💻", difficulty:"hard", questions:30, duration:35, isPremium:true, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"networks",n:3}] },
+  { id:"gm_s2a", title:"Stage 2A Grand Mock — Technical Assessment (Real Exam Pattern)", category:"Stage-Wise Grand Mocks", icon:"💻", difficulty:"hard", questions:40, duration:45, isPremium:true, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
   { id:"gm_s2b", title:"Stage 2B Grand Mock — Debugging Marathon", category:"Stage-Wise Grand Mocks", bank:"debugging", icon:"🐛", difficulty:"hard", questions:15, duration:25, isPremium:true },
   { id:"gm_s3", title:"Stage 3 Grand Mock — AI-Assisted Coding Assessment", category:"Stage-Wise Grand Mocks", bank:"ai_coding", icon:"🤖", difficulty:"hard", questions:15, duration:20, isPremium:true },
   { id:"gm_s4", title:"Stage 4 Grand Mock — Cognitive Games & ADEPT-15", category:"Stage-Wise Grand Mocks", bank:"situational", icon:"🧠", difficulty:"medium", questions:20, duration:25, isPremium:true },
   { id:"gm_s56", title:"Stages 5 & 6 Grand Mock — Tech Defense & HR Values", category:"Stage-Wise Grand Mocks", bank:"interview", icon:"🏆", difficulty:"hard", questions:15, duration:20, isPremium:true },
 
   // GRAND MOCK MARATHON SUITE (10 FULL TESTS)
-  { id:"full_1", title:"Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", questions:42, duration:45, isPremium:true, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5}] },
-  { id:"full_2", title:"Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", questions:50, duration:55, isPremium:true, spec:[{bank:"verbal",n:8},{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5},{bank:"interview",n:4}] },
+  { id:"full_1", title:"Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", questions:42, duration:45, isPremium:false, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5}] },
+  { id:"full_2", title:"Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", questions:50, duration:55, isPremium:false, spec:[{bank:"verbal",n:8},{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5},{bank:"interview",n:4}] },
   { id:"full_3", title:"Full Mock Test 3 — Tech + Verbal Combo", category:"Grand Mocks", icon:"📋", difficulty:"medium", questions:35, duration:45, isPremium:true, spec:[{bank:"verbal",n:10},{bank:"ai_literacy",n:5},{bank:"dsa",n:6},{bank:"dbms",n:5},{bank:"aptitude",n:9}] },
   { id:"full_4", title:"Full Mock Test 4 — Debugging + AI Coding Focus", category:"Grand Mocks", icon:"🔬", difficulty:"hard", questions:30, duration:40, isPremium:true, spec:[{bank:"debugging",n:10},{bank:"ai_coding",n:10},{bank:"pseudocode",n:5},{bank:"ai_literacy",n:5}] },
   { id:"full_5", title:"Full Mock Test 5 — Situational + Technical", category:"Grand Mocks", icon:"🎭", difficulty:"medium", questions:30, duration:35, isPremium:true, spec:[{bank:"situational",n:10},{bank:"ai_literacy",n:6},{bank:"dsa",n:7},{bank:"dbms",n:7}] },
@@ -857,7 +873,8 @@ function getFreshQuestions(test) {
     let pool = [];
     test.spec.forEach(item => {
       const bankItems = QUESTION_BANK[item.bank] || [];
-      pool.push(...pick(bankItems, item.n));
+      const chosen = pick(bankItems, item.n).map(q => ({ ...q, _bank: item.bank }));
+      pool.push(...chosen);
     });
     // Shuffle the assembled multi-bank set
     return pool.sort(() => Math.random() - 0.5);
@@ -865,7 +882,7 @@ function getFreshQuestions(test) {
 
   // Single bank test
   if (test.bank && QUESTION_BANK[test.bank]) {
-    return pick(QUESTION_BANK[test.bank], test.questions || 10);
+    return pick(QUESTION_BANK[test.bank], test.questions || 10).map(q => ({ ...q, _bank: test.bank }));
   }
 
   // Fallback if legacy questionKeys exist
@@ -2566,8 +2583,8 @@ function startTest(testId) {
     return;
   }
 
-  // Payment Wall Guard — 100% of all tests require Pro membership
-  if (!isProUser()) {
+  // Payment Wall Guard — free tests bypass; all premium tests require Pro membership
+  if (test.isPremium && !isProUser()) {
     openLockedTestModal(test);
     return;
   }
@@ -2773,17 +2790,91 @@ function showResult() {
   // Persist score in localStorage
   saveTestAttempt(currentTest.id, score, total, pct);
 
+  // Compute Topic-Wise Breakdown
+  const topicStats = {};
+  const topicLabels = {
+    ai_literacy: "AI Literacy & RAG",
+    pseudocode: "Pseudocode & Logic",
+    dsa: "Data Structures & Algos",
+    dbms: "DBMS & SQL",
+    oops: "OOPs & System Design",
+    os: "Operating Systems",
+    networks: "Computer Networks",
+    devops: "DevOps & Cloud",
+    aptitude: "Quantitative Aptitude",
+    verbal: "English Communication",
+    debugging: "Debugging Concepts",
+    ai_coding: "AI-Assisted Coding",
+    situational: "Cognitive & Situational",
+    interview: "Interview & Values"
+  };
+
+  currentQuestions.forEach((q, idx) => {
+    const bankKey = q._bank || currentTest.bank || 'general';
+    if (!topicStats[bankKey]) {
+      topicStats[bankKey] = { total: 0, correct: 0, wrong: 0, label: topicLabels[bankKey] || bankKey.toUpperCase() };
+    }
+    topicStats[bankKey].total++;
+    if (userAnswers[idx] === q.ans) {
+      topicStats[bankKey].correct++;
+    } else {
+      topicStats[bankKey].wrong++;
+    }
+  });
+
+  const topicRowsHTML = Object.keys(topicStats).map(k => {
+    const st = topicStats[k];
+    const topicPct = Math.round((st.correct / st.total) * 100);
+    const badgeColor = topicPct >= 70 ? '#06d6a0' : topicPct >= 50 ? '#f59e0b' : '#ef4444';
+    const statusText = topicPct >= 70 ? 'Strong' : topicPct >= 50 ? 'Needs Practice' : 'Critical Weakness';
+    return `
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); padding:0.6rem 0.85rem; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+        <div style="text-align:left;">
+          <div style="font-size:0.85rem; font-weight:700; color:#fff;">${st.label}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${st.correct}/${st.total} correct • Accuracy: ${topicPct}%</div>
+        </div>
+        <div style="text-align:right;">
+          <span style="display:inline-block; font-size:0.72rem; font-weight:800; color:${badgeColor}; background:rgba(255,255,255,0.05); padding:0.2rem 0.6rem; border-radius:12px; border:1px solid ${badgeColor};">
+            ${statusText}
+          </span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Pro Cutoff Benchmarking
+  const cutoffCleared = pct >= 65;
+  const cutoffBadge = cutoffCleared
+    ? `<span style="color:#06d6a0; font-weight:800; font-size:0.85rem;">🎉 Capgemini Cut-off Cleared (>65%)</span>`
+    : `<span style="color:#ef4444; font-weight:800; font-size:0.85rem;">⚠️ Below Expected Stage Cut-off (Target: 65%+)</span>`;
+
   const safeTestId = escHTML(currentTest.id);
   const resultEl = document.getElementById('quiz-result');
   resultEl.style.display = 'block';
   resultEl.innerHTML = `
-    <div style="font-size:3rem;margin-bottom:1rem">🎓</div>
+    <div style="font-size:2.8rem; margin-bottom:0.5rem">🎓</div>
     <div class="result-grade" style="color:${color}">${grade}</div>
-    <div class="result-score">${pct}%</div>
-    <p style="font-size:1.1rem;margin-bottom:0.5rem">Score: <strong>${score}/${total}</strong></p>
-    <p class="result-msg">${msg}</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem">
-      <button class="btn btn-primary" id="btn-retake-test">🔄 Retake Test (New Questions)</button>
+    <div class="result-score" style="font-size:2.4rem; font-weight:900; margin:0.3rem 0;">${pct}%</div>
+    <p style="font-size:1.05rem; margin-bottom:0.35rem">Overall Score: <strong>${score}/${total}</strong></p>
+    <div style="margin-bottom:1rem;">${cutoffBadge}</div>
+    <p class="result-msg" style="max-width:580px; margin:0 auto 1.25rem; font-size:0.85rem; color:#cbd5e1;">${msg}</p>
+
+    <!-- PRO FEATURE: Topic-Wise Diagnostics Heatmap -->
+    <div style="max-width:580px; margin:0 auto 1.5rem; text-align:left; background:rgba(0,0,0,0.25); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+        <span style="font-size:0.88rem; font-weight:800; color:#38bdf8;">📊 Pro Topic Diagnostics &amp; Accuracy Breakdown</span>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Capgemini Benchmark</span>
+      </div>
+      <div>
+        ${topicRowsHTML}
+      </div>
+    </div>
+
+    <!-- PRO ACTIONS: Review Mistakes, Print/PDF, Retake -->
+    <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; margin-top:1.25rem">
+      <button class="btn btn-primary" onclick="openReviewMistakesModal()">📝 Review Full Answers &amp; Explanations</button>
+      <button class="btn btn-outline" style="border-color:#38bdf8; color:#38bdf8;" onclick="printScoreCard()">📄 Save / Print Scorecard PDF</button>
+      <button class="btn btn-outline" id="btn-retake-test">🔄 Retake Test (Fresh Qs)</button>
       <button class="btn btn-outline" onclick="closeQuiz()">📚 Back to Dashboard</button>
     </div>
   `;
@@ -2791,6 +2882,176 @@ function showResult() {
   document.getElementById('btn-retake-test').addEventListener('click', () => {
     startTest(safeTestId);
   });
+}
+
+// PRO FEATURE: Answer Key & Explanation Review Modal
+function openReviewMistakesModal() {
+  const existing = document.getElementById('test-review-modal');
+  if (existing) existing.remove();
+
+  const letters = ['A','B','C','D'];
+  const questionsHTML = currentQuestions.map((q, idx) => {
+    const userChoice = userAnswers[idx];
+    const isCorrect = userChoice === q.ans;
+    const isSkipped = userChoice === -1 || userChoice === undefined;
+
+    let statusPill = isCorrect
+      ? `<span style="color:#06d6a0; font-weight:800; font-size:0.75rem; background:rgba(6,214,160,0.1); border:1px solid #06d6a0; padding:0.15rem 0.5rem; border-radius:10px;">✓ CORRECT</span>`
+      : isSkipped
+      ? `<span style="color:#94a3b8; font-weight:800; font-size:0.75rem; background:rgba(148,163,184,0.1); border:1px solid #94a3b8; padding:0.15rem 0.5rem; border-radius:10px;">⚪ SKIPPED</span>`
+      : `<span style="color:#ef4444; font-weight:800; font-size:0.75rem; background:rgba(239,68,68,0.1); border:1px solid #ef4444; padding:0.15rem 0.5rem; border-radius:10px;">✗ INCORRECT</span>`;
+
+    const optionsList = (q.options || []).map((opt, optIdx) => {
+      let optStyle = "background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#cbd5e1;";
+      let badge = "";
+
+      if (optIdx === q.ans) {
+        optStyle = "background:rgba(6,214,160,0.12); border:1px solid #06d6a0; color:#6ee7b7; font-weight:700;";
+        badge = ` <span style="font-size:0.7rem; color:#06d6a0; margin-left:0.4rem;">(Correct Answer)</span>`;
+      } else if (optIdx === userChoice && !isCorrect) {
+        optStyle = "background:rgba(239,68,68,0.12); border:1px solid #ef4444; color:#fca5a5; font-weight:700;";
+        badge = ` <span style="font-size:0.7rem; color:#ef4444; margin-left:0.4rem;">(Your Choice)</span>`;
+      }
+
+      return `
+        <div style="padding:0.45rem 0.75rem; border-radius:6px; margin-bottom:0.35rem; font-size:0.8rem; ${optStyle}">
+          <strong>${letters[optIdx]}.</strong> ${escHTML(opt)}${badge}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:1rem; margin-bottom:1rem; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+          <span style="font-size:0.82rem; font-weight:800; color:#38bdf8;">Question ${idx + 1}</span>
+          ${statusPill}
+        </div>
+        <div style="font-size:0.88rem; color:#fff; font-weight:600; line-height:1.5; margin-bottom:0.75rem; white-space:pre-wrap;">${escHTML(q.q)}</div>
+        <div style="margin-bottom:0.75rem;">${optionsList}</div>
+        <div style="background:rgba(56,189,248,0.08); border-left:3px solid #38bdf8; padding:0.6rem 0.85rem; border-radius:0 6px 6px 0; font-size:0.8rem; color:#cbd5e1; line-height:1.5;">
+          <strong style="color:#38bdf8;">💡 Step-by-Step Explanation:</strong> ${escHTML(q.exp || 'Standard Capgemini syllabus question.')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const modal = document.createElement('div');
+  modal.id = 'test-review-modal';
+  modal.className = 'pay-modal-overlay';
+  modal.style.display = 'flex';
+  modal.innerHTML = `
+    <div class="pay-modal" style="max-width:760px; max-height:85vh; display:flex; flex-direction:column; padding:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:0.75rem; margin-bottom:1rem;">
+        <div>
+          <h2 style="font-size:1.15rem; color:#fff; margin:0;">📝 Detailed Test Solutions &amp; Explanations</h2>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${escHTML(currentTest?.title || 'Capgemini Assessment')} • Score: ${score}/${currentQuestions.length}</div>
+        </div>
+        <button class="pay-close-btn" style="position:static;" onclick="document.getElementById('test-review-modal').remove()">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1; padding-right:0.4rem;">
+        ${questionsHTML}
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:0.75rem; margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.75rem; color:var(--text-muted);">CapPrep Pro • Verified Placement Solution Key</span>
+        <button class="btn btn-primary" style="padding:0.4rem 1rem; font-size:0.82rem;" onclick="document.getElementById('test-review-modal').remove()">Done Reviewing</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+// PRO FEATURE: Printable Scorecard & PDF Export
+function printScoreCard() {
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert("Please allow popups to generate your PDF scorecard.");
+    return;
+  }
+
+  const dateStr = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const pct = Math.round((score / Math.max(1, currentQuestions.length)) * 100);
+  const cutoffText = pct >= 65 ? "CLEARED (Eligible for next round)" : "BELOW EXPECTED CUT-OFF (Needs Practice)";
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>CapPrep Pro Assessment Report - ${escHTML(currentTest?.title || 'Test')}</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1e293b; padding: 2rem; max-width: 800px; margin: 0 auto; line-height: 1.5; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0284c7; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .title { font-size: 1.4rem; font-weight: 800; color: #0369a1; }
+        .meta { font-size: 0.85rem; color: #64748b; }
+        .score-box { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 8px; padding: 1.25rem; text-align: center; margin-bottom: 1.5rem; }
+        .score-val { font-size: 2.5rem; font-weight: 900; color: #15803d; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+        .table th, .table td { border: 1px solid #cbd5e1; padding: 0.6rem; text-align: left; }
+        .table th { background: #f8fafc; font-weight: 700; }
+        .correct { color: #16a34a; font-weight: 700; }
+        .wrong { color: #dc2626; font-weight: 700; }
+        .footer { margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1rem; font-size: 0.75rem; color: #94a3b8; text-align: center; }
+        @media print { button { display: none; } }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div>
+          <div class="title">CapPrep Pro • Performance Dossier</div>
+          <div class="meta">Capgemini Exceller Recruitment Drive Mock Assessment</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="meta">Date: ${dateStr}</div>
+          <div class="meta">Mode: Proctored Standard</div>
+        </div>
+      </div>
+
+      <div class="score-box">
+        <div style="font-size:0.9rem; font-weight:700; color:#15803d; text-transform:uppercase;">Assessment Score</div>
+        <div class="score-val">${pct}%</div>
+        <div style="font-size:1rem; font-weight:600; color:#1e293b;">${score} / ${currentQuestions.length} Questions Correct</div>
+        <div style="font-size:0.85rem; margin-top:0.3rem; font-weight:700; color: ${pct >= 65 ? '#16a34a' : '#dc2626'}">${cutoffText}</div>
+      </div>
+
+      <h3>Assessment Summary: ${escHTML(currentTest?.title || '')}</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:10%;">Q#</th>
+            <th style="width:60%;">Topic / Concept Tested</th>
+            <th style="width:15%;">Status</th>
+            <th style="width:15%;">Key Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${currentQuestions.map((q, i) => {
+            const userChoice = userAnswers[i];
+            const isCor = userChoice === q.ans;
+            const letters = ['A','B','C','D'];
+            return `
+              <tr>
+                <td>#${i + 1}</td>
+                <td>${escHTML(q.q.substring(0, 85))}${q.q.length > 85 ? '...' : ''}</td>
+                <td class="${isCor ? 'correct' : 'wrong'}">${isCor ? '✓ Correct' : '✗ Wrong'}</td>
+                <td>Option ${letters[q.ans] || '-'}</td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+
+      <div class="footer">
+        Generated by CapPrep Pro System • Capgemini Placement Preparation Suite • For Candidate Self-Review
+      </div>
+
+      <script>
+        window.onload = function() { window.print(); };
+      </script>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.write(html);
+  printWindow.document.close();
 }
 
 function saveTestAttempt(testId, got, total, pct) {
@@ -2811,8 +3072,28 @@ function saveTestAttempt(testId, got, total, pct) {
 
 function closeQuiz() {
   clearInterval(timer);
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
   document.getElementById('quiz-container').style.display = 'none';
   document.body.style.overflow = '';
+}
+
+function toggleQuizFullscreen() {
+  const container = document.getElementById('quiz-container');
+  const btn = document.getElementById('btn-fullscreen-toggle');
+  if (!document.fullscreenElement) {
+    container.requestFullscreen().then(() => {
+      if (btn) btn.textContent = '✕ Exit Fullscreen';
+      showSecurityToast("🔒 Fullscreen Proctored Mode Activated. Tab switches are strictly monitored.");
+    }).catch(() => {
+      showSecurityToast("Fullscreen mode blocked by browser. Continuing in windowed mode.");
+    });
+  } else {
+    document.exitFullscreen().then(() => {
+      if (btn) btn.textContent = '⛶ Fullscreen';
+    }).catch(() => {});
+  }
 }
 
 

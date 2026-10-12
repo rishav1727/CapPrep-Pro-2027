@@ -115,9 +115,9 @@ export default async function handler(req, res) {
       console.warn("Supabase order save error:", orderErr);
     }
 
-    // Server-side instant admin notification dispatch to rishavofficials1727@gmail.com
+    // Server-side instant admin notification dispatch to testprep795@gmail.com
     try {
-      const adminEmail = "rishavofficials1727@gmail.com";
+      const adminEmail = "testprep795@gmail.com";
       const studentName = customerData.name || "Enrolled Student";
       await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(adminEmail)}`, {
         method: "POST",

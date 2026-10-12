@@ -1309,6 +1309,16 @@
         </div>
       </div>
 
+      <div style="background:rgba(16,185,129,0.08); border:1px solid #10b981; border-radius:10px; padding:0.85rem; max-width:440px; margin:0 auto 1.25rem; text-align:left; font-size:0.82rem;">
+        <div style="color:#10b981; font-weight:800; margin-bottom:0.4rem; display:flex; justify-content:space-between; align-items:center;">
+          <span>🔑 YOUR SIGN-IN CREDENTIALS:</span>
+          <button type="button" onclick="copyStudentCredentials()" style="background:#10b981; color:#06141d; border:none; padding:4px 10px; border-radius:5px; font-weight:800; font-size:0.75rem; cursor:pointer;">📋 Copy Credentials</button>
+        </div>
+        <div style="margin-bottom:0.3rem;"><span style="color:#94a3b8;">Login ID / Email:</span> <strong id="conf-login-email" style="color:#fff;"></strong></div>
+        <div><span style="color:#94a3b8;">Account Password:</span> <strong id="conf-login-pass" style="color:#00d4ff; font-family:monospace; font-size:1rem;"></strong></div>
+        <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.4rem;">💡 Save these credentials. You can also sign back in anytime using this email and password!</div>
+      </div>
+
       <div style="display:flex; gap:0.5rem; justify-content:center; max-width:440px; margin:0 auto 1rem; flex-wrap:wrap;">
         <button type="button" class="btn-tool" style="flex:1; min-width:180px; padding:0.6rem 0.8rem; font-size:0.82rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:8px; cursor:pointer;" onclick="downloadCurrentReceipt()">
           📄 Download Tax Invoice / Receipt

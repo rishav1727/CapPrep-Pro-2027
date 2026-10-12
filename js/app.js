@@ -2351,14 +2351,30 @@ function completeOrderActivation(orderDetails) {
   if (confEmail) confEmail.textContent = orderDetails.email;
   if (confOrderId) confOrderId.textContent = '#' + orderId;
 
-  showSecurityToast(`🎉 Pro Pass Activated! Confirmation email sent to ${orderDetails.email}.`);
+  const confLoginEmail = document.getElementById('conf-login-email');
+  const confLoginPass  = document.getElementById('conf-login-pass');
+  const studentPass = orderDetails.password || (document.getElementById('cust-password-input')?.value) || (getCurrentUser()?.password) || 'cap2027';
+  if (confLoginEmail) confLoginEmail.textContent = orderDetails.email;
+  if (confLoginPass)  confLoginPass.textContent  = studentPass;
+
+  showSecurityToast(`🎉 Pro Pass Activated for ${orderDetails.email}!`);
 }
 
-// Dual Email Dispatcher: Candidate Receipt + Admin Sale Alert
+function copyStudentCredentials() {
+  const email = document.getElementById('conf-login-email')?.textContent || '';
+  const pass = document.getElementById('conf-login-pass')?.textContent || '';
+  const text = `CapPrep Pro Login Credentials:\nPortal: https://capprep-pro-2027.vercel.app/\nLogin ID: ${email}\nPassword: ${pass}`;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✅ Login Credentials copied to clipboard!\n\nYou can sign back in anytime using this email and password.');
+  });
+}
+
+// Order Email Dispatcher: Instant Admin Notification to testprep795@gmail.com
 function dispatchOrderEmails(orderDetails, orderId) {
-  const adminEmail = "rishavofficials1727@gmail.com";
+  const adminEmail = "testprep795@gmail.com";
   const customerEmail = orderDetails.email;
   const studentName = orderDetails.name || "Enrolled Student";
+  const studentPassword = orderDetails.password || (document.getElementById('cust-password-input')?.value) || (getCurrentUser()?.password) || 'cap2027';
   const amountStr = `₹${orderDetails.amount || 21}`;
   const utrRef = orderDetails.utr || "DIRECT_UPI";
   const timestamp = orderDetails.timestamp || new Date().toLocaleString();
@@ -2381,7 +2397,7 @@ function dispatchOrderEmails(orderDetails, orderId) {
     localStorage.setItem('capprep_admin_notifs', JSON.stringify(notifs));
   } catch(e) {}
 
-  // 2. Dispatch Automated Notification Email to Admin (rishavofficials1727@gmail.com)
+  // 2. Dispatch Automated Notification Email to Admin (testprep795@gmail.com)
   try {
     if (typeof fetch !== 'undefined') {
       fetch(`https://formsubmit.co/ajax/${encodeURIComponent(adminEmail)}`, {
@@ -2395,11 +2411,12 @@ function dispatchOrderEmails(orderDetails, orderId) {
           "Order ID": `#${orderId}`,
           "Student Name": studentName,
           "Registered Email": customerEmail,
+          "Student Password": studentPassword,
           "WhatsApp Phone": orderDetails.phone || "N/A",
           "College / Batch": orderDetails.college || "Capgemini Aspirant",
           "Amount Paid": `${amountStr} INR`,
-          "Payment Method": orderDetails.method || "UPI (rishavofficials1727-7@okaxis)",
-          "UPI UTR Reference": utrRef,
+          "Payment Method": orderDetails.method || "Razorpay / UPI",
+          "UPI / Payment Reference": utrRef,
           "Status": "VERIFIED & PRO PASS UNLOCKED",
           "Timestamp": timestamp,
           "Admin Control Center": `${siteUrl}/admin.html`
@@ -2407,36 +2424,6 @@ function dispatchOrderEmails(orderDetails, orderId) {
       }).then(res => res.json())
         .then(d => console.log("Admin notification email dispatched:", d))
         .catch(err => console.warn("Admin email notice (async):", err));
-    }
-  } catch(e) {}
-
-  // 3. Dispatch Automated Confirmation & Invoice to Candidate (customerEmail)
-  try {
-    if (typeof fetch !== 'undefined' && customerEmail && customerEmail.includes('@')) {
-      const studentPassword = orderDetails.password || (getCurrentUser()?.password) || 'cap2027';
-      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(customerEmail)}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          _subject: `🎓 Congratulations ${studentName}! Your CapPrep Pro Pass is Activated (Order #${orderId})`,
-          _template: "box",
-          _captcha: "false",
-          _replyto: adminEmail,
-          "Congratulations": `🎉 Hello ${studentName}! Congratulations on enrolling in CapPrep Pro for Capgemini Exceller 2027. Your payment of ${amountStr} is verified and your Full Lifetime Access is now 100% ACTIVE!`,
-          "Order Reference": `#${orderId}`,
-          "Amount Paid": `${amountStr} INR (Lifetime Pro Pass)`,
-          "UPI Transaction Ref (UTR)": utrRef,
-          "--- YOUR LOGIN CREDENTIALS ---": "----------------------------------------",
-          "Student Login ID": customerEmail,
-          "Account Password": studentPassword,
-          "Portal Access Link": `${siteUrl}/index.html`,
-          "--- UNLOCKED FEATURES ---": "----------------------------------------",
-          "Included Access": "All 76+ Proctored Mock Tests (Stages 1, 2A, 2B, 3, 4, 5-6), Lab 27 AI Simulator, Stage 2B Live Debugger, Stage 4 Technical & HR Hub, Full Downloadable Study PDF Guides",
-          "Need Help?": "Direct WhatsApp Support with Master Admin: +91 91428 17277 | Email: rishavofficials1727@gmail.com"
-        })
-      }).then(res => res.json())
-        .then(d => console.log("Candidate confirmation email dispatched with password:", d))
-        .catch(err => console.warn("Candidate email notice (async):", err));
     }
   } catch(e) {}
 }
@@ -2531,12 +2518,15 @@ function downloadCurrentReceipt() {
     </table>
 
     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; margin-bottom: 20px;">
-      ✅ <strong>Access Confirmation:</strong> Your account is registered under <strong>${o.email}</strong>. Log in anytime at <strong>https://capprep-pro-2027.vercel.app</strong> using your password or 1-click VIP link.
+      ✅ <strong>Your Permanent Sign-In Pass:</strong><br>
+      Login ID / Email: <strong>${o.email}</strong><br>
+      Account Password: <strong style="font-family: monospace; font-size: 14px; color: #0284c7;">${o.password || (document.getElementById('cust-password-input')?.value) || 'cap2027'}</strong><br>
+      Portal Link: <strong>https://capprep-pro-2027.vercel.app</strong>
     </div>
 
     <div class="footer">
       This is a computer-generated tax receipt. Issued by CapPrep Pro Management.<br>
-      Support Contact: <strong>rishavofficials1727@gmail.com</strong> • UPI VPA: <strong>rishavofficials1727-7@okaxis</strong>
+      Support Contact: <strong>testprep795@gmail.com</strong>
     </div>
   </div>
 </body>

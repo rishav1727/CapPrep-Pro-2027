@@ -851,13 +851,96 @@ const MOCK_TESTS = [
   { id:"gm_s4", title:"Stage 4 Grand Mock — Cognitive Games & ADEPT-15", category:"Stage-Wise Grand Mocks", bank:"situational", icon:"🧠", difficulty:"medium", questions:20, duration:25, isPremium:true },
   { id:"gm_s56", title:"Stages 5 & 6 Grand Mock — Tech Defense & HR Values", category:"Stage-Wise Grand Mocks", bank:"interview", icon:"🏆", difficulty:"hard", questions:15, duration:20, isPremium:true },
 
-  // GRAND MOCK MARATHON SUITE (10 FULL TESTS)
-  { id:"full_1", title:"Full Mock Test 1 — Main Assessment Drive (Stages 2A to 6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", questions:42, duration:45, isPremium:false, spec:[{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"os",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5}] },
-  { id:"full_2", title:"Full Mock Test 2 — All Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", questions:50, duration:55, isPremium:false, spec:[{bank:"verbal",n:8},{bank:"ai_literacy",n:5},{bank:"pseudocode",n:5},{bank:"dsa",n:5},{bank:"dbms",n:4},{bank:"oops",n:4},{bank:"debugging",n:5},{bank:"ai_coding",n:5},{bank:"situational",n:5},{bank:"interview",n:4}] },
-  { id:"full_3", title:"Full Mock Test 3 — Tech + Verbal Combo", category:"Grand Mocks", icon:"📋", difficulty:"medium", questions:35, duration:45, isPremium:true, spec:[{bank:"verbal",n:10},{bank:"ai_literacy",n:5},{bank:"dsa",n:6},{bank:"dbms",n:5},{bank:"aptitude",n:9}] },
-  { id:"full_4", title:"Full Mock Test 4 — Debugging + AI Coding Focus", category:"Grand Mocks", icon:"🔬", difficulty:"hard", questions:30, duration:40, isPremium:true, spec:[{bank:"debugging",n:10},{bank:"ai_coding",n:10},{bank:"pseudocode",n:5},{bank:"ai_literacy",n:5}] },
-  { id:"full_5", title:"Full Mock Test 5 — Situational + Technical", category:"Grand Mocks", icon:"🎭", difficulty:"medium", questions:30, duration:35, isPremium:true, spec:[{bank:"situational",n:10},{bank:"ai_literacy",n:6},{bank:"dsa",n:7},{bank:"dbms",n:7}] },
-  { id:"full_6", title:"Full Mock Test 6 — 50Q Stage 2 Endurance", category:"Grand Mocks", icon:"🏋️", difficulty:"hard", questions:40, duration:50, isPremium:true, spec:[{bank:"ai_literacy",n:8},{bank:"pseudocode",n:6},{bank:"dsa",n:8},{bank:"dbms",n:6},{bank:"oops",n:6},{bank:"networks",n:6}] },
+  // ==========================================
+  // GRAND MOCK MARATHON SUITE — Multi-Stage Orchestrated
+  // Stage 2A = 40Q MCQ (45 min) | Stage 2B = Debug Simulator | Stage 3 = AI Coding Simulator
+  // Only Grand Mock 1 is FREE for non-Pro users; all others require Pro Pass
+  // ==========================================
+  { id:"full_1", title:"Grand Mock 1 — Main Assessment Drive (Stages 2A → 2B → 3 → 4 → 5/6)", category:"Grand Mocks", icon:"🎯", difficulty:"medium", isPremium:false, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" },
+      { type:"mcq", label:"Stage 4 — Cognitive & ADEPT-15", icon:"🧠", color:"#f59e0b", questions:20, duration:25, spec:[{bank:"situational",n:20}] },
+      { type:"mcq", label:"Stages 5 & 6 — Tech & HR Defense", icon:"🏆", color:"#38bdf8", questions:15, duration:20, spec:[{bank:"interview",n:15}] }
+    ]
+  },
+  { id:"full_2", title:"Grand Mock 2 — All 6 Stages Complete Marathon (Stage 1 Included)", category:"Grand Mocks", icon:"🚀", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 1 — English Communication", icon:"🎙️", color:"#22c55e", questions:25, duration:25, spec:[{bank:"verbal",n:25}] },
+      { type:"mcq", label:"Stage 2A — Technical Assessment", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" },
+      { type:"mcq", label:"Stage 4 — Cognitive & ADEPT-15", icon:"🧠", color:"#f59e0b", questions:20, duration:25, spec:[{bank:"situational",n:20}] },
+      { type:"mcq", label:"Stages 5 & 6 — Tech & HR Defense", icon:"🏆", color:"#38bdf8", questions:15, duration:20, spec:[{bank:"interview",n:15}] }
+    ]
+  },
+  { id:"full_3", title:"Grand Mock 3 — Tech + Verbal Combo (Stage 1 + Stage 2A)", category:"Grand Mocks", icon:"📋", difficulty:"medium", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 1 — English Communication", icon:"🎙️", color:"#22c55e", questions:25, duration:25, spec:[{bank:"verbal",n:25}] },
+      { type:"mcq", label:"Stage 2A — Technical Assessment", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] }
+    ]
+  },
+  { id:"full_4", title:"Grand Mock 4 — Full Technical Drive (2A + 2B + 3)", category:"Grand Mocks", icon:"🔬", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" }
+    ]
+  },
+  { id:"full_5", title:"Grand Mock 5 — Situational + Technical (2A + 4)", category:"Grand Mocks", icon:"🎭", difficulty:"medium", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"mcq", label:"Stage 4 — Cognitive & ADEPT-15", icon:"🧠", color:"#f59e0b", questions:20, duration:25, spec:[{bank:"situational",n:20}] }
+    ]
+  },
+  { id:"full_6", title:"Grand Mock 6 — Stage 2 Full Endurance (2A + 2B + 3)", category:"Grand Mocks", icon:"🏋️", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" }
+    ]
+  },
+  { id:"full_7", title:"Grand Mock 7 — Elite All-Rounder (Stages 1 → 2A → 2B → 3)", category:"Grand Mocks", icon:"⚡", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 1 — English Communication", icon:"🎙️", color:"#22c55e", questions:25, duration:25, spec:[{bank:"verbal",n:25}] },
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:8},{bank:"pseudocode",n:8},{bank:"dsa",n:8},{bank:"dbms",n:6},{bank:"oops",n:5},{bank:"os",n:5}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" }
+    ]
+  },
+  { id:"full_8", title:"Grand Mock 8 — Live Elimination Gauntlet (2A + 2B + 3 + 4)", category:"Grand Mocks", icon:"🔥", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" },
+      { type:"mcq", label:"Stage 4 — Cognitive & ADEPT-15", icon:"🧠", color:"#f59e0b", questions:20, duration:25, spec:[{bank:"situational",n:20}] }
+    ]
+  },
+  { id:"full_9", title:"Grand Mock 9 — Advanced Core CS & AI Coding Synthesis", category:"Grand Mocks", icon:"🛡️", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:8},{bank:"dsa",n:8},{bank:"os",n:6},{bank:"networks",n:6},{bank:"dbms",n:6},{bank:"oops",n:6}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" }
+    ]
+  },
+  { id:"full_10", title:"Grand Mock 10 — Complete Day-1 Simulation Marathon (All 6 Stages)", category:"Grand Mocks", icon:"👑", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 1 — English Communication", icon:"🎙️", color:"#22c55e", questions:25, duration:25, spec:[{bank:"verbal",n:25}] },
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:7},{bank:"pseudocode",n:7},{bank:"dsa",n:7},{bank:"dbms",n:5},{bank:"oops",n:5},{bank:"os",n:5},{bank:"networks",n:4}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" },
+      { type:"mcq", label:"Stage 4 — Cognitive & ADEPT-15", icon:"🧠", color:"#f59e0b", questions:20, duration:25, spec:[{bank:"situational",n:20}] },
+      { type:"mcq", label:"Stages 5 & 6 — Tech & HR Defense", icon:"🏆", color:"#38bdf8", questions:15, duration:20, spec:[{bank:"interview",n:15}] }
+    ]
+  },
+  { id:"full_11", title:"Grand Mock 11 — Stage 2 High-Speed Tech Sprint (2A + 2B + 3)", category:"Grand Mocks", icon:"🏁", difficulty:"hard", isPremium:true, isGrandMock:true,
+    stages:[
+      { type:"mcq", label:"Stage 2A — Technical Assessment (40Q)", icon:"💻", color:"#a855f7", questions:40, duration:45, spec:[{bank:"ai_literacy",n:8},{bank:"pseudocode",n:8},{bank:"dsa",n:8},{bank:"dbms",n:6},{bank:"oops",n:5},{bank:"os",n:5}] },
+      { type:"debug_sim", label:"Stage 2B — Debugging Assessment", icon:"🐛", color:"#f97316", simId:"gm_s2b" },
+      { type:"ai_sim", label:"Stage 3 — AI-Assisted Coding", icon:"🤖", color:"#06d6a0", simId:"gm_s3" }
+    ]
+  },
   { id:"combo_1", title:"⚡ Speed Challenge — 20Q in 20 Mins", category:"Grand Mocks", icon:"⏱️", difficulty:"hard", questions:20, duration:20, isPremium:true, spec:[{bank:"ai_literacy",n:4},{bank:"dsa",n:4},{bank:"dbms",n:4},{bank:"aptitude",n:4},{bank:"verbal",n:4}] },
   { id:"combo_2", title:"Core CS Marathon — 30 Questions", category:"Grand Mocks", icon:"🏃", difficulty:"hard", questions:30, duration:35, isPremium:true, spec:[{bank:"os",n:8},{bank:"networks",n:8},{bank:"dbms",n:7},{bank:"oops",n:7}] },
   { id:"combo_3", title:"AI + DevOps Future-Ready Test", category:"Grand Mocks", icon:"🌟", difficulty:"medium", questions:20, duration:25, isPremium:true, spec:[{bank:"ai_literacy",n:10},{bank:"devops",n:5},{bank:"networks",n:5}] },
@@ -1260,7 +1343,35 @@ async function processUserSignIn() {
     return;
   }
 
-  // 1c. Check Live Supabase Cloud Database (Centralized Across All Devices - Email OR Mobile)
+  // 2. Check Master Admin Credentials FIRST (before Supabase — admin always works)
+  if (MASTER_ADMIN_EMAILS.includes(emailClean)) {
+    const adminPasswords = ['rishav0527'];
+    if (adminPasswords.includes(password)) {
+      const adminUser = {
+        name: "Rishav Kumar Gupta",
+        email: emailClean,
+        password: password,
+        phone: "+91 98000 00000",
+        college: "Master Administrator",
+        isPro: true,
+        isAdmin: true,
+        joinedAt: new Date().toLocaleString()
+      };
+      setCurrentUser(adminUser);
+      closeSignInModal();
+      showSecurityToast("👑 Master Administrator Signed In Successfully!");
+      alert("👑 WELCOME MASTER ADMIN RISHAV!\n\nYou are signed in with Full Administrator Privileges.\nAll 76+ Mock Tests, Simulators, and Admin Control Center are active.");
+      return;
+    }
+    // Admin email but wrong password — show specific hint
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.innerHTML = `🔐 Admin credentials incorrect for <strong>${escHTML(emailClean)}</strong>. Please check your admin password.`;
+    }
+    return;
+  }
+
+  // 2b. Check Live Supabase Cloud Database (for non-admin users - Centralized Across All Devices)
   if (typeof dbAuthenticate === 'function') {
     try {
       const cloudUser = await dbAuthenticate(inputVal, password);
@@ -1278,25 +1389,6 @@ async function processUserSignIn() {
     } catch(err) {
       console.warn("Supabase auth check fallback:", err);
     }
-  }
-
-  // 2. Check Master Admin Credentials
-  if (MASTER_ADMIN_EMAILS.includes(emailClean) && (password === '1727' || password === 'cap2027' || password === 'rishav')) {
-    const adminUser = {
-      name: "Rishav Kumar Gupta",
-      email: emailClean,
-      password: password,
-      phone: "+91 98000 00000",
-      college: "Master Administrator",
-      isPro: true,
-      isAdmin: true,
-      joinedAt: new Date().toLocaleString()
-    };
-    setCurrentUser(adminUser);
-    closeSignInModal();
-    showSecurityToast("👑 Master Administrator Signed In Successfully!");
-    alert("👑 WELCOME MASTER ADMIN RISHAV!\n\nYou are signed in with Full Administrator Privileges.\nAll 76+ Mock Tests, Simulators, and Admin Control Center are active.");
-    return;
   }
 
   // 3. Check Stored User Database (Local Cache)
@@ -2624,6 +2716,286 @@ function startSocialProofLoop() {
 }
 
 // ==========================================
+// GRAND MOCK MULTI-STAGE ORCHESTRATION ENGINE
+// ==========================================
+
+let grandMockState = null; // { test, stageIdx, scores:[], totalCorrect, totalQuestions }
+
+function launchGrandMock(test) {
+  // Initialize grand mock state
+  grandMockState = {
+    test: test,
+    stageIdx: 0,
+    scores: [],
+    totalCorrect: 0,
+    totalQuestions: 0
+  };
+  // Save to sessionStorage so simulators can resume
+  try {
+    sessionStorage.setItem('gm_active', JSON.stringify({
+      testId: test.id,
+      testTitle: test.title,
+      stageIdx: 0,
+      stages: test.stages,
+      scores: []
+    }));
+  } catch(e) {}
+  showGrandMockStageGate();
+}
+
+function showGrandMockStageGate() {
+  if (!grandMockState) return;
+  const { test, stageIdx, scores } = grandMockState;
+  const stages = test.stages;
+  const stage = stages[stageIdx];
+  if (!stage) return;
+
+  const modal = document.getElementById('gm-stage-gate-modal');
+  if (!modal) return;
+
+  // Build stage progress pills
+  const stageListHTML = stages.map((s, i) => {
+    let statusIcon = i < stageIdx ? '✅' : i === stageIdx ? '▶️' : '⏳';
+    let statusClass = i < stageIdx ? 'gm-stage-done' : i === stageIdx ? 'gm-stage-active' : 'gm-stage-pending';
+    let typeLabel = s.type === 'debug_sim' ? 'Debugging Simulator' : s.type === 'ai_sim' ? 'AI Coding Simulator' : `${s.questions}Q MCQ • ${s.duration} min`;
+    let scoreTag = scores[i] !== undefined ? ` <span style="color:#06d6a0;font-weight:800;">(${scores[i]}%)</span>` : '';
+    return `<div class="gm-stage-pill ${statusClass}">
+      <span style="font-size:1.1rem;">${statusIcon} ${s.icon}</span>
+      <div>
+        <div style="font-weight:700;font-size:0.88rem;color:#fff;">${s.label}${scoreTag}</div>
+        <div style="font-size:0.75rem;color:#94a3b8;">${typeLabel}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Stage description based on type
+  let stageDesc = '';
+  let btnLabel = '';
+  if (stage.type === 'mcq') {
+    stageDesc = `<strong>${stage.questions} Multiple Choice Questions</strong> • ${stage.duration} minutes timed`;
+    btnLabel = `🚀 Start ${stage.label}`;
+  } else if (stage.type === 'debug_sim') {
+    stageDesc = `<strong>Hands-On Debugging Simulator</strong> — Fix real algorithmic bugs in C/C++/Java`;
+    btnLabel = `🐛 Launch Debugging Simulator`;
+  } else if (stage.type === 'ai_sim') {
+    stageDesc = `<strong>AI-Assisted Coding Simulator</strong> — Prompt-engineer solutions with the AI assistant`;
+    btnLabel = `🤖 Launch AI Coding Simulator`;
+  }
+
+  const progressPct = Math.round((stageIdx / stages.length) * 100);
+
+  document.getElementById('gm-gate-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:1.25rem;">
+      <div style="font-size:0.75rem;color:#a855f7;font-weight:800;letter-spacing:1px;margin-bottom:0.3rem;">GRAND MOCK IN PROGRESS</div>
+      <div style="font-size:1.35rem;font-weight:900;color:#fff;margin-bottom:0.25rem;">${escHTML(test.title)}</div>
+      <div style="font-size:0.82rem;color:#94a3b8;">Stage ${stageIdx + 1} of ${stages.length}</div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:0.5rem 0.75rem;margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#94a3b8;font-weight:700;margin-bottom:0.4rem;">
+        <span>OVERALL PROGRESS</span><span>${progressPct}%</span>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:12px;height:8px;">
+        <div style="background:linear-gradient(90deg,#a855f7,#06d6a0);width:${progressPct}%;height:8px;border-radius:12px;transition:width 0.5s;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;">${stageListHTML}</div>
+
+    <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:10px;padding:0.9rem 1rem;margin-bottom:1.25rem;">
+      <div style="font-size:0.75rem;color:#a855f7;font-weight:800;margin-bottom:0.3rem;">NEXT STAGE</div>
+      <div style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:0.2rem;">${stage.icon} ${stage.label}</div>
+      <div style="font-size:0.8rem;color:#cbd5e1;">${stageDesc}</div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;">
+      <button onclick="closeGrandMockGate()" style="flex:0 0 auto;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#94a3b8;padding:0.75rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;">✕ Quit Grand Mock</button>
+      <button onclick="launchGrandMockCurrentStage()" style="flex:1;background:linear-gradient(135deg,#a855f7,#7c3aed);border:none;color:#fff;padding:0.75rem 1rem;border-radius:8px;font-weight:800;cursor:pointer;font-size:0.92rem;letter-spacing:0.3px;">${btnLabel}</button>
+    </div>
+  `;
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function launchGrandMockCurrentStage() {
+  if (!grandMockState) return;
+  const { test, stageIdx } = grandMockState;
+  const stage = test.stages[stageIdx];
+  if (!stage) return;
+
+  // Close the gate modal
+  const modal = document.getElementById('gm-stage-gate-modal');
+  if (modal) modal.style.display = 'none';
+
+  if (stage.type === 'mcq') {
+    // Build a temporary test object for the MCQ engine
+    const mcqTest = {
+      id: test.id + '_stage_' + stageIdx,
+      title: `${test.title} • ${stage.label}`,
+      questions: stage.questions,
+      duration: stage.duration,
+      spec: stage.spec,
+      bank: stage.bank
+    };
+    currentTest = mcqTest;
+    currentQuestions = getFreshQuestions(mcqTest);
+    if (!currentQuestions || currentQuestions.length === 0) {
+      showSecurityToast("Error loading questions for this stage.");
+      return;
+    }
+    currentQIdx = 0;
+    score = 0;
+    answered = false;
+    tabViolationCount = 0;
+    userAnswers = new Array(currentQuestions.length).fill(-1);
+    timeLeft = mcqTest.duration * 60;
+
+    const container = document.getElementById('quiz-container');
+    container.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('quiz-title').textContent = mcqTest.title;
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('question-card').style.display = 'block';
+    renderQuestion();
+    startTimer();
+    updateProgress();
+
+  } else if (stage.type === 'debug_sim') {
+    // Save state and redirect to debug simulator
+    try {
+      const gmData = JSON.parse(sessionStorage.getItem('gm_active') || '{}');
+      gmData.stageIdx = stageIdx;
+      gmData.scores = grandMockState.scores;
+      gmData.returnTo = 'index.html#grand-mocks';
+      sessionStorage.setItem('gm_active', JSON.stringify(gmData));
+    } catch(e) {}
+    window.location.href = 'modules/debug_sim.html?gm=1&id=' + stage.simId;
+
+  } else if (stage.type === 'ai_sim') {
+    // Save state and redirect to AI coding simulator
+    try {
+      const gmData = JSON.parse(sessionStorage.getItem('gm_active') || '{}');
+      gmData.stageIdx = stageIdx;
+      gmData.scores = grandMockState.scores;
+      gmData.returnTo = 'index.html#grand-mocks';
+      sessionStorage.setItem('gm_active', JSON.stringify(gmData));
+    } catch(e) {}
+    window.location.href = 'modules/ai_coding_sim.html?gm=1&id=' + stage.simId;
+  }
+}
+
+function grandMockStageMCQComplete(stagePct) {
+  // Called when an MCQ stage within a Grand Mock is finished
+  if (!grandMockState) return;
+  grandMockState.scores.push(stagePct);
+  grandMockState.stageIdx++;
+
+  const { test, stageIdx } = grandMockState;
+  if (stageIdx >= test.stages.length) {
+    showGrandMockFinalResult();
+  } else {
+    // Close quiz, show stage gate for next stage
+    const container = document.getElementById('quiz-container');
+    if (container) container.style.display = 'none';
+    document.body.style.overflow = '';
+    clearInterval(timer);
+    showGrandMockStageGate();
+  }
+}
+
+function showGrandMockFinalResult() {
+  if (!grandMockState) return;
+  const { test, scores } = grandMockState;
+  const container = document.getElementById('quiz-container');
+  if (container) container.style.display = 'none';
+  document.body.style.overflow = '';
+  clearInterval(timer);
+
+  const avgScore = scores.length > 0 ? Math.round(scores.reduce((a,b) => a + b, 0) / scores.length) : 0;
+  let grade, color;
+  if (avgScore >= 85) { grade = '🏆 Outstanding!'; color = '#06d6a0'; }
+  else if (avgScore >= 70) { grade = '✅ Good Job!'; color = '#00d4ff'; }
+  else if (avgScore >= 55) { grade = '⚠️ Average'; color = '#f59e0b'; }
+  else { grade = '❌ Needs Work'; color = '#ef4444'; }
+
+  const stageBreakdown = test.stages.map((s, i) => {
+    const sc = scores[i];
+    const scoreStr = sc !== undefined ? `${sc}%` : 'Sim (Completed)';
+    const bgColor = sc === undefined ? '#334155' : sc >= 70 ? 'rgba(6,214,160,0.15)' : sc >= 50 ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)';
+    const txtColor = sc === undefined ? '#94a3b8' : sc >= 70 ? '#06d6a0' : sc >= 50 ? '#f59e0b' : '#ef4444';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;background:${bgColor};border-radius:8px;padding:0.6rem 0.85rem;margin-bottom:0.4rem;">
+      <div style="font-size:0.85rem;color:#fff;font-weight:700;">${s.icon} ${s.label}</div>
+      <div style="font-size:0.85rem;font-weight:800;color:${txtColor};">${scoreStr}</div>
+    </div>`;
+  }).join('');
+
+  const modal = document.getElementById('gm-stage-gate-modal');
+  if (!modal) return;
+  document.getElementById('gm-gate-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="font-size:3rem;margin-bottom:0.5rem;">🏆</div>
+      <div style="font-size:0.75rem;color:#a855f7;font-weight:800;letter-spacing:1px;margin-bottom:0.3rem;">GRAND MOCK COMPLETE</div>
+      <div style="font-size:1.35rem;font-weight:900;color:#fff;margin-bottom:0.5rem;">${grade}</div>
+      <div style="font-size:2.5rem;font-weight:900;color:${color};">${avgScore}%</div>
+      <div style="font-size:0.82rem;color:#94a3b8;">Average Score Across All Stages</div>
+    </div>
+    <div style="margin-bottom:1.25rem;">${stageBreakdown}</div>
+    <div style="display:flex;gap:0.75rem;">
+      <button onclick="closeGrandMockGate()" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:0.75rem;border-radius:8px;font-weight:700;cursor:pointer;">← Back to Dashboard</button>
+      <button onclick="closeGrandMockGate();startTest('${test.id}')" style="flex:1;background:linear-gradient(135deg,#a855f7,#7c3aed);border:none;color:#fff;padding:0.75rem;border-radius:8px;font-weight:800;cursor:pointer;">🔄 Retake Grand Mock</button>
+    </div>
+  `;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  grandMockState = null;
+}
+
+function closeGrandMockGate() {
+  const modal = document.getElementById('gm-stage-gate-modal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+  grandMockState = null;
+  try { sessionStorage.removeItem('gm_active'); } catch(e) {}
+}
+
+// Check if we're returning from a simulator mid-Grand Mock
+(function checkGrandMockResume() {
+  try {
+    const gmData = JSON.parse(sessionStorage.getItem('gm_active') || 'null');
+    if (!gmData || !gmData.testId) return;
+    const completedStageIdx = gmData.stageIdx;
+    const test = MOCK_TESTS.find(t => t.id === gmData.testId);
+    if (!test || !test.stages) return;
+
+    // Reconstruct grand mock state and advance to next stage
+    grandMockState = {
+      test: test,
+      stageIdx: completedStageIdx + 1,
+      scores: gmData.scores || []
+    };
+    // Push a placeholder score for the simulator stage (mark as completed)
+    if (grandMockState.scores.length <= completedStageIdx) {
+      grandMockState.scores.push(undefined); // simulator completed (no %)
+    }
+
+    if (grandMockState.stageIdx >= test.stages.length) {
+      sessionStorage.removeItem('gm_active');
+      setTimeout(() => showGrandMockFinalResult(), 500);
+    } else {
+      sessionStorage.setItem('gm_active', JSON.stringify({
+        testId: test.id,
+        testTitle: test.title,
+        stageIdx: grandMockState.stageIdx,
+        stages: test.stages,
+        scores: grandMockState.scores
+      }));
+      setTimeout(() => showGrandMockStageGate(), 500);
+    }
+  } catch(e) {}
+})();
+
+// ==========================================
 // QUIZ ENGINE
 // ==========================================
 
@@ -2647,6 +3019,13 @@ function startTest(testId) {
   // Payment Wall Guard — free tests bypass; all premium tests require Pro membership
   if (test.isPremium && !isProUser()) {
     openLockedTestModal(test);
+    return;
+  }
+
+  // === GRAND MOCK MULTI-STAGE ORCHESTRATION ===
+  // If this is a multi-stage Grand Mock, show the stage-gate launcher instead of flat MCQ
+  if (test.isGrandMock && Array.isArray(test.stages)) {
+    launchGrandMock(test);
     return;
   }
 
@@ -2841,6 +3220,13 @@ function showResult() {
 
   const total = Math.max(1, currentQuestions.length);
   const pct = Math.round((score / total) * 100);
+
+  // If this MCQ stage is part of a Grand Mock, advance to next stage instead of normal result
+  if (grandMockState) {
+    grandMockStageMCQComplete(pct);
+    return;
+  }
+
   let grade, msg, color;
 
   if (pct >= 85) { grade = '🏆 Excellent!'; msg = 'Outstanding performance! You are well-prepared for Capgemini.'; color = '#06d6a0'; }

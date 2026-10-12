@@ -2205,11 +2205,23 @@ async function openRazorpayCheckout() {
     },
     theme: {
       color: '#00d4ff',
+      backdrop_color: 'rgba(3, 7, 18, 0.9)',
     },
     modal: {
       backdropclose: false,
       escape: true,
       handleback: true,
+      confirm_close: true,
+      ondismiss: function() {
+        console.log('Razorpay checkout dismissed by user.');
+        // Re-display payment modal if dismissed
+        const pModal = document.getElementById('payment-modal');
+        if (pModal) pModal.style.display = 'flex';
+      },
+    },
+    retry: {
+      enabled: true,
+      max_count: 3,
     },
     // Called ONLY when Razorpay confirms the payment
     handler: async function(response) {
@@ -2262,12 +2274,6 @@ async function openRazorpayCheckout() {
         console.error('Verification error:', err);
         alert('⚠️ Payment completed but verification failed. Please contact support with Payment ID: ' + response.razorpay_payment_id);
       }
-    },
-    // Called when the user closes the Razorpay popup without paying
-    modal: {
-      ondismiss: function() {
-        console.log('Razorpay checkout dismissed by user.');
-      },
     },
   };
 

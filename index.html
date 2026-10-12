@@ -4,10 +4,16 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CapPrep Pro — Capgemini Exceller 2027 Preparation Platform</title>
-  <link rel="stylesheet" href="css/style.css?v=20261012_02"/>
+  <link rel="preconnect" href="https://checkout.razorpay.com" crossorigin/>
+  <link rel="preconnect" href="https://api.razorpay.com" crossorigin/>
+  <link rel="dns-prefetch" href="https://checkout.razorpay.com"/>
+  <link rel="dns-prefetch" href="https://api.razorpay.com"/>
+  <link rel="preload" href="https://checkout.razorpay.com/v1/checkout.js" as="script"/>
+  <link rel="stylesheet" href="css/style.css?v=20261012_03"/>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:;"/>
   <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
   <meta name="referrer" content="strict-origin-when-cross-origin"/>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
     .test-grid-10 {
       display: grid;
@@ -1527,9 +1533,8 @@
   </div>
 </div>
 
-<!-- Razorpay Checkout SDK (official, loaded last to not block page render) -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="js/db.js?v=20261012_03"></script>
-<script src="js/app.js?v=20261012_03"></script>
+<!-- CapPrep Core Database & Application Engine -->
+<script src="js/db.js?v=20261012_04"></script>
+<script src="js/app.js?v=20261012_04"></script>
 </body>
 </html>

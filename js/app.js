@@ -2065,27 +2065,32 @@ async function openRazorpayCheckout() {
   }
 
   const btn = document.getElementById('rzp-pay-btn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Connecting to Razorpay...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = '⚡ Launching Secure Payment...'; }
 
   let orderId = null;
   try {
-    // 1. Create Razorpay order on our backend (serverless function)
+    // 1. Create Razorpay order on our backend with fast 1.8s timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1800);
+
     const orderRes = await fetch('/api/create-order', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal:  controller.signal,
       body: JSON.stringify({
         amount:  currentPayablePrice * 100,  // paise
         currency: 'INR',
         receipt: `rcpt_${Date.now()}`,
       }),
     });
+    clearTimeout(timeoutId);
 
     if (orderRes.ok) {
       const orderData = await orderRes.json();
       orderId = orderData.id;
     }
   } catch (err) {
-    console.warn('Backend order creation notice:', err);
+    console.warn('Backend order fast fallback (direct launch active):', err);
   }
 
   if (btn) { btn.disabled = false; btn.innerHTML = `⚡ Pay ₹${currentPayablePrice} with Razorpay — Instant Unlock`; }

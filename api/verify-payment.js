@@ -105,14 +105,48 @@ export default async function handler(req, res) {
           name: customerData.name || "Enrolled Student",
           phone: customerData.phone || "+91 98000 00000",
           college: customerData.college || "Capgemini Candidate",
-          amount: 51,
-          method: "Razorpay (Live Payment)",
+          amount: 21,
+          method: "Razorpay (Live Gateway)",
           utr: razorpay_payment_id,
           status: "VERIFIED_ACTIVE"
         })
       });
     } catch(orderErr) {
       console.warn("Supabase order save error:", orderErr);
+    }
+
+    // Server-side instant admin notification dispatch to rishavofficials1727@gmail.com
+    try {
+      const adminEmail = "rishavofficials1727@gmail.com";
+      const studentName = customerData.name || "Enrolled Student";
+      await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(adminEmail)}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Origin": "https://capprep-pro-2027.vercel.app",
+          "Referer": "https://capprep-pro-2027.vercel.app"
+        },
+        body: JSON.stringify({
+          _subject: `💰 [NEW SALE] ₹21 Received from ${studentName} (Order #${razorpay_order_id})`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: cleanEmail,
+          "Order ID": `#${razorpay_order_id}`,
+          "Payment ID (Razorpay)": razorpay_payment_id,
+          "Student Name": studentName,
+          "Student Email": cleanEmail,
+          "Mobile Phone": customerData.phone || "N/A",
+          "College": customerData.college || "Capgemini Candidate",
+          "Amount Paid": "₹21 INR (CapPrep Pro Lifetime)",
+          "Status": "CONFIRMED & UNLOCKED",
+          "Account Password": customerData.password || "N/A",
+          "Admin Dashboard": "https://capprep-pro-2027.vercel.app/admin.html"
+        })
+      });
+      console.log(`✅ Admin sale notification dispatched to ${adminEmail}`);
+    } catch(mailErr) {
+      console.warn("Admin server notification error:", mailErr);
     }
   }
 
@@ -121,6 +155,6 @@ export default async function handler(req, res) {
     payment_id: razorpay_payment_id,
     order_id:   razorpay_order_id,
     db_saved:   dbSaved,
-    message:    'Payment verified and student account saved to cloud database.',
+    message:    'Payment verified, credentials saved, and admin notified.',
   });
 }

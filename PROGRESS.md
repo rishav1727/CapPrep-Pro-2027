@@ -185,13 +185,23 @@ C:\cap\ai\
     └── interview_hub.html       ← Stages 4, 5 & 6 Master Hub (Cognitive, Tech Interview, HR 7 Core Values)
 ```
 
----
-
-## 🧭 Continuity Guidelines for Future Sessions
-
-- **Always inspect `C:\cap\ai\` first** before making changes.
-- **Keep all files within `C:\cap\ai\`**.
-- **All code is standalone HTML/CSS/JS** with zero dependencies — runs directly in any browser.
-- **Update `README.md` and `PROGRESS.md`** whenever new updates are made.
+11. **Conversion Funnel Overhaul & Free Trial Plan to Drive Purchases (October 2026)**:
+    - **Per-IP 5-Minute Free Study Reader Preview**:
+      - Created `capprep_free_timer` table on Supabase with Row Level Security.
+      - Developed [`api/free-timer.js`](file:///c:/cap/ai/api/free-timer.js) reading client IP (`x-forwarded-for`) and calculating remaining time from a 300-second window.
+      - In [`modules/study_reader.html`](file:///c:/cap/ai/modules/study_reader.html), added a floating timer banner and full-screen paywall modal that triggers once 5 minutes elapse, prompting students to unlock Pro for ₹21.
+    - **Interactive Sample Questions Showcase**:
+      - Added `#questions-preview-section` in [`index.html`](file:///c:/cap/ai/index.html) featuring 4 real exam-level questions (Stage 2A AI Literacy, RAG, Grammar, Pseudocode) with instant answer reveal and explanations to prove question accuracy and platform quality before purchase.
+    - **Itemized Market Value Anchor in Checkout**:
+      - Added a struck-through **Standard Course Breakdown** in the checkout modal itemizing PDF manuals (₹149), 96+ tests (₹99), and Simulators (₹51) for a market value of ~~₹299~~, framing ₹21 as a 93% discount rather than "cheap/scammy".
+    - **Community & Video Guided Tour Proof**:
+      - Added `#community-section` with student testimonials from NIT, VIT, and SRM colleges and direct WhatsApp Study Group join links.
+    - **Viral Referral System**:
+      - Built Supabase table `capprep_referrals` and [`api/referral-stats.js`](file:///c:/cap/ai/api/referral-stats.js).
+      - Added `#referral-section` where every student gets their own shareable referral link with WhatsApp sharing to earn bonus tests.
+      - Added referral tracking hook in [`js/app.js`](file:///c:/cap/ai/js/app.js).
+    - **Sticky Bottom Urgency Bar & Floating WhatsApp Doubt Button**:
+      - 8-second delayed floating CTA bar at the bottom with quick ₹21 checkout trigger.
+      - Direct floating WhatsApp chat button (`wa.me`) to resolve pre-purchase doubts.
 
 

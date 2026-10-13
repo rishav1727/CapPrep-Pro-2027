@@ -388,9 +388,124 @@
       font-weight: 700;
       color: #fff;
     }
+
+    /* ── Free Trial Countdown Bar ── */
+    #free-trial-bar {
+      background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+      border-bottom: 1px solid rgba(0,212,255,0.3);
+      padding: 0.45rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      z-index: 99;
+    }
+    #free-trial-bar .trial-left {
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    #trial-countdown {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #00d4ff;
+      min-width: 3.2rem;
+      text-align: center;
+      transition: color 0.4s;
+    }
+    #trial-countdown.warn   { color: #f59e0b; }
+    #trial-countdown.urgent { color: #ef4444; }
+
+    /* ── Paywall Overlay ── */
+    #paywall-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(4, 8, 18, 0.97);
+      backdrop-filter: blur(14px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    #paywall-overlay.active { display: flex; }
+    .paywall-card {
+      background: #0d1a33;
+      border: 1px solid rgba(0,212,255,0.35);
+      border-radius: 16px;
+      padding: 2.5rem 3rem;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,212,255,0.08);
+    }
+    .paywall-card h2  { font-size: 1.6rem; color: #fff; margin: 0.5rem 0; }
+    .paywall-card p   { color: #94a3b8; font-size: 0.9rem; margin: 0.75rem 0 1.5rem; line-height: 1.6; }
+    .paywall-price    { font-size: 2.2rem; font-weight: 900; color: #fde047; margin-bottom: 0.25rem; }
+    .paywall-price s  { font-size: 1rem; color: #64748b; font-weight: 400; }
+    .paywall-btn {
+      display: inline-block; margin-top: 1.25rem;
+      background: linear-gradient(135deg,#7c3aed,#00d4ff);
+      color: #fff; border: none; border-radius: 10px;
+      padding: 0.85rem 2.2rem; font-size: 1rem; font-weight: 800;
+      cursor: pointer; width: 100%;
+      box-shadow: 0 8px 24px rgba(0,212,255,0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .paywall-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,212,255,0.4); }
+    .paywall-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.5rem; margin: 1rem 0; text-align: left;
+      font-size: 0.8rem; color: #a5b4fc;
+    }
+    .paywall-features span::before { content: "✅ "; }
   </style>
 </head>
 <body>
+
+<!-- ===== FREE TRIAL COUNTDOWN BAR ===== -->
+<div id="free-trial-bar" style="display:none;">
+  <div class="trial-left">
+    ⏱️ Free Preview:&nbsp;<span id="trial-countdown">5:00</span>&nbsp;remaining
+    <span style="color:#64748b; font-weight:400; font-size:0.75rem;">| Tracks by your network IP</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:0.75rem;">
+    <span style="color:#94a3b8; font-size:0.78rem; font-weight:400;">Get unlimited access →</span>
+    <button onclick="openPaywall()" style="background:linear-gradient(135deg,#7c3aed,#00d4ff); color:#fff; border:none; border-radius:8px; padding:0.3rem 0.9rem; font-size:0.78rem; font-weight:800; cursor:pointer;">⚡ Go Pro — ₹21</button>
+  </div>
+</div>
+
+<!-- ===== PAYWALL OVERLAY ===== -->
+<div id="paywall-overlay">
+  <div class="paywall-card">
+    <div style="font-size:2.5rem; margin-bottom:0.5rem;">⏰</div>
+    <h2>Your 5-Minute Free Preview Has Ended</h2>
+    <p>You've used your free IP-based preview of the CapPrep Pro Study Compendium.<br>
+       Unlock <strong>unlimited access</strong> to all 6 stage manuals, 95+ tests, AI simulators and more — for just ₹21 one-time.</p>
+
+    <div class="paywall-price">₹21 &nbsp;<s>₹299</s></div>
+    <div style="font-size:0.78rem; color:#64748b; margin-bottom:0.5rem;">One-time • Lifetime access • All stages</div>
+
+    <div class="paywall-features">
+      <span>All 6 Stage Manuals</span>
+      <span>95+ Practice Tests</span>
+      <span>AI Coding Simulator</span>
+      <span>Debug Simulator</span>
+      <span>ADEPT-15 Prep</span>
+      <span>Interview Playbook</span>
+    </div>
+
+    <button class="paywall-btn" onclick="window.location.href='../index.html?open_pay=true'">
+      ⚡ Unlock Full Access for ₹21 →
+    </button>
+    <div style="margin-top:0.85rem; font-size:0.75rem; color:#475569;">
+      Already a Pro member? &nbsp;<a href="#" onclick="openSignInFromPaywall()" style="color:#38bdf8; font-weight:700;">Sign in here</a>
+    </div>
+  </div>
+</div>
 
 <div class="reader-wrapper" id="readerRoot">
 
@@ -588,13 +703,87 @@ function isProUser() {
   }
 }
 
-// Check query param for initial stage
-window.addEventListener('DOMContentLoaded', () => {
-  if (!isProUser()) {
-    alert("🔒 CapPrep Pro Protected Study Guide\n\nThis Master PDF manual is reserved for verified Pro Members.\nRedirecting to checkout...");
-    window.location.href = '../index.html?open_pay=true';
+// ==========================================
+// FREE TRIAL TIMER ENGINE
+// ==========================================
+
+const FREE_SECONDS = 300; // 5 minutes
+let _timerInterval = null;
+
+function fmtTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function openPaywall() {
+  clearInterval(_timerInterval);
+  document.getElementById('paywall-overlay').classList.add('active');
+}
+
+function openSignInFromPaywall() {
+  // Redirect back to index where the sign-in modal lives
+  window.location.href = '../index.html?auto_signin=true';
+}
+
+function startCountdown(remaining) {
+  const bar   = document.getElementById('free-trial-bar');
+  const clock = document.getElementById('trial-countdown');
+
+  bar.style.display = 'flex';
+  let secs = Math.max(0, Math.round(remaining));
+
+  // Already expired?
+  if (secs === 0) { openPaywall(); return; }
+
+  clock.textContent = fmtTime(secs);
+
+  _timerInterval = setInterval(() => {
+    secs--;
+    if (secs <= 0) {
+      clearInterval(_timerInterval);
+      clock.textContent = '0:00';
+      openPaywall();
+      return;
+    }
+    clock.textContent = fmtTime(secs);
+    // Colour shift
+    clock.className = secs <= 30 ? 'urgent' : secs <= 90 ? 'warn' : '';
+  }, 1000);
+}
+
+async function initFreeTimer() {
+  // Pro users bypass timer entirely
+  if (isProUser()) {
+    document.getElementById('free-trial-bar').style.display = 'none';
     return;
   }
+
+  try {
+    const res  = await fetch('/api/free-timer');
+    const data = await res.json();
+    startCountdown(data.remaining);
+  } catch (err) {
+    // API unavailable — fall back to a client-side localStorage timer
+    // so the page still works when running locally
+    console.warn('free-timer API unavailable, using localStorage fallback:', err);
+    const LS_KEY = 'capprep_free_trial_start';
+    let start = Number(localStorage.getItem(LS_KEY) || 0);
+    if (!start) {
+      start = Date.now();
+      localStorage.setItem(LS_KEY, start);
+    }
+    const elapsed   = Math.floor((Date.now() - start) / 1000);
+    const remaining = Math.max(0, FREE_SECONDS - elapsed);
+    startCountdown(remaining);
+  }
+}
+
+// Check query param for initial stage
+window.addEventListener('DOMContentLoaded', () => {
+  // Init timer (async, non-blocking for Pro users)
+  initFreeTimer();
+
   const params = new URLSearchParams(window.location.search);
   const initialStage = params.get('stage') || 'stage1';
   if (STAGE_DOCS[initialStage]) {
@@ -604,6 +793,7 @@ window.addEventListener('DOMContentLoaded', () => {
     loadStageDoc('stage1');
   }
 });
+
 </script>
 </body>
 </html>

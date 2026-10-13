@@ -3872,3 +3872,27 @@ document.addEventListener('keydown', (e) => {
     window.location.href = 'admin.html';
   }
 });
+
+// Automatic Referral Tracking Engine
+function initReferralTracking() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (!ref) return;
+
+    let myId = localStorage.getItem('capprep_visitor_id');
+    // If not visiting own link, track attribution
+    if (ref !== myId) {
+      sessionStorage.setItem('capprep_referred_by', ref);
+      fetch('/api/referral-stats?ref=' + encodeURIComponent(ref) + '&track=1')
+        .catch(() => {});
+    }
+  } catch (e) {}
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initReferralTracking);
+} else {
+  initReferralTracking();
+}
+

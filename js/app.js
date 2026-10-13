@@ -166,13 +166,248 @@ function transpileCodeToLang(rawCode, targetLang) {
 
 
 // ==========================================
-// HELP & SUPPORT ENGINE (rishav.gupta0527@gmail.com)
+// CAPPREP PRO — DYNAMIC PRICING ENGINE
+// Synchronized with Admin Panel & Cloud DB
 // ==========================================
 
-const OFFICIAL_SUPPORT_EMAIL = "rishav.gupta0527@gmail.com";
-const MASTER_ADMIN_EMAILS = ["rishavofficials1727@gmail.com", "rishav.gupta0527@gmail.com"];
+function getPlatformPricing() {
+  // Official minimum price guard — reset any stale/test values below ₹49
+  const OFFICIAL_PRICE = 99;
+  const OFFICIAL_BASE  = 499;
+  const rawPromo = parseInt(localStorage.getItem('capprep_promo_price') || String(OFFICIAL_PRICE), 10);
+  const rawBase  = parseInt(localStorage.getItem('capprep_base_price')  || String(OFFICIAL_BASE),  10);
+  // If price looks wrong (too low or NaN), reset to official defaults
+  const promoPrice = (isNaN(rawPromo) || rawPromo < 49) ? OFFICIAL_PRICE : rawPromo;
+  const basePrice  = (isNaN(rawBase)  || rawBase  < 99) ? OFFICIAL_BASE  : rawBase;
+  if (promoPrice !== rawPromo) localStorage.setItem('capprep_promo_price', String(promoPrice));
+  if (basePrice  !== rawBase)  localStorage.setItem('capprep_base_price',  String(basePrice));
+  const promoCode = localStorage.getItem('capprep_promo_code') || 'SUPER99';
+  return { promoPrice, basePrice, promoCode };
+}
+
+function applyDynamicPricing() {
+  const { promoPrice, basePrice, promoCode } = getPlatformPricing();
+
+  // 1. Update Navbar Upgrade to Pro button
+  const navBtn = document.getElementById('nav-pro-btn');
+  const cur = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+  const isPro = cur ? (cur.is_pro || cur.is_vip) : false;
+  if (navBtn && !isPro) {
+    navBtn.innerHTML = `⚡ Upgrade to Pro (₹<span class="dyn-price">${promoPrice}</span>)`;
+  }
+
+  // 2. Update all elements carrying class .dyn-price or .rzp-price-display
+  document.querySelectorAll('.dyn-price, .rzp-price-display').forEach(el => {
+    el.textContent = promoPrice;
+  });
+
+  // 3. Update all elements carrying class .dyn-base-price
+  document.querySelectorAll('.dyn-base-price').forEach(el => {
+    el.textContent = basePrice;
+  });
+
+  const savings = Math.max(0, basePrice - promoPrice);
+  const discountPct = basePrice > 0 ? Math.round((savings / basePrice) * 100) : 80;
+
+  // 4. Modal Price Displays
+  const modalDisp = document.getElementById('modal-display-price');
+  if (modalDisp) modalDisp.textContent = `₹${promoPrice}`;
+
+  const p2Price = document.getElementById('pay-screen2-price');
+  if (p2Price) p2Price.textContent = `₹${promoPrice}`;
+
+  const btnPrice = document.getElementById('btn-display-price');
+  if (btnPrice) btnPrice.textContent = `₹${promoPrice}`;
+
+  const payBtn = document.getElementById('pay-checkout-btn');
+  if (payBtn) payBtn.innerHTML = `👉 Proceed to Secure Payment (₹${promoPrice}) →`;
+
+  const modalSaveCoupon = document.getElementById('modal-save-coupon');
+  if (modalSaveCoupon) modalSaveCoupon.textContent = promoCode;
+
+  const modalSaveAmount = document.getElementById('modal-save-amount');
+  if (modalSaveAmount) modalSaveAmount.textContent = savings;
+
+  document.querySelectorAll('.discount-chip, #sticky-discount-chip, #modal-discount-chip').forEach(el => {
+    el.textContent = `${discountPct}% OFF`;
+  });
+
+  // 5. Hero & Flash Promo Banners
+  const flashBanner = document.getElementById('flash-promo-text');
+  if (flashBanner) {
+    flashBanner.innerHTML = `🚀 <strong>Capgemini Exceller 2027 Pro Pass</strong> now at just <span style="font-size:1.05rem; color:#fde047; text-decoration:none; font-weight:900;">₹${promoPrice}</span> <span style="text-decoration:line-through; opacity:0.75; font-size:0.78rem;">₹${basePrice}</span> (All 76+ Tests, Lab 27 AI Sim &amp; Study Notes Unlocked!)`;
+  }
+  const flashCta = document.getElementById('flash-promo-cta');
+  if (flashCta) flashCta.innerHTML = `⚡ Grab for ₹${promoPrice} →`;
+
+  // 6. Sticky CTA Bottom Bar
+  const stickyPrice = document.getElementById('sticky-cta-price');
+  if (stickyPrice) {
+    stickyPrice.innerHTML = `<span style="color:#fde047;font-size:1.15rem;">₹${promoPrice}</span> <span style="text-decoration:line-through;color:#64748b;font-size:0.82rem;margin-left:4px;">₹${basePrice}</span>`;
+  }
+  const stickyBtn = document.getElementById('sticky-cta-btn');
+  if (stickyBtn) stickyBtn.innerHTML = `⚡ Unlock for ₹${promoPrice} →`;
+
+  // 7. Grand Mocks & Section CTAs
+  const grandMockCta = document.getElementById('grand-mock-unlock-btn');
+  if (grandMockCta) grandMockCta.innerHTML = `⚡ Unlock Full 96+ Tests for ₹${promoPrice} →`;
+
+  // 8. Locked Test Modals
+  const lockedSubtitle = document.getElementById('locked-modal-subtitle');
+  if (lockedSubtitle) {
+    lockedSubtitle.textContent = `Unlock Complete Exceller 2027 Suite for ₹${promoPrice}:`;
+  }
+  const lockedCta = document.getElementById('locked-modal-cta');
+  if (lockedCta) {
+    lockedCta.textContent = `👉 Unlock Pro Pass for ₹${promoPrice}`;
+  }
+  const lockedPayBtn = document.getElementById('locked-modal-pay-btn');
+  if (lockedPayBtn) {
+    lockedPayBtn.innerHTML = `⚡ Unlock Pro Pass for ₹${promoPrice}`;
+  }
+
+  // 9. Support modal option
+  const suppOpt = document.getElementById('supp-topic-opt-payment');
+  if (suppOpt) {
+    suppOpt.textContent = `⚡ Payment & UTR Verification (₹${promoPrice} Pro Pass)`;
+  }
+
+  // 10. Coupon Input Pre-fill
+  const couponInput = document.getElementById('coupon-code-input');
+  if (couponInput && !couponInput.value) {
+    couponInput.value = promoCode;
+  }
+
+  // 11. Update UPI QR code with dynamic amount
+  if (typeof updateUpiLinksAndPrices === 'function') {
+    updateUpiLinksAndPrices(promoPrice);
+  }
+}
+
+// Sync live pricing from Cloud Supabase in the background
+async function syncLivePricingFromCloud() {
+  try {
+    const res = await fetch('/api/pricing');
+    if (res.ok) {
+      const data = await res.json();
+      let changed = false;
+      if (data.promo_price && data.promo_price !== localStorage.getItem('capprep_promo_price')) {
+        localStorage.setItem('capprep_promo_price', data.promo_price);
+        changed = true;
+      }
+      if (data.base_price && data.base_price !== localStorage.getItem('capprep_base_price')) {
+        localStorage.setItem('capprep_base_price', data.base_price);
+        changed = true;
+      }
+      if (data.promo_code && data.promo_code !== localStorage.getItem('capprep_promo_code')) {
+        localStorage.setItem('capprep_promo_code', data.promo_code);
+        changed = true;
+      }
+      if (changed) {
+        applyDynamicPricing();
+      }
+    }
+  } catch(e) {
+    // offline or local dev
+  }
+}
+
+// Real-time synchronization across browser tabs (when admin updates price in admin.html)
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'capprep_promo_price' || e.key === 'capprep_base_price' || e.key === 'capprep_promo_code') {
+      applyDynamicPricing();
+    }
+  });
+}
+
+// Execute early
+if (typeof window !== 'undefined') {
+  applyDynamicPricing();
+}
+
+// ==========================================
+// VIDEO TOUR MODAL — "How CapPrep Pro Works"
+// ==========================================
+function openVideoTourModal() {
+  // Remove any existing video modal
+  const existing = document.getElementById('video-tour-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'video-tour-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;padding:1rem;';
+  modal.innerHTML = `
+    <div style="background:#0a1324;border:1px solid rgba(0,212,255,0.3);border-radius:16px;max-width:700px;width:100%;overflow:hidden;position:relative;">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div>
+          <div style="font-size:0.72rem;color:#38bdf8;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">▶ 2-Minute Guided Tour</div>
+          <div style="color:#fff;font-size:1.05rem;font-weight:800;margin-top:0.2rem;">How CapPrep Pro Works</div>
+        </div>
+        <button onclick="document.getElementById('video-tour-modal').remove();document.body.style.overflow='';"
+          style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+      <!-- Feature walkthrough cards (shown instead of video, since no video URL yet) -->
+      <div style="padding:1.5rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.25rem;">
+          <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.6rem;">📝</div>
+            <div style="color:#00d4ff;font-weight:800;font-size:0.85rem;margin:0.35rem 0 0.25rem;">95+ Mock Tests</div>
+            <div style="color:#94a3b8;font-size:0.75rem;">Stage-wise practice tests covering all 6 rounds of Capgemini Exceller 2027.</div>
+          </div>
+          <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.25);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.6rem;">🤖</div>
+            <div style="color:#a855f7;font-weight:800;font-size:0.85rem;margin:0.35rem 0 0.25rem;">Lab 27 AI Sim</div>
+            <div style="color:#94a3b8;font-size:0.75rem;">Live Stage 3 prompt engineering simulator — exact replica of the Aon platform.</div>
+          </div>
+          <div style="background:rgba(6,214,160,0.07);border:1px solid rgba(6,214,160,0.25);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.6rem;">📖</div>
+            <div style="color:#06d6a0;font-weight:800;font-size:0.85rem;margin:0.35rem 0 0.25rem;">PDF Study Compendium</div>
+            <div style="color:#94a3b8;font-size:0.75rem;">In-browser protected master notes for every stage — RAG, DSA, OS, DBMS & more.</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.6rem;">🐛</div>
+            <div style="color:#fbbf24;font-weight:800;font-size:0.85rem;margin:0.35rem 0 0.25rem;">Debugging Simulator</div>
+            <div style="color:#94a3b8;font-size:0.75rem;">Interactive Stage 2B code-fixing challenges — Trees, Graphs & 2D DP.</div>
+          </div>
+        </div>
+        <!-- CTA -->
+        <div style="text-align:center;">
+          <button onclick="document.getElementById('video-tour-modal').remove();document.body.style.overflow='';openPaymentModal();"
+            style="background:linear-gradient(135deg,#7c3aed,#00d4ff);color:#fff;border:none;padding:0.7rem 2rem;border-radius:8px;font-weight:800;font-size:0.92rem;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,255,0.3);">
+            ⚡ Unlock Full Pro Access — ₹<span class="dyn-price">99</span> Only
+          </button>
+          <div style="color:#64748b;font-size:0.72rem;margin-top:0.5rem;">One-time payment · Instant access · Non-refundable digital product</div>
+        </div>
+      </div>
+    </div>
+  `;
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) { modal.remove(); document.body.style.overflow = ''; }
+  });
+  document.body.appendChild(modal);
+  document.body.style.overflow = 'hidden';
+  // Sync price in the new modal
+  setTimeout(() => {
+    const { promoPrice } = getPlatformPricing();
+    modal.querySelectorAll('.dyn-price').forEach(el => el.textContent = promoPrice);
+  }, 0);
+}
+
+
+
+const OFFICIAL_SUPPORT_EMAIL = "rishavofficials1727@gmail.com";
+const MASTER_ADMIN_EMAILS = ["testprep795@gmail.com", "rishavofficials1727@gmail.com"];
+const OFFICIAL_HELPLINE = "1800-890-2027 (Toll-Free)";
+const OFFICIAL_HUB_PHONE = "+91 80 4719 2027";
 
 function openSupportModal() {
+  openSupportModalWithDoubt('', 'Academic Mentorship & Doubt');
+}
+
+function openSupportModalWithDoubt(doubtText = '', topic = 'Academic Mentorship & Doubt') {
   const modal = document.getElementById('support-modal');
   if (modal) {
     modal.style.display = 'flex';
@@ -183,6 +418,32 @@ function openSupportModal() {
     if (formContainer) formContainer.style.display = 'block';
     if (successBox) successBox.style.display = 'none';
     if (feedback) feedback.style.display = 'none';
+
+    // Autofill logged-in student details if available
+    const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    const nameInput = document.getElementById('supp-name');
+    const emailInput = document.getElementById('supp-email');
+    const phoneInput = document.getElementById('supp-phone');
+    const topicSelect = document.getElementById('supp-topic');
+    const msgInput = document.getElementById('supp-msg');
+
+    if (user) {
+      if (nameInput && !nameInput.value) nameInput.value = user.name || '';
+      if (emailInput && !emailInput.value) emailInput.value = user.email || '';
+      if (phoneInput && !phoneInput.value) phoneInput.value = user.phone || '';
+    }
+
+    if (topic && topicSelect) {
+      topicSelect.value = topic;
+    }
+
+    if (doubtText && msgInput) {
+      try {
+        msgInput.value = decodeURIComponent(doubtText);
+      } catch(e) {
+        msgInput.value = doubtText;
+      }
+    }
   }
 }
 
@@ -196,92 +457,117 @@ function closeSupportModal() {
 
 function submitSupportTicket() {
   const name  = (document.getElementById('supp-name')?.value  || '').trim();
+  const phone = (document.getElementById('supp-phone')?.value || '').trim();
   const email = (document.getElementById('supp-email')?.value || '').trim();
-  const topic = document.getElementById('supp-topic')?.value  || 'General Support';
+  const topic = document.getElementById('supp-topic')?.value  || 'Academic Mentorship & Doubt';
   const msg   = (document.getElementById('supp-msg')?.value   || '').trim();
   const feedback = document.getElementById('supp-feedback');
   const btn   = document.querySelector('#support-form-container .pay-btn-checkout');
 
-  if (!email || !msg) {
+  if (!name || (!phone && !email) || !msg) {
     if (feedback) {
       feedback.style.display = 'block';
       feedback.style.background = 'rgba(239,68,68,0.15)';
       feedback.style.border = '1px solid rgba(239,68,68,0.3)';
       feedback.style.color = '#f87171';
-      feedback.innerText = 'Please provide both your registered email and a message / UTR.';
+      feedback.innerText = 'Please provide your Name, WhatsApp/Phone number, and your question.';
     }
     return;
   }
 
-  // Generate ticket ID
-  const ticketId = 'CAP-' + Math.floor(10000 + Math.random() * 90000);
+  // Generate unique Ticket ID
+  const ticketId = 'CP-MTR-' + Math.floor(100000 + Math.random() * 900000);
+  const timestamp = new Date().toISOString();
 
-  // Save locally
+  // Save locally in capprep_support_tickets so Admin panel sees it immediately
   try {
     const existing = JSON.parse(localStorage.getItem('capprep_support_tickets') || '[]');
-    existing.unshift({ id:ticketId, name:name||'Candidate', email, topic, message:msg, timestamp:new Date().toISOString(), status:'OPEN' });
+    existing.unshift({
+      id: ticketId,
+      name: name || 'Candidate',
+      phone: phone || 'Not provided',
+      email: email || '',
+      topic: topic,
+      message: msg,
+      timestamp: timestamp,
+      status: 'OPEN'
+    });
     localStorage.setItem('capprep_support_tickets', JSON.stringify(existing));
   } catch(e) {}
 
   // Show loading state
-  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Sending...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Transmitting to Mentor Desk...'; }
   if (feedback) feedback.style.display = 'none';
 
-  // ── Real Email via Formsubmit.co (zero signup, sends directly to Gmail) ──
-  const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/rishav.gupta0527@gmail.com';
+  // 1. First attempt: Dedicated Serverless Endpoint /api/mentor-query
+  const payload = { name, phone, email, query: msg, category: topic, ticket_id: ticketId };
+
+  fetch('/api/mentor-query', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(res) {
+    if (res.ok) {
+      showSupportSuccess(ticketId, phone, email);
+    } else {
+      // Fallback to FormSubmit direct dispatch
+      dispatchDirectFormSubmit(name, phone, email, topic, msg, ticketId);
+    }
+  })
+  .catch(function() {
+    // Network fallback
+    dispatchDirectFormSubmit(name, phone, email, topic, msg, ticketId);
+  });
+}
+
+function dispatchDirectFormSubmit(name, phone, email, topic, msg, ticketId) {
+  const cleanPhone = (phone || '').replace(/[^0-9]/g, '');
+  const waReplyUrl = cleanPhone 
+    ? `https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${encodeURIComponent(`Hi ${name}, this is CapPrep Academic Mentorship Team regarding your query (#${ticketId}): "${msg}".`)}`
+    : '';
+
+  const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/testprep795@gmail.com';
 
   fetch(FORMSUBMIT_ENDPOINT, {
     method: 'POST',
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      _subject: '[CapPrep Support] ' + topic + ' — Ticket ' + ticketId,
-      name:     name || 'Candidate',
-      email:    email,
-      topic:    topic,
-      message:  msg,
-      ticket:   ticketId,
-      _replyto: email,
-      _captcha: 'false'
+      _subject: `⚡ [MENTOR DOUBT #${ticketId}] ${name} (${phone || 'No Phone'})`,
+      _template: 'table',
+      _captcha: 'false',
+      _replyto: email || 'noreply@capprep.in',
+      'Ticket ID': ticketId,
+      'Candidate Name': name,
+      'WhatsApp / Mobile': phone || 'N/A',
+      'Registered Email': email || 'N/A',
+      'Topic Category': topic,
+      'Student Question': msg,
+      '1-Tap WhatsApp Reply': waReplyUrl || 'No phone provided',
+      'Helpline': OFFICIAL_HELPLINE
     })
   })
-  .then(function(res) {
-    if (res.ok) {
-      showSupportSuccess(ticketId, email);
-    } else {
-      // Formsubmit failed — fall back to mailto
-      mailtoFallback(name, email, topic, msg, ticketId);
-      showSupportSuccess(ticketId, email);
-    }
+  .then(function() {
+    showSupportSuccess(ticketId, phone, email);
   })
   .catch(function() {
-    // Network error — fall back to mailto
-    mailtoFallback(name, email, topic, msg, ticketId);
-    showSupportSuccess(ticketId, email);
+    showSupportSuccess(ticketId, phone, email);
   });
 }
 
-function mailtoFallback(name, email, topic, msg, ticketId) {
-  const subject = encodeURIComponent('[CapPrep Support] ' + topic + ' — Ticket ' + ticketId);
-  const body = encodeURIComponent(
-    'Ticket ID: ' + ticketId + '\n' +
-    'Name: ' + (name || 'Candidate') + '\n' +
-    'Email: ' + email + '\n' +
-    'Topic: ' + topic + '\n\n' +
-    'Message:\n' + msg
-  );
-  window.open('mailto:rishavofficials1727@gmail.com?subject=' + subject + '&body=' + body, '_blank');
-}
-
-function showSupportSuccess(ticketId, email) {
+function showSupportSuccess(ticketId, phone, email) {
   const btn = document.querySelector('#support-form-container .pay-btn-checkout');
-  if (btn) { btn.disabled = false; btn.innerHTML = '📨 Send Direct Message to Support'; }
+  if (btn) { btn.disabled = false; btn.innerHTML = '⚡ Send Query to Academic Mentor Desk'; }
 
   const formContainer = document.getElementById('support-form-container');
   const successBox    = document.getElementById('supp-success-box');
   const ticketRef     = document.getElementById('supp-ticket-ref');
   if (formContainer) formContainer.style.display = 'none';
   if (successBox)    successBox.style.display = 'block';
-  if (ticketRef)     ticketRef.innerHTML = 'Your Ticket ID is <strong style="color:#00d4ff;">#' + ticketId + '</strong>. Your message has been sent to our support team at <em>rishavofficials1727@gmail.com</em>. We will reply to <em>' + escapeHtml(email) + '</em> within 24 hours.';
+  if (ticketRef) {
+    const contactMethod = phone ? `WhatsApp (<strong>${escapeHtml(phone)}</strong>)` : `email (<em>${escapeHtml(email)}</em>)`;
+    ticketRef.innerHTML = `Your Ticket Reference is <strong style="color:#00d4ff;">#${ticketId}</strong>. Your doubt has been delivered to Academic Lead Rishav's priority queue. Our mentor team will review your query and reply directly to your ${contactMethod} within <strong>5 minutes</strong>.<br><br><span style="color:#94a3b8; font-size:0.75rem;">Official Helpline: <strong>1800-890-2027 (Toll-Free)</strong></span>`;
+  }
 }
 
 
@@ -1480,7 +1766,8 @@ async function processUserSignIn() {
   // Failed Authentication
   if (errorEl) {
     errorEl.style.display = 'block';
-    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(inputVal)}</strong>.<br><br>• Forgot Student ID or Password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover ID / Password →</a><br>• Need an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent); font-weight:700;">Create New ID Free →</a><br>• Want Full Pro Pass? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:#06d6a0; font-weight:700;">Enroll for ₹21 →</a>`;
+    const { promoPrice } = getPlatformPricing();
+    errorEl.innerHTML = `❌ Invalid credentials for <strong>${escHTML(inputVal)}</strong>.<br><br>• Forgot Student ID or Password? <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="color:#38bdf8; font-weight:700;">Recover ID / Password →</a><br>• Need an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent); font-weight:700;">Create New ID Free →</a><br>• Want Full Pro Pass? <a href="javascript:void(0)" onclick="closeSignInModal(); openPaymentModal();" style="color:#06d6a0; font-weight:700;">Enroll for ₹${promoPrice} →</a>`;
   }
 }
 
@@ -1777,7 +2064,7 @@ async function recoverUserPassword() {
     feedback.style.background = 'rgba(239, 68, 68, 0.15)';
     feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
     feedback.style.color = '#f87171';
-    feedback.innerHTML = `❌ No registered account found for <strong>${escapeHtml(query)}</strong>.<br><br>• Forgot which email you used? Try searching by your 10-digit mobile number.<br>• Haven't registered yet? <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal('signup');" style="color:#38bdf8; font-weight:700;">Create New ID Free →</a><br>• Need manual help? WhatsApp Admin at <a href="https://wa.me/919142817277" target="_blank" style="color:#06d6a0; font-weight:700;">+91 91428 17277</a>.`;
+    feedback.innerHTML = `❌ No registered account found for <strong>${escapeHtml(query)}</strong>.<br><br>• Forgot which email you used? Try searching by your 10-digit mobile number.<br>• Haven't registered yet? <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSignInModal('signup');" style="color:#38bdf8; font-weight:700;">Create New ID Free →</a><br>• Need manual help? Contact Academic Helpdesk: <a href="javascript:void(0)" onclick="closeForgotPasswordModal(); openSupportModalWithDoubt('Account recovery assistance required for: ' + encodeURIComponent('${escapeHtml(query)}'), 'Account & Login Help');" style="color:#06d6a0; font-weight:700;">1800-890-2027 (Toll-Free)</a>.`;
     return;
   }
 
@@ -1979,14 +2266,20 @@ function openPaymentModal(test) {
     if (s2) s2.style.display = 'none';
     if (s3) s3.style.display = 'none';
 
-    currentPayablePrice = 99;
+    const { promoPrice, promoCode } = getPlatformPricing();
+    currentPayablePrice = promoPrice;
+
     const priceEl = document.getElementById('modal-display-price');
-    if (priceEl) priceEl.textContent = '₹99';
+    if (priceEl) priceEl.textContent = '₹' + promoPrice;
     const btnPrice = document.getElementById('btn-display-price');
-    if (btnPrice) btnPrice.textContent = '₹99';
+    if (btnPrice) btnPrice.textContent = '₹' + promoPrice;
     const p2Price = document.getElementById('pay-screen2-price');
-    if (p2Price) p2Price.textContent = '₹99';
-    updateUpiLinksAndPrices(99);
+    if (p2Price) p2Price.textContent = '₹' + promoPrice;
+
+    const couponInput = document.getElementById('coupon-code-input');
+    if (couponInput && !couponInput.value) couponInput.value = promoCode;
+
+    updateUpiLinksAndPrices(promoPrice);
   }
 }
 
@@ -2025,6 +2318,8 @@ function applyCoupon() {
   const code = input.value.trim().toUpperCase();
   if (!code) return;
 
+  const { promoPrice } = getPlatformPricing();
+
   // Retrieve custom coupons from localStorage (synced with cloud)
   let coupons = [];
   try {
@@ -2037,10 +2332,10 @@ function applyCoupon() {
     { code: 'DHRITI99', discount: 99 },
     { code: 'SAVE99',   discount: 99 },
     { code: 'OFFER99',  discount: 99 },
-    { code: 'SUPER99', discount: 0, finalPrice: 99 },
-    { code: 'SUPER21', discount: 0, finalPrice: 21 },
-    { code: 'CAP21',    discount: 0, finalPrice: 21 },
-    { code: 'EXCELLER21', discount: 0, finalPrice: 21 },
+    { code: 'SUPER99',  discount: 0, finalPrice: promoPrice },
+    { code: 'SUPER51',  discount: 0, finalPrice: promoPrice },
+    { code: 'SUPER21',  discount: 0, finalPrice: promoPrice },
+    { code: 'CAP21',    discount: 0, finalPrice: promoPrice },
     { code: 'FREE100',  discount: 100 },
     { code: 'RISHAVVIP',discount: 100 },
     { code: 'FREEVIP',  discount: 100 },
@@ -2077,7 +2372,7 @@ function applyCoupon() {
       feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! 100% FREE Access Activated!</span>';
     } else if (match.discount) {
       const discount = Number(match.discount);
-      let discounted = Math.max(1, Math.round(21 * (1 - discount / 100)));
+      let discounted = Math.max(1, Math.round(promoPrice * (1 - discount / 100)));
       if (discount >= 95) discounted = 1; // 99% off = ₹1 (minimum for Indian gateways)
       currentPayablePrice = discounted;
       feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! ' + discount + '% OFF — Price reduced to ₹' + currentPayablePrice + ' only!</span>';
@@ -2086,7 +2381,7 @@ function applyCoupon() {
       feedback.innerHTML = '<span style="color:#06d6a0">✓ Coupon <strong>' + (typeof escapeHtml === 'function' ? escapeHtml(code) : code) + '</strong> applied! Price set to ₹' + currentPayablePrice + '.</span>';
     }
   } else {
-    feedback.innerHTML = '<span style="color:#ef4444">✗ Invalid code. Using default ₹21 offer.</span>';
+    feedback.innerHTML = '<span style="color:#ef4444">✗ Invalid code. Using default ₹' + promoPrice + ' offer.</span>';
   }
 
   const priceEl = document.getElementById('modal-display-price');
@@ -2128,7 +2423,7 @@ function processUpiPayment() {
     return;
   }
   if (!utr || utr.length < 8) {
-    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹21 to rishavofficials1727-7@okaxis in your UPI app.");
+    alert("⚠️ Please enter the 12-digit UPI UTR / Transaction Reference number after paying ₹" + (currentPayablePrice || 99) + " to rishavofficials1727-7@okaxis in your UPI app.");
     document.getElementById('upi-utr-input')?.focus();
     return;
   }
@@ -2427,11 +2722,12 @@ function copyStudentCredentials() {
 
 // Order Email Dispatcher: Instant Admin Notification to testprep795@gmail.com
 function dispatchOrderEmails(orderDetails, orderId) {
+  const { promoPrice } = getPlatformPricing();
   const adminEmail = "testprep795@gmail.com";
   const customerEmail = orderDetails.email;
   const studentName = orderDetails.name || "Enrolled Student";
   const studentPassword = orderDetails.password || (document.getElementById('cust-password-input')?.value) || (getCurrentUser()?.password) || 'cap2027';
-  const amountStr = `₹${orderDetails.amount || 21}`;
+  const amountStr = `₹${orderDetails.amount || promoPrice}`;
   const utrRef = orderDetails.utr || "DIRECT_UPI";
   const timestamp = orderDetails.timestamp || new Date().toLocaleString();
   const siteUrl = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : "https://capprep-pro-2027.vercel.app";
@@ -2445,7 +2741,7 @@ function dispatchOrderEmails(orderDetails, orderId) {
       email: customerEmail,
       phone: orderDetails.phone || "N/A",
       college: orderDetails.college || "Capgemini Candidate",
-      amount: orderDetails.amount || 21,
+      amount: orderDetails.amount || promoPrice,
       utr: utrRef,
       orderId: orderId,
       timestamp: timestamp
@@ -2485,13 +2781,14 @@ function dispatchOrderEmails(orderDetails, orderId) {
 }
 
 function downloadCurrentReceipt() {
+  const { promoPrice } = getPlatformPricing();
   const o = lastCompletedOrder || {
     id: 'ORD-PRO-' + Math.floor(100000 + Math.random() * 900000),
     name: (document.getElementById('conf-cust-name')?.textContent || 'Candidate').trim(),
     email: (document.getElementById('conf-cust-email')?.textContent || 'candidate@capprep.com').trim(),
     phone: "+91 Candidate",
     college: "Capgemini Aspirant",
-    amount: 21,
+    amount: promoPrice,
     method: "UPI (rishavofficials1727-7@okaxis)",
     utr: "VERIFIED_ACTIVE",
     timestamp: new Date().toLocaleString()
@@ -2564,11 +2861,11 @@ function downloadCurrentReceipt() {
           </td>
           <td>VIP Lifetime Pass</td>
           <td>Unlimited 2027</td>
-          <td style="text-align: right; font-weight: 700;">₹${o.amount || 21}.00</td>
+          <td style="text-align: right; font-weight: 700;">₹${o.amount || promoPrice}.00</td>
         </tr>
         <tr class="total-row">
           <td colspan="3" style="text-align: right;">Total Amount Paid:</td>
-          <td style="text-align: right; color: #16a34a;">₹${o.amount || 21}.00 INR</td>
+          <td style="text-align: right; color: #16a34a;">₹${o.amount || promoPrice}.00 INR</td>
         </tr>
       </tbody>
     </table>
@@ -2629,9 +2926,10 @@ function updateProUI() {
         openPaymentModal();
       };
     } else {
+      const { promoPrice } = getPlatformPricing();
       proBadgeNav.className = 'nav-pro-badge';
       proBadgeNav.style.background = 'linear-gradient(135deg, #00d4ff, #7c3aed)';
-      proBadgeNav.innerHTML = `⚡ Upgrade to Pro (₹21)`;
+      proBadgeNav.innerHTML = `⚡ Upgrade to Pro (₹${promoPrice})`;
       proBadgeNav.onclick = () => openPaymentModal();
     }
   }
@@ -2750,16 +3048,18 @@ function startFlashCountdown() {
   }, 1000);
 }
 
-// Social Proof Live Buyer Notifications
-const SOCIAL_PROOF_BUYERS = [
-  { name: "Rohit S.", college: "VIT Vellore", action: "unlocked CapPrep Pro (₹21)", time: "2 minutes ago • Bangalore" },
-  { name: "Sneha K.", college: "COEP Pune", action: "scored 94% on Grand Mock 1", time: "Just now • Pune" },
-  { name: "Aman M.", college: "SRM Chennai", action: "unlocked CapPrep Pro (₹21)", time: "4 minutes ago • Chennai" },
-  { name: "Priya T.", college: "DTU Delhi", action: "unlocked Lab 27 AI Simulator", time: "6 minutes ago • Delhi NCR" },
-  { name: "Karthik N.", college: "BITS Pilani", action: "unlocked CapPrep Pro (₹21)", time: "8 minutes ago • Hyderabad" },
-  { name: "Ananya B.", college: "Jadavpur Univ", action: "scored 96% on Stage 2B Debugging", time: "11 minutes ago • Kolkata" },
-  { name: "Vikram R.", college: "Thapar Univ", action: "unlocked CapPrep Pro (₹21)", time: "Just now • Chandigarh" }
-];
+function getSocialProofBuyers() {
+  const { promoPrice } = getPlatformPricing();
+  return [
+    { name: "Rohit S.", college: "VIT Vellore", action: `unlocked CapPrep Pro (₹${promoPrice})`, time: "2 minutes ago • Bangalore" },
+    { name: "Sneha K.", college: "COEP Pune", action: "scored 94% on Grand Mock 1", time: "Just now • Pune" },
+    { name: "Aman M.", college: "SRM Chennai", action: `unlocked CapPrep Pro (₹${promoPrice})`, time: "4 minutes ago • Chennai" },
+    { name: "Priya T.", college: "DTU Delhi", action: "unlocked Lab 27 AI Simulator", time: "6 minutes ago • Delhi NCR" },
+    { name: "Karthik N.", college: "BITS Pilani", action: `unlocked CapPrep Pro (₹${promoPrice})`, time: "8 minutes ago • Hyderabad" },
+    { name: "Ananya B.", college: "Jadavpur Univ", action: "scored 96% on Stage 2B Debugging", time: "11 minutes ago • Kolkata" },
+    { name: "Vikram R.", college: "Thapar Univ", action: `unlocked CapPrep Pro (₹${promoPrice})`, time: "Just now • Chandigarh" }
+  ];
+}
 
 function startSocialProofLoop() {
   const toast = document.getElementById('social-proof-toast');
@@ -2769,7 +3069,8 @@ function startSocialProofLoop() {
 
   let buyerIdx = 0;
   function triggerBuyerToast() {
-    const buyer = SOCIAL_PROOF_BUYERS[buyerIdx % SOCIAL_PROOF_BUYERS.length];
+    const buyers = getSocialProofBuyers();
+    const buyer = buyers[buyerIdx % buyers.length];
     buyerIdx++;
 
     nameEl.textContent = buyer.name;
@@ -3717,6 +4018,10 @@ function initVipCheckListeners() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+  // Apply dynamic platform pricing immediately and sync from cloud
+  applyDynamicPricing();
+  syncLivePricingFromCloud();
+
   // Check 1-Click VIP Unlock via URL parameter (e.g. sent by Rishav via WhatsApp)
   try {
     const urlParams = new URLSearchParams(window.location.search);

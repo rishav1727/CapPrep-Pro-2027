@@ -981,7 +981,7 @@ function getFreshQuestions(test) {
 // PRO PASS & PAYMENT MODULE SYSTEM
 // ==========================================
 const ADMIN_NOTIFICATION_EMAIL = "rishavofficials1727@gmail.com";
-let currentPayablePrice = 21;
+let currentPayablePrice = 99;
 let flashTimerInterval = null;
 let socialProofInterval = null;
 
@@ -1979,14 +1979,14 @@ function openPaymentModal(test) {
     if (s2) s2.style.display = 'none';
     if (s3) s3.style.display = 'none';
 
-    currentPayablePrice = 21;
+    currentPayablePrice = 99;
     const priceEl = document.getElementById('modal-display-price');
-    if (priceEl) priceEl.textContent = '₹21';
+    if (priceEl) priceEl.textContent = '₹99';
     const btnPrice = document.getElementById('btn-display-price');
-    if (btnPrice) btnPrice.textContent = '₹21';
+    if (btnPrice) btnPrice.textContent = '₹99';
     const p2Price = document.getElementById('pay-screen2-price');
-    if (p2Price) p2Price.textContent = '₹21';
-    updateUpiLinksAndPrices(21);
+    if (p2Price) p2Price.textContent = '₹99';
+    updateUpiLinksAndPrices(99);
   }
 }
 
@@ -2037,7 +2037,8 @@ function applyCoupon() {
     { code: 'DHRITI99', discount: 99 },
     { code: 'SAVE99',   discount: 99 },
     { code: 'OFFER99',  discount: 99 },
-    { code: 'SUPER21',  discount: 0, finalPrice: 21 },
+    { code: 'SUPER99', discount: 0, finalPrice: 99 },
+    { code: 'SUPER21', discount: 0, finalPrice: 21 },
     { code: 'CAP21',    discount: 0, finalPrice: 21 },
     { code: 'EXCELLER21', discount: 0, finalPrice: 21 },
     { code: 'FREE100',  discount: 100 },
